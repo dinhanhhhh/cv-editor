@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV_TruongDinhAnh_SoftwareEngineer</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/topcv.css">
+</head>
+
+<body>
+
+    <div class="controls">
+        <div class="lang-switch">
+            <div class="lang-item active" id="lang-vi">VI</div>
+            <div class="lang-item" id="lang-en">EN</div>
+        </div>
+
+        <div class="font-customizer">
+            <button id="font-decrease" title="Giảm font chữ">A-</button>
+            <div class="font-size-display" id="fontSizeDisplay">10pt</div>
+            <button id="font-increase" title="Tăng font chữ">A+</button>
+        </div>
+
+        <button class="magic-btn" id="magicFitBtn" title="Tự động căn chỉnh vừa 1 trang A4">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path
+                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+            Magic Fit ✨
+        </button>
+
+        <button class="reset-btn" id="resetBtn" title="Đặt lại về mặc định">
+            Reset 🔄
+        </button>
+
+        <button class="a4-preview-btn" id="a4PreviewBtn" title="Bật/tắt xem khung A4 cố định">
+            📄 A4 Preview
+        </button>
+
+        <div class="btn-wrapper">
+            <div class="print-tooltip" id="printTooltip">
+                <div class="tooltip-title">📋 Hướng dẫn tải PDF</div>
+                <div class="tooltip-step">
+                    <span class="step-num">1</span>
+                    <span class="step-text">Nhấn nút bên dưới để mở hộp thoại In</span>
+                </div>
+                <div class="tooltip-step">
+                    <span class="step-num">2</span>
+                    <span class="step-text"><b>Destination</b> → chọn <b>Save as PDF</b></span>
+                </div>
+                <div class="tooltip-step">
+                    <span class="step-num">3</span>
+                    <span class="step-text"><b>Margins</b> → chọn <b>None</b> (Không có lề)</span>
+                </div>
+                <div class="tooltip-step">
+                    <span class="step-num">4</span>
+                    <span class="step-text">Nhấn <b>Save</b> → CV sắc nét tải về! 🎉</span>
+                </div>
+            </div>
+            <button class="download-btn" id="downloadBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 6 2 18 2 18 9" />
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                    <rect width="12" height="8" x="6" y="14" />
+                </svg>
+                <span id="btn-text">In / Tải PDF</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="cv-preview" id="cvContent">
+        <!-- Content rendered by topcv.js -->
+    </div>
+
+    <script src="data/cv-data.js"></script>
+    <script src="js/topcv.js"></script>
+</body>
+
+</html>
