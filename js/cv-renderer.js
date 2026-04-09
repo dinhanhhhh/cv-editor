@@ -90,12 +90,21 @@ function setA4Mode(enabled) {
 }
 
 function renderContact(contact) {
-    return contact.map(c => `
+    return contact.map(c => {
+        // Tự động tạo link tel: cho số điện thoại nếu chưa có link
+        let link = c.link;
+        if (!link && c.icon === 'phone') {
+            link = `tel:${c.text.replace(/\s+/g, '')}`;
+        }
+        
+        return `
         <div class="cv-contact-item">
           ${icons[c.icon]}
-          ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener noreferrer">${c.text}</a>` : `<span>${c.text}</span>`}
+          ${link 
+            ? `<a href="${link}" ${c.icon !== 'phone' ? 'target="_blank" rel="noopener noreferrer"' : ''}>${c.text}</a>` 
+            : `<span>${c.text}</span>`}
         </div>
-    `).join('');
+    `}).join('');
 }
 
 function renderEducation(education) {
