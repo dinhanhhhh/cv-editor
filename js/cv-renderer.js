@@ -1,5 +1,5 @@
 // ===================================
-// TOPCV - CV Data & Logic
+// CV Data & Logic
 // ===================================
 
 const icons = {
@@ -9,7 +9,7 @@ const icons = {
     address: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>`
 };
 
-// cvData được load từ data/cv-data.js (khai báo trước script này trong HTML)
+// cvData được load từ file data tương ứng (khai báo trước script này trong HTML)
 
 // ===================================
 // STATE
@@ -28,32 +28,50 @@ const labels = {
         description: 'Mô tả',
         technologies: 'Công nghệ',
         github: 'GitHub',
-        demo: 'Demo'
+        demo: 'Demo',
+        repoBackend: 'Backend',
+        repoFrontend: 'Frontend',
+        repoDefault: 'Repo'
     },
     en: {
         role: 'Role',
         description: 'Description',
         technologies: 'Technologies',
         github: 'GitHub',
-        demo: 'Demo'
+        demo: 'Demo',
+        repoBackend: 'Backend',
+        repoFrontend: 'Frontend',
+        repoDefault: 'Repo'
     }
+};
+
+const elements = {
+    preview: document.getElementById('cvContent'),
+    fontSizeDisplay: document.getElementById('fontSizeDisplay'),
+    a4PreviewBtn: document.getElementById('a4PreviewBtn'),
+    magicFitBtn: document.getElementById('magicFitBtn'),
+    resetBtn: document.getElementById('resetBtn'),
+    langViBtn: document.getElementById('lang-vi'),
+    langEnBtn: document.getElementById('lang-en'),
+    fontIncreaseBtn: document.getElementById('font-increase'),
+    fontDecreaseBtn: document.getElementById('font-decrease'),
+    downloadBtn: document.getElementById('downloadBtn'),
+    downloadBtnText: document.getElementById('btn-text')
 };
 
 // ===================================
 // FONT CUSTOMIZER
 // ===================================
 function updateFontSize() {
-    const preview = document.getElementById('cvContent');
-    preview.style.setProperty('--cv-base-font-size', baseFontSize.toFixed(1) + 'pt');
-    document.getElementById('fontSizeDisplay').textContent = baseFontSize.toFixed(1) + 'pt';
+    elements.preview.style.setProperty('--cv-base-font-size', baseFontSize.toFixed(1) + 'pt');
+    elements.fontSizeDisplay.textContent = baseFontSize.toFixed(1) + 'pt';
 }
 
 function resetLayoutStyles() {
-    const preview = document.getElementById('cvContent');
-    preview.style.height = 'auto';
-    preview.style.overflow = 'visible';
-    preview.style.lineHeight = DEFAULT_LINE_HEIGHT;
-    preview.style.padding = DEFAULT_PADDING;
+    elements.preview.style.height = 'auto';
+    elements.preview.style.overflow = 'visible';
+    elements.preview.style.lineHeight = DEFAULT_LINE_HEIGHT;
+    elements.preview.style.padding = DEFAULT_PADDING;
     document.querySelectorAll('.cv-section').forEach(section => {
         section.style.marginBottom = DEFAULT_SECTION_MARGIN;
     });
@@ -63,23 +81,99 @@ function resetLayoutStyles() {
 }
 
 function setA4Mode(enabled) {
-    const preview = document.getElementById('cvContent');
-    const btn = document.getElementById('a4PreviewBtn');
     a4ModeActive = enabled;
 
-    preview.classList.toggle('a4-mode', enabled);
-    btn.classList.toggle('active', enabled);
-    btn.textContent = enabled ? '✅ A4 ON' : '📄 A4 Preview';
+    elements.preview.classList.toggle('a4-mode', enabled);
+    elements.a4PreviewBtn.classList.toggle('active', enabled);
+    elements.a4PreviewBtn.textContent = enabled ? '✅ A4 ON' : '📄 A4 Preview';
+    elements.a4PreviewBtn.setAttribute('aria-pressed', String(enabled));
 }
 
-document.getElementById('font-increase').onclick = () => {
+function renderContact(contact) {
+    return contact.map(c => `
+        <div class="cv-contact-item">
+          ${icons[c.icon]}
+          ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener noreferrer">${c.text}</a>` : `<span>${c.text}</span>`}
+        </div>
+    `).join('');
+}
+
+function renderEducation(education) {
+    return `
+        <div class="cv-edu-item">
+          <div class="cv-edu-header">
+            <span class="cv-edu-school">${education.school}</span>
+            <span class="cv-edu-date">${education.date}</span>
+          </div>
+          <div class="cv-edu-detail">${education.detail}</div>
+        </div>
+    `;
+}
+
+function renderProjects(projects, text) {
+    return projects.map(project => `
+        <div class="cv-exp-item">
+          <div class="cv-exp-header">
+            <span class="cv-exp-project">${project.name}</span>
+            <span class="cv-exp-date">${project.date}</span>
+          </div>
+          <p class="cv-exp-role">${text.role}: ${project.role}</p>
+          <p class="cv-exp-desc"><strong>${text.description}:</strong> ${project.desc}</p>
+          <ul class="cv-exp-tasks">
+            ${project.tasks.map(task => `<li>${task}</li>`).join('')}
+          </ul>
+          <p class="cv-exp-tech"><strong>${text.technologies}:</strong> ${project.tech}</p>
+          ${project.github ? `
+            <p class="cv-exp-github" style="margin-top: 5px;">
+              <strong>${text.github}:</strong> 
+              ${project.github.includes('|') 
+                ? project.github.split('|').map(link => {
+                    const cleanLink = link.trim();
+                    const label = cleanLink.toLowerCase().includes('-be')
+                        ? text.repoBackend
+                        : (cleanLink.toLowerCase().includes('-fe') ? text.repoFrontend : text.repoDefault);
+                    return `<a href="${cleanLink}" target="_blank" rel="noopener noreferrer" style="margin-right: 8px; text-decoration: underline;">[${label}]</a>`;
+                  }).join('')
+                : `<a href="${project.github}" target="_blank" rel="noopener noreferrer">${project.github}</a>`
+              }
+            </p>` : ''}
+          ${project.demo ? `<p class="cv-exp-demo"><strong>${text.demo}:</strong> <a href="${project.demo}" target="_blank" rel="noopener noreferrer">${project.demo}</a></p>` : ''}
+        </div>
+    `).join('');
+}
+
+function renderSkills(skills) {
+    return skills.map(skill => `
+        <tr>
+          <td class="cv-skills-category">${skill.cat}</td>
+          <td class="cv-skills-items">${skill.items}</td>
+        </tr>
+    `).join('');
+}
+
+function renderStrengths(data) {
+    if (!data.strengths) {
+        return '';
+    }
+
+    return `
+        <div class="cv-section">
+          <div class="cv-section-title">${data.sections.strengths}</div>
+          <ul class="cv-strengths-list">
+            ${data.strengths.map(item => `<li>${item}</li>`).join('')}
+          </ul>
+        </div>
+    `;
+}
+
+elements.fontIncreaseBtn.onclick = () => {
     if (baseFontSize < 14) {
         baseFontSize += 0.5;
         updateFontSize();
     }
 };
 
-document.getElementById('font-decrease').onclick = () => {
+elements.fontDecreaseBtn.onclick = () => {
     if (baseFontSize > 7) {
         baseFontSize -= 0.5;
         updateFontSize();
@@ -90,11 +184,10 @@ document.getElementById('font-decrease').onclick = () => {
 // MAGIC FIT
 // ===================================
 function magicFit() {
-    const preview = document.getElementById('cvContent');
     const targetHeight = 1120; // Hướng tới khung xấp xỉ 297mm
 
-    preview.style.height = 'auto';
-    preview.style.overflow = 'visible';
+    elements.preview.style.height = 'auto';
+    elements.preview.style.overflow = 'visible';
 
     // Bắt đầu với các giá trị "rộng rãi" để lấp trang
     baseFontSize = 11.5;
@@ -108,14 +201,14 @@ function magicFit() {
 
     function applyStyles() {
         updateFontSize();
-        preview.style.lineHeight = currentLineHeight;
-        preview.style.padding = `0 ${currentPaddingSide}mm 10mm ${currentPaddingSide}mm`;
+        elements.preview.style.lineHeight = currentLineHeight;
+        elements.preview.style.padding = `0 ${currentPaddingSide}mm 10mm ${currentPaddingSide}mm`;
         document.querySelectorAll('.cv-section').forEach(s => s.style.marginBottom = sectionMargin + 'px');
         document.querySelectorAll('.cv-exp-item, .cv-edu-item').forEach(i => i.style.marginBottom = itemMargin + 'px');
     }
 
     // Phase 1: Thu hẹp nếu tràn (Shrink phase)
-    while (preview.offsetHeight > targetHeight && safety < maxIter) {
+    while (elements.preview.offsetHeight > targetHeight && safety < maxIter) {
         let changed = false;
         if (sectionMargin > 8) { sectionMargin -= 2; changed = true; }
         else if (itemMargin > 4) { itemMargin -= 2; changed = true; }
@@ -130,7 +223,7 @@ function magicFit() {
 
     safety = 0;
     // Phase 2: Giãn nở nếu quá ngắn (Expand phase)
-    while (preview.offsetHeight < targetHeight - 50 && safety < maxIter) {
+    while (elements.preview.offsetHeight < targetHeight - 50 && safety < maxIter) {
         let changed = false;
         if (currentLineHeight < 1.75) { currentLineHeight += 0.03; changed = true; }
         else if (sectionMargin < 35) { sectionMargin += 2; changed = true; }
@@ -139,18 +232,17 @@ function magicFit() {
 
         applyStyles();
         safety++;
-        if (!changed || preview.offsetHeight > targetHeight - 20) break;
+        if (!changed || elements.preview.offsetHeight > targetHeight - 20) break;
     }
 
-    preview.style.height = '297mm';
-    preview.style.overflow = 'hidden';
+    elements.preview.style.height = '297mm';
+    elements.preview.style.overflow = 'hidden';
 
-    const btn = document.getElementById('magicFitBtn');
-    btn.innerHTML = "Perfect Fit! ✨";
-    setTimeout(() => { btn.innerHTML = "Magic Fit ✨"; }, 2000);
+    elements.magicFitBtn.innerHTML = "Perfect Fit! ✨";
+    setTimeout(() => { elements.magicFitBtn.innerHTML = "Magic Fit ✨"; }, 2000);
 }
 
-document.getElementById('magicFitBtn').onclick = magicFit;
+elements.magicFitBtn.onclick = magicFit;
 
 // ===================================
 // RESET SETTINGS
@@ -162,14 +254,14 @@ function resetSettings() {
     setA4Mode(false);
 }
 
-document.getElementById('resetBtn').onclick = resetSettings;
+elements.resetBtn.onclick = resetSettings;
 
 // ===================================
 // A4 PREVIEW MODE
 // ===================================
 let a4ModeActive = false;
 
-document.getElementById('a4PreviewBtn').onclick = () => {
+elements.a4PreviewBtn.onclick = () => {
     setA4Mode(!a4ModeActive);
 };
 
@@ -179,7 +271,7 @@ document.getElementById('a4PreviewBtn').onclick = () => {
 function renderCV(lang) {
     const d = cvData[lang];
     const t = labels[lang];
-    document.getElementById('btn-text').innerText = d.btnText;
+    elements.downloadBtnText.innerText = d.btnText;
     document.title = d.docTitle;
 
     const html = `
@@ -187,12 +279,7 @@ function renderCV(lang) {
           <div class="cv-name">${d.name}</div>
           <div class="cv-title">${d.title}</div>
           <div class="cv-contact">
-            ${d.contact.map(c => `
-              <div class="cv-contact-item">
-                ${icons[c.icon]}
-                ${c.link ? `<a href="${c.link}" target="_blank" rel="noopener noreferrer">${c.text}</a>` : `<span>${c.text}</span>`}
-              </div>
-            `).join('')}
+            ${renderContact(d.contact)}
           </div>
         </div>
 
@@ -203,53 +290,25 @@ function renderCV(lang) {
 
         <div class="cv-section">
           <div class="cv-section-title">${d.sections.education}</div>
-          <div class="cv-edu-item">
-            <div class="cv-edu-header">
-              <span class="cv-edu-school">${d.education.school}</span>
-              <span class="cv-edu-date">${d.education.date}</span>
-            </div>
-            <div class="cv-edu-detail">${d.education.detail}</div>
-          </div>
+          ${renderEducation(d.education)}
         </div>
 
         <div class="cv-section">
           <div class="cv-section-title">${d.sections.projects}</div>
-          ${d.projects.map(p => `
-            <div class="cv-exp-item">
-              <div class="cv-exp-header">
-                <span class="cv-exp-project">${p.name}</span>
-                <span class="cv-exp-date">${p.date}</span>
-              </div>
-              <p class="cv-exp-role">${t.role}: ${p.role}</p>
-              <p class="cv-exp-desc"><strong>${t.description}:</strong> ${p.desc}</p>
-              <ul class="cv-exp-tasks">
-                ${p.tasks.map(t => `<li>${t}</li>`).join('')}
-              </ul>
-              <p class="cv-exp-tech"><strong>${t.technologies}:</strong> ${p.tech}</p>
-              ${p.github ? `<p class="cv-exp-github" style="margin-top: 5px;"><strong>${t.github}:</strong> <a href="${p.github}" target="_blank" rel="noopener noreferrer">${p.github}</a></p>` : ''}
-              ${p.demo ? `<p class="cv-exp-demo"><strong>${t.demo}:</strong> <a href="${p.demo}" target="_blank" rel="noopener noreferrer">${p.demo}</a></p>` : ''}
-            </div>
-          `).join('')}
+          ${renderProjects(d.projects, t)}
         </div>
 
         <div class="cv-section">
           <div class="cv-section-title">${d.sections.skills}</div>
           <table class="cv-skills-table">
-            ${d.skills.map(s => `<tr><td class="cv-skills-category">${s.cat}</td><td class="cv-skills-items">${s.items}</td></tr>`).join('')}
+            ${renderSkills(d.skills)}
           </table>
         </div>
 
-        ${d.strengths ? `
-        <div class="cv-section">
-          <div class="cv-section-title">${d.sections.strengths}</div>
-          <ul class="cv-strengths-list">
-            ${d.strengths.map(s => `<li>${s}</li>`).join('')}
-          </ul>
-        </div>
-        ` : ''}
+        ${renderStrengths(d)}
     `;
 
-    document.getElementById('cvContent').innerHTML = html;
+    elements.preview.innerHTML = html;
     resetLayoutStyles();
     updateFontSize();
     setA4Mode(a4ModeActive);
@@ -258,24 +317,28 @@ function renderCV(lang) {
 // ===================================
 // LANGUAGE SWITCH
 // ===================================
-document.getElementById('lang-vi').onclick = () => {
+elements.langViBtn.onclick = () => {
     currentLang = 'vi';
-    document.getElementById('lang-vi').classList.add('active');
-    document.getElementById('lang-en').classList.remove('active');
+    elements.langViBtn.classList.add('active');
+    elements.langEnBtn.classList.remove('active');
+    elements.langViBtn.setAttribute('aria-pressed', 'true');
+    elements.langEnBtn.setAttribute('aria-pressed', 'false');
     renderCV('vi');
 };
 
-document.getElementById('lang-en').onclick = () => {
+elements.langEnBtn.onclick = () => {
     currentLang = 'en';
-    document.getElementById('lang-en').classList.add('active');
-    document.getElementById('lang-vi').classList.remove('active');
+    elements.langEnBtn.classList.add('active');
+    elements.langViBtn.classList.remove('active');
+    elements.langEnBtn.setAttribute('aria-pressed', 'true');
+    elements.langViBtn.setAttribute('aria-pressed', 'false');
     renderCV('en');
 };
 
 // ===================================
 // PRINT / DOWNLOAD
 // ===================================
-document.getElementById('downloadBtn').onclick = () => {
+elements.downloadBtn.onclick = () => {
     window.print();
 };
 

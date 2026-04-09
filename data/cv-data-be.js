@@ -19,7 +19,7 @@ const cvData = {
             projects: "DỰ ÁN & KINH NGHIỆM",
             skills: "KỸ NĂNG CHUYÊN MÔN"
         },
-        objective: "Lập trình viên Back-End chuyên sâu về Node.js (Express, Nest.js) và TypeScript với tư duy hệ thống vững chắc. Có kinh nghiệm thiết kế kiến trúc RESTful APIs mở rộng, tối ưu hóa cơ sở dữ liệu (MySQL, MongoDB, PostgreSQL) và xây dựng hệ thống xác thực bảo mật cao (JWT, RBAC, OAuth2). Thành thạo việc triển khai Middleware, xử lý tác vụ nền và quản lý mã nguồn với Git. Luôn ưu tiên viết code sạch, dễ bảo trì, tối ưu hóa hiệu suất server và cam kết hoàn thành dự án trong thời hạn nghiêm ngặt.",
+        objective: "Lập trình viên Back-End chuyên về Node.js (Express, Nest.js) và TypeScript, với tư duy hệ thống vững chắc. Có kinh nghiệm thiết kế RESTful API có khả năng mở rộng, tối ưu cơ sở dữ liệu (MySQL, MongoDB, PostgreSQL) và xây dựng hệ thống xác thực bảo mật cao (JWT, RBAC, OAuth2). Thành thạo triển khai middleware, xử lý tác vụ nền và quản lý mã nguồn với Git. Luôn ưu tiên viết code sạch, dễ bảo trì, tối ưu hiệu suất server và hoàn thành dự án đúng thời hạn.",
         education: {
             school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
             date: "2020 - 2024",
@@ -45,9 +45,10 @@ const cvData = {
                 date: "08/2025 - 09/2025",
                 role: "Back-End Developer",
                 desc: "Xây dựng hạ tầng máy chủ cho quản lý hồ sơ sinh viên, đăng ký khóa học và quản trị điểm số.",
+                github: "https://github.com/dinhanhhhh/student-management-BE",
                 tasks: [
-                    "Kiến trúc Backend theo mô hình MVC tách biệt rõ rệt giữa logic nghiệp vụ và lưu trữ dữ liệu.",
-                    "Triển khai cơ chế Refresh Token để bảo mật phiên đăng nhập và trải nghiệm người dùng không bị gián đoạn.",
+                    "Xây dựng backend theo mô hình MVC, tách biệt rõ giữa logic nghiệp vụ và lưu trữ dữ liệu.",
+                    "Triển khai cơ chế refresh token để bảo mật phiên đăng nhập và đảm bảo trải nghiệm người dùng liền mạch.",
                     "Sử dụng Swagger để tự động hóa tài liệu API, hỗ trợ các thành viên Frontend tích hợp nhanh chóng.",
                     "Tối ưu hóa sơ đồ cơ sở dữ liệu (Schema Design) để đảm bảo toàn vẹn dữ liệu và mở rộng linh hoạt."
                 ],
@@ -63,7 +64,7 @@ const cvData = {
                     "Xây dựng API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server.",
                     "Triển khai Middleware kiểm tra quyền hạn Admin cho các thao tác thay đổi dữ liệu nhạy cảm.",
                     "Thiết kế cơ chế xử lý thanh toán và trạng thái đơn hàng (Order Lifecycle) đảm bảo tính nhất quán.",
-                    "Thực hiện kiểm thử API nghiêm ngặt với Postman đảm bảo độ tin cậy của mã nguồn."
+                    "Thực hiện kiểm thử API kỹ lưỡng với Postman để đảm bảo độ tin cậy của mã nguồn."
                 ],
                 tech: "Node.js, Express, MySQL/MongoDB, JWT, Cloudinary (Image storage)"
             }
@@ -71,7 +72,7 @@ const cvData = {
         skills: [
             { cat: "Ngôn ngữ & Core", items: "TypeScript, JavaScript (ES6+), Node.js (Runtime)" },
             { cat: "Frameworks",     items: "Express.js, Nest.js (Learning), MVC Architecture" },
-            { cat: "Database",        items: "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transaction" },
+            { cat: "Database",        items: "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions" },
             { cat: "Security & API",  items: "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI" },
             { cat: "Tools & DevOps",  items: "Git/GitHub, Docker, Postman, CI/CD basic, Vercel/Render" }
         ],
@@ -94,7 +95,7 @@ const cvData = {
             projects: "WORK EXPERIENCE & PROJECTS",
             skills: "TECHNICAL SKILLS"
         },
-        objective: "Dedicated Back-End Developer specializing in Node.js (Express, Nest.js) and TypeScript with a strong systematic mindset. Experienced in architecting scalable RESTful APIs, optimizing complex database systems (MySQL, MongoDB, PostgreSQL), and implementing high-security authentication flows (JWT, RBAC, OAuth2). Proficient in middleware implementation, background task processing, and version control with Git. Committed to writing clean, maintainable code, optimizing server performance, and delivering high-quality solutions on tight deadlines.",
+        objective: "Back-End Developer specializing in Node.js (Express, Nest.js) and TypeScript, with a strong systems mindset. Experienced in designing scalable RESTful APIs, optimizing database systems (MySQL, MongoDB, PostgreSQL), and implementing secure authentication flows (JWT, RBAC, OAuth2). Proficient in middleware development, background task processing, and version control with Git. Committed to writing clean, maintainable code, optimizing server performance, and delivering high-quality solutions on time.",
         education: {
             school: "HO CHI MINH CITY OPEN UNIVERSITY",
             date: "2020 - 2024",
@@ -120,9 +121,10 @@ const cvData = {
                 date: "08/2025 - 09/2025",
                 role: "Back-End Developer",
                 desc: "Server-side infrastructure for student records, course registration, and academic score management.",
+                github: "https://github.com/dinhanhhhh/student-management-BE",
                 tasks: [
-                    "Architected the backend using the MVC model, strictly separating business logic from data persistence.",
-                    "Implemented robust Refresh Token mechanisms for secure sessions and seamless user experience.",
+                    "Built the backend using the MVC pattern, with clear separation between business logic and data persistence.",
+                    "Implemented a robust refresh token mechanism for secure sessions and a seamless user experience.",
                     "Leveraged Swagger for automated API documentation, facilitating rapid frontend integration.",
                     "Optimized database schema design to ensure data integrity and flexible system scalability."
                 ],

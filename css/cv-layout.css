@@ -1,5 +1,5 @@
 /* ===================================
-   TOPCV - CV Styles (Web + Print)
+   CV Styles (Web + Print)
    =================================== */
 
 body {
@@ -9,6 +9,24 @@ body {
     display: flex;
     justify-content: center;
     font-family: "Be Vietnam Pro", Arial, Helvetica, sans-serif;
+}
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -48px;
+    z-index: 2000;
+    background: #1b4332;
+    color: white;
+    padding: 10px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 16px;
 }
 
 /* ===== CV CONTAINER ===== */
@@ -267,6 +285,12 @@ ul.cv-strengths-list li {
     text-decoration: underline;
 }
 
+.cv-contact-item a:focus-visible {
+    outline: 2px solid #1b4332;
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
 /* ===== CONTROLS UI ===== */
 .controls {
     position: fixed;
@@ -341,6 +365,12 @@ ul.cv-strengths-list li {
     transform: translateY(0);
 }
 
+.btn-wrapper:focus-within .print-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
 .tooltip-title {
     font-weight: 700;
     font-size: 12px;
@@ -394,6 +424,9 @@ ul.cv-strengths-list li {
 }
 
 .lang-item {
+    appearance: none;
+    border: none;
+    background: transparent;
     padding: 5px 15px;
     border-radius: 50px;
     cursor: pointer;
@@ -558,58 +591,6 @@ ul.cv-strengths-list li {
     pointer-events: none;
 }
 
-/* ===================================
-   @MEDIA PRINT — Chỉ ẩn UI, giữ nguyên style web
-   + Fix nhỏ để tránh tràn trang
-   =================================== */
-@media print {
-
-    /* Ẩn toàn bộ thanh điều khiển */
-    .controls,
-    .btn-wrapper,
-    .print-tooltip {
-        display: none !important;
-    }
-
-    /* Cài đặt trang A4 */
-    @page {
-        margin: 0;
-        size: A4;
-    }
-
-    body {
-        background: white;
-        padding: 0;
-        margin: 0;
-    }
-
-    /* CV container — kết hợp cả 3 giải pháp */
-    .cv-preview {
-        box-shadow: none;
-        margin: 0 auto !important;
-        width: 210mm !important;
-        height: 297mm !important;
-        overflow: hidden;
-
-        /* Option A: Giảm padding để có thêm ~12mm dọc */
-        padding: 5mm 12mm 5mm 12mm !important;
-
-        /* Option C: font 10pt (giảm 0.5pt, gần như không thấy khác biệt) */
-        --cv-base-font-size: 10pt !important;
-
-        /* Line-height nhẹ hơn một chút */
-        line-height: 1.15 !important;
-    }
-
-    /* Option B: Giảm khoảng cách section để tiết kiệm thêm không gian */
-    .cv-section          { margin-bottom: 8px !important; }
-    .cv-exp-item         { margin-bottom: 11px !important; }
-    .cv-skills-table td  { padding-bottom: 4px !important; }
-    .cv-header           { margin-bottom: 10px !important; }
-    .cv-exp-responsibilities ul,
-    ul.cv-exp-tasks          { margin: 2px 0 4px 0 !important; }
-}
-
 @media (max-width: 900px) {
     body {
         display: block;
@@ -675,6 +656,114 @@ ul.cv-strengths-list li {
     background: #1b4332;
     color: white !important;
 }
+
+.download-btn:focus-visible,
+.magic-btn:focus-visible,
+.reset-btn:focus-visible,
+.a4-preview-btn:focus-visible,
+.font-customizer button:focus-visible,
+.lang-item:focus-visible,
+.version-item:focus-visible {
+    outline: 3px solid rgba(27, 67, 50, 0.35);
+    outline-offset: 3px;
+}
+
 @media print {
-    .version-switch { display: none; }
+    @page {
+        size: A4;
+        margin: 0;
+    }
+
+    html,
+    body {
+        width: 210mm;
+        height: 297mm;
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    body {
+        display: block;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .controls,
+    .btn-wrapper,
+    .print-tooltip,
+    .skip-link,
+    .version-switch {
+        display: none !important;
+    }
+
+    .cv-preview,
+    .cv-preview.a4-mode {
+        width: 210mm !important;
+        min-height: 297mm !important;
+        height: 297mm !important;
+        margin: 0 !important;
+        padding: 6mm 12mm 6mm 12mm !important;
+        box-shadow: none !important;
+        border: none !important;
+        overflow: hidden !important;
+        line-height: 1.2 !important;
+        --cv-base-font-size: 10pt !important;
+    }
+
+    .cv-preview.a4-mode::after {
+        content: none !important;
+    }
+
+    .cv-header {
+        padding-top: 10px !important;
+        margin-bottom: 12px !important;
+    }
+
+    .cv-section {
+        margin-bottom: 10px !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-exp-item,
+    .cv-edu-item,
+    .cv-skills-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+    }
+
+    .cv-name {
+        font-size: 20pt !important;
+    }
+
+    .cv-title,
+    .cv-section-title {
+        font-size: 11pt !important;
+    }
+
+    .cv-objective,
+    p.cv-exp-role,
+    p.cv-exp-desc,
+    ul.cv-exp-tasks li,
+    .cv-edu-detail,
+    .cv-skills-table td,
+    ul.cv-strengths-list li {
+        font-size: 10pt !important;
+        line-height: 1.2 !important;
+    }
+
+    .cv-exp-item {
+        margin-bottom: 10px !important;
+    }
+
+    ul.cv-exp-tasks,
+    ul.cv-strengths-list {
+        margin: 2px 0 4px 0 !important;
+    }
+
+    .cv-skills-table td {
+        padding-bottom: 4px !important;
+    }
 }

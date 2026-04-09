@@ -19,7 +19,7 @@ const cvData = {
             strengths: "ĐIỂM MẠNH",
             education: "HỌC VẤN"
         },
-        objective: "Lập trình viên Frontend chuyên React và Next.js, đã xây dựng và deploy nhiều ứng dụng web thực tế. Có kinh nghiệm thiết kế giao diện, tích hợp API và tối ưu trải nghiệm người dùng. Tập trung viết code rõ ràng, dễ bảo trì và sẵn sàng cho môi trường production.",
+        objective: "Lập trình viên Frontend chuyên React và Next.js, đã xây dựng và triển khai nhiều ứng dụng web thực tế. Có kinh nghiệm thiết kế giao diện, tích hợp API và tối ưu trải nghiệm người dùng. Luôn tập trung viết code rõ ràng, dễ bảo trì và sẵn sàng cho môi trường production.",
         projects: [
             {
                 name: "NỀN TẢNG TUYỂN DỤNG (JOB PORTAL)",
@@ -31,8 +31,8 @@ const cvData = {
                     "Xây dựng giao diện danh sách việc làm, chi tiết và luồng ứng tuyển bằng Next.js, đảm bảo responsive trên nhiều thiết bị.",
                     "Thiết kế luồng xác thực (login/register/protected routes) và quản lý trạng thái người dùng.",
                     "Tích hợp API và xử lý dữ liệu hiển thị mượt mà, đảm bảo trải nghiệm ổn định.",
-                    "Xử lý các trạng thái dữ liệu (loading, error, empty) giúp cải thiện UX.",
-                    "Deploy ứng dụng thực tế trên Vercel và cấu hình môi trường."
+                    "Xử lý các trạng thái dữ liệu (loading, error, empty) để cải thiện UX.",
+                    "Triển khai ứng dụng trên Vercel và cấu hình môi trường."
                 ],
                 tech: "Next.js, React, TypeScript, Tailwind CSS, REST API, Git, Vercel"
             },
@@ -47,13 +47,13 @@ const cvData = {
                     "Tích hợp API và xử lý luồng dữ liệu cho các chức năng chính.",
                     "Cải thiện trải nghiệm người dùng trong quá trình checkout (form, validation, UX flow).",
                     "Tối ưu hiển thị trên mobile và desktop.",
-                    "Deploy frontend trên Vercel."
+                    "Triển khai frontend trên Vercel."
                 ],
                 tech: "React, Vite, TypeScript/JavaScript, Tailwind CSS, REST API, Git, Vercel"
             }
         ],
         skills: [
-            { cat: "Front-End",   items: "ReactJS, Next.js, TypeScript, TailwindCSS" },
+            { cat: "Front-End",   items: "React.js, Next.js, TypeScript, Tailwind CSS" },
             { cat: "Quản lý trạng thái", items: "React Hooks, Zustand" },
             { cat: "API & Data",  items: "RESTful API, Axios / Fetch" },
             { cat: "Testing",     items: "Jest, Cypress, Postman" },
@@ -62,13 +62,13 @@ const cvData = {
         strengths: [
             "Chủ động học hỏi và tự xây dựng dự án hoàn chỉnh.",
             "Có tư duy sản phẩm và chú trọng trải nghiệm người dùng.",
-            "Khả năng tự học nhanh và thích nghi với công nghệ mới.",
+            "Khả năng tự học nhanh và thích nghi tốt với công nghệ mới.",
             "Có kinh nghiệm deploy và vận hành ứng dụng thực tế."
         ],
         education: {
             school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
             date: "10/2020 - 12/2024",
-            detail: "Chuyên ngành: Khoa học máy tính"
+            detail: "Chuyên ngành: Khoa học Máy tính"
         },
         btnText: "In / Tải PDF",
         docTitle: "CV_TruongDinhAnh_FE_Intern_VI"
@@ -89,7 +89,7 @@ const cvData = {
             strengths: "STRENGTHS",
             education: "EDUCATION"
         },
-        objective: "Frontend Developer specializing in React and Next.js, with hands-on experience building and deploying real-world web applications. Proficient in UI design, API integration, and user experience optimization. Committed to writing clean, maintainable code for production-ready environments.",
+        objective: "Frontend Developer specializing in React and Next.js, with hands-on experience building and deploying real-world web applications. Proficient in UI design, API integration, and user experience optimization. Committed to writing clean, maintainable code for production environments.",
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
@@ -101,8 +101,8 @@ const cvData = {
                     "Built job listings, details, and application flow UI using Next.js with full responsiveness.",
                     "Designed authentication flows (login/register/protected routes) and user state management.",
                     "Integrated APIs and handled data display smoothly for a stable experience.",
-                    "Managed data states (loading, error, empty) to enhance UX.",
-                    "Deployed production app on Vercel and configured environments."
+                    "Managed data states (loading, error, and empty states) to enhance UX.",
+                    "Deployed the application on Vercel and configured the environment."
                 ],
                 tech: "Next.js, React, TypeScript, Tailwind CSS, REST API, Git, Vercel"
             },
@@ -123,7 +123,7 @@ const cvData = {
             }
         ],
         skills: [
-            { cat: "Front-End",   items: "ReactJS, Next.js, TypeScript, TailwindCSS" },
+            { cat: "Front-End",   items: "React.js, Next.js, TypeScript, Tailwind CSS" },
             { cat: "State Management", items: "React Hooks, Zustand" },
             { cat: "API & Data",  items: "RESTful API, Axios / Fetch" },
             { cat: "Testing",     items: "Jest, Cypress, Postman" },

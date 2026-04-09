@@ -9,7 +9,7 @@
     const versions = {
         'backend': { data: 'data/cv-data-be.js', emoji: '⚙️', id: 'ver-backend' },
         'frontend': { data: 'data/cv-data-fe.js', emoji: '🎨', id: 'ver-frontend' },
-        'default': { data: 'data/cv-data.js', emoji: '💼', id: 'ver-default' }
+        'default': { data: 'data/cv-data-fullstack.js', emoji: '💼', id: 'ver-default' }
     };
 
     const ver = versions[mode] || versions['default'];
@@ -38,7 +38,7 @@
 
     // Nạp data trước, sau đó mới khởi tạo logic render CV.
     loadScript(ver.data)
-        .then(() => loadScript('js/topcv.js'))
+        .then(() => loadScript('js/cv-renderer.js'))
         .catch((error) => {
             console.error(error);
         });
