@@ -9,7 +9,7 @@ const cvData = {
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Full-Stack Developer Intern",
         contact: [
-            { icon: 'phone', text: '0923202861' },
+            { icon: 'phone', text: '0349421079' },
             { icon: 'email', text: 'tdinhanh.it@gmail.com', link: 'mailto:tdinhanh.it@gmail.com' },
             { icon: 'github', text: 'github.com/dinhanhhhh', link: 'https://github.com/dinhanhhhh' },
             { icon: 'address', text: 'Thủ Đức, TP. Hồ Chí Minh' }
@@ -86,7 +86,7 @@ const cvData = {
         name: "TRUONG DINH ANH",
         title: "Full-Stack Developer Intern",
         contact: [
-            { icon: 'phone', text: '0923202861' },
+            { icon: 'phone', text: '0349421079' },
             { icon: 'email', text: 'tdinhanh.it@gmail.com', link: 'mailto:tdinhanh.it@gmail.com' },
             { icon: 'github', text: 'github.com/dinhanhhhh', link: 'https://github.com/dinhanhhhh' },
             { icon: 'address', text: 'Thu Duc, Ho Chi Minh City' }
