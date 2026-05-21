@@ -29,7 +29,7 @@ const cvData = {
             {
                 name: "JOB PORTAL PLATFORM",
                 date: "10/2025 - 11/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Nền tảng tuyển dụng thông minh với hệ thống backend tự động hóa và xử lý dữ liệu người dùng theo thời gian thực.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -42,7 +42,7 @@ const cvData = {
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
                 date: "08/2025 - 09/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Hệ thống quản trị full-stack hỗ trợ tự động hóa quy trình quản lý dữ liệu sinh viên và xử lý thông tin học thuật.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
                 tasks: [
@@ -55,7 +55,7 @@ const cvData = {
             {
                 name: "E-COMMERCE PLATFORM",
                 date: "04/2025 - 05/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Giải pháp thương mại điện tử với hệ thống automation cho quản lý tồn kho, đơn hàng và phân tích dữ liệu bán hàng.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
                 tasks: [
@@ -103,7 +103,7 @@ const cvData = {
             {
                 name: "JOB PORTAL PLATFORM",
                 date: "10/2025 - 11/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "An intelligent recruitment platform with automated data processing pipelines and real-time user data handling.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -116,7 +116,7 @@ const cvData = {
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
                 date: "08/2025 - 09/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "A full-stack administrative system supporting automated data management and real-time academic data processing.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
                 tasks: [
@@ -129,7 +129,7 @@ const cvData = {
             {
                 name: "E-COMMERCE PLATFORM",
                 date: "04/2025 - 05/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "An e-commerce solution with intelligent automation for inventory, order management, and sales data analysis.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
                 tasks: [

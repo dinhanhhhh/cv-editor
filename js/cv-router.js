@@ -9,6 +9,10 @@
     const versions = {
         'backend': { data: 'data/cv-data-be.js', emoji: '⚙️', id: 'ver-backend' },
         'frontend': { data: 'data/cv-data-fe.js', emoji: '🎨', id: 'ver-frontend' },
+        'nestjs': { data: 'data/cv-data-nestjs.js', emoji: '🏥', id: 'ver-nestjs' },
+        'healthcare': { data: 'data/cv-data-healthcare-fullstack.js', emoji: '🦷', id: 'ver-healthcare' },
+        'agrizen': { data: 'data/cv-data-agrizen-fullstack.js', emoji: '🌱', id: 'ver-agrizen' },
+        'opswat': { data: 'data/cv-data-opswat.js', emoji: '🛡️', id: 'ver-opswat' },
         'default': { data: 'data/cv-data-fullstack.js', emoji: '💼', id: 'ver-default' }
     };
 

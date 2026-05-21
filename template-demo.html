@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Template Demo - Trương Đình Anh</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           1. DESIGN SYSTEM & ROOT TOKENS
+           ========================================================================== */
+        :root {
+            /* Colors HSL Tailored */
+            --color-bg: #f1f5f9;
+            --color-card-bg: #ffffff;
+            --color-primary: #059669; /* Emerald Green - Premium & Professional */
+            --color-primary-light: #ecfdf5;
+            --color-text-main: #1e293b;
+            --color-text-muted: #64748b;
+            --color-border: #cbd5e1;
+            
+            /* Fonts (Đồng bộ font gốc để khớp tỷ lệ chữ) */
+            --font-sans: 'Be Vietnam Pro', Arial, Helvetica, sans-serif;
+            
+            /* Spacings & Layout */
+            --cv-base-font-size: 10pt;
+            --line-height-ratio: 1.25;
+            --border-radius-sm: 8px;
+            --border-radius-md: 16px;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--color-bg);
+            font-family: var(--font-sans);
+            color: var(--color-text-main);
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 40px;
+            min-height: 100vh;
+        }
+
+        /* Responsive on Mobile */
+        @media (max-width: 1024px) {
+            body {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 10px;
+                gap: 20px;
+            }
+        }
+
+        /* ==========================================================================
+           2. SIDEBAR CONTROLS (GLASSMORPHISM)
+           ========================================================================== */
+        .controls-panel {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            padding: 24px;
+            border-radius: var(--border-radius-md);
+            width: 340px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            position: sticky;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .controls-panel {
+                position: static;
+                width: 100%;
+                max-width: 800px;
+            }
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .panel-desc {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            line-height: 1.4;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--color-border);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .group-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-muted);
+        }
+
+        /* Button styling */
+        .btn-toggle-group {
+            display: flex;
+            gap: 8px;
+            background-color: #e2e8f0;
+            padding: 4px;
+            border-radius: var(--border-radius-sm);
+        }
+
+        .btn-toggle {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 8px;
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            border-radius: calc(var(--border-radius-sm) - 2px);
+            transition: var(--transition-smooth);
+        }
+
+        .btn-toggle.active {
+            background-color: var(--color-card-bg);
+            color: var(--color-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-action {
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            padding: 12px;
+            font-family: var(--font-sans);
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+        }
+
+        .btn-action:hover {
+            background-color: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(5, 150, 105, 0.3);
+        }
+
+        .btn-action:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: var(--color-card-bg);
+            color: var(--color-text-main);
+            border: 1px solid var(--color-border);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f8fafc;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* JSON Area in Sidebar */
+        .json-textarea {
+            width: 100%;
+            height: 150px;
+            font-family: monospace;
+            font-size: 0.72rem;
+            padding: 10px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-sm);
+            resize: vertical;
+            background-color: #f8fafc;
+            color: #334155;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .json-textarea:focus {
+            border-color: var(--color-primary);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+
+        /* ==========================================================================
+           3. A4 PREVIEW CONTAINER
+           ========================================================================== */
+        .cv-container {
+            background-color: var(--color-card-bg);
+            width: 210mm; /* A4 Width */
+            min-height: 297mm; /* A4 Height */
+            padding: 15mm 15mm 10mm 15mm;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Thu gọn khoảng cách giữa các phần lớn */
+            position: relative;
+            overflow: hidden;
+            font-size: var(--cv-base-font-size);
+            line-height: var(--line-height-ratio);
+            transition: font-size 0.2s ease, padding 0.2s ease;
+        }
+
+        @media (max-width: 1024px) {
+            .cv-container {
+                width: 100%;
+                min-height: auto;
+                padding: 15mm 10mm;
+            }
+        }
+
+        /* Print optimization */
+        @page {
+            size: A4;
+            margin: 0;
+        }
+        @media print {
+            html,
+            body {
+                width: 210mm;
+                height: 297mm;
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                overflow: hidden !important;
+            }
+
+            body {
+                display: block;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+
+            #cvContent, #cvContent * {
+                visibility: visible;
+            }
+
+            #cvContent {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 210mm !important;
+                min-height: 297mm !important;
+                height: 297mm !important;
+                margin: 0 !important;
+                padding: 5mm 12mm 5mm 12mm !important; /* Đưa lề in lên 5mm để tăng không gian cuối trang */
+                box-shadow: none !important;
+                border: none !important;
+                overflow: hidden !important;
+                line-height: 1.2 !important;
+                --cv-base-font-size: 10pt !important;
+                box-sizing: border-box;
+                gap: 0 !important;
+            }
+
+            .cv-header {
+                text-align: center !important; /* Căn giữa tên và chức danh khi in */
+                padding-top: 8px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .cv-contact {
+                justify-content: center !important; /* Căn giữa liên hệ khi in */
+            }
+
+            .cv-section {
+                margin-bottom: 8px !important; /* Đẩy khít khoảng cách các phần */
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .cv-exp-item,
+            .cv-edu-item,
+            .cv-skills-table tr {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+
+            .cv-name {
+                font-size: 20pt !important;
+            }
+
+            .cv-title,
+            .cv-section-title {
+                font-size: 11pt !important;
+            }
+
+            .cv-objective,
+            .cv-exp-role,
+            .cv-exp-desc,
+            .cv-exp-tasks li,
+            .cv-edu-detail,
+            .cv-skills-table td {
+                font-size: 10pt !important;
+                line-height: 1.2 !important;
+            }
+
+            .cv-exp-item {
+                margin-bottom: 8px !important; /* Đẩy khít khoảng cách các dự án */
+            }
+
+            .cv-exp-list {
+                gap: 0 !important;
+            }
+
+            .cv-exp-tasks {
+                margin: 2px 0 4px 0 !important;
+            }
+
+            .cv-skills-table td {
+                padding-bottom: 4px !important;
+            }
+        }
+
+        /* ==========================================================================
+           4. CV STYLES (Clean & Structured)
+           ========================================================================== */
+        .cv-header {
+            text-align: center;
+            border-bottom: 2px solid var(--color-primary);
+            padding-bottom: 12px;
+            margin-bottom: 2px;
+        }
+
+        .cv-name {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-text-main);
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+
+        .cv-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-top: 2px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .cv-contact {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .contact-item svg {
+            color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: var(--color-primary);
+        }
+
+        .cv-section {
+            margin-bottom: 0;
+        }
+
+        .cv-section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 3px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .cv-objective {
+            font-size: 0.9rem;
+            text-align: justify;
+            color: #334155;
+        }
+
+        /* Education Styles */
+        .cv-edu-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cv-edu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .cv-edu-school {
+            color: var(--color-text-main);
+        }
+
+        .cv-edu-date {
+            color: var(--color-primary);
+            font-size: 0.85rem;
+        }
+
+        .cv-edu-detail {
+            font-size: 0.88rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+        }
+
+        /* Experience / Project Styles */
+        .cv-exp-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .cv-exp-item {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .cv-exp-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            font-weight: 700;
+            font-size: 0.92rem;
+        }
+
+        .cv-exp-project {
+            color: var(--color-text-main);
+            text-transform: uppercase;
+        }
+
+        .cv-exp-date {
+            color: var(--color-primary);
+            font-size: 0.85rem;
+        }
+
+        .cv-exp-role {
+            font-style: italic;
+            color: var(--color-text-muted);
+            font-size: 0.85rem;
+        }
+
+        .cv-exp-desc {
+            font-size: 0.88rem;
+            color: #334155;
+            margin-top: 1px;
+        }
+
+        .cv-exp-tasks {
+            list-style-type: none;
+            padding-left: 15px;
+            font-size: 0.88rem;
+            color: #475569;
+            margin-top: 2px;
+        }
+
+        .cv-exp-tasks li {
+            position: relative;
+            margin-bottom: 1px;
+            line-height: 1.4;
+        }
+
+        .cv-exp-tasks li::before {
+            content: "•";
+            color: var(--color-primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        .cv-exp-tech {
+            font-size: 0.82rem;
+            color: #1e293b;
+            margin-top: 4px;
+            background-color: var(--color-primary-light);
+            padding: 3px 6px;
+            border-radius: 4px;
+            border-left: 3px solid var(--color-primary);
+            display: inline-block;
+        }
+
+        .cv-exp-links {
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            margin-top: 3px;
+        }
+
+        .cv-exp-links a {
+            color: var(--color-primary);
+            text-decoration: underline;
+            margin-right: 8px;
+        }
+
+        /* Skills Table Styles */
+        .cv-skills-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+
+        .cv-skills-table tr {
+            border-bottom: 1px dashed var(--color-border);
+        }
+
+        .cv-skills-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .cv-skills-cat {
+            font-weight: 700;
+            color: var(--color-text-main);
+            width: 25%;
+            padding: 4px 0;
+            vertical-align: top;
+        }
+
+        .cv-skills-items {
+            color: #334155;
+            padding: 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+       A. SIDEBAR CONTROLS (Bảng điều khiển)
+       ========================================================================== -->
+    <aside class="controls-panel">
+        <div>
+            <h1 class="panel-title">🪄 Hybrid Template</h1>
+            <p class="panel-desc">Sử dụng 100% dữ liệu thực tế từ codebase của bạn thông qua <code>&lt;template&gt;</code> gốc.</p>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Toggle Ngôn ngữ -->
+        <div class="control-group">
+            <span class="group-label">Chọn ngôn ngữ</span>
+            <div class="btn-toggle-group">
+                <button class="btn-toggle active" id="lang-vi" onclick="setLanguage('vi')">Tiếng Việt</button>
+                <button class="btn-toggle" id="lang-en" onclick="setLanguage('en')">English</button>
+            </div>
+        </div>
+        
+        <!-- Thay đổi kích thước chữ -->
+        <div class="control-group">
+            <span class="group-label">Cỡ chữ CV</span>
+            <div class="btn-toggle-group">
+                <button class="btn-toggle" onclick="changeFontSize(-0.5)">A -</button>
+                <button class="btn-toggle" id="font-size-val" style="cursor: default;">10.0pt</button>
+                <button class="btn-toggle" onclick="changeFontSize(0.5)">A +</button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- GIẢ LẬP DỮ LIỆU ĐIỆN THOẠI (JSON EDITOR) -->
+        <div class="control-group">
+            <span class="group-label">Dữ liệu thô thực tế (JSON)</span>
+            <p class="panel-desc" style="font-size: 0.75rem; margin-bottom: 4px;">Dữ liệu thật của bạn. Bạn sửa ở đây CV sẽ tự vẽ lại:</p>
+            <textarea class="json-textarea" id="json-editor" oninput="updateFromEditor()"></textarea>
+        </div>
+
+        <div class="divider"></div>
+        
+        <!-- Nút Tải / In -->
+        <button class="btn-action" onclick="window.print()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+            In / Xuất PDF chuẩn A4
+        </button>
+
+        <button class="btn-action btn-secondary" onclick="runMagicFit()">
+            Magic Fit ✨
+        </button>
+    </aside>
+
+    <!-- ==========================================================================
+       B. HÌNH HÀI CV CHÍNH (SKELETON TĨNH)
+       ========================================================================== -->
+    <main class="cv-container" id="cvContent">
+        <!-- 1. Header Section -->
+        <header class="cv-header">
+            <h1 class="cv-name" id="cv-name">TRƯƠNG ĐÌNH ANH</h1>
+            <p class="cv-title" id="cv-title">Full-Stack Developer Intern</p>
+            <div class="cv-contact" id="cv-contact-container">
+                <!-- Sẽ được điền động bằng Template -->
+            </div>
+        </header>
+
+        <!-- 2. Objective Section -->
+        <section class="cv-section">
+            <h2 class="cv-section-title" id="title-objective">Tóm tắt chuyên môn</h2>
+            <p class="cv-objective" id="cv-objective">Loading...</p>
+        </section>
+
+        <!-- 3. Education Section -->
+        <section class="cv-section">
+            <h2 class="cv-section-title" id="title-education">Học vấn</h2>
+            <div id="education-container">
+                <!-- Sẽ được điền động bằng Template -->
+            </div>
+        </section>
+
+        <!-- 4. Projects Section -->
+        <section class="cv-section">
+            <h2 class="cv-section-title" id="title-projects">Dự án tiêu biểu</h2>
+            <div class="cv-exp-list" id="projects-container">
+                <!-- Sẽ được điền động bằng Template -->
+            </div>
+        </section>
+
+        <!-- 5. Skills Section -->
+        <section class="cv-section">
+            <h2 class="cv-section-title" id="title-skills">Kỹ năng</h2>
+            <table class="cv-skills-table">
+                <tbody id="skills-container">
+                    <!-- Sẽ được điền động bằng Template -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- ==========================================================================
+       C. CÁC THẺ <TEMPLATE> TĨNH (HTML thuần 100%, dễ tinh chỉnh)
+       ========================================================================== -->
+    
+    <!-- Template 1: Mục liên hệ -->
+    <template id="temp-contact-item">
+        <div class="contact-item">
+            <span class="icon-placeholder"></span>
+            <span class="contact-content-wrap">
+                <!-- Chứa text hoặc thẻ a link -->
+            </span>
+        </div>
+    </template>
+
+    <!-- Template 2: Khung Học vấn -->
+    <template id="temp-education-item">
+        <div class="cv-edu-item">
+            <div class="cv-edu-header">
+                <span class="cv-edu-school"></span>
+                <span class="cv-edu-date"></span>
+            </div>
+            <div class="cv-edu-detail"></div>
+        </div>
+    </template>
+
+    <!-- Template 3: Khung Dự Án -->
+    <template id="temp-project-item">
+        <div class="cv-exp-item">
+            <div class="cv-exp-header">
+                <span class="cv-exp-project"></span>
+                <span class="cv-exp-date"></span>
+            </div>
+            <p class="cv-exp-role"></p>
+            <p class="cv-exp-desc"></p>
+            <ul class="cv-exp-tasks">
+                <!-- Danh sách nhiệm vụ -->
+            </ul>
+            <div class="cv-exp-bottom">
+                <div class="cv-exp-tech-wrap">
+                    <span class="cv-exp-tech"></span>
+                </div>
+                <div class="cv-exp-links">
+                    <!-- GitHub và Demo Links -->
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Template 4: Dòng Kỹ Năng -->
+    <template id="temp-skill-row">
+        <tr>
+            <td class="cv-skills-cat"></td>
+            <td class="cv-skills-items"></td>
+        </tr>
+    </template>
+
+
+    <!-- ==========================================================================
+       D. MÃ JAVASCRIPT GẮN DỮ LIỆU (DOM Mapping từ File thật cv-data-fullstack.js)
+       ========================================================================== -->
+    
+    <!-- 1. NẠP FILE DỮ LIỆU THẬT CỦA BẠN -->
+    <script src="data/cv-data-fullstack.js"></script>
+
+    <script>
+        // Tự động sao chép bộ dữ liệu thực tế vào ô soạn thảo Editor
+        if (typeof cvData !== 'undefined') {
+            document.getElementById("json-editor").value = JSON.stringify(cvData, null, 4);
+        } else {
+            console.error("Không tìm thấy dữ liệu cvData từ file data/cv-data-fullstack.js!");
+        }
+
+        // Biểu tượng SVG gốc cho các icon liên hệ
+        const icons = {
+            phone: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`,
+            email: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>`,
+            github: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>`,
+            address: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>`
+        };
+
+        // Labels dịch thuật bổ trợ trong logic renderer
+        const labels = {
+            vi: {
+                role: 'Vai trò',
+                description: 'Mô tả',
+                technologies: 'Công nghệ',
+                github: 'GitHub',
+                demo: 'Demo',
+                repoBackend: 'Backend',
+                repoFrontend: 'Frontend',
+                repoDefault: 'Repo'
+            },
+            en: {
+                role: 'Role',
+                description: 'Description',
+                technologies: 'Technologies',
+                github: 'GitHub',
+                demo: 'Demo',
+                repoBackend: 'Backend',
+                repoFrontend: 'Frontend',
+                repoDefault: 'Repo'
+            }
+        };
+
+        // Trạng thái cục bộ
+        let activeLang = "vi";
+        let activeFontSize = 10.0;
+
+        // DOM Elements
+        const elCvName = document.getElementById("cv-name");
+        const elCvTitle = document.getElementById("cv-title");
+        const elCvObjective = document.getElementById("cv-objective");
+        
+        const elTitleObjective = document.getElementById("title-objective");
+        const elTitleEducation = document.getElementById("title-education");
+        const elTitleProjects = document.getElementById("title-projects");
+        const elTitleSkills = document.getElementById("title-skills");
+
+        const containerContact = document.getElementById("cv-contact-container");
+        const containerEducation = document.getElementById("education-container");
+        const containerProjects = document.getElementById("projects-container");
+        const containerSkills = document.getElementById("skills-container");
+        
+        const fontSizeVal = document.getElementById("font-size-val");
+        const cvContainer = document.getElementById("cvContent");
+
+        // ==========================================================================
+        // KHỞI CHẠY RENDER CV BẰNG TEMPLATE & SKELETON
+        // ==========================================================================
+        function renderCV() {
+            if (typeof cvData === 'undefined') return;
+            
+            const data = cvData[activeLang];
+            const text = labels[activeLang];
+            
+            // A. Điền các trường văn bản thô
+            elCvName.textContent = data.name;
+            elCvTitle.textContent = data.title;
+            elCvObjective.textContent = data.objective;
+            
+            // Điền các tiêu đề của từng Section
+            elTitleObjective.textContent = data.sections.objective;
+            elTitleEducation.textContent = data.sections.education;
+            elTitleProjects.textContent = data.sections.projects;
+            elTitleSkills.textContent = data.sections.skills;
+
+            // B. Render mục Liên hệ bằng Template
+            containerContact.innerHTML = "";
+            const tempContact = document.getElementById("temp-contact-item");
+            
+            data.contact.forEach(info => {
+                const clone = tempContact.content.cloneNode(true);
+                clone.querySelector(".icon-placeholder").innerHTML = icons[info.icon] || "";
+                
+                const wrap = clone.querySelector(".contact-content-wrap");
+                let link = info.link;
+                if (!link && info.icon === 'phone') {
+                    link = `tel:${info.text.replace(/\s+/g, '')}`;
+                }
+                
+                if (link) {
+                    const a = document.createElement("a");
+                    a.href = link;
+                    a.textContent = info.text;
+                    if (info.icon !== 'phone') {
+                        a.target = "_blank";
+                        a.rel = "noopener noreferrer";
+                    }
+                    wrap.appendChild(a);
+                } else {
+                    wrap.textContent = info.text;
+                }
+                containerContact.appendChild(clone);
+            });
+
+            // C. Render mục Học vấn bằng Template
+            containerEducation.innerHTML = "";
+            const tempEducation = document.getElementById("temp-education-item");
+            
+            if (data.education) {
+                const clone = tempEducation.content.cloneNode(true);
+                clone.querySelector(".cv-edu-school").textContent = data.education.school;
+                clone.querySelector(".cv-edu-date").textContent = data.education.date;
+                clone.querySelector(".cv-edu-detail").textContent = data.education.detail;
+                containerEducation.appendChild(clone);
+            }
+
+            // D. Render danh sách Dự án bằng Template
+            containerProjects.innerHTML = "";
+            const tempProject = document.getElementById("temp-project-item");
+            
+            data.projects.forEach(proj => {
+                const clone = tempProject.content.cloneNode(true);
+                
+                clone.querySelector(".cv-exp-project").textContent = proj.name;
+                clone.querySelector(".cv-exp-date").textContent = proj.date;
+                clone.querySelector(".cv-exp-role").textContent = `${text.role}: ${proj.role}`;
+                clone.querySelector(".cv-exp-desc").innerHTML = `<strong>${text.description}:</strong> ${proj.desc}`;
+                clone.querySelector(".cv-exp-tech").innerHTML = `<strong>${text.technologies}:</strong> ${proj.tech}`;
+                
+                // Điền danh sách nhiệm vụ (tasks)
+                const tasksUl = clone.querySelector(".cv-exp-tasks");
+                proj.tasks.forEach(task => {
+                    const li = document.createElement("li");
+                    li.textContent = task;
+                    tasksUl.appendChild(li);
+                });
+
+                // Xử lý link GitHub & Demo thông minh (hỗ trợ phân tách link qua dấu |)
+                const linksDiv = clone.querySelector(".cv-exp-links");
+                linksDiv.innerHTML = ""; // Clear cũ
+
+                if (proj.github) {
+                    const labelGithub = document.createElement("strong");
+                    labelGithub.textContent = `${text.github}: `;
+                    linksDiv.appendChild(labelGithub);
+
+                    if (proj.github.includes('|')) {
+                        proj.github.split('|').forEach(link => {
+                            const cleanLink = link.trim();
+                            const a = document.createElement("a");
+                            a.href = cleanLink;
+                            a.target = "_blank";
+                            a.rel = "noopener noreferrer";
+                            
+                            const linkLabel = cleanLink.toLowerCase().includes('-be')
+                                ? text.repoBackend
+                                : (cleanLink.toLowerCase().includes('-fe') ? text.repoFrontend : text.repoDefault);
+                            a.textContent = `[${linkLabel}]`;
+                            a.style.marginRight = "6px";
+                            linksDiv.appendChild(a);
+                        });
+                    } else {
+                        const a = document.createElement("a");
+                        a.href = proj.github;
+                        a.target = "_blank";
+                        a.rel = "noopener noreferrer";
+                        a.textContent = proj.github;
+                        a.style.marginRight = "12px";
+                        linksDiv.appendChild(a);
+                    }
+                }
+
+                if (proj.demo) {
+                    const labelDemo = document.createElement("strong");
+                    labelDemo.textContent = `${text.demo}: `;
+                    linksDiv.appendChild(labelDemo);
+
+                    const a = document.createElement("a");
+                    a.href = proj.demo;
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    a.textContent = proj.demo;
+                    linksDiv.appendChild(a);
+                }
+
+                containerProjects.appendChild(clone);
+            });
+
+            // E. Render Kỹ năng bằng Template
+            containerSkills.innerHTML = "";
+            const tempSkill = document.getElementById("temp-skill-row");
+            
+            data.skills.forEach(skill => {
+                const clone = tempSkill.content.cloneNode(true);
+                clone.querySelector(".cv-skills-cat").textContent = skill.cat;
+                clone.querySelector(".cv-skills-items").textContent = skill.items;
+                containerSkills.appendChild(clone);
+            });
+        }
+
+        // ==========================================================================
+        // CÁC HÀM TƯƠNG TÁC TIỆN ÍCH
+        // ==========================================================================
+        
+        // 1. Chuyển đổi ngôn ngữ
+        function setLanguage(lang) {
+            activeLang = lang;
+            document.getElementById("lang-vi").classList.toggle("active", lang === "vi");
+            document.getElementById("lang-en").classList.toggle("active", lang === "en");
+            renderCV();
+        }
+
+        // 2. Tăng giảm kích thước chữ
+        function changeFontSize(amount) {
+            activeFontSize = Math.max(7, Math.min(14, activeFontSize + amount));
+            cvContainer.style.setProperty("--cv-base-font-size", activeFontSize + "pt");
+            fontSizeVal.textContent = activeFontSize.toFixed(1) + "pt";
+        }
+
+        // 3. Tự cập nhật CV khi bạn trực tiếp gõ/sửa JSON (Mô phỏng AI gửi JSON mới từ điện thoại)
+        function updateFromEditor() {
+            const editor = document.getElementById("json-editor");
+            try {
+                const parsed = JSON.parse(editor.value);
+                if (parsed.vi && parsed.en) {
+                    cvData = parsed;
+                    renderCV();
+                    editor.style.borderColor = "var(--color-primary)";
+                }
+            } catch (e) {
+                editor.style.borderColor = "#ef4444"; // Viết lỗi cú pháp JSON sẽ hiện viền đỏ cảnh báo
+            }
+        }
+
+        // 4. Thuật toán Magic Fit tự động căn chỉnh CV vừa vặn trang giấy
+        function runMagicFit() {
+            const targetHeight = 1120; // Hướng tới chiều cao A4 tối ưu
+            cvContainer.style.minHeight = "auto";
+            
+            let attempts = 0;
+            activeFontSize = 11.5;
+            let currentLineHeight = 1.6;
+            let paddingVertical = 15;
+
+            function apply() {
+                cvContainer.style.setProperty("--cv-base-font-size", activeFontSize + "pt");
+                cvContainer.style.setProperty("--line-height-ratio", currentLineHeight);
+                cvContainer.style.padding = `${paddingVertical}mm 15mm 10mm 15mm`;
+                fontSizeVal.textContent = activeFontSize.toFixed(1) + "pt";
+            }
+
+            while (cvContainer.offsetHeight > targetHeight && attempts < 100) {
+                let changed = false;
+                if (currentLineHeight > 1.25) { currentLineHeight -= 0.05; changed = true; }
+                else if (paddingVertical > 10) { paddingVertical -= 1; changed = true; }
+                else if (activeFontSize > 8.5) { activeFontSize -= 0.1; changed = true; }
+                
+                apply();
+                attempts++;
+                if (!changed) break;
+            }
+            
+            cvContainer.style.minHeight = "297mm";
+            renderCV();
+            alert("Magic Fit thành công! ✨ CV của bạn đã tự động co lề, giảm khoảng cách và cỡ chữ để khít hoàn hảo đúng 1 trang A4!");
+        }
+
+        // KHỞI ĐỘNG CHẠY LẦN ĐẦU
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCV();
+        });
+    </script>
+</body>
+</html>

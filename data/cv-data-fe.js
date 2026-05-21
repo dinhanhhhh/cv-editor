@@ -24,7 +24,7 @@ const cvData = {
             {
                 name: "NỀN TẢNG TUYỂN DỤNG (JOB PORTAL)",
                 date: "10/2025 - 11/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Ứng dụng web cho phép đăng tin tuyển dụng, nộp hồ sơ và quản lý người dùng.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -39,7 +39,7 @@ const cvData = {
             {
                 name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE)",
                 date: "08/2025 - 09/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Ứng dụng web mua sắm với giỏ hàng và quy trình thanh toán.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
                 tasks: [
@@ -94,7 +94,7 @@ const cvData = {
             {
                 name: "JOB PORTAL PLATFORM",
                 date: "10/2025 - 11/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Web application for job posting, application submission, and user management.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -109,7 +109,7 @@ const cvData = {
             {
                 name: "E-COMMERCE PLATFORM",
                 date: "08/2025 - 09/2025",
-                role: "Developer (Solo)",
+                role: "Developer",
                 desc: "Shopping web application with cart and checkout workflows.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
                 tasks: [
