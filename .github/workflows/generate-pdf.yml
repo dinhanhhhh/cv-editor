@@ -3,7 +3,7 @@ name: Generate and Send CV PDF
 on:
   push:
     paths:
-      - 'data/**' # Kích hoạt mỗi khi bạn cập nhật bất kỳ file data nào
+      - "data/**" # Kích hoạt mỗi khi bạn cập nhật bất kỳ file data nào
 
 jobs:
   build-pdf:
