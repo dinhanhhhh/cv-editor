@@ -53,13 +53,47 @@ const server = app.listen(PORT, async () => {
 // 2. GENERATE ALL PDFs USING PUPPETEER
 // ===================================
 async function generateAllPDFs() {
+    // Tự động nhận diện file nào bị thay đổi để chỉ sinh đúng PDF đó
+    const { execSync } = require('child_process');
+    const fileToTypeMap = {
+        'data/cv-data-fullstack.js': 'default',
+        'data/cv-data-be.js': 'backend',
+        'data/cv-data-fe.js': 'frontend',
+        'data/cv-data-nestjs.js': 'nestjs',
+        'data/cv-data-healthcare-fullstack.js': 'healthcare',
+        'data/cv-data-agrizen-fullstack.js': 'agrizen',
+        'data/cv-data-opswat.js': 'opswat'
+    };
+
+    let targetTypes = [];
+    try {
+        // Lấy danh sách các file thay đổi trong commit gần nhất
+        const diffOutput = execSync('git diff-tree --no-commit-id --name-only -r HEAD', { encoding: 'utf8' });
+        const changedFiles = diffOutput.split('\n').map(f => f.trim()).filter(Boolean);
+        console.log('📝 Files modified in this commit:', changedFiles);
+
+        for (const file of changedFiles) {
+            if (fileToTypeMap[file]) {
+                targetTypes.push(fileToTypeMap[file]);
+            }
+        }
+    } catch (err) {
+        console.warn('⚠️ Could not run git diff, falling back to generating all CVs.', err.message);
+    }
+
+    const versionsToGenerate = targetTypes.length > 0
+        ? CV_VERSIONS.filter(cv => targetTypes.includes(cv.type))
+        : CV_VERSIONS;
+
+    console.log(`🚀 Versions to compile: ${versionsToGenerate.map(cv => cv.label).join(', ')}`);
+
     console.log('🤖 Launching headless Chrome...');
     const browser = await puppeteer.launch({
         headless: 'new',
         args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
 
-    for (const cv of CV_VERSIONS) {
+    for (const cv of versionsToGenerate) {
         console.log(`\n⏳ Generating PDF for: ${cv.label}...`);
         const page = await browser.newPage();
         
