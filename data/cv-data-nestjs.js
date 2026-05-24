@@ -28,8 +28,8 @@ const cvData = {
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
-                date: "10/2025 - 11/2025",
-                role: "Back-End Developer",
+                date: "11/2025 - 02/2026",
+                role: "Developer",
                 desc: "Hệ thống lõi quản lý tuyển dụng toàn diện, xử lý luồng dữ liệu phức tạp giữa nhà tuyển dụng và ứng viên.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -42,8 +42,8 @@ const cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SERVER",
-                date: "08/2025 - 09/2025",
-                role: "Back-End Developer",
+                date: "06/2025 - 09/2025",
+                role: "Developer",
                 desc: "Xây dựng hạ tầng máy chủ cho quản lý hồ sơ sinh viên, đăng ký khóa học và quản trị điểm số.",
                 github: "https://github.com/dinhanhhhh/student-management-BE",
                 tasks: [
@@ -56,8 +56,8 @@ const cvData = {
             },
             {
                 name: "E-COMMERCE API SERVICE",
-                date: "04/2025 - 05/2025",
-                role: "Back-End Developer",
+                date: "08/2025 - 09/2025",
+                role: "Developer",
                 desc: "Phát triển các dịch vụ API cốt lõi cho nền tảng thương mại điện tử, quản lý đơn hàng và tồn kho.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
                 tasks: [
@@ -105,8 +105,8 @@ const cvData = {
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
-                date: "10/2025 - 11/2025",
-                role: "Back-End Developer",
+                date: "11/2025 - 02/2026",
+                role: "Developer",
                 desc: "Core recruitment management system handling complex data flows between employers and candidates.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -119,8 +119,8 @@ const cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SERVER",
-                date: "08/2025 - 09/2025",
-                role: "Back-End Developer",
+                date: "06/2025 - 09/2025",
+                role: "Developer",
                 desc: "Server-side infrastructure for student records, course registration, and academic score management.",
                 github: "https://github.com/dinhanhhhh/student-management-BE",
                 tasks: [
@@ -133,8 +133,8 @@ const cvData = {
             },
             {
                 name: "E-COMMERCE API SERVICE",
-                date: "04/2025 - 05/2025",
-                role: "Back-End Developer",
+                date: "08/2025 - 09/2025",
+                role: "Developer",
                 desc: "Developed core API services for e-commerce platforms, order fulfillment, and inventory management.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
                 tasks: [

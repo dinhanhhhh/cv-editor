@@ -628,6 +628,9 @@ ul.cv-strengths-list li {
     border: 1px solid #ddd;
     width: 100px; /* Thu hẹp chiều ngang tránh đè CV */
     margin-bottom: 5px;
+    max-height: 280px;
+    overflow-y: auto;
+    scrollbar-width: thin;
 }
 .version-label {
     font-size: 9px;

@@ -29,7 +29,7 @@ const cvData = {
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
-                date: "10/2025 - 11/2025",
+                date: "11/2025 - 02/2026",
                 role: "Developer",
                 desc: "Nền tảng tuyển dụng toàn diện giúp tối ưu hóa quá trình tuyển dụng cho cả nhà tuyển dụng và ứng viên.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
@@ -43,7 +43,7 @@ const cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "08/2025 - 09/2025",
+                date: "06/2025 - 09/2025",
                 role: "Developer",
                 desc: "Hệ thống quản trị full-stack để quản lý hồ sơ sinh viên, đăng ký khóa học và kết quả học tập.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -57,7 +57,7 @@ const cvData = {
             },
             {
                 name: "E-COMMERCE PLATFORM",
-                date: "04/2025 - 05/2025",
+                date: "08/2025 - 09/2025",
                 role: "Developer",
                 desc: "Giải pháp mua sắm trực tuyến mạnh mẽ với danh mục sản phẩm, giỏ hàng và quy trình xử lý đơn hàng.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
@@ -106,7 +106,7 @@ const cvData = {
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
-                date: "10/2025 - 11/2025",
+                date: "11/2025 - 02/2026",
                 role: "Developer",
                 desc: "A recruitment platform streamlining the hiring process for employers and candidates.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
@@ -120,7 +120,7 @@ const cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "08/2025 - 09/2025",
+                date: "06/2025 - 09/2025",
                 role: "Developer",
                 desc: "An administrative system for managing student records and academic performance.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -134,7 +134,7 @@ const cvData = {
             },
             {
                 name: "E-COMMERCE PLATFORM",
-                date: "04/2025 - 05/2025",
+                date: "08/2025 - 09/2025",
                 role: "Developer",
                 desc: "An online shopping solution with product catalogs and order workflows.",
                 github: "https://github.com/dinhanhhhh/ecommerce",

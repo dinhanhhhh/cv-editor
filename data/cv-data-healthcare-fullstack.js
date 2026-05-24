@@ -29,7 +29,7 @@ const cvData = {
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
-                date: "10/2025 - 11/2025",
+                date: "11/2025 - 02/2026",
                 role: "Developer",
                 desc: "Nền tảng quản lý đặt lịch & ứng tuyển toàn diện, xử lý luồng booking giữa nhà tuyển dụng và ứng viên — tương tự mô hình booking phòng khám.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
@@ -44,7 +44,7 @@ const cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "08/2025 - 09/2025",
+                date: "06/2025 - 09/2025",
                 role: "Developer",
                 desc: "Hệ thống quản trị hồ sơ full-stack với dashboard, tương tự mô hình quản lý hồ sơ khách hàng/bệnh nhân trong healthcare.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -58,7 +58,7 @@ const cvData = {
             },
             {
                 name: "E-COMMERCE PLATFORM",
-                date: "04/2025 - 05/2025",
+                date: "08/2025 - 09/2025",
                 role: "Developer",
                 desc: "Giải pháp thương mại điện tử với hệ thống automation quản lý kho và đơn hàng.",
                 github: "https://github.com/dinhanhhhh/ecommerce",
@@ -106,7 +106,7 @@ const cvData = {
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
-                date: "10/2025 - 11/2025",
+                date: "11/2025 - 02/2026",
                 role: "Developer",
                 desc: "A comprehensive booking & application platform, handling complex flows between employers and candidates — similar to healthcare booking models.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
@@ -121,7 +121,7 @@ const cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "08/2025 - 09/2025",
+                date: "06/2025 - 09/2025",
                 role: "Developer",
                 desc: "Full-stack administrative system with a dashboard, similar to electronic medical record (EMR) management systems.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -135,7 +135,7 @@ const cvData = {
             },
             {
                 name: "E-COMMERCE PLATFORM",
-                date: "04/2025 - 05/2025",
+                date: "08/2025 - 09/2025",
                 role: "Developer",
                 desc: "E-commerce solution with intelligent automation for inventory and order management.",
                 github: "https://github.com/dinhanhhhh/ecommerce",

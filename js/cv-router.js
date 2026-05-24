@@ -11,8 +11,13 @@
         'frontend': { data: 'data/cv-data-fe.js', emoji: '🎨', id: 'ver-frontend' },
         'nestjs': { data: 'data/cv-data-nestjs.js', emoji: '🏥', id: 'ver-nestjs' },
         'healthcare': { data: 'data/cv-data-healthcare-fullstack.js', emoji: '🦷', id: 'ver-healthcare' },
+        'ai': { data: 'data/cv-data-ai.js', emoji: '🤖', id: 'ver-ai' },
+        'ai-webdev': { data: 'data/cv-data-ai-webdev.js', emoji: '🌐', id: 'ver-ai-webdev' },
         'agrizen': { data: 'data/cv-data-agrizen-fullstack.js', emoji: '🌱', id: 'ver-agrizen' },
         'opswat': { data: 'data/cv-data-opswat.js', emoji: '🛡️', id: 'ver-opswat' },
+        'catspeak': { data: 'data/cv-data-catspeak.js', emoji: '🐈', id: 'ver-catspeak' },
+        'techsupport': { data: 'data/cv-data-techsupport.js', emoji: '🛠️', id: 'ver-techsupport' },
+        'itdev': { data: 'data/cv-data-itdev.js', emoji: '💻', id: 'ver-itdev' },
         'default': { data: 'data/cv-data-fullstack.js', emoji: '💼', id: 'ver-default' }
     };
 
@@ -21,7 +26,13 @@
     // Chờ DOM load xong để highlight menu
     window.addEventListener('DOMContentLoaded', () => {
         const btn = document.getElementById(ver.id);
-        if (btn) btn.classList.add('active');
+        if (btn) {
+            btn.classList.add('active');
+            // Tự động cuộn phần tử active vào giữa menu để tăng trải nghiệm tiện ích
+            setTimeout(() => {
+                btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+        }
     });
 
     // Cập nhật Favicon
