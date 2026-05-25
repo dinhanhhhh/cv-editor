@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - AI-first Web Developer (Fresher)
-// Target: AgileOps - [JOB-41]
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
     vi: {
@@ -20,11 +22,7 @@ const cvData = {
             skills: "KỸ NĂNG"
         },
         objective: "Fresher Web Developer với tư duy AI-first và nền tảng vững chắc về HTML, CSS, JavaScript, React.js và Next.js. Có kinh nghiệm xây dựng giao diện web responsive, tích hợp API và phối hợp frontend-backend. Chủ động ứng dụng AI (Gemini, ChatGPT, GitHub Copilot) vào quy trình phát triển để tăng tốc độ và chất lượng. Sẵn sàng học nhanh, thích nghi tốt và làm việc hiệu quả trong môi trường năng động.",
-        education: {
-            school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-            date: "2020 - 2024",
-            detail: "Cử nhân Khoa học Máy tính"
-        },
+        education: cvGlobalEdu.vi,
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
@@ -95,11 +93,7 @@ const cvData = {
             skills: "SKILLS"
         },
         objective: "Fresher Web Developer with an AI-first mindset and solid skills in HTML, CSS, JavaScript, React.js, and Next.js. Experienced in building responsive web interfaces, integrating APIs, and collaborating across frontend and backend. Actively leverages AI tools (Gemini, ChatGPT, GitHub Copilot) and prompt engineering to accelerate development and improve code quality. Quick learner, highly adaptable, and thrives in fast-paced environments.",
-        education: {
-            school: "HO CHI MINH CITY OPEN UNIVERSITY",
-            date: "2020 - 2024",
-            detail: "Bachelor of Computer Science"
-        },
+        education: cvGlobalEdu.en,
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",

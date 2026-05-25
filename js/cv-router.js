@@ -18,6 +18,7 @@
         'catspeak': { data: 'data/cv-data-catspeak.js', emoji: '🐈', id: 'ver-catspeak' },
         'techsupport': { data: 'data/cv-data-techsupport.js', emoji: '🛠️', id: 'ver-techsupport' },
         'itdev': { data: 'data/cv-data-itdev.js', emoji: '💻', id: 'ver-itdev' },
+        'kitgroup': { data: 'data/cv-data-kitgroup.js', emoji: '🏢', id: 'ver-kitgroup' },
         'default': { data: 'data/cv-data-fullstack.js', emoji: '💼', id: 'ver-default' }
     };
 
@@ -51,8 +52,9 @@
         });
     }
 
-    // Nạp data trước, sau đó mới khởi tạo logic render CV.
-    loadScript(ver.data)
+    // Nạp global data trước, sau đó nạp data version, cuối cùng mới khởi tạo logic render CV.
+    loadScript('data/cv-global.js')
+        .then(() => loadScript(ver.data))
         .then(() => loadScript('js/cv-renderer.js'))
         .catch((error) => {
             console.error(error);

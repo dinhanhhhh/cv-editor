@@ -1,6 +1,9 @@
 // ===================================
-// CV DATA - Nội dung CV Frontend (Optimized for INTERN)
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
   vi: {
@@ -77,11 +80,7 @@ const cvData = {
       "Khả năng tự học nhanh và thích nghi tốt với công nghệ mới.",
       "Có kinh nghiệm deploy và vận hành ứng dụng thực tế.",
     ],
-    education: {
-      school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-      date: "10/2020 - 12/2024",
-      detail: "Chuyên ngành: Khoa học Máy tính",
-    },
+    education: cvGlobalEdu.vi,
     btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_FE_Intern_VI",
   },
@@ -159,11 +158,7 @@ const cvData = {
       "Fast learner and adaptable to new technologies.",
       "Experienced in deploying and operating real-world applications.",
     ],
-    education: {
-      school: "HO CHI MINH CITY OPEN UNIVERSITY",
-      date: "10/2020 - 12/2024",
-      detail: "Major: Computer Science",
-    },
+    education: cvGlobalEdu.en,
     btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_FE_Intern_EN",
   },

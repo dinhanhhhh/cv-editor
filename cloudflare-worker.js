@@ -145,7 +145,7 @@ export default {
             "👉 /preview #opswat { data... }",
             "👉 #opswat { data... }",
             "",
-            "Hashtag hop le: #opswat, #agrizen, #backend, #frontend, #nestjs, #healthcare",
+            "Hashtag hop le: #opswat, #agrizen, #backend, #frontend, #nestjs, #healthcare, #kitgroup",
           ].join("\n");
           await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, helpText);
           return new Response("OK", { status: 200 });
@@ -209,6 +209,7 @@ export default {
         else if (fileName.includes("fe") || fileName.includes("frontend")) hashtag = "#frontend";
         else if (fileName.includes("nestjs")) hashtag = "#nestjs";
         else if (fileName.includes("healthcare")) hashtag = "#healthcare";
+        else if (fileName.includes("kitgroup")) hashtag = "#kitgroup";
       }
 
       // Mac dinh neu khong co hashtag
@@ -220,6 +221,7 @@ export default {
         "#nestjs": "data/cv-data-nestjs.js",
         "#healthcare": "data/cv-data-healthcare-fullstack.js",
         "#opswat": "data/cv-data-opswat.js",
+        "#kitgroup": "data/cv-data-kitgroup.js",
       };
       if (fileMap[hashtag]) targetFile = fileMap[hashtag];
 
@@ -494,6 +496,7 @@ async function handleAITailor(env, chatId, bodyText) {
     "#nestjs": "data/cv-data-nestjs.js",
     "#healthcare": "data/cv-data-healthcare-fullstack.js",
     "#opswat": "data/cv-data-opswat.js",
+    "#kitgroup": "data/cv-data-kitgroup.js",
   };
   if (fileMap[hashtag]) targetFile = fileMap[hashtag];
 

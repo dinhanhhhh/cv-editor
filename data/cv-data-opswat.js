@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - OPSWAT SPECIALIZED VERSION
-// Focus: TypeScript, Microservices Mindset, Testing, AI Workflow
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
   vi: {
@@ -29,11 +31,7 @@ const cvData = {
     },
     objective:
       "Fresher Developer đam mê xây dựng hệ thống backend hiệu năng cao với Node.js và TypeScript. Có tư duy về kiến trúc mô-đun và lập trình hướng sự kiện (Event-driven). Thành thạo việc sử dụng AI tools (Cursor, Claude) để tối ưu hóa quy trình phát triển mã nguồn và đảm bảo chất lượng code. Mong muốn đóng góp vào đội ngũ MDaaS tại OPSWAT.",
-    education: {
-      school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-      date: "2020 - 2024",
-      detail: "Cử nhân Khoa học Máy tính",
-    },
+    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "JOB PORTAL PLATFORM (Node.js & TS)",
@@ -134,11 +132,7 @@ const cvData = {
     },
     objective:
       "Passionate Fresher Developer focused on building high-performance backend systems with Node.js and TypeScript. Strong interest in Modular Architecture and Event-driven systems. Proficient in leveraging AI tools (Cursor, Claude) to accelerate development cycles and ensure code quality. Eager to contribute to the MDaaS team at OPSWAT.",
-    education: {
-      school: "HO CHI MINH CITY OPEN UNIVERSITY",
-      date: "2020 - 2024",
-      detail: "Bachelor of Computer Science",
-    },
+    education: cvGlobalEdu.en,
     projects: [
       {
         name: "JOB PORTAL PLATFORM (Node.js & TS)",

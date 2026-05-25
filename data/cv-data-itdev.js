@@ -1,6 +1,9 @@
 // ===================================
-// CV Data - IT Developer Intern Profile
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
   vi: {
@@ -29,11 +32,7 @@ const cvData = {
     },
     objective:
       "Sinh viên tốt nghiệp ngành Khoa học Máy tính có tư duy logic tốt, đam mê công nghệ và tinh thần chủ động cao. Thành thạo HTML, CSS, JavaScript, ReactJS để phát triển website và landing page chuẩn responsive. Có thói quen kết hợp các công cụ thiết kế (Figma, Canva) và trợ lý AI thông minh (Lovable AI, Claude, Copilot) để tăng tốc độ triển khai giao diện tối ưu. Nắm vững nền tảng cơ bản về cơ sở dữ liệu (MySQL, MongoDB) và Git. Sẵn sàng thực tập tối thiểu 3-6 tháng, làm việc nhóm tốt để đồng hành cùng các sản phẩm phần mềm của công ty.",
-    education: {
-      school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-      date: "2020 - 2024",
-      detail: "Cử nhân Khoa học Khoa học Máy tính",
-    },
+    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "NỀN TẢNG TUYỂN DỤNG & KẾT NỐI (JOB PORTAL)",
@@ -115,11 +114,7 @@ const cvData = {
     },
     objective:
       "Computer Science graduate with a strong logical mindset, highly proactive, and passionate about software development. Proficient in HTML, CSS, JavaScript, and ReactJS for building fully responsive websites and landing pages. Experienced in combining design tools (Figma, Canva) with smart AI assistants (Lovable AI, Claude, Copilot) to accelerate high-quality UI delivery. Strong foundations in databases (MySQL, MongoDB) and Git. Ready for a 3-to-6-month internship, eager to learn and contribute to the company's software products.",
-    education: {
-      school: "HO CHI MINH CITY OPEN UNIVERSITY",
-      date: "2020 - 2024",
-      detail: "Bachelor of Computer Science",
-    },
+    education: cvGlobalEdu.en,
     projects: [
       {
         name: "JOB PORTAL & CONNECTIVITY PLATFORM",

@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - Technical Support Engineer (SaaS / L2-L3)
-// Optimized for TMT Solutions (TPOS, TDental...)
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
   vi: {
@@ -29,12 +31,8 @@ const cvData = {
       strengths: "ĐIỂM MẠNH & TƯ DUY",
     },
     objective:
-      "Cử nhân Khoa học Máy tính với nền tảng lập trình tốt (HTML/CSS, JS/TS, và tư duy OOP). Đã từng tự tay phát triển các dự án Full-stack nên nắm rõ cách thức dữ liệu trao đổi giữa Frontend, API và Database. Có thói quen sử dụng Chrome DevTools và Postman để tự kiểm tra lỗi (debug) giao diện và API trong quá trình code. Mong muốn ứng tuyển vị trí Technical Support để tận dụng thế mạnh đọc hiểu code, tư duy logic phân tích lỗi hệ thống và mong muốn được hỗ trợ người dùng giải quyết các sự cố kỹ thuật thực tế.",
-    education: {
-      school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-      date: "2020 - 2024",
-      detail: "Cử nhân Khoa học Máy tính",
-    },
+      "Khoa học Máy tính với nền tảng lập trình tốt (HTML/CSS, JS/TS, và tư duy OOP). Đã từng tự tay phát triển các dự án Full-stack nên nắm rõ cách thức dữ liệu trao đổi giữa Frontend, API và Database. Có thói quen sử dụng Chrome DevTools và Postman để tự kiểm tra lỗi (debug) giao diện và API trong quá trình code. Mong muốn ứng tuyển vị trí Technical Support để tận dụng thế mạnh đọc hiểu code, tư duy logic phân tích lỗi hệ thống và mong muốn được hỗ trợ người dùng giải quyết các sự cố kỹ thuật thực tế.",
+    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "NỀN TẢNG TUYỂN DỤNG (JOB PORTAL)",
@@ -116,11 +114,7 @@ const cvData = {
     },
     objective:
       "Computer Science graduate with a solid programming foundation (HTML/CSS, JS/TS, and OOP principles). Having built full-stack projects, I understand how data flows between Frontend, APIs, and Backend. Proficient in using Chrome DevTools and Postman to debug interfaces and inspect API responses during development. Eager to apply my coding background to identify technical bugs, analyze system behaviors, and write clear, easy-to-follow technical guides.",
-    education: {
-      school: "HO CHI MINH CITY OPEN UNIVERSITY",
-      date: "2020 - 2024",
-      detail: "Bachelor of Computer Science",
-    },
+    education: cvGlobalEdu.en,
     projects: [
       {
         name: "JOB PORTAL PLATFORM",

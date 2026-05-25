@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - Nội dung CV song ngữ (BACK-END DEVELOPER)
-// Chỉnh sửa file này để cập nhật nội dung CV.
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
     vi: {
@@ -20,11 +22,7 @@ const cvData = {
             skills: "KỸ NĂNG CHUYÊN MÔN"
         },
         objective: "Lập trình viên Back-End chuyên về Node.js (Express, Nest.js) và TypeScript, với tư duy hệ thống vững chắc. Có kinh nghiệm thiết kế RESTful API có khả năng mở rộng, tối ưu cơ sở dữ liệu (MySQL, MongoDB, PostgreSQL) và xây dựng hệ thống xác thực bảo mật cao (JWT, RBAC, OAuth2). Thành thạo triển khai middleware, xử lý tác vụ nền và quản lý mã nguồn với Git. Luôn ưu tiên viết code sạch, dễ bảo trì, tối ưu hiệu suất server và hoàn thành dự án đúng thời hạn.",
-        education: {
-            school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-            date: "2020 - 2024",
-            detail: "Cử nhân Khoa học Máy tính"
-        },
+        education: cvGlobalEdu.vi,
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
@@ -96,11 +94,7 @@ const cvData = {
             skills: "TECHNICAL SKILLS"
         },
         objective: "Back-End Developer specializing in Node.js (Express, Nest.js) and TypeScript, with a strong systems mindset. Experienced in designing scalable RESTful APIs, optimizing database systems (MySQL, MongoDB, PostgreSQL), and implementing secure authentication flows (JWT, RBAC, OAuth2). Proficient in middleware development, background task processing, and version control with Git. Committed to writing clean, maintainable code, optimizing server performance, and delivering high-quality solutions on time.",
-        education: {
-            school: "HO CHI MINH CITY OPEN UNIVERSITY",
-            date: "2020 - 2024",
-            detail: "Bachelor of Computer Science"
-        },
+        education: cvGlobalEdu.en,
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",

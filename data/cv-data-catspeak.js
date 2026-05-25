@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - Nội dung CV chuyên biệt (FRONTEND DEVELOPER INTERN - REACTJS)
-// Phiên bản tối ưu hóa cho startup EdTech CatSpeak
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
   vi: {
@@ -30,11 +32,7 @@ const cvData = {
     },
     objective:
       "Lập trình viên Frontend chuyên ReactJS và Next.js với tư duy AI-first và sự hiểu biết sâu sắc về UI/UX. Luôn chú trọng thiết kế giao diện responsive mượt mà và tối ưu hóa trải nghiệm người dùng (UX flow, micro-interactions). Có kinh nghiệm thực tế phát triển các dự án cá nhân và sản phẩm full-stack, tích hợp các tính năng realtime (WebSocket) và API phức tạp. Chủ động ứng dụng các công cụ AI (Gemini, Claude, GitHub Copilot) để tăng tốc độ phát triển và tối ưu hóa chất lượng code. Sẵn sàng học hỏi, làm việc nhóm tốt và mong muốn gắn bó lâu dài để đồng hành cùng CatSpeak phát triển các giải pháp EdTech đột phá.",
-    education: {
-      school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-      date: "2020 - 2024",
-      detail: "Cử nhân Khoa học Máy tính",
-    },
+    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "NỀN TẢNG TUYỂN DỤNG & KẾT NỐI (JOB PORTAL)",
@@ -124,11 +122,7 @@ const cvData = {
     },
     objective:
       "Frontend Developer specializing in ReactJS and Next.js with an AI-first mindset and a strong understanding of UI/UX. Passionate about building seamless responsive interfaces and optimizing user experiences (UX flows, micro-interactions). Experienced in developing full-stack personal projects and applications with real-time (WebSocket) features and complex API integrations. Actively leverages AI tools (Gemini, Claude, GitHub Copilot) to accelerate development speed and elevate code quality. A proactive team player, fast learner, and eager to contribute long-term to CatSpeak's growth in the EdTech space.",
-    education: {
-      school: "HO CHI MINH CITY OPEN UNIVERSITY",
-      date: "2020 - 2024",
-      detail: "Bachelor of Computer Science",
-    },
+    education: cvGlobalEdu.en,
     projects: [
       {
         name: "JOB PORTAL & CONNECTIVITY PLATFORM",

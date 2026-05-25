@@ -1,8 +1,9 @@
 // ===================================
-// CV DATA - Nội dung CV song ngữ
-// Chỉnh sửa file này để cập nhật nội dung CV.
-// Không cần đụng vào cv-renderer.js hay cv-layout.css.
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
     vi: {
@@ -21,11 +22,7 @@ const cvData = {
             skills: "KỸ NĂNG"
         },
         objective: "Thực tập sinh Full-Stack Developer với nền tảng React.js, Next.js, Node.js và TypeScript. Có kinh nghiệm xây dựng ứng dụng web full-stack, tích hợp RESTful API, làm việc với cơ sở dữ liệu và triển khai tính năng ở cả frontend lẫn backend. Quan tâm đến automation, scripting và xử lý dữ liệu; luôn ưu tiên viết code sạch, dễ bảo trì. Sẵn sàng làm việc full-time, học nhanh và thích nghi tốt với nhiều nhiệm vụ IT khác nhau.",
-        education: {
-            school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-            date: "2020 - 2024",
-            detail: "Cử nhân Khoa học Máy tính"
-        },
+        education: cvGlobalEdu.vi,
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",
@@ -98,11 +95,7 @@ const cvData = {
             skills: "SKILLS"
         },
         objective: "Full-Stack Developer Intern with hands-on experience in React.js, Next.js, Node.js, and TypeScript. Experienced in building full-stack web applications, integrating RESTful APIs, working with databases, and delivering features across both frontend and backend. Interested in automation, scripting, and data-related tasks, with a strong focus on clean, maintainable code. Available full-time, eager to learn, and adaptable to various IT responsibilities.",
-        education: {
-            school: "HO CHI MINH CITY OPEN UNIVERSITY",
-            date: "2020 - 2024",
-            detail: "Bachelor of Computer Science"
-        },
+        education: cvGlobalEdu.en,
         projects: [
             {
                 name: "JOB PORTAL PLATFORM",

@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - Agentic AI Engineer (Fresher)
-// Target: AgileOps - [JOB-42]
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
   vi: {
@@ -29,11 +31,7 @@ const cvData = {
     },
     objective:
       "Fresher với nền tảng Khoa học Máy tính và đam mê mạnh mẽ với AI, LLMs và Agentic AI. Có kinh nghiệm thực tế xây dựng hệ thống backend tự động hóa, tích hợp API và xử lý dữ liệu. Thành thạo Python và JavaScript, có khả năng tiếp thu nhanh các công nghệ mới như Generative AI, prompt engineering và các mô hình AI tiên tiến. Sẵn sàng làm việc full-time trong môi trường năng động và không ngừng học hỏi.",
-    education: {
-      school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-      date: "2020 - 2024",
-      detail: "Cử nhân Khoa học Máy tính",
-    },
+    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "JOB PORTAL PLATFORM",
@@ -135,11 +133,7 @@ const cvData = {
     },
     objective:
       "Computer Science graduate with a strong passion for AI, Large Language Models, and Agentic AI systems. Hands-on experience building automated backend systems, integrating APIs, and processing data at scale. Proficient in Python and JavaScript with a rapid learning ability for emerging AI technologies including Generative AI, prompt engineering, and advanced AI models. Eager to grow in a fast-paced, AI-driven environment.",
-    education: {
-      school: "HO CHI MINH CITY OPEN UNIVERSITY",
-      date: "2020 - 2024",
-      detail: "Bachelor of Computer Science",
-    },
+    education: cvGlobalEdu.en,
     projects: [
       {
         name: "JOB PORTAL PLATFORM",

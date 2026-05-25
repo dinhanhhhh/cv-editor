@@ -3,17 +3,34 @@
 Một ứng dụng CV tĩnh được xây bằng HTML, CSS và JavaScript thuần, tập trung vào một nhu cầu rất thực tế: tạo nhiều phiên bản CV từ cùng một codebase, chuyển nhanh theo vị trí ứng tuyển, xem trước bố cục A4 và xuất PDF trực tiếp từ trình duyệt.
 
 ## Demo Modes
-- `index.html`: CV chung
-- `index.html?type=frontend`: CV Frontend
-- `index.html?type=backend`: CV Backend
+
+Chuyển đổi giữa các phiên bản CV bằng query string `?type=`:
+
+| Query | Vị trí | Emoji |
+|---|---|---|
+| `index.html` (mặc định) | Fullstack Developer | 💼 |
+| `?type=frontend` | Frontend Developer | 🎨 |
+| `?type=backend` | Backend Developer | ⚙️ |
+| `?type=nestjs` | NestJS Developer | 🏥 |
+| `?type=healthcare` | Healthcare Fullstack | 🦷 |
+| `?type=ai` | AI Engineer | 🤖 |
+| `?type=ai-webdev` | AI Web Developer | 🌐 |
+| `?type=agrizen` | Agrizen Fullstack | 🌱 |
+| `?type=opswat` | OPSWAT Engineer | 🛡️ |
+| `?type=catspeak` | CatSpeak Developer | 🐈 |
+| `?type=techsupport` | Tech Support | 🛠️ |
+| `?type=itdev` | IT Developer | 💻 |
+| `?type=kitgroup` | KIT Group Fullstack Intern | 🏢 |
 
 ## Highlights
-- Dùng query string để route giữa nhiều phiên bản CV mà không cần framework.
+- Dùng query string để route giữa **12+ phiên bản CV** mà không cần framework.
 - Tách riêng `data`, `router` và `render logic` để dễ bảo trì.
 - Hỗ trợ song ngữ Việt/Anh.
+- **Global Education Config**: Thông tin học vấn được quản lý tập trung trong `cv-global.js`, cập nhật một nơi — đồng bộ toàn bộ CV.
 - Có `Magic Fit`, `A4 Preview` và tối ưu CSS cho chế độ in PDF.
-- Tự đổi favicon theo từng phiên bản CV.
-- Giữ lại các file HTML cũ để tham chiếu và so sánh phiên bản.
+- Tự đổi favicon (emoji) theo từng phiên bản CV.
+- Có `cv-data-template.js` làm boilerplate để tạo phiên bản CV mới nhanh chóng.
+- Giữ lại các file HTML legacy để tham chiếu và so sánh phiên bản.
 
 ## Tech Stack
 - HTML5
@@ -24,26 +41,35 @@ Một ứng dụng CV tĩnh được xây bằng HTML, CSS và JavaScript thuầ
 ## Project Structure
 ```text
 ├── css/
-│   └── cv-layout.css
+│   └── cv-layout.css          # Toàn bộ styling + print-optimized CSS
 ├── data/
-│   ├── cv-data-fullstack.js
-│   ├── cv-data-fe.js
-│   └── cv-data-be.js
+│   ├── cv-global.js            # Cấu hình dùng chung (học vấn, ...)
+│   ├── cv-data-fullstack.js    # Dữ liệu CV Fullstack (mặc định)
+│   ├── cv-data-fe.js           # Dữ liệu CV Frontend
+│   ├── cv-data-be.js           # Dữ liệu CV Backend
+│   ├── cv-data-nestjs.js       # Dữ liệu CV NestJS
+│   ├── cv-data-kitgroup.js     # Dữ liệu CV KIT Group
+│   ├── cv-data-*.js            # ... và các phiên bản khác
+│   └── cv-data-template.js     # Boilerplate để tạo phiên bản mới
 ├── js/
-│   ├── cv-router.js
-│   └── cv-renderer.js
-├── index.html
-├── truong-dinh-anh-fullstack.html
-├── truong-dinh-anh-frontend.html
-├── truong-dinh-anh-backend.html
+│   ├── cv-router.js            # Đọc query param, nạp đúng file data
+│   └── cv-renderer.js          # Render CV từ dữ liệu đã nạp
+├── index.html                  # Entry chính
+├── INTERVIEW_PREP.md           # Tài liệu ôn tập phỏng vấn
+├── truong-dinh-anh-*.html      # Các file HTML legacy
 └── README.md
 ```
 
 ## How It Works
 1. `index.html` là entry chính.
-2. `js/cv-router.js` đọc query param `type` để chọn file data phù hợp.
-3. File data được nạp trước, sau đó `js/cv-renderer.js` render CV tương ứng.
+2. `js/cv-router.js` đọc query param `type` để xác định phiên bản CV cần hiển thị.
+3. Nạp `data/cv-global.js` (cấu hình dùng chung) trước → nạp file data tương ứng → cuối cùng nạp `js/cv-renderer.js` để render CV.
 4. Người dùng có thể đổi ngôn ngữ, chỉnh cỡ chữ, bật A4 preview và in PDF.
+
+## Tạo Phiên Bản CV Mới
+1. Copy `data/cv-data-template.js` → đặt tên mới: `cv-data-[tên-phiên-bản].js`
+2. Điền thông tin vào các trường trong file mới.
+3. Khai báo phiên bản mới trong `js/cv-router.js` (thêm vào object `versions`).
 
 ## Run Locally
 - Mở `index.html` trực tiếp trong trình duyệt.
@@ -54,5 +80,6 @@ Một ứng dụng CV tĩnh được xây bằng HTML, CSS và JavaScript thuầ
 
 ## Notes
 - `index.html` là luồng chạy chính hiện tại.
-- Ba file HTML cũ vẫn được giữ lại để tham chiếu lịch sử và các biến thể trước đó.
+- Các file HTML legacy (`truong-dinh-anh-*.html`) vẫn được giữ lại để tham chiếu lịch sử.
+- Thông tin học vấn chung được quản lý tập trung trong `data/cv-global.js` — chỉ cần sửa một nơi là đồng bộ toàn bộ CV.
 - Nếu muốn phát triển tiếp, các hướng hợp lý là chuyển `cvData` sang schema chặt hơn, thêm editor nhập liệu, hoặc sinh PDF ổn định hơn bằng pipeline riêng.

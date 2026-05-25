@@ -1,7 +1,9 @@
 // ===================================
-// CV DATA - Nội dung CV song ngữ (NODE.JS / NESTJS DEVELOPER)
-// Phiên bản chuyên biệt cho vị trí NodeJS/NestJS tại PKH (medpro.vn)
-// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
 
 const cvData = {
     vi: {
@@ -20,11 +22,7 @@ const cvData = {
             skills: "KỸ NĂNG CHUYÊN MÔN"
         },
         objective: "Lập trình viên Node.js chuyên về Express và NestJS, sử dụng TypeScript làm ngôn ngữ chính. Có kinh nghiệm thiết kế RESTful API có khả năng mở rộng theo kiến trúc Module/Controller/Service, tối ưu cơ sở dữ liệu (MongoDB, MySQL, PostgreSQL) và xây dựng hệ thống xác thực bảo mật cao (JWT, RBAC, OAuth2). Quan tâm đến lĩnh vực Y tế số (HealthTech) và mong muốn đóng góp vào các sản phẩm có tác động xã hội tích cực. Luôn ưu tiên viết code sạch, dễ bảo trì và tối ưu hiệu suất server.",
-        education: {
-            school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
-            date: "2020 - 2024",
-            detail: "Cử nhân Khoa học Máy tính"
-        },
+        education: cvGlobalEdu.vi,
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
@@ -97,11 +95,7 @@ const cvData = {
             skills: "TECHNICAL SKILLS"
         },
         objective: "Node.js Developer specializing in Express and NestJS with TypeScript as the primary language. Experienced in designing scalable RESTful APIs using Module/Controller/Service architecture, optimizing database systems (MongoDB, MySQL, PostgreSQL), and implementing secure authentication flows (JWT, RBAC, OAuth2). Passionate about HealthTech and eager to contribute to products with positive social impact. Committed to writing clean, maintainable code and optimizing server performance.",
-        education: {
-            school: "HO CHI MINH CITY OPEN UNIVERSITY",
-            date: "2020 - 2024",
-            detail: "Bachelor of Computer Science"
-        },
+        education: cvGlobalEdu.en,
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
