@@ -1,158 +1,166 @@
 // =========================================================================
-// CV DATA TEMPLATE - Mẫu Boilerplate Dữ liệu để tạo phiên bản CV mới
-// Hướng dẫn sử dụng:
-// 1. Sao chép (copy) file này, đặt tên mới dạng: cv-data-[tên-phiên-bản].js
-// 2. Điền thông tin của bạn vào các trường tương ứng bên dưới.
-// 3. Khai báo (register) phiên bản mới này trong file `js/cv-router.js`.
+// MASTER CV DATA
+// Nguon CV goc de:
+// 1. Xem truc tiep qua `cv-template.html`
+// 2. Lam du lieu dau vao cho Cloudflare Worker + AI tailor theo JD
+// 3. Tao them cac phien ban CV chuyen biet khi can
 // =========================================================================
 
 const cvData = {
     vi: {
-        // Tên ứng viên hiển thị trên đầu trang
-        name: "[HỌ VÀ TÊN CỦA BẠN]",
-        
-        // Chức danh ứng tuyển (Ví dụ: Frontend Developer Intern)
-        title: "[Chức danh ứng tuyển]",
-        
-        // Thông tin liên hệ (Hỗ trợ các icon: phone, email, github, address, linkedin)
+        name: "TRƯƠNG ĐÌNH ANH",
+        title: "Software Developer Intern",
         contact: [
-            { icon: "phone", text: "[Số điện thoại]" },
-            { icon: "email", text: "[Địa chỉ Email]", link: "mailto:[Địa chỉ Email]" },
-            { icon: "github", text: "[Link GitHub cá nhân]", link: "[URL GitHub]" },
-            { icon: "address", text: "[Địa chỉ nơi ở]" }
+            { icon: "phone", text: "0349421079" },
+            { icon: "email", text: "tdinhanh.it@gmail.com", link: "mailto:tdinhanh.it@gmail.com" },
+            { icon: "github", text: "github.com/dinhanhhhh", link: "https://github.com/dinhanhhhh" },
+            { icon: "address", text: "Thủ Đức, TP. Hồ Chí Minh" }
         ],
-        
-        // Tiêu đề hiển thị cho các phần lớn trong CV
         sections: {
             objective: "TÓM TẮT CHUYÊN MÔN",
             education: "HỌC VẤN",
-            projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
-            skills: "KỸ NĂNG",
-            strengths: "ĐIỂM MẠNH"
+            projects: "DỰ ÁN TIÊU BIỂU",
+            skills: "KỸ NĂNG"
         },
-        
-        // Đoạn giới thiệu bản thân / Mục tiêu nghề nghiệp
-        objective: "[Đoạn giới thiệu bản thân ngắn gọn từ 3-5 câu, nhấn mạnh điểm mạnh chính và mong muốn cống hiến cho công ty phù hợp với vị trí ứng tuyển.]",
-        
-        // Học vấn
+        objective: "Thực tập sinh Software Developer với nền tảng React.js, Next.js, Node.js, Express và TypeScript, có kinh nghiệm xây dựng ứng dụng web full-stack, tích hợp RESTful API và xử lý dữ liệu ở cả frontend lẫn backend. Chủ động ứng dụng AI tools như Gemini, ChatGPT và GitHub Copilot để tăng tốc phân tích, viết code, kiểm thử và tài liệu hóa. Quan tâm đến automation, clean architecture và khả năng duy trì sản phẩm thực tế. Sẵn sàng làm việc full-time, học nhanh và thích nghi tốt với nhiều domain công nghệ khác nhau.",
         education: {
-            school: "[TÊN TRƯỜNG ĐẠI HỌC / TRUNG TÂM ĐÀO TẠO]",
-            date: "[Thời gian học, ví dụ: 2020 - 2024]",
-            detail: "[Chuyên ngành / Tên bằng cấp / GPA nếu cao]"
+            school: "ĐẠI HỌC MỞ TP. HỒ CHÍ MINH",
+            date: "2020 - 2024",
+            detail: "Khoa học Máy tính"
         },
-        
-        // Danh sách dự án nổi bật (tối đa 2-3 dự án)
+        projectDisplayLimit: 2,
         projects: [
             {
-                name: "[TÊN DỰ ÁN 1]",
-                date: "[Thời gian thực hiện, ví dụ: 11/2025 - 02/2026]",
-                role: "[Vai trò của bạn, ví dụ: Developer / Leader]",
-                desc: "[Mô tả ngắn gọn về chức năng cốt lõi của dự án và giải pháp nó mang lại.]",
-                github: "[Link repo github của dự án]",
+                name: "JOB PORTAL PLATFORM",
+                date: "11/2025 - 02/2026",
+                role: "Developer",
+                desc: "Nền tảng tuyển dụng full-stack hỗ trợ đăng tin, nộp hồ sơ, quản lý người dùng và xử lý quy trình ứng tuyển cho nhà tuyển dụng và ứng viên.",
+                github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
-                    "[Nhiệm vụ 1: Bạn đã thiết kế/xây dựng tính năng gì? Giải quyết thế nào?]",
-                    "[Nhiệm vụ 2: Cách bạn xử lý UI/UX hoặc tích hợp API?]",
-                    "[Nhiệm vụ 3: Cách tối ưu hiệu năng hoặc quản lý code, làm việc nhóm?]"
+                    "Phát triển hơn 20 RESTful API endpoints bằng Node.js và Express cho các nghiệp vụ quản lý việc làm, hồ sơ ứng tuyển và người dùng.",
+                    "Tích hợp frontend Next.js với backend services cho các luồng đăng nhập, nộp hồ sơ, cập nhật profile và phân quyền truy cập.",
+                    "Triển khai xác thực JWT với HttpOnly cookies, RBAC và refresh token flow để bảo vệ các thao tác nhạy cảm.",
+                    "Tối ưu truy vấn MongoDB và cấu trúc xử lý dữ liệu để giúp thời gian phản hồi API xuống dưới 300ms ở các luồng chính."
                 ],
-                tech: "[Danh sách công nghệ sử dụng, ví dụ: Next.js, React, Tailwind CSS, Git]"
+                tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS"
             },
             {
-                name: "[TÊN DỰ ÁN 2]",
-                date: "[Thời gian thực hiện]",
-                role: "[Vai trò]",
-                desc: "[Mô tả ngắn gọn dự án]",
-                github: "[Link repo github]",
+                name: "STUDENT MANAGEMENT SYSTEM",
+                date: "06/2025 - 09/2025",
+                role: "Developer",
+                desc: "Hệ thống quản trị full-stack phục vụ quản lý hồ sơ sinh viên, đăng ký khóa học, kết quả học tập và dashboard quan sát dữ liệu cho admin.",
+                github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
                 tasks: [
-                    "[Nhiệm vụ 1]",
-                    "[Nhiệm vụ 2]",
-                    "[Nhiệm vụ 3]"
+                    "Xây dựng backend theo cấu trúc module với Node.js và Express để tách rõ business logic, routing và middleware phục vụ khả năng mở rộng.",
+                    "Tích hợp Swagger để tài liệu hóa API, hỗ trợ test nhanh và giảm thời gian handoff giữa frontend, backend và QA.",
+                    "Phát triển dashboard quản trị responsive bằng Next.js và Tailwind CSS với các thao tác CRUD và giao tiếp dữ liệu thời gian thực.",
+                    "Áp dụng access token và refresh token cho luồng xác thực, giúp hệ thống vận hành ổn định và dễ bảo trì hơn."
                 ],
-                tech: "[Công nghệ sử dụng]"
+                tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger"
+            },
+            {
+                name: "E-COMMERCE PLATFORM",
+                date: "08/2025 - 09/2025",
+                role: "Developer",
+                desc: "Ứng dụng thương mại điện tử cho phép quản lý sản phẩm, giỏ hàng, checkout và quy trình xử lý đơn hàng cho người dùng và admin.",
+                github: "https://github.com/dinhanhhhh/ecommerce",
+                tasks: [
+                    "Phát triển API cho quản lý sản phẩm, tồn kho và đơn hàng bằng Node.js và Express, đảm bảo dữ liệu được xử lý nhất quán.",
+                    "Tích hợp API vào frontend React để đồng bộ dữ liệu cho giỏ hàng, checkout và các trang quản lý theo vai trò người dùng.",
+                    "Triển khai phân quyền User/Admin và validation form để giảm lỗi nhập liệu và tăng độ ổn định của luồng thanh toán.",
+                    "Tối ưu trải nghiệm responsive trên mobile và desktop, đồng thời hỗ trợ deploy và cấu hình môi trường cho bản chạy thử."
+                ],
+                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
-        
-        // Kỹ năng chuyên môn chia theo danh mục
         skills: [
-            { cat: "Ngôn ngữ & Web", items: "[Kỹ năng 1, Kỹ năng 2, Kỹ năng 3...]" },
-            { cat: "Cơ sở dữ liệu", items: "[MySQL, MongoDB, PostgreSQL...]" },
-            { cat: "Công cụ & Thiết kế", items: "[VS Code, Git, Figma, Postman...]" },
-            { cat: "Kỹ năng bổ sung", items: "[Cấu hình SEO, form tracking, các lợi thế khác...]" }
+            { cat: "AI-assisted Development", items: "Gemini, ChatGPT, GitHub Copilot, Prompt Engineering, AI-assisted development workflow" },
+            { cat: "Frontend", items: "React.js, Next.js, TypeScript, Tailwind CSS, Responsive Design, HTML5/CSS3" },
+            { cat: "Backend & API", items: "Node.js, Express.js, RESTful API, JWT, RBAC, Middleware, Swagger" },
+            { cat: "Databases & Data", items: "MongoDB, MySQL, PostgreSQL, Query Optimization, Data Processing" },
+            { cat: "Tools & Deployment", items: "Git/GitHub, Postman, Docker, Vercel, Render, VS Code" },
+            { cat: "English", items: "Đọc hiểu tài liệu kỹ thuật, giao tiếp công việc cơ bản, có thể viết mô tả kỹ thuật bằng tiếng Anh" }
         ],
-        
-        // Điểm mạnh cá nhân nổi bật
-        strengths: [
-            "Tư duy tự học & Thích nghi: [Mô tả chi tiết thể hiện khả năng học nhanh công nghệ và giải quyết vấn đề.]",
-            "Cẩn thận & Trách nhiệm: [Mô tả chi tiết thể hiện tính cẩn thận khi code, thiết kế hoặc test hệ thống.]"
-        ],
-        
-        // Chữ hiển thị trên nút tải PDF ở bản Tiếng Việt
+
         btnText: "In / Tải PDF",
-        
-        // Tên file mặc định khi tải PDF về máy
-        docTitle: "CV_HoTen_ChucDanh_ViTri"
+        docTitle: "CV_TruongDinhAnh_Master"
     },
     en: {
-        // [PHẦN TIẾNG ANH - Cấu trúc tương tự như Tiếng Việt bên trên]
-        name: "[YOUR FULL NAME]",
-        title: "[Target Job Title]",
+        name: "TRUONG DINH ANH",
+        title: "Software Developer Intern",
         contact: [
-            { icon: "phone", text: "[Phone number]" },
-            { icon: "email", text: "[Email Address]", link: "mailto:[Email Address]" },
-            { icon: "github", text: "[GitHub Link]", link: "[GitHub URL]" },
-            { icon: "address", text: "[Your Location]" }
+            { icon: "phone", text: "0349421079" },
+            { icon: "email", text: "tdinhanh.it@gmail.com", link: "mailto:tdinhanh.it@gmail.com" },
+            { icon: "github", text: "github.com/dinhanhhhh", link: "https://github.com/dinhanhhhh" },
+            { icon: "address", text: "Thu Duc, Ho Chi Minh City" }
         ],
         sections: {
             objective: "PROFESSIONAL SUMMARY",
             education: "EDUCATION",
-            projects: "PROJECTS & TECHNICAL EXPERIENCE",
-            skills: "TECHNICAL SKILLS",
-            strengths: "STRENGTHS"
+            projects: "FEATURED PROJECTS",
+            skills: "TECHNICAL SKILLS"
         },
-        objective: "[Professional summary, 3-5 sentences highlight your primary developer skills and career goals.]",
+        objective: "Software Developer Intern with hands-on experience in React.js, Next.js, Node.js, Express, and TypeScript, capable of building full-stack web applications, integrating RESTful APIs, and handling data across both frontend and backend. Proactively uses AI tools such as Gemini, ChatGPT, and GitHub Copilot to accelerate analysis, coding, testing, and documentation work. Interested in automation, clean architecture, and real-world product delivery. Available full-time, quick to learn, and adaptable across different technical domains.",
         education: {
-            school: "[UNIVERSITY / ACADEMY NAME]",
-            date: "[Study period]",
-            detail: "[Major / Degree name / GPA]"
+            school: "HO CHI MINH CITY OPEN UNIVERSITY",
+            date: "2020 - 2024",
+            detail: "Computer Science"
         },
+        projectDisplayLimit: 2,
         projects: [
             {
-                name: "[PROJECT NAME 1]",
-                date: "[Time frame]",
-                role: "[Your role]",
-                desc: "[Brief description of the project and its goals.]",
-                github: "[Github repo link]",
+                name: "JOB PORTAL PLATFORM",
+                date: "11/2025 - 02/2026",
+                role: "Developer",
+                desc: "A full-stack recruitment platform supporting job posting, application submission, user management, and hiring workflows for employers and candidates.",
+                github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
-                    "[Task 1: What did you build/implement? How did you solve the problem?]",
-                    "[Task 2: UI implementation / API integrations / State management?]",
-                    "[Task 3: Performance tuning / Source code management?]"
+                    "Developed 20+ RESTful API endpoints with Node.js and Express for jobs, applications, and user management workflows.",
+                    "Integrated the Next.js frontend with backend services for login, profile updates, job application flows, and access control.",
+                    "Implemented JWT authentication with HttpOnly cookies, RBAC, and a refresh token flow to secure sensitive operations.",
+                    "Optimized MongoDB queries and data handling flow to keep response times under 300ms on major APIs."
                 ],
-                tech: "[Tech stack used, e.g. React, Node.js, Git]"
+                tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS"
             },
             {
-                name: "[PROJECT NAME 2]",
-                date: "[Time frame]",
-                role: "[Your role]",
-                desc: "[Brief description]",
-                github: "[Github link]",
+                name: "STUDENT MANAGEMENT SYSTEM",
+                date: "06/2025 - 09/2025",
+                role: "Developer",
+                desc: "A full-stack administrative system for student records, course registration, academic performance tracking, and admin data dashboards.",
+                github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
                 tasks: [
-                    "[Task 1]",
-                    "[Task 2]",
-                    "[Task 3]"
+                    "Built a modular backend with Node.js and Express to separate business logic, routing, and middleware for better scalability.",
+                    "Integrated Swagger for API documentation and faster testing, reducing handoff friction across frontend, backend, and QA.",
+                    "Developed a responsive admin dashboard with Next.js and Tailwind CSS, including CRUD workflows and real-time data handling.",
+                    "Implemented access token and refresh token authentication flows to improve system stability and maintainability."
                 ],
-                tech: "[Tech stack used]"
+                tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger"
+            },
+            {
+                name: "E-COMMERCE PLATFORM",
+                date: "08/2025 - 09/2025",
+                role: "Developer",
+                desc: "An e-commerce application supporting product management, shopping cart, checkout, and order handling for users and admins.",
+                github: "https://github.com/dinhanhhhh/ecommerce",
+                tasks: [
+                    "Developed APIs for product, inventory, and order management using Node.js and Express with consistent data handling.",
+                    "Integrated APIs into the React frontend for cart, checkout, and role-based management screens.",
+                    "Implemented User/Admin authorization and form validation to reduce input errors and improve checkout reliability.",
+                    "Optimized responsive behavior on mobile and desktop, and supported deployment and environment configuration for demo releases."
+                ],
+                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [
-            { cat: "Programming & Web", items: "[HTML, CSS, JavaScript, React...]" },
-            { cat: "Databases", items: "[MySQL, PostgreSQL, MongoDB...]" },
-            { cat: "Tools & Design", items: "[Figma, Git, VS Code...]" },
-            { cat: "Additional Skills", items: "[SEO setup, form configurations, etc.]" }
+            { cat: "AI-assisted Development", items: "Gemini, ChatGPT, GitHub Copilot, Prompt Engineering, AI-assisted development workflow" },
+            { cat: "Frontend", items: "React.js, Next.js, TypeScript, Tailwind CSS, Responsive Design, HTML5/CSS3" },
+            { cat: "Backend & API", items: "Node.js, Express.js, RESTful API, JWT, RBAC, Middleware, Swagger" },
+            { cat: "Databases & Data", items: "MongoDB, MySQL, PostgreSQL, Query Optimization, Data Processing" },
+            { cat: "Tools & Deployment", items: "Git/GitHub, Postman, Docker, Vercel, Render, VS Code" },
+            { cat: "English", items: "Read technical documentation, handle basic workplace communication, and write technical descriptions in English" }
         ],
-        strengths: [
-            "Proactive Learning: [Description showing your ability to learn quickly and adapt to new tech stacks.]",
-            "Attention to Detail: [Description showcasing your meticulousness in responsive styling and testing.]"
-        ],
+
         btnText: "Print / Save PDF",
-        docTitle: "CV_FullName_TargetTitle"
+        docTitle: "CV_TruongDinhAnh_Master"
     }
 };

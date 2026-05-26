@@ -28,7 +28,6 @@ const cvData = {
       education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
       skills: "KỸ NĂNG CHUYÊN MÔN",
-      strengths: "ĐIỂM MẠNH & TƯ DUY",
     },
     objective:
       "Khoa học Máy tính với nền tảng lập trình tốt (HTML/CSS, JS/TS, và tư duy OOP). Đã từng tự tay phát triển các dự án Full-stack nên nắm rõ cách thức dữ liệu trao đổi giữa Frontend, API và Database. Có thói quen sử dụng Chrome DevTools và Postman để tự kiểm tra lỗi (debug) giao diện và API trong quá trình code. Mong muốn ứng tuyển vị trí Technical Support để tận dụng thế mạnh đọc hiểu code, tư duy logic phân tích lỗi hệ thống và mong muốn được hỗ trợ người dùng giải quyết các sự cố kỹ thuật thực tế.",
@@ -80,10 +79,7 @@ const cvData = {
         items: "Git/GitHub, VS Code, Swagger, Windows/Linux environments",
       },
     ],
-    strengths: [
-      "Tư duy phân tích lỗi: Nhanh chóng khoanh vùng sự cố phần mềm bằng cách phân tích luồng dữ liệu từ Giao diện (Frontend) qua API đến Database.",
-      "Kỹ năng viết tài liệu: Có khả năng chuyển hóa các lỗi hệ thống phức tạp thành tài liệu hướng dẫn kỹ thuật hoặc SOP trực quan, dễ hiểu.",
-    ],
+
     btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_TechSupport_TMT",
   },
@@ -110,7 +106,6 @@ const cvData = {
       education: "EDUCATION",
       projects: "PROJECTS & TECHNICAL EXPERIENCE",
       skills: "TECHNICAL SKILLS",
-      strengths: "STRENGTHS & MINDSET",
     },
     objective:
       "Computer Science graduate with a solid programming foundation (HTML/CSS, JS/TS, and OOP principles). Having built full-stack projects, I understand how data flows between Frontend, APIs, and Backend. Proficient in using Chrome DevTools and Postman to debug interfaces and inspect API responses during development. Eager to apply my coding background to identify technical bugs, analyze system behaviors, and write clear, easy-to-follow technical guides.",
@@ -162,10 +157,7 @@ const cvData = {
         items: "Git/GitHub, VS Code, Swagger, Windows/Linux environments",
       },
     ],
-    strengths: [
-      "Systematic Debugging: Rapidly isolate software issues by inspecting the data flow from Frontend through APIs to the Database.",
-      "Technical Writing: Skilled in translating complex system errors into simple, easy-to-follow user guides or SOPs.",
-    ],
+
     btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_TechSupport_TMT",
   },

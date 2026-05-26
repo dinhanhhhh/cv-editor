@@ -3,7 +3,7 @@ name: Generate and Send CV PDF
 on:
   push:
     paths:
-      - "data/**" # Kích hoạt mỗi khi bạn cập nhật bất kỳ file data nào
+      - "data/*.js" # Chỉ trigger khi sửa file .js trực tiếp trong data/, không trigger data/history/
 
 jobs:
   build-pdf:

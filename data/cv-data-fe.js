@@ -27,7 +27,6 @@ const cvData = {
       objective: "TÓM TẮT NĂNG LỰC",
       projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG",
-      strengths: "ĐIỂM MẠNH",
       education: "HỌC VẤN",
     },
     objective:
@@ -74,12 +73,7 @@ const cvData = {
       { cat: "Testing", items: "Jest, Cypress, Postman" },
       { cat: "Tools", items: "Git, GitHub, Vercel" },
     ],
-    strengths: [
-      "Chủ động học hỏi và tự xây dựng dự án hoàn chỉnh.",
-      "Có tư duy sản phẩm và chú trọng trải nghiệm người dùng.",
-      "Khả năng tự học nhanh và thích nghi tốt với công nghệ mới.",
-      "Có kinh nghiệm deploy và vận hành ứng dụng thực tế.",
-    ],
+
     education: cvGlobalEdu.vi,
     btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_FE_Intern_VI",
@@ -105,7 +99,6 @@ const cvData = {
       objective: "PROFESSIONAL SUMMARY",
       projects: "FEATURED PROJECTS",
       skills: "SKILLS",
-      strengths: "STRENGTHS",
       education: "EDUCATION",
     },
     objective:
@@ -152,12 +145,7 @@ const cvData = {
       { cat: "Testing", items: "Jest, Cypress, Postman" },
       { cat: "Tools", items: "Git, GitHub, Vercel" },
     ],
-    strengths: [
-      "Proactive learner and builder of end-to-end projects.",
-      "Product-oriented mindset with a focus on user experience.",
-      "Fast learner and adaptable to new technologies.",
-      "Experienced in deploying and operating real-world applications.",
-    ],
+
     education: cvGlobalEdu.en,
     btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_FE_Intern_EN",

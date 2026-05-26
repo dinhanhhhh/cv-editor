@@ -119,8 +119,13 @@ function renderEducation(education) {
     `;
 }
 
-function renderProjects(projects, text) {
-    return projects.map(project => `
+function renderProjects(projects, text, limit) {
+    const normalizedProjects = Array.isArray(projects) ? projects : [];
+    const visibleProjects = typeof limit === 'number'
+        ? normalizedProjects.slice(0, limit)
+        : normalizedProjects;
+
+    return visibleProjects.map(project => `
         <div class="cv-exp-item">
           <div class="cv-exp-header">
             <span class="cv-exp-project">${project.name}</span>
@@ -160,20 +165,7 @@ function renderSkills(skills) {
     `).join('');
 }
 
-function renderStrengths(data) {
-    if (!data.strengths) {
-        return '';
-    }
 
-    return `
-        <div class="cv-section">
-          <div class="cv-section-title">${data.sections.strengths}</div>
-          <ul class="cv-strengths-list">
-            ${data.strengths.map(item => `<li>${item}</li>`).join('')}
-          </ul>
-        </div>
-    `;
-}
 
 elements.fontIncreaseBtn.onclick = () => {
     if (baseFontSize < 14) {
@@ -304,7 +296,7 @@ function renderCV(lang) {
 
         <div class="cv-section">
           <div class="cv-section-title">${d.sections.projects}</div>
-          ${renderProjects(d.projects, t)}
+          ${renderProjects(d.projects, t, d.projectDisplayLimit)}
         </div>
 
         <div class="cv-section">
@@ -314,7 +306,7 @@ function renderCV(lang) {
           </table>
         </div>
 
-        ${renderStrengths(d)}
+
     `;
 
     elements.preview.innerHTML = html;

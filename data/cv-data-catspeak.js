@@ -28,7 +28,6 @@ const cvData = {
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG",
-      strengths: "ĐIỂM MẠNH",
     },
     objective:
       "Lập trình viên Frontend chuyên ReactJS và Next.js với tư duy AI-first và sự hiểu biết sâu sắc về UI/UX. Luôn chú trọng thiết kế giao diện responsive mượt mà và tối ưu hóa trải nghiệm người dùng (UX flow, micro-interactions). Có kinh nghiệm thực tế phát triển các dự án cá nhân và sản phẩm full-stack, tích hợp các tính năng realtime (WebSocket) và API phức tạp. Chủ động ứng dụng các công cụ AI (Gemini, Claude, GitHub Copilot) để tăng tốc độ phát triển và tối ưu hóa chất lượng code. Sẵn sàng học hỏi, làm việc nhóm tốt và mong muốn gắn bó lâu dài để đồng hành cùng CatSpeak phát triển các giải pháp EdTech đột phá.",
@@ -87,12 +86,7 @@ const cvData = {
         items: "Git/GitHub, Vercel, Postman, VS Code, Swagger",
       },
     ],
-    strengths: [
-      "Chủ động, có tinh thần trách nhiệm cao, tự giác tìm và sửa lỗi UI/UX.",
-      "Tư duy sản phẩm tốt, chú trọng tiểu tiết để đem lại trải nghiệm mượt mà cho người dùng.",
-      "Khả năng học hỏi công nghệ mới cực nhanh và làm việc nhóm hiệu quả.",
-      "Có định hướng rõ ràng và gắn bó lâu dài cùng sự phát triển của công ty.",
-    ],
+
     btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_Frontend_CatSpeak",
   },
@@ -118,7 +112,6 @@ const cvData = {
       education: "EDUCATION",
       projects: "FEATURED PROJECTS",
       skills: "TECHNICAL SKILLS",
-      strengths: "STRENGTHS",
     },
     objective:
       "Frontend Developer specializing in ReactJS and Next.js with an AI-first mindset and a strong understanding of UI/UX. Passionate about building seamless responsive interfaces and optimizing user experiences (UX flows, micro-interactions). Experienced in developing full-stack personal projects and applications with real-time (WebSocket) features and complex API integrations. Actively leverages AI tools (Gemini, Claude, GitHub Copilot) to accelerate development speed and elevate code quality. A proactive team player, fast learner, and eager to contribute long-term to CatSpeak's growth in the EdTech space.",
@@ -177,12 +170,7 @@ const cvData = {
         items: "Git/GitHub, Vercel, Postman, VS Code, Swagger",
       },
     ],
-    strengths: [
-      "Proactive, highly responsible, with a self-driven attitude towards discovering and fixing UI/UX bugs.",
-      "Strong product mindset, paying close attention to micro-details to ensure maximum user satisfaction.",
-      "Fast learner of new tech stacks and highly collaborative in team environments.",
-      "Clear career path and highly motivated to commit long-term to the company's growth.",
-    ],
+
     btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_Frontend_CatSpeak",
   },

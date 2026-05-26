@@ -37,7 +37,11 @@ export default {
         const doc = payload.message.document;
         const fileName = doc.file_name.toLowerCase();
 
-        if (!fileName.endsWith(".js") && !fileName.endsWith(".json") && !fileName.endsWith(".txt")) {
+        if (
+          !fileName.endsWith(".js") &&
+          !fileName.endsWith(".json") &&
+          !fileName.endsWith(".txt")
+        ) {
           await sendMsg(
             env.TELEGRAM_BOT_TOKEN,
             chatId,
@@ -96,7 +100,10 @@ export default {
             const parts = caption.split(/\s+/);
             if (parts[0].startsWith("#")) {
               targetHashtag = parts[0];
-            } else if (parts[0].startsWith("/job") || parts[0].startsWith("/tailor")) {
+            } else if (
+              parts[0].startsWith("/job") ||
+              parts[0].startsWith("/tailor")
+            ) {
               targetHashtag = parts[1] || "";
             }
           }
@@ -104,29 +111,35 @@ export default {
             await sendMsg(
               env.TELEGRAM_BOT_TOKEN,
               chatId,
-              "⚠️ Khi gui file JD .txt, vui long them caption chua hashtag hop le (VD: `#opswat` hoac `/job #opswat`) de bot biet can may do cho phien ban nao!"
+              "⚠️ Khi gui file JD .txt, vui long them caption chua hashtag hop le (VD: `#opswat` hoac `/job #opswat`) de bot biet can may do cho phien ban nao!",
             );
             return new Response("OK", { status: 200 });
           }
 
           try {
-            await handleAITailor(env, chatId, `/job ${targetHashtag} ${jdText}`);
+            await handleAITailor(
+              env,
+              chatId,
+              `/job ${targetHashtag} ${jdText}`,
+            );
           } catch (err) {
             await sendMsg(
               env.TELEGRAM_BOT_TOKEN,
               chatId,
-              "❌ Loi he thong khi may do CV bang AI qua file .txt: " + err.message
+              "❌ Loi he thong khi may do CV bang AI qua file .txt: " +
+                err.message,
             );
           }
           return new Response("OK", { status: 200 });
         }
-      } 
+      }
       // 2. XU LY KHI NGUOI DUNG GUI TIN NHAN TEXT THUONG
       else if (payload.message.text) {
         bodyText = payload.message.text.trim();
-        
+
         // Lenh /start hoac /help
         if (bodyText.startsWith("/start") || bodyText.startsWith("/help")) {
+          const masterCvFile = getMasterCvFile(env);
           const helpText = [
             "🤖 BOT TU DONG HOA PIPELINE CV V4",
             "",
@@ -134,7 +147,9 @@ export default {
             "👉 Nhap lenh theo cu phap:",
             "   /job <#hashtag> <Noi dung tin tuyen dung / JD>",
             "👉 Vi du: `/job #opswat Can tuyen Node.js developer, TypeScript, co tu duy clean code...`",
-            "👉 Bot se tu lay CV goc (cv-data-fullstack.js), dung Gemini de may do sang VI & EN, roi tu cap nhat len GitHub de sinh PDF moi!",
+            "👉 Bot se tu lay CV goc (" +
+              masterCvFile +
+              "), dung Gemini de may do sang VI & EN, roi tu cap nhat len GitHub de sinh PDF moi!",
             "",
             "2️⃣ CACH 2: KEO THA FILE DATA TUY CHINH",
             "👉 Keo file cv-data-opswat.js vao chat Telegram.",
@@ -144,6 +159,10 @@ export default {
             "3️⃣ CACH 3: DONG TEXT (Chi dung cho update nho)",
             "👉 /preview #opswat { data... }",
             "👉 #opswat { data... }",
+            "",
+            "4️⃣ XEM LICH SU MAY DO",
+            "👉 /history #opswat — Xem tat ca ban backup cua phien ban opswat",
+            "👉 /history — Xem toan bo lich su may do",
             "",
             "Hashtag hop le: #opswat, #agrizen, #backend, #frontend, #nestjs, #healthcare, #kitgroup",
           ].join("\n");
@@ -159,7 +178,21 @@ export default {
             await sendMsg(
               env.TELEGRAM_BOT_TOKEN,
               chatId,
-              "❌ Loi he thong khi may do CV bang AI: " + err.message
+              "❌ Loi he thong khi may do CV bang AI: " + err.message,
+            );
+          }
+          return new Response("OK", { status: 200 });
+        }
+
+        // Kiem tra lenh xem lich su
+        if (bodyText.startsWith("/history")) {
+          try {
+            await handleHistory(env, chatId, bodyText);
+          } catch (err) {
+            await sendMsg(
+              env.TELEGRAM_BOT_TOKEN,
+              chatId,
+              "❌ Loi khi truy van lich su: " + err.message,
             );
           }
           return new Response("OK", { status: 200 });
@@ -169,7 +202,7 @@ export default {
       }
 
       // === PHAN TICH LAY PREVIEW VAY HASHTAG ===
-      
+
       // Kiem tra tu caption truoc (khi gui file)
       if (caption) {
         if (caption.startsWith("/preview")) {
@@ -205,8 +238,10 @@ export default {
         const fileName = payload.message.document.file_name.toLowerCase();
         if (fileName.includes("opswat")) hashtag = "#opswat";
         else if (fileName.includes("agrizen")) hashtag = "#agrizen";
-        else if (fileName.includes("be") || fileName.includes("backend")) hashtag = "#backend";
-        else if (fileName.includes("fe") || fileName.includes("frontend")) hashtag = "#frontend";
+        else if (fileName.includes("be") || fileName.includes("backend"))
+          hashtag = "#backend";
+        else if (fileName.includes("fe") || fileName.includes("frontend"))
+          hashtag = "#frontend";
         else if (fileName.includes("nestjs")) hashtag = "#nestjs";
         else if (fileName.includes("healthcare")) hashtag = "#healthcare";
         else if (fileName.includes("kitgroup")) hashtag = "#kitgroup";
@@ -316,6 +351,11 @@ export default {
     return new Response("OK", { status: 200 });
   },
 };
+
+function getMasterCvFile(env) {
+  const rawPath = (env.MASTER_CV_FILE || "data/cv-data-template.js").trim();
+  return rawPath || "data/cv-data-template.js";
+}
 
 // ===================================================================
 // HELPER: Convert JS object literal -> JSON string
@@ -470,23 +510,26 @@ async function handleAITailor(env, chatId, bodyText) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "⚠️ Loi: Vui long cau hinh bien GEMINI_API_KEY trong Cloudflare Worker de dung tinh nang nay!"
+      "⚠️ Loi: Vui long cau hinh bien GEMINI_API_KEY trong Cloudflare Worker de dung tinh nang nay!",
     );
     return;
   }
 
-  const match = bodyText.match(/^\/(job|tailor)\s+(#[a-zA-Z0-9_-]+)\s+([\s\S]+)$/i);
+  const match = bodyText.match(
+    /^\/(job|tailor)\s+(#[a-zA-Z0-9_-]+)\s+([\s\S]+)$/i,
+  );
   if (!match) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "⚠️ Cu phap khong hop le. Vui long gui theo cu phap:\n`/job <#hashtag> <Noi dung JD>`\n(VD: `/job #opswat Cần tuyển...`)"
+      "⚠️ Cu phap khong hop le. Vui long gui theo cu phap:\n`/job <#hashtag> <Noi dung JD>`\n(VD: `/job #opswat Cần tuyển...`)",
     );
     return;
   }
 
   const hashtag = match[2].trim().toLowerCase();
   const jdText = match[3].trim();
+  const masterCvFile = getMasterCvFile(env);
 
   let targetFile = "data/cv-data-fullstack.js";
   const fileMap = {
@@ -503,17 +546,20 @@ async function handleAITailor(env, chatId, bodyText) {
   await sendMsg(
     env.TELEGRAM_BOT_TOKEN,
     chatId,
-    "🤖 Dang lay thong tin CV goc (cv-data-fullstack.js) tu GitHub..."
+    "🤖 Dang lay thong tin CV goc (" + masterCvFile + ") tu GitHub...",
   );
 
   let masterCvContent;
   try {
-    masterCvContent = await fetchFromGitHub(env, "data/cv-data-fullstack.js");
+    masterCvContent = await fetchFromGitHub(env, masterCvFile);
   } catch (err) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi khi tai file CV goc tu GitHub: " + err.message
+      "❌ Loi khi tai file CV goc (" +
+        masterCvFile +
+        ") tu GitHub: " +
+        err.message,
     );
     return;
   }
@@ -524,7 +570,7 @@ async function handleAITailor(env, chatId, bodyText) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi: File CV goc tren GitHub co cau truc khong hop le."
+      "❌ Loi: File CV goc tren GitHub co cau truc khong hop le.",
     );
     return;
   }
@@ -542,7 +588,7 @@ async function handleAITailor(env, chatId, bodyText) {
       await sendMsg(
         env.TELEGRAM_BOT_TOKEN,
         chatId,
-        "❌ Loi: Khong the chuyen doi du lieu CV goc sang JSON."
+        "❌ Loi: Khong the chuyen doi du lieu CV goc sang JSON.",
       );
       return;
     }
@@ -551,17 +597,22 @@ async function handleAITailor(env, chatId, bodyText) {
   await sendMsg(
     env.TELEGRAM_BOT_TOKEN,
     chatId,
-    "🧠 Dang gui du lieu den Gemini AI de may do va toi uu hoa CV..."
+    "🧠 Dang gui du lieu den Gemini AI de may do va toi uu hoa CV...",
   );
 
   let tailoredCvJson;
   try {
-    tailoredCvJson = await callGeminiToTailor(env.GEMINI_API_KEY, parsedMasterCv, jdText, hashtag);
+    tailoredCvJson = await callGeminiToTailor(
+      env.GEMINI_API_KEY,
+      parsedMasterCv,
+      jdText,
+      hashtag,
+    );
   } catch (err) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi goi Gemini AI: " + err.message
+      "❌ Loi goi Gemini AI: " + err.message,
     );
     return;
   }
@@ -579,7 +630,7 @@ async function handleAITailor(env, chatId, bodyText) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi: Ket qua Gemini tra ve khong phai JSON hop le. Thu lai sau!"
+      "❌ Loi: Ket qua Gemini tra ve khong phai JSON hop le. Thu lai sau!",
     );
     return;
   }
@@ -587,29 +638,192 @@ async function handleAITailor(env, chatId, bodyText) {
   await sendMsg(
     env.TELEGRAM_BOT_TOKEN,
     chatId,
-    "🚀 May do thanh cong! Dang commit du lieu moi len GitHub: " + targetFile + "..."
+    "🚀 May do thanh cong! Dang commit du lieu moi len GitHub: " +
+      targetFile +
+      "...",
   );
 
   const fileContentJs =
-    "// AUTO GENERATED BY TELEGRAM BOT - AI OPTIMIZED FOR " + hashtag.toUpperCase() + "\n\nconst cvData = " +
+    "// AUTO GENERATED BY TELEGRAM BOT - AI OPTIMIZED FOR " +
+    hashtag.toUpperCase() +
+    "\n\nconst cvData = " +
     tailoredCvJson +
     ';\n\nif (typeof module !== "undefined") module.exports = cvData;\n';
 
   const success = await commitToGitHub(env, targetFile, fileContentJs);
 
   if (success) {
-    await sendMsg(
-      env.TELEGRAM_BOT_TOKEN,
-      chatId,
-      "✅ Da tu dong cap nhat " + targetFile + " tren GitHub!\n🕒 GitHub Actions dang tu dong bien dich PDF cho ban. Vui long cho 30-40s de nhan file..."
+    // Luu ban backup vao data/history/ de giu lich su
+    const timestamp = getTimestamp();
+    const hashtagName = hashtag.replace("#", "");
+    const historyFile = "data/history/" + hashtagName + "-" + timestamp + ".js";
+    const historySaved = await commitToGitHub(
+      env,
+      historyFile,
+      fileContentJs,
     );
+
+    let resultMsg =
+      "✅ Da tu dong cap nhat " +
+      targetFile +
+      " tren GitHub!\n🕒 GitHub Actions dang tu dong bien dich PDF cho ban. Vui long cho 30-40s de nhan file...";
+
+    if (historySaved) {
+      resultMsg += "\n📂 Ban backup da luu tai: " + historyFile;
+    }
+
+    await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, resultMsg);
   } else {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ That bai: Khong the commit file moi len GitHub."
+      "❌ That bai: Khong the commit file moi len GitHub.",
     );
   }
+}
+
+// Helper: Tao timestamp YYYYMMDD-HHmmss (UTC+7 Vietnam)
+function getTimestamp() {
+  const now = new Date();
+  const vn = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+  const y = vn.getUTCFullYear();
+  const m = String(vn.getUTCMonth() + 1).padStart(2, "0");
+  const d = String(vn.getUTCDate()).padStart(2, "0");
+  const h = String(vn.getUTCHours()).padStart(2, "0");
+  const min = String(vn.getUTCMinutes()).padStart(2, "0");
+  const s = String(vn.getUTCSeconds()).padStart(2, "0");
+  return y + m + d + "-" + h + min + s;
+}
+
+// ===================================
+// HISTORY: Liet ke cac ban backup da luu
+// ===================================
+async function handleHistory(env, chatId, text) {
+  // Parse hashtag tu lenh: /history #opswat hoac /history
+  const parts = text.trim().split(/\s+/);
+  let filterHashtag = "";
+  if (parts[1] && parts[1].startsWith("#")) {
+    filterHashtag = parts[1].replace("#", "").toLowerCase();
+  }
+
+  // Goi GitHub API de list folder data/history/
+  const owner = env.GITHUB_OWNER;
+  const repo = env.GITHUB_REPO;
+  const token = env.GITHUB_TOKEN;
+  const branch = env.GITHUB_BRANCH || "main";
+
+  const url =
+    "https://api.github.com/repos/" +
+    owner +
+    "/" +
+    repo +
+    "/contents/data/history?ref=" +
+    branch;
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: "token " + token,
+      "User-Agent": "Cloudflare-Worker-Telegram-CV",
+      Accept: "application/vnd.github.v3+json",
+    },
+  });
+
+  if (res.status === 404) {
+    await sendMsg(
+      env.TELEGRAM_BOT_TOKEN,
+      chatId,
+      "📂 Chua co ban backup nao trong data/history/. Hay dung /job de may do CV truoc!",
+    );
+    return;
+  }
+
+  if (!res.ok) {
+    throw new Error("GitHub API Error " + res.status);
+  }
+
+  const files = await res.json();
+
+  // Loc chi lay file .js, sort moi nhat truoc
+  let jsFiles = files
+    .filter((f) => f.type === "file" && f.name.endsWith(".js"))
+    .sort((a, b) => b.name.localeCompare(a.name));
+
+  // Loc theo hashtag neu co
+  if (filterHashtag) {
+    jsFiles = jsFiles.filter((f) => f.name.startsWith(filterHashtag + "-"));
+  }
+
+  if (jsFiles.length === 0) {
+    const noResultMsg = filterHashtag
+      ? "📂 Khong tim thay ban backup nao cho #" +
+        filterHashtag +
+        " trong lich su."
+      : "📂 Chua co ban backup nao trong data/history/.";
+    await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, noResultMsg);
+    return;
+  }
+
+  // Format danh sach de doc
+  const header = filterHashtag
+    ? "📂 Lich su may do #" + filterHashtag + " (" + jsFiles.length + " ban):"
+    : "📂 Toan bo lich su may do (" + jsFiles.length + " ban):";
+
+  const maxShow = 20; // Gioi han hien thi 20 ban gan nhat
+  const displayFiles = jsFiles.slice(0, maxShow);
+
+  const lines = displayFiles.map((f, i) => {
+    // Parse timestamp tu ten file: opswat-20260527-001430.js
+    const nameNoExt = f.name.replace(".js", "");
+    const dashParts = nameNoExt.split("-");
+    // Timestamp la 2 phan cuoi: YYYYMMDD va HHmmss
+    const datePart = dashParts[dashParts.length - 2] || "";
+    const timePart = dashParts[dashParts.length - 1] || "";
+    // Hashtag name la phan truoc timestamp
+    const tagName = dashParts.slice(0, dashParts.length - 2).join("-");
+
+    let timeStr = "";
+    if (datePart.length === 8 && timePart.length === 6) {
+      timeStr =
+        datePart.substring(6, 8) +
+        "/" +
+        datePart.substring(4, 6) +
+        "/" +
+        datePart.substring(0, 4) +
+        " " +
+        timePart.substring(0, 2) +
+        ":" +
+        timePart.substring(2, 4) +
+        ":" +
+        timePart.substring(4, 6);
+    } else {
+      timeStr = nameNoExt;
+    }
+
+    const num = String(i + 1).padStart(2, " ");
+    return num + ". 🏷 #" + tagName + "  ⏰ " + timeStr;
+  });
+
+  let msg = header + "\n\n" + lines.join("\n");
+
+  if (jsFiles.length > maxShow) {
+    msg +=
+      "\n\n... va " +
+      (jsFiles.length - maxShow) +
+      " ban cu hon. Xem day du tren GitHub.";
+  }
+
+  // Them link GitHub
+  const ghLink =
+    "https://github.com/" +
+    owner +
+    "/" +
+    repo +
+    "/tree/" +
+    branch +
+    "/data/history";
+  msg += "\n\n🔗 Xem tren GitHub: " + ghLink;
+
+  await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, msg);
 }
 
 async function fetchFromGitHub(env, filePath) {
@@ -618,13 +832,21 @@ async function fetchFromGitHub(env, filePath) {
   const token = env.GITHUB_TOKEN;
   const branch = env.GITHUB_BRANCH || "main";
 
-  const url = "https://api.github.com/repos/" + owner + "/" + repo + "/contents/" + filePath + "?ref=" + branch;
+  const url =
+    "https://api.github.com/repos/" +
+    owner +
+    "/" +
+    repo +
+    "/contents/" +
+    filePath +
+    "?ref=" +
+    branch;
   const res = await fetch(url, {
     headers: {
-      "Authorization": "token " + token,
+      Authorization: "token " + token,
       "User-Agent": "Cloudflare-Worker-Telegram-CV",
-      "Accept": "application/vnd.github.v3.raw"
-    }
+      Accept: "application/vnd.github.v3.raw",
+    },
   });
 
   if (!res.ok) {
@@ -635,7 +857,9 @@ async function fetchFromGitHub(env, filePath) {
 }
 
 async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
-  const url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + apiKey;
+  const url =
+    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
+    apiKey;
 
   const systemPrompt = [
     "You are a professional CV writing and tailoring expert. Your objective is to optimize a candidate's bilingual (Vietnamese/vi and English/en) CV data to align perfectly with a target Job Description (JD).",
@@ -652,31 +876,30 @@ async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
     "2. Under 'vi' and 'en':",
     "   - 'title': Update the title if necessary to align with the role in the JD (e.g. change 'Full-Stack Developer Intern' to 'Software Engineering Intern' or 'Backend Developer Intern' as appropriate for the JD).",
     "   - 'objective' (Professional Summary): Rewrite this in both languages. Highlight matching key qualifications, passions, and how the candidate's core technologies (React/NextJS/NodeJS/TS) solve the problems outlined in the JD. Maintain the same professional, technical, and proactive tone. Keep it under 4 sentences.",
-    "   - 'projects': Review the projects. For each project, rewrite the 'role', 'desc', and especially the 'tasks' array. Align these tasks with the requirements in the JD by emphasizing matching tech stacks, methodologies (e.g. Agile/Scrum, Event-driven, Microservices, Testing, AI workflow), and business/performance outcomes. Ensure you include target keywords from the JD, but do not invent fake facts or projects. Keep exactly 3 projects.",
+    "   - 'projects': Review the projects. For each project, rewrite the 'role', 'desc', and especially the 'tasks' array. Align these tasks with the requirements in the JD by emphasizing matching tech stacks, methodologies (e.g. Agile/Scrum, Event-driven, Microservices, Testing, AI workflow), and business/performance outcomes. Ensure you include target keywords from the JD, but do not invent fake facts or projects. Keep exactly 3 projects in the data.",
+    "   - 'projectDisplayLimit': Keep this value as 2. Because only the first 2 projects are rendered in the one-page CV template, reorder the 3 projects so the 2 strongest and most relevant ones for the JD appear first, while the least relevant one remains as the third backup project in the data.",
     "   - 'skills': Reorder or slightly adjust the 'skills' categories and items to prioritize technologies and soft skills mentioned in the JD. Maintain the bilingual mapping correctly.",
     "3. Make sure the 'docTitle' field is updated appropriately, e.g., 'CV_TruongDinhAnh_' + hashtag name.",
-    "4. Output ONLY a strictly valid, clean JSON string representing the tailored 'cvData'. Do not wrap it in markdown code blocks like ```json. Do not include any greeting or conversational filler. Start directly with the opening curly brace { and end with the closing curly brace }"
+    "4. Output ONLY a strictly valid, clean JSON string representing the tailored 'cvData'. Do not wrap it in markdown code blocks like ```json. Do not include any greeting or conversational filler. Start directly with the opening curly brace { and end with the closing curly brace }",
   ].join("\n");
 
   const payload = {
     contents: [
       {
-        parts: [
-          { text: systemPrompt }
-        ]
-      }
+        parts: [{ text: systemPrompt }],
+      },
     ],
     generationConfig: {
-      responseMimeType: "application/json"
-    }
+      responseMimeType: "application/json",
+    },
   };
 
   const res = await fetch(url, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   if (!res.ok) {
@@ -685,7 +908,13 @@ async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
   }
 
   const data = await res.json();
-  if (!data.candidates || data.candidates.length === 0 || !data.candidates[0].content || !data.candidates[0].content.parts || data.candidates[0].content.parts.length === 0) {
+  if (
+    !data.candidates ||
+    data.candidates.length === 0 ||
+    !data.candidates[0].content ||
+    !data.candidates[0].content.parts ||
+    data.candidates[0].content.parts.length === 0
+  ) {
     throw new Error("Invalid response from Gemini API");
   }
 

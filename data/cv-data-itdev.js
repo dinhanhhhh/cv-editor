@@ -28,7 +28,6 @@ const cvData = {
       education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
       skills: "KỸ NĂNG",
-      strengths: "ĐIỂM MẠNH",
     },
     objective:
       "Sinh viên tốt nghiệp ngành Khoa học Máy tính có tư duy logic tốt, đam mê công nghệ và tinh thần chủ động cao. Thành thạo HTML, CSS, JavaScript, ReactJS để phát triển website và landing page chuẩn responsive. Có thói quen kết hợp các công cụ thiết kế (Figma, Canva) và trợ lý AI thông minh (Lovable AI, Claude, Copilot) để tăng tốc độ triển khai giao diện tối ưu. Nắm vững nền tảng cơ bản về cơ sở dữ liệu (MySQL, MongoDB) và Git. Sẵn sàng thực tập tối thiểu 3-6 tháng, làm việc nhóm tốt để đồng hành cùng các sản phẩm phần mềm của công ty.",
@@ -81,10 +80,7 @@ const cvData = {
           "Tối ưu hóa SEO cơ bản, tích hợp form, gắn mã tracking (Marketing/Design support)",
       },
     ],
-    strengths: [
-      "Tư duy tự học & Thích nghi: Chủ động tìm hiểu và ứng dụng nhanh các công cụ AI hỗ trợ (Lovable AI, Copilot) vào giải quyết bài toán thực tế.",
-      "Cẩn thận & Trách nhiệm: Tỉ mỉ trong việc thiết kế giao diện responsive, kiểm thử lỗi và cập nhật cấu hình hệ thống một cách có kiểm soát.",
-    ],
+
     btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_IT_Developer_Intern",
   },
@@ -110,7 +106,6 @@ const cvData = {
       education: "EDUCATION",
       projects: "PROJECTS & TECHNICAL EXPERIENCE",
       skills: "TECHNICAL SKILLS",
-      strengths: "STRENGTHS",
     },
     objective:
       "Computer Science graduate with a strong logical mindset, highly proactive, and passionate about software development. Proficient in HTML, CSS, JavaScript, and ReactJS for building fully responsive websites and landing pages. Experienced in combining design tools (Figma, Canva) with smart AI assistants (Lovable AI, Claude, Copilot) to accelerate high-quality UI delivery. Strong foundations in databases (MySQL, MongoDB) and Git. Ready for a 3-to-6-month internship, eager to learn and contribute to the company's software products.",
@@ -162,10 +157,7 @@ const cvData = {
         items: "Basic SEO setup, form integrations & tracking",
       },
     ],
-    strengths: [
-      "Proactive Learning: Rapidly learn and apply new developer tools (Lovable AI, Copilot) to address real project needs.",
-      "Attention to Detail: Highly meticulous in styling responsive layouts, testing system exceptions, and managing configurations.",
-    ],
+
     btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_IT_Developer_Intern",
   },
