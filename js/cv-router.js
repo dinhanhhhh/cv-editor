@@ -19,6 +19,8 @@
         'techsupport': { data: 'data/cv-data-techsupport.js', emoji: '🛠️', id: 'ver-techsupport' },
         'itdev': { data: 'data/cv-data-itdev.js', emoji: '💻', id: 'ver-itdev' },
         'kitgroup': { data: 'data/cv-data-kitgroup.js', emoji: '🏢', id: 'ver-kitgroup' },
+        'beone': { data: 'data/cv-data-beone.js', emoji: '🐝', id: 'ver-beone' },
+        'strapbuild': { data: 'data/cv-data-strapbuild.js', emoji: '🚀', id: 'ver-strapbuild' },
         'default': { data: 'data/cv-data-fullstack.js', emoji: '💼', id: 'ver-default' }
     };
 

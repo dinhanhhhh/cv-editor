@@ -20,7 +20,9 @@ const CV_VERSIONS = [
     { type: 'nestjs', filename: 'CV_TruongDinhAnh_NestJS.pdf', label: '🏥 NestJS Dev' },
     { type: 'healthcare', filename: 'CV_TruongDinhAnh_Healthcare.pdf', label: '🦷 Healthcare Fullstack' },
     { type: 'agrizen', filename: 'CV_TruongDinhAnh_Agrizen.pdf', label: '🌱 Agrizen Fullstack' },
-    { type: 'opswat', filename: 'CV_TruongDinhAnh_OPSWAT.pdf', label: '🛡️ OPSWAT Security' }
+    { type: 'opswat', filename: 'CV_TruongDinhAnh_OPSWAT.pdf', label: '🛡️ OPSWAT Security' },
+    { type: 'beone', filename: 'CV_TruongDinhAnh_BeOne.pdf', label: '🐝 BeOne Full-Stack JS Intern' },
+    { type: 'strapbuild', filename: 'CV_TruongDinhAnh_Strapbuild.pdf', label: '🚀 Strapbuild Junior Full-Stack' }
 ];
 
 if (!BOT_TOKEN || !CHAT_ID) {
@@ -62,7 +64,9 @@ async function generateAllPDFs() {
         'data/cv-data-nestjs.js': 'nestjs',
         'data/cv-data-healthcare-fullstack.js': 'healthcare',
         'data/cv-data-agrizen-fullstack.js': 'agrizen',
-        'data/cv-data-opswat.js': 'opswat'
+        'data/cv-data-opswat.js': 'opswat',
+        'data/cv-data-beone.js': 'beone',
+        'data/cv-data-strapbuild.js': 'strapbuild'
     };
 
     let targetTypes = [];

@@ -313,6 +313,7 @@ function renderCV(lang) {
     resetLayoutStyles();
     updateFontSize();
     setA4Mode(a4ModeActive);
+    updateCoverLetterText();
 }
 
 // ===================================
@@ -346,4 +347,375 @@ elements.downloadBtn.onclick = () => {
 // ===================================
 // INIT
 // ===================================
+// ===================================
+// COVER LETTER MANAGER
+// ===================================
+const urlParams = new URLSearchParams(window.location.search);
+const cvVersion = urlParams.get('type') || 'default';
+let currentTemplate = 'tech';
+
+const clTemplates = {
+    tech: {
+        vi: `[Tiêu đề Email: Ứng tuyển vị trí Lập trình viên – Trương Đình Anh]
+
+Kính gửi Bộ phận Tuyển dụng,
+
+Tôi tên là Trương Đình Anh, tốt nghiệp chuyên ngành Khoa học Máy tính tại Đại học Mở TP.HCM. Tôi viết thư này để ứng tuyển vào vị trí Lập trình viên tại Quý công ty.
+
+Với nền tảng kiến thức vững chắc về JavaScript, TypeScript, React và Node.js, tôi đã phát triển thành công nhiều dự án thực tế bao gồm hệ thống tuyển dụng JOB PORTAL PLATFORM, hệ thống quản lý STUDENT MANAGEMENT SYSTEM, và sàn thương mại điện tử E-COMMERCE PLATFORM. Tôi luôn tập trung viết code sạch, tối ưu truy vấn cơ sở dữ liệu và xây dựng giao diện responsive đẹp mắt, nâng cao trải nghiệm người dùng.
+
+Tôi xin gửi kèm CV và mong muốn được trao đổi chi tiết hơn trong một buổi phỏng vấn trực tiếp.
+
+Trân trọng,
+Trương Đình Anh
+SĐT: 0349421079
+GitHub: https://github.com/dinhanhhhh`,
+        en: `[Subject: Job Application: Developer – Truong Dinh Anh]
+
+Dear Hiring Team,
+
+My name is Truong Dinh Anh, a Computer Science graduate from Ho Chi Minh City Open University. I am writing to apply for the Developer position at your company.
+
+With a strong foundation in JavaScript, TypeScript, React, and Node.js, I have successfully developed several web applications, including a JOB PORTAL PLATFORM, a STUDENT MANAGEMENT SYSTEM, and an E-COMMERCE PLATFORM. I am committed to writing clean, maintainable code, optimizing database queries, and designing responsive and user-friendly user interfaces.
+
+Please find my attached CV for more details. I look forward to the opportunity of discussing how my skills align with your needs in an interview.
+
+Sincerely,
+Truong Dinh Anh
+Phone: 0349421079
+GitHub: https://github.com/dinhanhhhh`
+    },
+    short: {
+        vi: `[Tiêu đề Email: Ứng tuyển Lập trình viên – Trương Đình Anh]
+
+Kính gửi Bộ phận Tuyển dụng,
+
+Tôi viết thư này để ứng tuyển vào vị trí Lập trình viên tại Quý công ty. Tôi vừa tốt nghiệp chuyên ngành Khoa học Máy tính tại Đại học Mở TP.HCM và có kinh nghiệm thực chiến phát triển các dự án Full-Stack JavaScript/TypeScript.
+
+Tôi sở hữu nền tảng vững chắc về React, Next.js, Node.js và MongoDB. Tôi luôn cam kết viết mã nguồn sạch, tối ưu hóa cơ sở dữ liệu và xây dựng giao diện responsive.
+
+Chi tiết về các dự án và kỹ năng của tôi được trình bày trong CV đính kèm. Rất mong có cơ hội trao đổi trực tiếp trong một buổi phỏng vấn.
+
+Trân trọng,
+Trương Đình Anh
+SĐT: 0349421079
+GitHub: https://github.com/dinhanhhhh`,
+        en: `[Subject: Job Application: Developer – Truong Dinh Anh]
+
+Dear Hiring Team,
+
+I am writing to apply for the Developer position at your company. As a Computer Science graduate from Ho Chi Minh City Open University, I have hands-on experience building full-stack web applications using JavaScript and TypeScript.
+
+My technical stack includes React, Next.js, Node.js, and MongoDB. I focus on writing clean code, optimizing queries, and delivering responsive layouts.
+
+Please find my CV attached for more details on my projects and skills. I look forward to discussing my application in an interview.
+
+Sincerely,
+Truong Dinh Anh
+Phone: 0349421079
+GitHub: https://github.com/dinhanhhhh`
+    },
+    warm: {
+        vi: `[Tiêu đề Email: Ứng tuyển Lập trình viên – Mong muốn đồng hành cùng Quý công ty]
+
+Kính gửi Bộ phận Tuyển dụng,
+
+Tôi tên là Trương Đình Anh, một lập trình viên đam mê công nghệ vừa tốt nghiệp Đại học Mở TP.HCM. Tôi theo dõi hoạt động của Quý công ty đã lâu và rất ấn tượng với định hướng cũng như các sản phẩm mà công ty đang xây dựng. Vì vậy, tôi rất hào hứng gửi hồ sơ ứng tuyển này.
+
+Với kinh nghiệm tự xây dựng các dự án web từ con số không và không ngừng nghiên cứu các công nghệ mới, tôi tin rằng tinh thần tự học chủ động và trách nhiệm cao của mình sẽ mang lại giá trị tích cực cho đội ngũ phát triển.
+
+Tôi xin gửi kèm CV và rất mong được gặp gỡ để chia sẻ thêm về đam mê lập trình cũng như định hướng đóng góp lâu dài tại công ty.
+
+Chúc Quý công ty một ngày làm việc hiệu quả!
+
+Trân trọng,
+Trương Đình Anh
+SĐT: 0349421079
+GitHub: https://github.com/dinhanhhhh`,
+        en: `[Subject: Job Application: Developer – Enthusiastic and Ready to Contribute]
+
+Dear Hiring Team,
+
+My name is Truong Dinh Anh, a passionate developer and Computer Science graduate from Ho Chi Minh City Open University. I have been following your company's achievements and am truly inspired by the culture and products you build. I am thrilled to submit my application.
+
+Having built web projects from scratch and constantly explored modern technologies, I am confident that my self-driven learning attitude and strong sense of responsibility will make a positive impact on your team.
+
+I have attached my CV and would love the opportunity to share more about my passion and how I can contribute to your long-term goals.
+
+Have a wonderful day!
+
+Sincerely,
+Truong Dinh Anh
+Phone: 0349421079
+GitHub: https://github.com/dinhanhhhh`
+    }
+};
+
+function getLocalStorageKey() {
+    return `cv_cl_${cvVersion}_${currentLang}_${currentTemplate}`;
+}
+
+function getDefaultTemplateText(templateId) {
+    if (cvData[currentLang] && cvData[currentLang].coverLetters && cvData[currentLang].coverLetters[templateId]) {
+        return cvData[currentLang].coverLetters[templateId];
+    }
+    if (templateId === 'tech' && cvData[currentLang] && cvData[currentLang].coverLetter) {
+        return cvData[currentLang].coverLetter;
+    }
+    return clTemplates[templateId] ? clTemplates[templateId][currentLang] : '';
+}
+
+function renderMarkdownToHtml(md) {
+    if (!md) return '';
+    let html = md
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+        
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/^---$/gm, '<hr class="cl-preview-hr">');
+    
+    const lines = html.split('\n');
+    let inList = false;
+    const processedLines = lines.map(line => {
+        const trimmed = line.trim();
+        if (trimmed.startsWith('- ') || trimmed.startsWith('* ') || trimmed.startsWith('• ')) {
+            const content = trimmed.substring(2);
+            let res = '';
+            if (!inList) {
+                inList = true;
+                res += '<ul class="cl-preview-list">';
+            }
+            res += `<li>${content}</li>`;
+            return res;
+        } else {
+            let res = '';
+            if (inList) {
+                inList = false;
+                res += '</ul>';
+            }
+            return res + line;
+        }
+    });
+    if (inList) {
+        processedLines.push('</ul>');
+    }
+    html = processedLines.join('\n');
+    
+    const paragraphs = html.split(/\n\n+/);
+    html = paragraphs.map(p => {
+        const trimmed = p.trim();
+        if (!trimmed) return '';
+        if (trimmed.startsWith('<ul') || trimmed.startsWith('<hr') || trimmed.startsWith('<li')) {
+            return trimmed;
+        }
+        return `<p class="cl-preview-p">${trimmed.replace(/\n/g, '<br>')}</p>`;
+    }).join('');
+    
+    return html;
+}
+
+function populateTemplateOptions() {
+    const select = document.getElementById('clTemplateSelect');
+    if (!select) return;
+    
+    const options = currentLang === 'vi' ? [
+        { value: 'tech', text: 'Chuyên môn 💻' },
+        { value: 'short', text: 'Ngắn gọn ⚡' },
+        { value: 'warm', text: 'Thân thiện 😊' }
+    ] : [
+        { value: 'tech', text: 'Tech Focus 💻' },
+        { value: 'short', text: 'Concise ⚡' },
+        { value: 'warm', text: 'Warm & Cultural 😊' }
+    ];
+    
+    select.innerHTML = options.map(opt => 
+        `<option value="${opt.value}" ${opt.value === currentTemplate ? 'selected' : ''}>${opt.text}</option>`
+    ).join('');
+}
+
+function syncCoverLetterLangButtons() {
+    const clLangViBtn = document.getElementById('clLangViBtn');
+    const clLangEnBtn = document.getElementById('clLangEnBtn');
+    if (clLangViBtn && clLangEnBtn) {
+        if (currentLang === 'vi') {
+            clLangViBtn.classList.add('active');
+            clLangEnBtn.classList.remove('active');
+        } else {
+            clLangEnBtn.classList.add('active');
+            clLangViBtn.classList.remove('active');
+        }
+    }
+}
+
+function updateCoverLetterText() {
+    const clTextArea = document.getElementById('clTextArea');
+    const clPreviewContainer = document.getElementById('clPreviewContainer');
+    if (!clTextArea) return;
+    
+    populateTemplateOptions();
+    syncCoverLetterLangButtons();
+    
+    const key = getLocalStorageKey();
+    const cachedText = localStorage.getItem(key);
+    
+    let text = '';
+    // Tự động bỏ qua cache nếu là text placeholder cũ '**Hello World**' để đồng bộ nội dung chuẩn từ file data
+    if (cachedText !== null && cachedText.trim() !== '' && cachedText.trim() !== '**Hello World**') {
+        text = cachedText;
+    } else {
+        text = getDefaultTemplateText(currentTemplate);
+    }
+    
+    clTextArea.value = text;
+    if (clPreviewContainer) {
+        clPreviewContainer.innerHTML = renderMarkdownToHtml(text);
+    }
+}
+
+// Setup Event Listeners for Cover Letter Modal
+(function initCoverLetter() {
+    const clTextArea = document.getElementById('clTextArea');
+    const clResetBtn = document.getElementById('clResetBtn');
+    const clCopyBtn = document.getElementById('clCopyBtn');
+    const coverLetterBtn = document.getElementById('coverLetterBtn');
+    const clModalOverlay = document.getElementById('clModalOverlay');
+    const clModalCloseBtn = document.getElementById('clModalCloseBtn');
+    const clTemplateSelect = document.getElementById('clTemplateSelect');
+    const clLangViBtn = document.getElementById('clLangViBtn');
+    const clLangEnBtn = document.getElementById('clLangEnBtn');
+
+    if (clTextArea) {
+        clTextArea.addEventListener('input', () => {
+            const text = clTextArea.value;
+            const key = getLocalStorageKey();
+            localStorage.setItem(key, text);
+            
+            const clPreviewContainer = document.getElementById('clPreviewContainer');
+            if (clPreviewContainer) {
+                clPreviewContainer.innerHTML = renderMarkdownToHtml(text);
+            }
+        });
+    }
+
+    if (clTemplateSelect) {
+        clTemplateSelect.onchange = (e) => {
+            currentTemplate = e.target.value;
+            updateCoverLetterText();
+        };
+    }
+
+    if (clLangViBtn) {
+        clLangViBtn.onclick = () => {
+            if (currentLang !== 'vi' && elements.langViBtn) {
+                elements.langViBtn.click();
+            }
+        };
+    }
+
+    if (clLangEnBtn) {
+        clLangEnBtn.onclick = () => {
+            if (currentLang !== 'en' && elements.langEnBtn) {
+                elements.langEnBtn.click();
+            }
+        };
+    }
+
+    if (clResetBtn) {
+        let confirmTimeout = null;
+        let isConfirming = false;
+
+        clResetBtn.onclick = () => {
+            if (!isConfirming) {
+                // Bước 1: Chuyển sang trạng thái chờ xác nhận
+                isConfirming = true;
+                clResetBtn.textContent = currentLang === 'vi' ? 'Xác nhận khôi phục? ⚠️' : 'Confirm Reset? ⚠️';
+                clResetBtn.style.backgroundColor = '#d90429';
+                clResetBtn.style.color = '#ffffff';
+                clResetBtn.style.borderColor = '#d90429';
+                
+                confirmTimeout = setTimeout(() => {
+                    // Trở lại trạng thái bình thường nếu không nhấn lại trong 3 giây
+                    isConfirming = false;
+                    clResetBtn.textContent = currentLang === 'vi' ? 'Khôi phục 🔄' : 'Reset 🔄';
+                    clResetBtn.style.backgroundColor = '';
+                    clResetBtn.style.color = '';
+                    clResetBtn.style.borderColor = '';
+                }, 3000);
+            } else {
+                // Bước 2: Thực hiện hành động khôi phục
+                clearTimeout(confirmTimeout);
+                isConfirming = false;
+                
+                clResetBtn.textContent = currentLang === 'vi' ? 'Đã khôi phục! ✓' : 'Reset Success! ✓';
+                clResetBtn.style.backgroundColor = '#2d6a4f';
+                clResetBtn.style.color = '#ffffff';
+                clResetBtn.style.borderColor = '#2d6a4f';
+
+                const key = getLocalStorageKey();
+                localStorage.removeItem(key);
+                updateCoverLetterText();
+
+                setTimeout(() => {
+                    clResetBtn.textContent = currentLang === 'vi' ? 'Khôi phục 🔄' : 'Reset 🔄';
+                    clResetBtn.style.backgroundColor = '';
+                    clResetBtn.style.color = '';
+                    clResetBtn.style.borderColor = '';
+                }, 1500);
+            }
+        };
+    }
+
+    if (clCopyBtn && clTextArea) {
+        clCopyBtn.onclick = () => {
+            const text = clTextArea.value;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = clCopyBtn.textContent;
+                clCopyBtn.innerHTML = currentLang === 'vi' ? 'Đã sao chép! ✓' : 'Copied! ✓';
+                clCopyBtn.style.background = '#2d6a4f';
+                setTimeout(() => {
+                    clCopyBtn.innerHTML = originalText;
+                    clCopyBtn.style.background = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+                alert(currentLang === 'vi' 
+                    ? 'Không thể sao chép tự động. Vui lòng chọn và sao chép thủ công.' 
+                    : 'Could not copy automatically. Please select and copy manually.');
+            });
+        };
+    }
+
+    if (coverLetterBtn && clModalOverlay) {
+        coverLetterBtn.onclick = () => {
+            updateCoverLetterText();
+            clModalOverlay.style.display = 'flex';
+            clModalOverlay.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        };
+        
+        const closeModal = () => {
+            clModalOverlay.style.display = 'none';
+            clModalOverlay.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        };
+        
+        if (clModalCloseBtn) {
+            clModalCloseBtn.onclick = closeModal;
+        }
+        
+        clModalOverlay.onclick = (e) => {
+            if (e.target === clModalOverlay) {
+                closeModal();
+            }
+        };
+        
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && clModalOverlay.getAttribute('aria-hidden') === 'false') {
+                closeModal();
+            }
+        });
+    }
+})();
+
 renderCV(currentLang);

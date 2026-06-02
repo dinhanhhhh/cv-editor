@@ -33,6 +33,8 @@
             <a href="index.html?type=ai-webdev" class="version-item" id="ver-ai-webdev">🌐 AgileOps WebDev</a>
             <a href="index.html?type=agrizen" class="version-item" id="ver-agrizen">🌱 Agrizen FS</a>
             <a href="index.html?type=opswat" class="version-item" id="ver-opswat">🛡️ OPSWAT Intern</a>
+            <a href="index.html?type=beone" class="version-item" id="ver-beone">🐝 BeOne Intern</a>
+            <a href="index.html?type=strapbuild" class="version-item" id="ver-strapbuild">🚀 Strapbuild FS</a>
             <a href="index.html?type=kitgroup" class="version-item" id="ver-kitgroup">🏢 KIT Group Intern</a>
             <a href="index.html?type=catspeak" class="version-item" id="ver-catspeak">🐈 CatSpeak FE</a>
             <a href="index.html?type=techsupport" class="version-item" id="ver-techsupport">🛠️ Tech Support</a>
@@ -64,6 +66,8 @@
             aria-label="Đặt lại bố cục CV về mặc định">Reset 🔄</button>
         <button class="a4-preview-btn" id="a4PreviewBtn" type="button" title="Bật hoặc tắt xem khung A4 cố định"
             aria-pressed="false" aria-label="Bật hoặc tắt chế độ xem trước A4">📄 A4 Preview</button>
+        <button class="cover-letter-btn" id="coverLetterBtn" type="button" title="Xem thư xin việc (Cover Letter)"
+            aria-label="Xem thư xin việc">✉️ Cover Letter</button>
 
         <div class="btn-wrapper">
             <div class="print-tooltip" id="printTooltip" role="tooltip">
@@ -90,6 +94,42 @@
     <main class="cv-preview" id="cvContent" tabindex="-1">
         <!-- Nội dung đổ bởi cv-renderer.js -->
     </main>
+
+    <!-- Cover Letter Modal -->
+    <div class="cl-modal-overlay" id="clModalOverlay" aria-hidden="true" style="display: none;">
+        <div class="cl-modal" role="dialog" aria-labelledby="clModalTitle">
+            <div class="cl-modal-header">
+                <div class="cl-header-left">
+                    <h2 id="clModalTitle">✉️ Cover Letter</h2>
+                    <div class="cl-select-wrapper">
+                        <select id="clTemplateSelect" class="cl-template-select" aria-label="Chọn mẫu thư">
+                            <!-- Sẽ được đổ tùy chọn theo ngôn ngữ hiện tại bằng JavaScript -->
+                        </select>
+                    </div>
+                    <!-- Nút chuyển ngôn ngữ trực tiếp trong Modal -->
+                    <div class="cl-lang-switch">
+                        <button type="button" id="clLangViBtn" class="cl-lang-btn active">VI</button>
+                        <button type="button" id="clLangEnBtn" class="cl-lang-btn">EN</button>
+                    </div>
+                </div>
+                <button type="button" class="cl-modal-close" id="clModalCloseBtn" aria-label="Đóng">&times;</button>
+            </div>
+            <div class="cl-modal-body">
+                <div class="cl-editor-pane">
+                    <div class="pane-label">✏️ Biên soạn (Raw Text)</div>
+                    <textarea id="clTextArea" class="cl-textarea" aria-label="Nội dung thư ứng tuyển" placeholder="Chưa có thư ứng tuyển..."></textarea>
+                </div>
+                <div class="cl-preview-pane">
+                    <div class="pane-label">👀 Xem trước (HTML Preview)</div>
+                    <div id="clPreviewContainer" class="cl-preview-container" aria-label="Xem trước thư ứng tuyển"></div>
+                </div>
+            </div>
+            <div class="cl-modal-footer">
+                <button type="button" class="cl-btn-secondary" id="clResetBtn">Khôi phục 🔄</button>
+                <button type="button" class="cl-btn-primary" id="clCopyBtn">Sao chép 📋</button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
