@@ -8,6 +8,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        projectDisplayLimit: 2,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Junior Full-Stack Developer",
         contact: [
@@ -50,19 +51,6 @@ const cvData = {
                     "Sử dụng Docker để container hóa ứng dụng, tự viết script cấu hình môi trường nhất quán giữa các máy phát triển."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Docker, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Trang web thương mại điện tử đồng bộ hóa giỏ hàng thời gian thực và quản lý kho hàng tự động.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Xây dựng React frontend và phát triển các API Express quản lý giao dịch mua sắm, thanh toán.",
-                    "Tự nghiên cứu và giải quyết triệt để lỗi xung đột đồng bộ giỏ hàng (race conditions) khi người dùng mở nhiều tab.",
-                    "Sử dụng Git Workflow bài bản (Feature Branching) để kiểm soát các bản cập nhật tính năng."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Git"
             }
         ],
         skills: [
@@ -131,6 +119,7 @@ SĐT: 0349421079`
     },
 
     en: {
+        projectDisplayLimit: 2,
         name: "TRUONG DINH ANH",
         title: "Junior Full-Stack Developer",
         contact: [
@@ -173,19 +162,6 @@ SĐT: 0349421079`
                     "Utilized Docker to containerize applications, writing custom setup scripts for consistent dev environments."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Docker, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Online store with real-time shopping cart synchronization and inventory checking.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Built React frontend and developed Express APIs for managing orders, checkout, and inventory validation.",
-                    "Investigated and resolved race condition sync bugs in cart state when users opened multiple tabs.",
-                    "Followed clean Git Workflow (Feature Branching) to organize new features and bug fixes."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Git"
             }
         ],
         skills: [

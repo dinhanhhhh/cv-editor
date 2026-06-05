@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
   vi: {
+        projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Technical Support Engineer",
     contact: [
@@ -85,6 +86,7 @@ const cvData = {
   },
 
   en: {
+        projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
     title: "Technical Support Engineer",
     contact: [

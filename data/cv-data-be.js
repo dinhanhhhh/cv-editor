@@ -7,6 +7,8 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        experienceDisplayLimit: 1,
+        projectDisplayLimit: 1,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Back-End Developer",
         contact: [
@@ -18,11 +20,28 @@ const cvData = {
         sections: {
             objective: "TÓM TẮT CHUYÊN MÔN",
             education: "HỌC VẤN",
-            projects: "DỰ ÁN & KINH NGHIỆM",
+            experience: "KINH NGHIỆM LÀM VIỆC",
+            projects: "DỰ ÁN CÁ NHÂN",
             skills: "KỸ NĂNG CHUYÊN MÔN"
         },
-        objective: "Lập trình viên Back-End chuyên về Node.js (Express, Nest.js) và TypeScript, với tư duy hệ thống vững chắc. Có kinh nghiệm thiết kế RESTful API có khả năng mở rộng, tối ưu cơ sở dữ liệu (MySQL, MongoDB, PostgreSQL) và xây dựng hệ thống xác thực bảo mật cao (JWT, RBAC, OAuth2). Thành thạo triển khai middleware, xử lý tác vụ nền và quản lý mã nguồn với Git. Luôn ưu tiên viết code sạch, dễ bảo trì, tối ưu hiệu suất server và hoàn thành dự án đúng thời hạn.",
+        objective: "Lập trình viên Back-End sử dụng Node.js và TypeScript với nền tảng tư duy hệ thống tốt, định hướng phát triển chuyên sâu vào tối ưu hóa API và bảo mật hệ thống. Có khả năng tự chủ công việc cao, thành thạo tối ưu hóa cơ sở dữ liệu và triển khai quy trình vận hành dự án thực tế. Mong muốn cống hiến năng lực giải quyết vấn đề của mình để xây dựng các giải pháp backend ổn định và đồng hành cùng sự tăng trưởng bền vững của công ty.",
         education: cvGlobalEdu.vi,
+        experience: [
+            {
+                name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
+                date: "06/2025 - 09/2025",
+                role: "Thực tập sinh Back-End Developer",
+                desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
+                tasks: [
+                    "Thiết kế cấu trúc cơ sở dữ liệu và triển khai cơ sở dữ liệu PostgreSQL trên hạ tầng Supabase Cloud.",
+                    "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu chứng khoán.",
+                    "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
+                    "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
+                    "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel."
+                ],
+                tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
+            }
+        ],
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
@@ -69,7 +88,7 @@ const cvData = {
         ],
         skills: [
             { cat: "Ngôn ngữ & Core", items: "TypeScript, JavaScript (ES6+), Node.js (Runtime)" },
-            { cat: "Frameworks",     items: "Express.js, Nest.js (Learning), MVC Architecture" },
+            { cat: "Frameworks",     items: "Express.js, Nest.js (Learning), Next.js (API Routes), MVC Architecture" },
             { cat: "Database",        items: "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions" },
             { cat: "Security & API",  items: "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI" },
             { cat: "Tools & DevOps",  items: "Git/GitHub, Docker, Postman, CI/CD basic, Vercel/Render" }
@@ -79,6 +98,8 @@ const cvData = {
     },
 
     en: {
+        experienceDisplayLimit: 1,
+        projectDisplayLimit: 1,
         name: "TRUONG DINH ANH",
         title: "Back-End Developer",
         contact: [
@@ -90,11 +111,28 @@ const cvData = {
         sections: {
             objective: "PROFESSIONAL SUMMARY",
             education: "EDUCATION",
-            projects: "WORK EXPERIENCE & PROJECTS",
+            experience: "WORK EXPERIENCE",
+            projects: "PERSONAL PROJECTS",
             skills: "TECHNICAL SKILLS"
         },
-        objective: "Back-End Developer specializing in Node.js (Express, Nest.js) and TypeScript, with a strong systems mindset. Experienced in designing scalable RESTful APIs, optimizing database systems (MySQL, MongoDB, PostgreSQL), and implementing secure authentication flows (JWT, RBAC, OAuth2). Proficient in middleware development, background task processing, and version control with Git. Committed to writing clean, maintainable code, optimizing server performance, and delivering high-quality solutions on time.",
+        objective: "Back-End Developer proficient in Node.js and TypeScript with a solid system mindset, aiming to specialize in API optimization and system security. Possesses strong self-direction, database optimization skills, and hands-on experience in production deployment. Committed to leveraging problem-solving skills to build reliable backend services and grow alongside the company’s sustainable success.",
         education: cvGlobalEdu.en,
+        experience: [
+            {
+                name: "TAMI TECHNOLOGY CO., LTD",
+                date: "06/2025 - 09/2025",
+                role: "Back-End Developer Intern",
+                desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
+                tasks: [
+                    "Designed database schemas and successfully deployed PostgreSQL databases on the Supabase cloud infrastructure.",
+                    "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
+                    "Integrated Google Authentication OAuth flow centralized with NextAuth (Google Provider) for user sessions.",
+                    "Tested and optimized API performance using Postman, resolving critical bugs under mentor guidance.",
+                    "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment."
+                ],
+                tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
+            }
+        ],
         projects: [
             {
                 name: "JOB PORTAL BACKEND SYSTEM",
@@ -141,7 +179,7 @@ const cvData = {
         ],
         skills: [
             { cat: "Languages & Core", items: "TypeScript, JavaScript (ES6+), Node.js (Runtime)" },
-            { cat: "Frameworks",       items: "Express.js, Nest.js (Learning), MVC Architecture" },
+            { cat: "Frameworks",       items: "Express.js, Nest.js (Learning), Next.js (API Routes), MVC Architecture" },
             { cat: "Databases",        items: "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions" },
             { cat: "Security & API",   items: "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI" },
             { cat: "Tools & DevOps",   items: "Git/GitHub, Docker, Postman, CI/CD basic, Vercel/Render" }

@@ -26,11 +26,14 @@
             <div class="version-label">📦 Bản CV</div>
             <a href="index.html" class="version-item" id="ver-default">Chung</a>
             <a href="index.html?type=frontend" class="version-item" id="ver-frontend">Frontend</a>
+            <a href="index.html?type=nubitel" class="version-item" id="ver-nubitel">📶 Nubitel FE</a>
+            <a href="index.html?type=basevn" class="version-item" id="ver-basevn">⚡ Base.vn FS</a>
             <a href="index.html?type=backend" class="version-item" id="ver-backend">Backend</a>
             <a href="index.html?type=nestjs" class="version-item" id="ver-nestjs">🏥 PKH NestJS</a>
             <a href="index.html?type=healthcare" class="version-item" id="ver-healthcare">🦷 Healthcare FS</a>
-            <a href="index.html?type=ai" class="version-item" id="ver-ai">🤖 AgileOps AI</a>
-            <a href="index.html?type=ai-webdev" class="version-item" id="ver-ai-webdev">🌐 AgileOps WebDev</a>
+            <a href="index.html?type=ai" class="version-item" id="ver-ai">🤖 AI Researcher</a>
+            <a href="index.html?type=ai-webdev" class="version-item" id="ver-ai-webdev">🌐 AI WebDev</a>
+            <a href="index.html?type=yody" class="version-item" id="ver-yody">🟡 Yody Shaper</a>
             <a href="index.html?type=agrizen" class="version-item" id="ver-agrizen">🌱 Agrizen FS</a>
             <a href="index.html?type=opswat" class="version-item" id="ver-opswat">🛡️ OPSWAT Intern</a>
             <a href="index.html?type=beone" class="version-item" id="ver-beone">🐝 BeOne Intern</a>
@@ -48,7 +51,7 @@
 
         <div class="font-customizer" role="group" aria-label="Tùy chỉnh cỡ chữ">
             <button id="font-decrease" type="button" title="Giảm font chữ" aria-label="Giảm cỡ chữ CV">A-</button>
-            <div class="font-size-display" id="fontSizeDisplay" aria-live="polite">10pt</div>
+            <div class="font-size-display" id="fontSizeDisplay" aria-live="polite">10.5pt</div>
             <button id="font-increase" type="button" title="Tăng font chữ" aria-label="Tăng cỡ chữ CV">A+</button>
         </div>
 
@@ -114,14 +117,20 @@
                 </div>
                 <button type="button" class="cl-modal-close" id="clModalCloseBtn" aria-label="Đóng">&times;</button>
             </div>
+            <div class="cl-modal-subtitle" id="clModalSubtitle">
+                Một thư giới thiệu ngắn gọn, chỉn chu sẽ giúp bạn trở nên chuyên nghiệp và gây ấn tượng hơn với nhà
+                tuyển dụng.
+            </div>
             <div class="cl-modal-body">
                 <div class="cl-editor-pane">
                     <div class="pane-label">✏️ Biên soạn (Raw Text)</div>
-                    <textarea id="clTextArea" class="cl-textarea" aria-label="Nội dung thư ứng tuyển" placeholder="Chưa có thư ứng tuyển..."></textarea>
+                    <textarea id="clTextArea" class="cl-textarea" aria-label="Nội dung thư ứng tuyển"
+                        placeholder="Chưa có thư ứng tuyển..."></textarea>
                 </div>
                 <div class="cl-preview-pane">
                     <div class="pane-label">👀 Xem trước (HTML Preview)</div>
-                    <div id="clPreviewContainer" class="cl-preview-container" aria-label="Xem trước thư ứng tuyển"></div>
+                    <div id="clPreviewContainer" class="cl-preview-container" aria-label="Xem trước thư ứng tuyển">
+                    </div>
                 </div>
             </div>
             <div class="cl-modal-footer">

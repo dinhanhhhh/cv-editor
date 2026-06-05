@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        projectDisplayLimit: 2,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Node.js Developer (Express / NestJS)",
         contact: [
@@ -51,20 +52,6 @@ const cvData = {
                     "Thiết kế DTO (Data Transfer Object) và Validation Pipes đảm bảo toàn vẹn dữ liệu đầu vào."
                 ],
                 tech: "Node.js, Express, MongoDB (Mongoose), Swagger, TypeScript, Middleware"
-            },
-            {
-                name: "E-COMMERCE API SERVICE",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Phát triển các dịch vụ API cốt lõi cho nền tảng thương mại điện tử, quản lý đơn hàng và tồn kho.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Xây dựng API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server với Dependency Injection.",
-                    "Triển khai Middleware/Guards kiểm tra quyền hạn Admin cho các thao tác thay đổi dữ liệu nhạy cảm.",
-                    "Thiết kế cơ chế xử lý thanh toán và trạng thái đơn hàng (Order Lifecycle) đảm bảo tính nhất quán.",
-                    "Thực hiện kiểm thử API kỹ lưỡng với Postman để đảm bảo độ tin cậy của mã nguồn."
-                ],
-                tech: "Node.js, Express, MySQL/MongoDB, JWT, Cloudinary (Image storage)"
             }
         ],
         skills: [
@@ -80,6 +67,7 @@ const cvData = {
     },
 
     en: {
+        projectDisplayLimit: 2,
         name: "TRUONG DINH ANH",
         title: "Node.js Developer (Express / NestJS)",
         contact: [
@@ -124,20 +112,6 @@ const cvData = {
                     "Designed DTOs (Data Transfer Objects) and Validation Pipes to ensure input data integrity."
                 ],
                 tech: "Node.js, Express, MongoDB (Mongoose), Swagger, TypeScript, Middleware"
-            },
-            {
-                name: "E-COMMERCE API SERVICE",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Developed core API services for e-commerce platforms, order fulfillment, and inventory management.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Developed server-side product management APIs and cart persistence systems using Dependency Injection.",
-                    "Implemented admin authorization Guards/Middleware for sensitive data operations and management features.",
-                    "Designed payment processing flows and order lifecycle management to maintain data consistency.",
-                    "Performed rigorous API testing with Postman to ensure code reliability and high success rates."
-                ],
-                tech: "Node.js, Express, MySQL/MongoDB, JWT, Cloudinary"
             }
         ],
         skills: [

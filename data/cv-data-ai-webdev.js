@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        projectDisplayLimit: 2,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "AI-first Web Developer (Fresher)",
         contact: [
@@ -50,19 +51,6 @@ const cvData = {
                     "Phát triển giao diện xử lý dữ liệu real-time với các thao tác CRUD và phản hồi tức thì cho người dùng."
                 ],
                 tech: "Next.js 15, TypeScript, Tailwind CSS, Node.js, Express, MongoDB, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Ứng dụng mua sắm trực tuyến với giao diện người dùng trực quan, giỏ hàng và quy trình thanh toán mượt mà.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Xây dựng giao diện React (Vite) responsive với Tailwind CSS, đảm bảo trải nghiệm nhất quán trên mobile và desktop.",
-                    "Tích hợp API giỏ hàng và checkout với validation form thông minh để tăng độ ổn định dữ liệu.",
-                    "Triển khai phân quyền User/Admin với UI thích ứng theo vai trò người dùng."
-                ],
-                tech: "React, Vite, Tailwind CSS, HTML/CSS, JavaScript, Node.js, Express, MongoDB"
             }
         ],
         skills: [
@@ -74,10 +62,11 @@ const cvData = {
             { cat: "Ngoại ngữ", items: "Tiếng Anh: Đọc hiểu tài liệu kỹ thuật, giao tiếp công việc, viết báo cáo kỹ thuật cơ bản" }
         ],
         btnText: "In / Tải PDF",
-        docTitle: "CV_TruongDinhAnh_AIWebDev_AgileOps"
+        docTitle: "CV_TruongDinhAnh_AI_WebDev"
     },
 
     en: {
+        projectDisplayLimit: 2,
         name: "TRUONG DINH ANH",
         title: "AI-first Web Developer (Fresher)",
         contact: [
@@ -121,19 +110,6 @@ const cvData = {
                     "Built a real-time data interface with CRUD operations and instant user feedback."
                 ],
                 tech: "Next.js 15, TypeScript, Tailwind CSS, Node.js, Express, MongoDB, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "An online shopping app with an intuitive UI, shopping cart, and smooth checkout experience.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Built a responsive React (Vite) UI with Tailwind CSS, ensuring a consistent experience on mobile and desktop.",
-                    "Integrated cart and checkout APIs with smart form validation for improved data reliability.",
-                    "Implemented User/Admin role-based access with adaptive UI based on user permissions."
-                ],
-                tech: "React, Vite, Tailwind CSS, HTML/CSS, JavaScript, Node.js, Express, MongoDB"
             }
         ],
         skills: [
@@ -145,6 +121,6 @@ const cvData = {
             { cat: "English", items: "Read technical docs, workplace communication, able to write basic technical reports" }
         ],
         btnText: "Print / Save PDF",
-        docTitle: "CV_TruongDinhAnh_AIWebDev_AgileOps"
+        docTitle: "CV_TruongDinhAnh_AI_WebDev"
     }
 };

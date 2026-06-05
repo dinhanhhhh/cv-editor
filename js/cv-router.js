@@ -13,6 +13,7 @@
         'healthcare': { data: 'data/cv-data-healthcare-fullstack.js', emoji: '🦷', id: 'ver-healthcare' },
         'ai': { data: 'data/cv-data-ai.js', emoji: '🤖', id: 'ver-ai' },
         'ai-webdev': { data: 'data/cv-data-ai-webdev.js', emoji: '🌐', id: 'ver-ai-webdev' },
+        'yody': { data: 'data/cv-data-yody.js', emoji: '🟡', id: 'ver-yody' },
         'agrizen': { data: 'data/cv-data-agrizen-fullstack.js', emoji: '🌱', id: 'ver-agrizen' },
         'opswat': { data: 'data/cv-data-opswat.js', emoji: '🛡️', id: 'ver-opswat' },
         'catspeak': { data: 'data/cv-data-catspeak.js', emoji: '🐈', id: 'ver-catspeak' },
@@ -21,6 +22,8 @@
         'kitgroup': { data: 'data/cv-data-kitgroup.js', emoji: '🏢', id: 'ver-kitgroup' },
         'beone': { data: 'data/cv-data-beone.js', emoji: '🐝', id: 'ver-beone' },
         'strapbuild': { data: 'data/cv-data-strapbuild.js', emoji: '🚀', id: 'ver-strapbuild' },
+        'nubitel': { data: 'data/cv-data-nubitel.js', emoji: '📶', id: 'ver-nubitel' },
+        'basevn': { data: 'data/cv-data-basevn.js', emoji: '⚡', id: 'ver-basevn' },
         'default': { data: 'data/cv-data-fullstack.js', emoji: '💼', id: 'ver-default' }
     };
 

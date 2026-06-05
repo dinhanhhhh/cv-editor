@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
   vi: {
+        projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Frontend Developer Intern (ReactJS)",
     contact: [
@@ -91,6 +92,7 @@ const cvData = {
     docTitle: "CV_TruongDinhAnh_Frontend_CatSpeak",
   },
   en: {
+        projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
     title: "Frontend Developer Intern (ReactJS)",
     contact: [

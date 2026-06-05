@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        projectDisplayLimit: 2,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Full-Stack Developer Intern",
         contact: [
@@ -51,20 +52,6 @@ const cvData = {
                     "Phát triển dashboard quản trị responsive với các thao tác CRUD và xử lý dữ liệu theo thời gian thực."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Giải pháp mua sắm trực tuyến mạnh mẽ với danh mục sản phẩm, giỏ hàng và quy trình xử lý đơn hàng.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Phát triển API cho quản lý sản phẩm, tồn kho và đơn hàng bằng Node.js và Express.",
-                    "Tích hợp API vào frontend React để đồng bộ dữ liệu cho giỏ hàng và quy trình checkout.",
-                    "Triển khai phân quyền User/Admin cho các tính năng nhạy cảm.",
-                    "Tối ưu validation form và luồng thanh toán để cải thiện độ ổn định khi xử lý dữ liệu."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [
@@ -80,6 +67,7 @@ const cvData = {
     },
 
     en: {
+        projectDisplayLimit: 2,
         name: "TRUONG DINH ANH",
         title: "Full-Stack Developer Intern",
         contact: [
@@ -124,20 +112,6 @@ const cvData = {
                     "Developed a responsive admin dashboard with CRUD flows and real-time data handling."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "An online shopping solution with product catalogs and order workflows.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Developed APIs for product, inventory, and order management using Node.js and Express.",
-                    "Integrated APIs into the React frontend for cart and checkout workflows.",
-                    "Implemented secure User and Admin roles for feature access.",
-                    "Improved data reliability through form validation and checkout flow optimization."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [

@@ -57,20 +57,6 @@ const cvData = {
                     "Áp dụng access token và refresh token cho luồng xác thực, giúp hệ thống vận hành ổn định và dễ bảo trì hơn."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Ứng dụng thương mại điện tử cho phép quản lý sản phẩm, giỏ hàng, checkout và quy trình xử lý đơn hàng cho người dùng và admin.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Phát triển API cho quản lý sản phẩm, tồn kho và đơn hàng bằng Node.js và Express, đảm bảo dữ liệu được xử lý nhất quán.",
-                    "Tích hợp API vào frontend React để đồng bộ dữ liệu cho giỏ hàng, checkout và các trang quản lý theo vai trò người dùng.",
-                    "Triển khai phân quyền User/Admin và validation form để giảm lỗi nhập liệu và tăng độ ổn định của luồng thanh toán.",
-                    "Tối ưu trải nghiệm responsive trên mobile và desktop, đồng thời hỗ trợ deploy và cấu hình môi trường cho bản chạy thử."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [
@@ -135,20 +121,6 @@ const cvData = {
                     "Implemented access token and refresh token authentication flows to improve system stability and maintainability."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "An e-commerce application supporting product management, shopping cart, checkout, and order handling for users and admins.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Developed APIs for product, inventory, and order management using Node.js and Express with consistent data handling.",
-                    "Integrated APIs into the React frontend for cart, checkout, and role-based management screens.",
-                    "Implemented User/Admin authorization and form validation to reduce input errors and improve checkout reliability.",
-                    "Optimized responsive behavior on mobile and desktop, and supported deployment and environment configuration for demo releases."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [

@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        projectDisplayLimit: 2,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Full-Stack Developer Intern (Node.js / Next.js)",
         contact: [
@@ -50,19 +51,6 @@ const cvData = {
                     "Viết tài liệu API chuyên nghiệp bằng Swagger, giúp tăng hiệu suất làm việc nhóm lên 30%."
                 ],
                 tech: "Node.js, Express, MySQL, Next.js 15, TypeScript, Swagger, Docker"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Hệ thống mua sắm trực tuyến tích hợp đồng bộ giỏ hàng và tự động cập nhật tồn kho.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Triển khai API xử lý đơn hàng và tích hợp kiểm tra số lượng tồn kho theo thời gian thực.",
-                    "Áp dụng cơ chế phân quyền User/Admin chặt chẽ để kiểm soát các tác vụ nhạy cảm trong hệ thống.",
-                    "Sử dụng Trello để quản lý tiến độ công việc, theo dõi lỗi (Bug tracking) và áp dụng quy trình Git Workflow (Feature Branching) khoa học."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Git, Trello"
             }
         ],
         skills: [
@@ -77,6 +65,7 @@ const cvData = {
     },
 
     en: {
+        projectDisplayLimit: 2,
         name: "TRUONG DINH ANH",
         title: "Full-Stack Developer Intern (Node.js / Next.js)",
         contact: [
@@ -120,19 +109,6 @@ const cvData = {
                     "Authored clean API documentation using Swagger, improving team communication and integration efficiency by 30%."
                 ],
                 tech: "Node.js, Express, MySQL, Next.js 15, TypeScript, Swagger, Docker"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "E-commerce system with shopping cart synchronization and automated inventory stock tracking.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Constructed backend APIs for order processing and real-time product stock level validation.",
-                    "Enforced strict User/Admin authorization checks for administrative control and data operations.",
-                    "Managed project milestones and tracked bugs using Trello, applying structured Git Workflow (Feature Branching) to develop features."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Git, Trello"
             }
         ],
         skills: [

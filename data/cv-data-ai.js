@@ -7,8 +7,9 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
   vi: {
+        projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
-    title: "AI & Backend Intern",
+    title: "AI Integration Researcher Intern",
     contact: [
       { icon: "phone", text: "0349421079" },
       {
@@ -33,7 +34,7 @@ const cvData = {
       "Fresher với nền tảng Khoa học Máy tính và đam mê mạnh mẽ với AI, LLMs và Agentic AI. Có kinh nghiệm thực tế xây dựng hệ thống backend tự động hóa, tích hợp API và xử lý dữ liệu. Thành thạo Python và JavaScript, có khả năng tiếp thu nhanh các công nghệ mới như Generative AI, prompt engineering và các mô hình AI tiên tiến. Sẵn sàng làm việc full-time trong môi trường năng động và không ngừng học hỏi.",
     education: cvGlobalEdu.vi,
     projects: [
-      {
+            {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
         role: "Developer",
@@ -46,7 +47,7 @@ const cvData = {
         ],
         tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Python scripting",
       },
-      {
+            {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
         role: "Developer",
@@ -59,21 +60,8 @@ const cvData = {
           "Phát triển dashboard xử lý dữ liệu real-time với CRUD thông minh và cơ chế đồng bộ dữ liệu tức thì.",
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger",
-      },
-      {
-        name: "E-COMMERCE PLATFORM",
-        date: "08/2025 - 09/2025",
-        role: "Developer",
-        desc: "Giải pháp thương mại điện tử với hệ thống automation cho quản lý tồn kho, đơn hàng và phân tích dữ liệu bán hàng.",
-        github: "https://github.com/dinhanhhhh/ecommerce",
-        tasks: [
-          "Xây dựng hệ thống API tự động hóa quản lý sản phẩm, tồn kho và theo dõi đơn hàng với Node.js và Express.",
-          "Triển khai cơ chế phân quyền User/Admin tự động và validation dữ liệu thông minh để đảm bảo tính toàn vẹn.",
-          "Tích hợp React frontend với backend API, tối ưu luồng dữ liệu cho quy trình checkout và giỏ hàng.",
+      }
         ],
-        tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Python",
-      },
-    ],
     skills: [
       {
         cat: "AI & LLM",
@@ -109,8 +97,9 @@ const cvData = {
   },
 
   en: {
+        projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
-    title: "AI & Backend Intern",
+    title: "AI Integration Researcher Intern",
     contact: [
       { icon: "phone", text: "0349421079" },
       {
@@ -135,7 +124,7 @@ const cvData = {
       "Computer Science graduate with a strong passion for AI, Large Language Models, and Agentic AI systems. Hands-on experience building automated backend systems, integrating APIs, and processing data at scale. Proficient in Python and JavaScript with a rapid learning ability for emerging AI technologies including Generative AI, prompt engineering, and advanced AI models. Eager to grow in a fast-paced, AI-driven environment.",
     education: cvGlobalEdu.en,
     projects: [
-      {
+            {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
         role: "Developer",
@@ -148,7 +137,7 @@ const cvData = {
         ],
         tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Python scripting",
       },
-      {
+            {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
         role: "Developer",
@@ -161,21 +150,8 @@ const cvData = {
           "Built a real-time data dashboard with intelligent CRUD operations and instant data synchronization.",
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind, Swagger",
-      },
-      {
-        name: "E-COMMERCE PLATFORM",
-        date: "08/2025 - 09/2025",
-        role: "Developer",
-        desc: "An e-commerce solution with intelligent automation for inventory, order management, and sales data analysis.",
-        github: "https://github.com/dinhanhhhh/ecommerce",
-        tasks: [
-          "Built an automation API system for product management, inventory tracking, and order processing.",
-          "Implemented smart role-based access control (User/Admin) with automated data validation and integrity checks.",
-          "Integrated React frontend with backend APIs, optimizing data flow for checkout and cart workflows.",
+      }
         ],
-        tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Python",
-      },
-    ],
     skills: [
       {
         cat: "AI & LLM",

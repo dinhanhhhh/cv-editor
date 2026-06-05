@@ -7,6 +7,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 
 const cvData = {
     vi: {
+        projectDisplayLimit: 2,
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Full-Stack Developer Intern (ReactJS & NodeJS)",
         contact: [
@@ -52,19 +53,6 @@ const cvData = {
                     "Xử lý hiển thị dữ liệu real-time trên dashboard responsive, tối ưu trải nghiệm quản trị viên."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "Giải pháp thương mại điện tử với hệ thống automation quản lý kho và đơn hàng.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Tích hợp RESTful API từ backend, xử lý đồng bộ dữ liệu real-time cho giỏ hàng và đơn hàng.",
-                    "Triển khai cơ chế phân quyền User/Admin chặt chẽ cho các thao tác quản lý dữ liệu nhạy cảm.",
-                    "Tối ưu hóa quy trình checkout và validation form để tăng độ tin cậy của hệ thống."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [
@@ -80,6 +68,7 @@ const cvData = {
     },
 
     en: {
+        projectDisplayLimit: 2,
         name: "TRUONG DINH ANH",
         title: "Full-Stack Developer Intern (ReactJS & NodeJS)",
         contact: [
@@ -125,19 +114,6 @@ const cvData = {
                     "Engineered real-time data visualization on a responsive dashboard for administrative efficiency."
                 ],
                 tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind, Swagger"
-            },
-            {
-                name: "E-COMMERCE PLATFORM",
-                date: "08/2025 - 09/2025",
-                role: "Developer",
-                desc: "E-commerce solution with intelligent automation for inventory and order management.",
-                github: "https://github.com/dinhanhhhh/ecommerce",
-                tasks: [
-                    "Integrated backend RESTful APIs with real-time data synchronization for carts and orders.",
-                    "Implemented strict User/Admin authorization mechanisms for sensitive data management.",
-                    "Optimized the checkout flow and form validation to enhance system reliability and user trust."
-                ],
-                tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS"
             }
         ],
         skills: [
