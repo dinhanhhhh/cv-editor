@@ -385,12 +385,34 @@ const allDataFiles = [
   'data/cv-data-fullstack.js'
 ];
 
+function normalizeProjId(proj, backupName) {
+  if (!proj) return "";
+  if (proj.id) return proj.id.trim().toLowerCase();
+  
+  const name = (proj.name || backupName || "").trim().toUpperCase();
+  if (!name) return "";
+  
+  // Smart keyword normalization to link identical projects with different titles/translations
+  if (name.includes("JOB PORTAL") || name.includes("TUYỂN DỤNG")) {
+    return "job-portal-platform";
+  }
+  if (name.includes("E-COMMERCE") || name.includes("THƯƠNG MẠI")) {
+    return "ecommerce-platform";
+  }
+  if (name.includes("STUDENT MANAGEMENT") || name.includes("QUẢN LÝ HỌC SINH") || name.includes("QUẢN LÝ SINH VIÊN")) {
+    return "student-management-system";
+  }
+  
+  // Fallback to name-based slug
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
 function addProjectsToPool(viProjects, enProjects) {
   const normVi = Array.isArray(viProjects) ? viProjects : [];
   const normEn = Array.isArray(enProjects) ? enProjects : [];
   normVi.forEach((viProj, idx) => {
     const enProj = normEn[idx] || viProj;
-    const projId = (enProj.name || viProj.name).trim().toUpperCase();
+    const projId = normalizeProjId(enProj, viProj.name) || normalizeProjId(viProj, enProj.name);
     if (!globalProjectPool.some(p => p.id === projId)) {
       globalProjectPool.push({
         id: projId,
@@ -502,15 +524,8 @@ function handleDragEnd(e) {
   });
 }
 
-function getProjectId(p, lang) {
-  if (!p || !p.name) return "";
-  const nameToMatch = p.name.trim().toUpperCase();
-  const found = globalProjectPool.find(item => {
-    const itemViName = (item.vi && item.vi.name) ? item.vi.name.trim().toUpperCase() : "";
-    const itemEnName = (item.en && item.en.name) ? item.en.name.trim().toUpperCase() : "";
-    return itemViName === nameToMatch || itemEnName === nameToMatch;
-  });
-  return found ? found.id : nameToMatch;
+function getProjectId(p) {
+  return normalizeProjId(p);
 }
 
 function updateProjectSelector(d, lang) {
@@ -549,13 +564,13 @@ function updateProjectSelector(d, lang) {
         // Fallback to default
         const currentProjs = d.projects || [];
         const limit = d.projectDisplayLimit || 1;
-        activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p, lang));
+        activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p));
       }
     } else {
       // Default select first 'projectDisplayLimit' projects from current CV data
       const currentProjs = d.projects || [];
       const limit = d.projectDisplayLimit || 1;
-      activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p, lang));
+      activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p));
     }
     
     // Trigger background fetch for the rest of projects
@@ -566,7 +581,7 @@ function updateProjectSelector(d, lang) {
   const subtitleText = lang === "vi" ? "Chọn dự án đưa vào CV" : "Toggle projects in CV";
 
   // Segment pool into current CV projects and others
-  const currentCvProjNames = (d.projects || []).map(p => getProjectId(p, lang));
+  const currentCvProjNames = (d.projects || []).map(p => getProjectId(p));
   const currentProjs = globalProjectPool.filter(p => currentCvProjNames.includes(p.id));
   const otherProjs = globalProjectPool.filter(p => !currentCvProjNames.includes(p.id));
 
@@ -653,7 +668,7 @@ function updateProjectSelector(d, lang) {
       localStorage.removeItem(`cv_projects_order_${cvVersion}`);
       const currentProjs = d.projects || [];
       const limit = d.projectDisplayLimit || 1;
-      activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p, lang));
+      activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p));
       
       const scrollPos = window.scrollY;
       renderCV(currentLang);
@@ -791,6 +806,8 @@ function renderCV(lang) {
           ${renderProjects(
             activeProjectIds
               .map(id => {
+                const currentProj = (d.projects || []).find(p => getProjectId(p) === id);
+                if (currentProj) return currentProj;
                 const p = globalProjectPool.find(item => item.id === id);
                 return p ? p[lang] : null;
               })
