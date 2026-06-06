@@ -19,8 +19,8 @@ let baseFontSize = 10.5;
 const DEFAULT_FONT_SIZE = 10.5;
 const DEFAULT_LINE_HEIGHT = "1.3";
 const DEFAULT_PADDING = "10mm 15mm 10mm 15mm";
-const DEFAULT_SECTION_MARGIN = "18px";
-const DEFAULT_ITEM_MARGIN = "12px";
+const DEFAULT_SECTION_MARGIN = "13px";
+const DEFAULT_ITEM_MARGIN = "8px";
 
 const labels = {
   vi: {
@@ -252,8 +252,8 @@ function magicFit() {
   baseFontSize = 11.5;
   let currentLineHeight = 1.7;
   let currentPaddingSide = 15;
-  let sectionMargin = 25;
-  let itemMargin = 20;
+  let sectionMargin = 18;
+  let itemMargin = 12;
 
   let safety = 0;
   const maxIter = 100;
@@ -305,10 +305,10 @@ function magicFit() {
     if (currentLineHeight < 1.75) {
       currentLineHeight += 0.03;
       changed = true;
-    } else if (sectionMargin < 35) {
+    } else if (sectionMargin < 24) {
       sectionMargin += 2;
       changed = true;
-    } else if (itemMargin < 25) {
+    } else if (itemMargin < 16) {
       itemMargin += 2;
       changed = true;
     } else if (baseFontSize < 11.5) {
