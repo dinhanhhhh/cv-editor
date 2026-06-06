@@ -18,9 +18,9 @@ let currentLang = "vi";
 let baseFontSize = 10.5;
 const DEFAULT_FONT_SIZE = 10.5;
 const DEFAULT_LINE_HEIGHT = "1.3";
-const DEFAULT_PADDING = "10mm 15mm 10mm 15mm";
-const DEFAULT_SECTION_MARGIN = "18px";
-const DEFAULT_ITEM_MARGIN = "12px";
+const DEFAULT_PADDING = "6mm 15mm 10mm 15mm";
+const DEFAULT_SECTION_MARGIN = "10px";
+const DEFAULT_ITEM_MARGIN = "8px";
 
 const labels = {
   vi: {
@@ -57,6 +57,10 @@ const elements = {
   fontDecreaseBtn: document.getElementById("font-decrease"),
   downloadBtn: document.getElementById("downloadBtn"),
   downloadBtnText: document.getElementById("btn-text"),
+  sectionMarginSlider: null,
+  sectionMarginVal: null,
+  itemMarginSlider: null,
+  itemMarginVal: null,
 };
 
 // ===================================
@@ -70,16 +74,85 @@ function updateFontSize() {
   elements.fontSizeDisplay.textContent = baseFontSize.toFixed(1) + "pt";
 }
 
+function initSpacingCustomizer() {
+  const fontCustomizer = document.querySelector(".font-customizer");
+  if (!fontCustomizer) return;
+
+  const sectionLabelText = currentLang === "vi" ? "↕️ Phần:" : "↕️ Section:";
+  const itemLabelText = currentLang === "vi" ? "↕️ Mục:" : "↕️ Item:";
+
+  // Check if already created
+  if (document.getElementById("sectionMarginSlider")) {
+    const labels = document.querySelectorAll(".spacing-customizer .slider-label");
+    if (labels.length >= 2) {
+      labels[0].textContent = sectionLabelText;
+      labels[0].title = currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin';
+      labels[1].textContent = itemLabelText;
+      labels[1].title = currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin';
+    }
+    return;
+  }
+
+  const spacingCustomizer = document.createElement("div");
+  spacingCustomizer.className = "spacing-customizer";
+  spacingCustomizer.setAttribute("aria-label", currentLang === "vi" ? "Tùy chỉnh khoảng cách" : "Customize spacing");
+
+  spacingCustomizer.innerHTML = `
+    <div class="slider-wrapper">
+      <span class="slider-label" title="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">${sectionLabelText}</span>
+      <input type="range" id="sectionMarginSlider" min="4" max="35" value="10" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">
+      <span class="slider-value" id="sectionMarginVal">10px</span>
+    </div>
+    <div class="slider-wrapper">
+      <span class="slider-label" title="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">${itemLabelText}</span>
+      <input type="range" id="itemMarginSlider" min="2" max="25" value="8" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">
+      <span class="slider-value" id="itemMarginVal">8px</span>
+    </div>
+  `;
+
+  // Insert after .font-customizer
+  fontCustomizer.parentNode.insertBefore(spacingCustomizer, fontCustomizer.nextSibling);
+
+  // Bind references to elements
+  elements.sectionMarginSlider = document.getElementById("sectionMarginSlider");
+  elements.sectionMarginVal = document.getElementById("sectionMarginVal");
+  elements.itemMarginSlider = document.getElementById("itemMarginSlider");
+  elements.itemMarginVal = document.getElementById("itemMarginVal");
+
+  // Add event listeners
+  elements.sectionMarginSlider.oninput = (e) => {
+    const val = parseInt(e.target.value);
+    elements.sectionMarginVal.textContent = val + "px";
+    
+    document.querySelectorAll(".cv-section").forEach((s) => {
+      s.style.marginBottom = val + "px";
+    });
+  };
+
+  elements.itemMarginSlider.oninput = (e) => {
+    const val = parseInt(e.target.value);
+    elements.itemMarginVal.textContent = val + "px";
+    
+    document.querySelectorAll(".cv-exp-item, .cv-edu-item").forEach((item) => {
+      item.style.marginBottom = val + "px";
+    });
+  };
+}
+
 function resetLayoutStyles() {
   elements.preview.style.height = "auto";
   elements.preview.style.overflow = "visible";
   elements.preview.style.lineHeight = DEFAULT_LINE_HEIGHT;
   elements.preview.style.padding = DEFAULT_PADDING;
+
+  const sectionVal = elements.sectionMarginSlider ? elements.sectionMarginSlider.value + "px" : DEFAULT_SECTION_MARGIN;
+  const itemVal = elements.itemMarginSlider ? elements.itemMarginSlider.value + "px" : DEFAULT_ITEM_MARGIN;
+
   document.querySelectorAll(".cv-section").forEach((section) => {
-    section.style.marginBottom = DEFAULT_SECTION_MARGIN;
+    section.style.marginBottom = sectionVal;
   });
   document.querySelectorAll(".cv-exp-item, .cv-edu-item").forEach((item) => {
-    item.style.marginBottom = DEFAULT_ITEM_MARGIN;
+    item.style.marginBottom = itemVal;
   });
 }
 
@@ -252,8 +325,8 @@ function magicFit() {
   baseFontSize = 11.5;
   let currentLineHeight = 1.7;
   let currentPaddingSide = 15;
-  let sectionMargin = 25;
-  let itemMargin = 20;
+  let sectionMargin = 18;
+  let itemMargin = 12;
 
   let safety = 0;
   const maxIter = 100;
@@ -268,6 +341,15 @@ function magicFit() {
     document
       .querySelectorAll(".cv-exp-item, .cv-edu-item")
       .forEach((i) => (i.style.marginBottom = itemMargin + "px"));
+
+    if (elements.sectionMarginSlider) {
+      elements.sectionMarginSlider.value = sectionMargin;
+      elements.sectionMarginVal.textContent = sectionMargin + "px";
+    }
+    if (elements.itemMarginSlider) {
+      elements.itemMarginSlider.value = itemMargin;
+      elements.itemMarginVal.textContent = itemMargin + "px";
+    }
   }
 
   // Phase 1: Thu hẹp nếu tràn (Shrink phase)
@@ -305,10 +387,10 @@ function magicFit() {
     if (currentLineHeight < 1.75) {
       currentLineHeight += 0.03;
       changed = true;
-    } else if (sectionMargin < 35) {
+    } else if (sectionMargin < 24) {
       sectionMargin += 2;
       changed = true;
-    } else if (itemMargin < 25) {
+    } else if (itemMargin < 16) {
       itemMargin += 2;
       changed = true;
     } else if (baseFontSize < 11.5) {
@@ -338,6 +420,16 @@ elements.magicFitBtn.onclick = magicFit;
 function resetSettings() {
   baseFontSize = DEFAULT_FONT_SIZE;
   updateFontSize();
+
+  if (elements.sectionMarginSlider) {
+    elements.sectionMarginSlider.value = parseInt(DEFAULT_SECTION_MARGIN);
+    elements.sectionMarginVal.textContent = DEFAULT_SECTION_MARGIN;
+  }
+  if (elements.itemMarginSlider) {
+    elements.itemMarginSlider.value = parseInt(DEFAULT_ITEM_MARGIN);
+    elements.itemMarginVal.textContent = DEFAULT_ITEM_MARGIN;
+  }
+
   resetLayoutStyles();
   setA4Mode(false);
 }
@@ -869,6 +961,7 @@ function renderCV(lang) {
     `;
 
   elements.preview.innerHTML = html;
+  initSpacingCustomizer();
   resetLayoutStyles();
   updateFontSize();
   setA4Mode(a4ModeActive);
