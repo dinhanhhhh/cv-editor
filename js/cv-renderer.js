@@ -443,6 +443,10 @@ async function loadAllProjectsBackground() {
   renderCV(currentLang);
 }
 
+function saveActiveProjects() {
+  localStorage.setItem(`cv_projects_order_${cvVersion}`, JSON.stringify(activeProjectIds));
+}
+
 function handleDragStart(e) {
   dragSourceEl = this;
   e.dataTransfer.effectAllowed = 'move';
@@ -481,6 +485,7 @@ function handleDrop(e) {
     if (sourceIdx > -1 && targetIdx > -1) {
       activeProjectIds.splice(sourceIdx, 1);
       activeProjectIds.splice(targetIdx, 0, sourceId);
+      saveActiveProjects();
       
       const scrollPos = window.scrollY;
       renderCV(currentLang);
@@ -495,6 +500,17 @@ function handleDragEnd(e) {
   document.querySelectorAll('.proj-order-item').forEach(item => {
     item.classList.remove('over');
   });
+}
+
+function getProjectId(p, lang) {
+  if (!p || !p.name) return "";
+  const nameToMatch = p.name.trim().toUpperCase();
+  const found = globalProjectPool.find(item => {
+    const itemViName = (item.vi && item.vi.name) ? item.vi.name.trim().toUpperCase() : "";
+    const itemEnName = (item.en && item.en.name) ? item.en.name.trim().toUpperCase() : "";
+    return itemViName === nameToMatch || itemEnName === nameToMatch;
+  });
+  return found ? found.id : nameToMatch;
 }
 
 function updateProjectSelector(d, lang) {
@@ -523,10 +539,24 @@ function updateProjectSelector(d, lang) {
       addProjectsToPool(cvData.vi.projects, cvData.en.projects);
     }
     
-    // Default select first 'projectDisplayLimit' projects from current CV data
-    const currentProjs = d.projects || [];
-    const limit = d.projectDisplayLimit || 1;
-    activeProjectIds = currentProjs.slice(0, limit).map(p => p.name.trim().toUpperCase());
+    // Attempt to load from localStorage first
+    const savedIds = localStorage.getItem(`cv_projects_order_${cvVersion}`);
+    if (savedIds) {
+      try {
+        activeProjectIds = JSON.parse(savedIds);
+      } catch (e) {
+        console.warn("Failed to parse saved active project IDs", e);
+        // Fallback to default
+        const currentProjs = d.projects || [];
+        const limit = d.projectDisplayLimit || 1;
+        activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p, lang));
+      }
+    } else {
+      // Default select first 'projectDisplayLimit' projects from current CV data
+      const currentProjs = d.projects || [];
+      const limit = d.projectDisplayLimit || 1;
+      activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p, lang));
+    }
     
     // Trigger background fetch for the rest of projects
     loadAllProjectsBackground();
@@ -536,7 +566,7 @@ function updateProjectSelector(d, lang) {
   const subtitleText = lang === "vi" ? "Chọn dự án đưa vào CV" : "Toggle projects in CV";
 
   // Segment pool into current CV projects and others
-  const currentCvProjNames = (d.projects || []).map(p => p.name.trim().toUpperCase());
+  const currentCvProjNames = (d.projects || []).map(p => getProjectId(p, lang));
   const currentProjs = globalProjectPool.filter(p => currentCvProjNames.includes(p.id));
   const otherProjs = globalProjectPool.filter(p => !currentCvProjNames.includes(p.id));
 
@@ -590,7 +620,12 @@ function updateProjectSelector(d, lang) {
   const orderLabel = lang === "vi" ? "Thứ tự hiển thị (Kéo thả)" : "Display Order (Drag & Drop)";
 
   panel.innerHTML = `
-    <div class="proj-select-title">${titleText}</div>
+    <div class="proj-select-header">
+      <span class="proj-select-title">${titleText}</span>
+      <button class="proj-select-reset-btn" id="projSelectResetBtn" title="${lang === "vi" ? "Khôi phục mặc định" : "Restore defaults"}">
+        ${lang === "vi" ? "Khôi phục 🔄" : "Reset 🔄"}
+      </button>
+    </div>
     <div class="proj-select-subtitle">${subtitleText}</div>
     
     ${activeProjectIds.length > 0 ? `
@@ -611,6 +646,21 @@ function updateProjectSelector(d, lang) {
     </div>
   `;
 
+  // Attach reset listener
+  const resetBtn = panel.querySelector("#projSelectResetBtn");
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      localStorage.removeItem(`cv_projects_order_${cvVersion}`);
+      const currentProjs = d.projects || [];
+      const limit = d.projectDisplayLimit || 1;
+      activeProjectIds = currentProjs.slice(0, limit).map(p => getProjectId(p, lang));
+      
+      const scrollPos = window.scrollY;
+      renderCV(currentLang);
+      window.scrollTo(0, scrollPos);
+    };
+  }
+
   // Attach change listener
   panel.querySelectorAll("input[type='checkbox']").forEach((checkbox) => {
     checkbox.onchange = (e) => {
@@ -622,6 +672,7 @@ function updateProjectSelector(d, lang) {
       } else {
         activeProjectIds = activeProjectIds.filter((item) => item !== id);
       }
+      saveActiveProjects();
       
       const scrollPos = window.scrollY;
       renderCV(currentLang);
@@ -648,6 +699,7 @@ function updateProjectSelector(d, lang) {
       if (idx > 0) {
         activeProjectIds.splice(idx, 1);
         activeProjectIds.splice(idx - 1, 0, id);
+        saveActiveProjects();
         const scrollPos = window.scrollY;
         renderCV(currentLang);
         window.scrollTo(0, scrollPos);
@@ -663,6 +715,7 @@ function updateProjectSelector(d, lang) {
       if (idx > -1 && idx < activeProjectIds.length - 1) {
         activeProjectIds.splice(idx, 1);
         activeProjectIds.splice(idx + 1, 0, id);
+        saveActiveProjects();
         const scrollPos = window.scrollY;
         renderCV(currentLang);
         window.scrollTo(0, scrollPos);
