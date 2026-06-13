@@ -117,7 +117,7 @@ Feature mới, fix bug phức tạp, refactor, thay đổi nhiều file.
 
 ## Phần 7: Git Convention
 
-**Commit message:** `<type>: <mô tả ngắn>`
+**Commit message:** `<type>: <mô tả ngắn bằng TIẾNG ANH>` (Luôn luôn viết commit message bằng tiếng Anh).
 
 | Type | Khi nào dùng |
 |---|---|
