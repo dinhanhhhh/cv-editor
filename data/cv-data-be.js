@@ -5,7 +5,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 }
 
 
-const cvData = {
+var cvData = {
     vi: {
         experienceDisplayLimit: 1,
         projectDisplayLimit: 1,

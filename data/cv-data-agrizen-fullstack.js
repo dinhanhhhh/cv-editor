@@ -2,7 +2,7 @@
 // AUTO GENERATED DATA BY TELEGRAM BOT
 // ===================================
 
-const cvData = {
+var cvData = {
   "vi": {
         projectDisplayLimit: 2,
     "header": {

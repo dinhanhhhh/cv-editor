@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/cv-layout.css">
+    <!-- Manifest (nguồn danh sách phiên bản duy nhất) phải nạp trước router -->
+    <script src="data/cv-manifest.js"></script>
     <!-- Router Logic (Xử lý nạp dữ liệu ngay lập tức) -->
     <script src="js/cv-router.js"></script>
 </head>
@@ -21,27 +23,10 @@
     <a class="skip-link" href="#cvContent">Bỏ qua phần điều khiển và đến nội dung CV</a>
 
     <div class="controls" aria-label="CV controls">
-        <!-- MENU CHỌN PHIÊN BẢN (DỌC) -->
-        <nav class="version-switch" aria-label="Chọn phiên bản CV">
+        <!-- MENU CHỌN PHIÊN BẢN (DỌC) — render động từ data/cv-manifest.js -->
+        <nav class="version-switch" aria-label="Chọn phiên bản CV" id="versionSwitch">
             <div class="version-label">📦 Bản CV</div>
-            <a href="index.html" class="version-item" id="ver-default">Chung</a>
-            <a href="index.html?type=frontend" class="version-item" id="ver-frontend">Frontend</a>
-            <a href="index.html?type=nubitel" class="version-item" id="ver-nubitel">📶 Nubitel FE</a>
-            <a href="index.html?type=basevn" class="version-item" id="ver-basevn">⚡ Base.vn FS</a>
-            <a href="index.html?type=backend" class="version-item" id="ver-backend">Backend</a>
-            <a href="index.html?type=nestjs" class="version-item" id="ver-nestjs">🏥 PKH NestJS</a>
-            <a href="index.html?type=healthcare" class="version-item" id="ver-healthcare">🦷 Healthcare FS</a>
-            <a href="index.html?type=ai" class="version-item" id="ver-ai">🤖 AI Researcher</a>
-            <a href="index.html?type=ai-webdev" class="version-item" id="ver-ai-webdev">🌐 AI WebDev</a>
-            <a href="index.html?type=yody" class="version-item" id="ver-yody">🟡 Yody Shaper</a>
-            <a href="index.html?type=agrizen" class="version-item" id="ver-agrizen">🌱 Agrizen FS</a>
-            <a href="index.html?type=opswat" class="version-item" id="ver-opswat">🛡️ OPSWAT Intern</a>
-            <a href="index.html?type=beone" class="version-item" id="ver-beone">🐝 BeOne Intern</a>
-            <a href="index.html?type=strapbuild" class="version-item" id="ver-strapbuild">🚀 Strapbuild FS</a>
-            <a href="index.html?type=kitgroup" class="version-item" id="ver-kitgroup">🏢 KIT Group Intern</a>
-            <a href="index.html?type=catspeak" class="version-item" id="ver-catspeak">🐈 CatSpeak FE</a>
-            <a href="index.html?type=techsupport" class="version-item" id="ver-techsupport">🛠️ Tech Support</a>
-            <a href="index.html?type=itdev" class="version-item" id="ver-itdev">💻 IT Dev Intern</a>
+            <!-- Các nút phiên bản được chèn bằng JavaScript từ CV_MANIFEST -->
         </nav>
 
         <div class="lang-switch" role="group" aria-label="Chọn ngôn ngữ CV">

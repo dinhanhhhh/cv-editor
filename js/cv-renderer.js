@@ -2,6 +2,29 @@
 // CV Data & Logic
 // ===================================
 
+// Escape HTML để chống XSS khi nhét dữ liệu vào innerHTML.
+// Dữ liệu CV có thể đến từ pipeline AI/Telegram nên không tin tưởng tuyệt đối.
+function esc(value) {
+  if (value === null || value === undefined) return "";
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// Escape riêng cho giá trị dùng trong thuộc tính href (chỉ cho phép scheme an toàn).
+function escUrl(url) {
+  if (!url) return "";
+  const trimmed = String(url).trim();
+  if (/^(https?:|mailto:|tel:)/i.test(trimmed)) {
+    return esc(trimmed);
+  }
+  // Scheme lạ (javascript:, data:...) bị loại bỏ
+  return "";
+}
+
 const icons = {
   phone: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`,
   email: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>`,
@@ -173,14 +196,15 @@ function renderContact(contact) {
       if (!link && c.icon === "phone") {
         link = `tel:${c.text.replace(/\s+/g, "")}`;
       }
+      const safeLink = escUrl(link);
 
       return `
         <div class="cv-contact-item">
-          ${icons[c.icon]}
+          ${icons[c.icon] || ""}
           ${
-            link
-              ? `<a href="${link}" ${c.icon !== "phone" ? 'target="_blank" rel="noopener noreferrer"' : ""}>${c.text}</a>`
-              : `<span>${c.text}</span>`
+            safeLink
+              ? `<a href="${safeLink}" ${c.icon !== "phone" ? 'target="_blank" rel="noopener noreferrer"' : ""}>${esc(c.text)}</a>`
+              : `<span>${esc(c.text)}</span>`
           }
         </div>
     `;
@@ -192,10 +216,10 @@ function renderEducation(education) {
   return `
         <div class="cv-edu-item">
           <div class="cv-edu-header">
-            <span class="cv-edu-school">${education.school}</span>
-            <span class="cv-edu-date">${education.date}</span>
+            <span class="cv-edu-school">${esc(education.school)}</span>
+            <span class="cv-edu-date">${esc(education.date)}</span>
           </div>
-          <div class="cv-edu-detail">${education.detail}</div>
+          <div class="cv-edu-detail">${esc(education.detail)}</div>
         </div>
     `;
 }
@@ -231,7 +255,7 @@ function formatGithubLinks(githubStr, text) {
         const displayUrl = url.replace(/^https?:\/\//, "");
         return `
           <p class="cv-exp-github" style="margin-top: 5px; margin-bottom: 2px;">
-            <strong>${text.github}${label}:</strong> <span class="cv-link-wrapper"><a href="${url}" target="_blank" rel="noopener noreferrer">${displayUrl}</a></span>
+            <strong>${esc(text.github)}${label}:</strong> <span class="cv-link-wrapper"><a href="${escUrl(url)}" target="_blank" rel="noopener noreferrer">${esc(displayUrl)}</a></span>
           </p>
         `;
       })
@@ -244,7 +268,7 @@ function formatGithubLinks(githubStr, text) {
   const displayUrl = url.replace(/^https?:\/\//, "");
   return `
     <p class="cv-exp-github" style="margin-top: 5px; margin-bottom: 2px;">
-      <strong>${text.github}:</strong> <span class="cv-link-wrapper"><a href="${url}" target="_blank" rel="noopener noreferrer">${displayUrl}</a></span>
+      <strong>${esc(text.github)}:</strong> <span class="cv-link-wrapper"><a href="${escUrl(url)}" target="_blank" rel="noopener noreferrer">${esc(displayUrl)}</a></span>
     </p>
   `;
 }
@@ -261,21 +285,21 @@ function renderProjects(projects, text, limit) {
       (project) => `
         <div class="cv-exp-item">
           <div class="cv-exp-header">
-            <span class="cv-exp-project">${project.name}</span>
-            <span class="cv-exp-date">${project.date}</span>
+            <span class="cv-exp-project">${esc(project.name)}</span>
+            <span class="cv-exp-date">${esc(project.date)}</span>
           </div>
-          <p class="cv-exp-role">${text.role}: ${project.role}</p>
-          <p class="cv-exp-desc"><strong>${text.description}:</strong> ${project.desc}</p>
+          <p class="cv-exp-role">${esc(text.role)}: ${esc(project.role)}</p>
+          <p class="cv-exp-desc"><strong>${esc(text.description)}:</strong> ${esc(project.desc)}</p>
           <ul class="cv-exp-tasks">
-            ${project.tasks.map((task) => `<li>${task}</li>`).join("")}
+            ${(Array.isArray(project.tasks) ? project.tasks : []).map((task) => `<li>${esc(task)}</li>`).join("")}
           </ul>
-          <p class="cv-exp-tech"><strong>${text.technologies}:</strong> ${project.tech}</p>
+          <p class="cv-exp-tech"><strong>${esc(text.technologies)}:</strong> ${esc(project.tech)}</p>
           ${project.github ? formatGithubLinks(project.github, text) : ""}
           ${
             project.demo
               ? `
             <p class="cv-exp-demo">
-              <strong>${text.demo}:</strong> <span class="cv-link-wrapper"><a href="${project.demo}" target="_blank" rel="noopener noreferrer">${project.demo.replace(/^https?:\/\//, "")}</a></span>
+              <strong>${esc(text.demo)}:</strong> <span class="cv-link-wrapper"><a href="${escUrl(project.demo)}" target="_blank" rel="noopener noreferrer">${esc(String(project.demo).replace(/^https?:\/\//, ""))}</a></span>
             </p>`
               : ""
           }
@@ -290,8 +314,8 @@ function renderSkills(skills) {
     .map(
       (skill) => `
         <tr>
-          <td class="cv-skills-category">${skill.cat}</td>
-          <td class="cv-skills-items">${skill.items}</td>
+          <td class="cv-skills-category">${esc(skill.cat)}</td>
+          <td class="cv-skills-items">${esc(skill.items)}</td>
         </tr>
     `,
     )
@@ -456,26 +480,8 @@ let allProjectsLoaded = false;
 let isFetchingProjects = false;
 let dragSourceEl = null;
 
-const allDataFiles = [
-  'data/cv-data-be.js',
-  'data/cv-data-fe.js',
-  'data/cv-data-nestjs.js',
-  'data/cv-data-healthcare-fullstack.js',
-  'data/cv-data-ai.js',
-  'data/cv-data-ai-webdev.js',
-  'data/cv-data-yody.js',
-  'data/cv-data-agrizen-fullstack.js',
-  'data/cv-data-opswat.js',
-  'data/cv-data-catspeak.js',
-  'data/cv-data-techsupport.js',
-  'data/cv-data-itdev.js',
-  'data/cv-data-kitgroup.js',
-  'data/cv-data-beone.js',
-  'data/cv-data-strapbuild.js',
-  'data/cv-data-nubitel.js',
-  'data/cv-data-basevn.js',
-  'data/cv-data-fullstack.js'
-];
+// Danh sách file data lấy từ manifest (nguồn duy nhất) thay vì hardcode.
+const allDataFiles = (window.CV_MANIFEST || []).map((v) => v.file);
 
 function normalizeProjId(proj, backupName) {
   if (!proj) return "";
@@ -515,33 +521,43 @@ function addProjectsToPool(viProjects, enProjects) {
   });
 }
 
+// Nạp một file data qua thẻ <script>. Mỗi file gán `cvData` ở scope toàn cục
+// (khai báo bằng `var`), nên sau khi onload ta đọc được qua window.cvData.
+function loadDataScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = false;
+    script.onload = () => {
+      // Lấy snapshot cvData mới nạp rồi gỡ thẻ script cho gọn
+      const data = window.cvData;
+      script.remove();
+      resolve(data);
+    };
+    script.onerror = () => {
+      script.remove();
+      reject(new Error("Failed to load data script: " + src));
+    };
+    document.head.appendChild(script);
+  });
+}
+
 async function loadAllProjectsBackground() {
   if (allProjectsLoaded || isFetchingProjects) return;
   isFetchingProjects = true;
-  
-  const currentFilePath = allDataFiles.find(path => {
-    return path.includes(`-${cvVersion}.js`) || (cvVersion === 'default' && path.includes('fullstack.js'));
+
+  // Giữ lại data của phiên bản hiện tại vì việc nạp file khác sẽ ghi đè window.cvData
+  const currentCvData = window.cvData;
+
+  const currentFilePath = allDataFiles.find((path) => {
+    return path.includes(`-${cvVersion}.js`) || (cvVersion === "default" && path.includes("fullstack.js"));
   });
 
-  const filesToFetch = allDataFiles.filter(path => path !== currentFilePath);
+  const filesToFetch = allDataFiles.filter((path) => path !== currentFilePath);
 
   for (const file of filesToFetch) {
     try {
-      const response = await fetch(file);
-      if (!response.ok) continue;
-      const text = await response.text();
-      
-      const cleanText = text
-        .replace(/const\s+cvData\s*=\s*/, "window.tempCvData = ")
-        .replace(/global\.cvGlobalEdu\s*=\s*require.*/, "")
-        .replace(/if\s*\(typeof\s+require.*?\n.*?\n\}/g, "");
-      
-      const fn = new Function(cleanText);
-      fn();
-      
-      const loadedData = window.tempCvData;
-      delete window.tempCvData;
-      
+      const loadedData = await loadDataScript(file);
       if (loadedData && loadedData.vi && loadedData.vi.projects) {
         addProjectsToPool(loadedData.vi.projects, loadedData.en.projects);
       }
@@ -549,11 +565,14 @@ async function loadAllProjectsBackground() {
       console.warn("Failed to load background file: " + file, e);
     }
   }
-  
+
+  // Khôi phục cvData của phiên bản đang xem
+  window.cvData = currentCvData;
+
   allProjectsLoaded = true;
   isFetchingProjects = false;
-  
-  // Re-render CV and Selector with the newly loaded global projects
+
+  // Re-render CV và selector với pool dự án vừa nạp đầy đủ
   renderCV(currentLang);
 }
 
@@ -685,12 +704,12 @@ function updateProjectSelector(d, lang) {
         const proj = globalProjectPool.find(p => p.id === id);
         if (!proj) return "";
         return `
-          <div class="proj-order-item" draggable="true" data-id="${proj.id}">
+          <div class="proj-order-item" draggable="true" data-id="${esc(proj.id)}">
             <span class="proj-order-handle">☰</span>
-            <span class="proj-order-name" title="${proj[lang].name}">${proj[lang].name}</span>
+            <span class="proj-order-name" title="${esc(proj[lang].name)}">${esc(proj[lang].name)}</span>
             <div class="proj-order-arrows">
-              <button class="proj-order-arrow up" data-id="${proj.id}">▲</button>
-              <button class="proj-order-arrow down" data-id="${proj.id}">▼</button>
+              <button class="proj-order-arrow up" data-id="${esc(proj.id)}">▲</button>
+              <button class="proj-order-arrow down" data-id="${esc(proj.id)}">▼</button>
             </div>
           </div>
         `;
@@ -703,8 +722,8 @@ function updateProjectSelector(d, lang) {
       const isChecked = activeProjectIds.includes(proj.id);
       return `
         <label class="proj-select-item">
-          <input type="checkbox" data-id="${proj.id}" ${isChecked ? "checked" : ""}>
-          <span class="proj-select-name">${proj[lang].name}</span>
+          <input type="checkbox" data-id="${esc(proj.id)}" ${isChecked ? "checked" : ""}>
+          <span class="proj-select-name">${esc(proj[lang].name)}</span>
         </label>
       `;
     })
@@ -715,8 +734,8 @@ function updateProjectSelector(d, lang) {
       const isChecked = activeProjectIds.includes(proj.id);
       return `
         <label class="proj-select-item">
-          <input type="checkbox" data-id="${proj.id}" ${isChecked ? "checked" : ""}>
-          <span class="proj-select-name">${proj[lang].name}</span>
+          <input type="checkbox" data-id="${esc(proj.id)}" ${isChecked ? "checked" : ""}>
+          <span class="proj-select-name">${esc(proj[lang].name)}</span>
         </label>
       `;
     })
@@ -907,20 +926,20 @@ function renderCV(lang) {
 
   const html = `
         <div class="cv-header">
-          <div class="cv-name">${d.name}</div>
-          <div class="cv-title">${d.title}</div>
+          <div class="cv-name">${esc(d.name)}</div>
+          <div class="cv-title">${esc(d.title)}</div>
           <div class="cv-contact">
             ${renderContact(d.contact)}
           </div>
         </div>
 
         <div class="cv-section">
-          <div class="cv-section-title">${d.sections.objective}</div>
-          <div class="cv-objective">${d.objective}</div>
+          <div class="cv-section-title">${esc(d.sections.objective)}</div>
+          <div class="cv-objective">${esc(d.objective)}</div>
         </div>
 
         <div class="cv-section">
-          <div class="cv-section-title">${d.sections.education}</div>
+          <div class="cv-section-title">${esc(d.sections.education)}</div>
           ${renderEducation(d.education)}
         </div>
 
@@ -928,7 +947,7 @@ function renderCV(lang) {
           d.experience && d.experience.length > 0
             ? `
         <div class="cv-section">
-          <div class="cv-section-title">${d.sections.experience}</div>
+          <div class="cv-section-title">${esc(d.sections.experience)}</div>
           ${renderProjects(d.experience, t, d.experienceDisplayLimit)}
         </div>
         `
@@ -936,7 +955,7 @@ function renderCV(lang) {
         }
 
         <div class="cv-section">
-          <div class="cv-section-title">${d.sections.projects}</div>
+          <div class="cv-section-title">${esc(d.sections.projects)}</div>
           ${renderProjects(
             activeProjectIds
               .map(id => {

@@ -5,7 +5,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
 }
 
 
-const cvData = {
+var cvData = {
   vi: {
         projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",

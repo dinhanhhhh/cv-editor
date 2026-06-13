@@ -6,7 +6,7 @@ if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
     global.cvGlobalEdu = require('./cv-global.js');
 }
 
-const cvData = {
+var cvData = {
     vi: {
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Software Engineer (Fullstack / Product Engineer)",

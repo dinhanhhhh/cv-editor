@@ -6,7 +6,7 @@
 // 3. Tao them cac phien ban CV chuyen biet khi can
 // =========================================================================
 
-const cvData = {
+var cvData = {
     vi: {
         name: "TRƯƠNG ĐÌNH ANH",
         title: "Software Developer Intern",
