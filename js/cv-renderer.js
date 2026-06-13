@@ -190,7 +190,7 @@ function setA4Mode(enabled) {
 
 function renderContact(contact) {
   return contact
-    .map((c) => {
+    .map((c, idx) => {
       // Tự động tạo link tel: cho số điện thoại nếu chưa có link
       let link = c.link;
       if (!link && c.icon === "phone") {
@@ -203,8 +203,8 @@ function renderContact(contact) {
           ${icons[c.icon] || ""}
           ${
             safeLink
-              ? `<a href="${safeLink}" ${c.icon !== "phone" ? 'target="_blank" rel="noopener noreferrer"' : ""}>${esc(c.text)}</a>`
-              : `<span>${esc(c.text)}</span>`
+              ? `<a data-edit-key="contact.${idx}.text" href="${safeLink}" ${c.icon !== "phone" ? 'target="_blank" rel="noopener noreferrer"' : ""}>${esc(c.text)}</a>`
+              : `<span data-edit-key="contact.${idx}.text">${esc(c.text)}</span>`
           }
         </div>
     `;
@@ -216,15 +216,15 @@ function renderEducation(education) {
   return `
         <div class="cv-edu-item">
           <div class="cv-edu-header">
-            <span class="cv-edu-school">${esc(education.school)}</span>
-            <span class="cv-edu-date">${esc(education.date)}</span>
+            <span data-edit-key="education.school" class="cv-edu-school">${esc(education.school)}</span>
+            <span data-edit-key="education.date" class="cv-edu-date">${esc(education.date)}</span>
           </div>
-          <div class="cv-edu-detail">${esc(education.detail)}</div>
+          <div data-edit-key="education.detail" class="cv-edu-detail">${esc(education.detail)}</div>
         </div>
     `;
 }
 
-function formatGithubLinks(githubStr, text) {
+function formatGithubLinks(githubStr, text, itemPath) {
   if (!githubStr) return "";
 
   if (githubStr.includes("|")) {
@@ -255,7 +255,7 @@ function formatGithubLinks(githubStr, text) {
         const displayUrl = url.replace(/^https?:\/\//, "");
         return `
           <p class="cv-exp-github" style="margin-top: 5px; margin-bottom: 2px;">
-            <strong>${esc(text.github)}${label}:</strong> <span class="cv-link-wrapper"><a href="${escUrl(url)}" target="_blank" rel="noopener noreferrer">${esc(displayUrl)}</a></span>
+            <strong>${esc(text.github)}${label}:</strong> <span class="cv-link-wrapper"><a ${itemPath ? `data-edit-key="${itemPath}.github"` : ""} href="${escUrl(url)}" target="_blank" rel="noopener noreferrer">${esc(displayUrl)}</a></span>
           </p>
         `;
       })
@@ -268,54 +268,70 @@ function formatGithubLinks(githubStr, text) {
   const displayUrl = url.replace(/^https?:\/\//, "");
   return `
     <p class="cv-exp-github" style="margin-top: 5px; margin-bottom: 2px;">
-      <strong>${esc(text.github)}:</strong> <span class="cv-link-wrapper"><a href="${escUrl(url)}" target="_blank" rel="noopener noreferrer">${esc(displayUrl)}</a></span>
+      <strong>${esc(text.github)}:</strong> <span class="cv-link-wrapper"><a ${itemPath ? `data-edit-key="${itemPath}.github"` : ""} href="${escUrl(url)}" target="_blank" rel="noopener noreferrer">${esc(displayUrl)}</a></span>
     </p>
   `;
 }
 
-function renderProjects(projects, text, limit) {
+function renderProjects(projects, text, limit, pathPrefix) {
   const normalizedProjects = Array.isArray(projects) ? projects : [];
   const visibleProjects =
     typeof limit === "number"
       ? normalizedProjects.slice(0, limit)
       : normalizedProjects;
 
+  const d = cvData[currentLang];
+
   return visibleProjects
-    .map(
-      (project) => `
+    .map((project, idx) => {
+      let itemPath = "";
+      if (pathPrefix === "experience") {
+        itemPath = `experience.${idx}`;
+      } else if (pathPrefix === "projects") {
+        const origIdx = (d.projects || []).findIndex(p => getProjectId(p) === getProjectId(project));
+        if (origIdx > -1) {
+          itemPath = `projects.${origIdx}`;
+        } else {
+          itemPath = `globalPool.${project.id || getProjectId(project)}`;
+        }
+      }
+
+      return `
         <div class="cv-exp-item">
           <div class="cv-exp-header">
-            <span class="cv-exp-project">${esc(project.name)}</span>
-            <span class="cv-exp-date">${esc(project.date)}</span>
+            <span ${itemPath ? `data-edit-key="${itemPath}.name"` : ""} class="cv-exp-project">${esc(project.name)}</span>
+            <span ${itemPath ? `data-edit-key="${itemPath}.date"` : ""} class="cv-exp-date">${esc(project.date)}</span>
           </div>
-          <p class="cv-exp-role">${esc(text.role)}: ${esc(project.role)}</p>
-          <p class="cv-exp-desc"><strong>${esc(text.description)}:</strong> ${esc(project.desc)}</p>
+          <p class="cv-exp-role">${esc(text.role)}: <span ${itemPath ? `data-edit-key="${itemPath}.role"` : ""}>${esc(project.role)}</span></p>
+          <p class="cv-exp-desc"><strong>${esc(text.description)}:</strong> <span ${itemPath ? `data-edit-key="${itemPath}.desc"` : ""}>${esc(project.desc)}</span></p>
           <ul class="cv-exp-tasks">
-            ${(Array.isArray(project.tasks) ? project.tasks : []).map((task) => `<li>${esc(task)}</li>`).join("")}
+            ${(Array.isArray(project.tasks) ? project.tasks : []).map((task, tIdx) => `
+              <li ${itemPath ? `data-edit-key="${itemPath}.tasks.${tIdx}"` : ""}>${esc(task)}</li>
+            `).join("")}
           </ul>
-          <p class="cv-exp-tech"><strong>${esc(text.technologies)}:</strong> ${esc(project.tech)}</p>
-          ${project.github ? formatGithubLinks(project.github, text) : ""}
+          <p class="cv-exp-tech"><strong>${esc(text.technologies)}:</strong> <span ${itemPath ? `data-edit-key="${itemPath}.tech"` : ""}>${esc(project.tech)}</span></p>
+          ${project.github ? formatGithubLinks(project.github, text, itemPath) : ""}
           ${
             project.demo
               ? `
             <p class="cv-exp-demo">
-              <strong>${esc(text.demo)}:</strong> <span class="cv-link-wrapper"><a href="${escUrl(project.demo)}" target="_blank" rel="noopener noreferrer">${esc(String(project.demo).replace(/^https?:\/\//, ""))}</a></span>
+              <strong>${esc(text.demo)}:</strong> <span class="cv-link-wrapper"><a ${itemPath ? `data-edit-key="${itemPath}.demo"` : ""} href="${escUrl(project.demo)}" target="_blank" rel="noopener noreferrer">${esc(String(project.demo).replace(/^https?:\/\//, ""))}</a></span>
             </p>`
               : ""
           }
         </div>
-    `,
-    )
+      `;
+    })
     .join("");
 }
 
 function renderSkills(skills) {
   return skills
     .map(
-      (skill) => `
+      (skill, idx) => `
         <tr>
-          <td class="cv-skills-category">${esc(skill.cat)}</td>
-          <td class="cv-skills-items">${esc(skill.items)}</td>
+          <td data-edit-key="skills.${idx}.cat" class="cv-skills-category">${esc(skill.cat)}</td>
+          <td data-edit-key="skills.${idx}.items" class="cv-skills-items">${esc(skill.items)}</td>
         </tr>
     `,
     )
@@ -854,6 +870,44 @@ function updateProjectSelector(d, lang) {
 // RENDER CV
 // ===================================
 function renderCV(lang) {
+  // Load cached edits from localStorage if they exist
+  const cachedKey = `cv_data_${cvVersion}_${lang}`;
+  const cached = localStorage.getItem(cachedKey);
+  if (cached) {
+    try {
+      const parsed = JSON.parse(cached);
+      const deepMerge = (target, source) => {
+        for (const key of Object.keys(source)) {
+          if (source[key] instanceof Object && key in target && target[key] !== null) {
+            deepMerge(target[key], source[key]);
+          } else {
+            target[key] = source[key];
+          }
+        }
+        return target;
+      };
+      deepMerge(cvData[lang], parsed);
+    } catch (e) {
+      console.error("Failed to parse cached CV data:", e);
+    }
+  }
+
+  const cachedPoolKey = `cv_global_project_pool_${lang}`;
+  const cachedPool = localStorage.getItem(cachedPoolKey);
+  if (cachedPool) {
+    try {
+      const parsedPool = JSON.parse(cachedPool);
+      parsedPool.forEach(cachedProj => {
+        const poolProj = globalProjectPool.find(p => p.id === cachedProj.id);
+        if (poolProj) {
+          poolProj[lang] = Object.assign(poolProj[lang] || {}, cachedProj[lang]);
+        }
+      });
+    } catch (e) {
+      console.error("Failed to parse cached global project pool:", e);
+    }
+  }
+
   const d = cvData[lang];
   const t = labels[lang];
 
@@ -926,20 +980,20 @@ function renderCV(lang) {
 
   const html = `
         <div class="cv-header">
-          <div class="cv-name">${esc(d.name)}</div>
-          <div class="cv-title">${esc(d.title)}</div>
+          <div data-edit-key="name" class="cv-name">${esc(d.name)}</div>
+          <div data-edit-key="title" class="cv-title">${esc(d.title)}</div>
           <div class="cv-contact">
             ${renderContact(d.contact)}
           </div>
         </div>
 
         <div class="cv-section">
-          <div class="cv-section-title">${esc(d.sections.objective)}</div>
-          <div class="cv-objective">${esc(d.objective)}</div>
+          <div data-edit-key="sections.objective" class="cv-section-title">${esc(d.sections.objective)}</div>
+          <div data-edit-key="objective" class="cv-objective">${esc(d.objective)}</div>
         </div>
 
         <div class="cv-section">
-          <div class="cv-section-title">${esc(d.sections.education)}</div>
+          <div data-edit-key="sections.education" class="cv-section-title">${esc(d.sections.education)}</div>
           ${renderEducation(d.education)}
         </div>
 
@@ -947,15 +1001,15 @@ function renderCV(lang) {
           d.experience && d.experience.length > 0
             ? `
         <div class="cv-section">
-          <div class="cv-section-title">${esc(d.sections.experience)}</div>
-          ${renderProjects(d.experience, t, d.experienceDisplayLimit)}
+          <div data-edit-key="sections.experience" class="cv-section-title">${esc(d.sections.experience)}</div>
+          ${renderProjects(d.experience, t, d.experienceDisplayLimit, 'experience')}
         </div>
         `
             : ""
         }
 
         <div class="cv-section">
-          <div class="cv-section-title">${esc(d.sections.projects)}</div>
+          <div data-edit-key="sections.projects" class="cv-section-title">${esc(d.sections.projects)}</div>
           ${renderProjects(
             activeProjectIds
               .map(id => {
@@ -966,17 +1020,17 @@ function renderCV(lang) {
               })
               .filter(Boolean),
             t,
+            undefined,
+            'projects'
           )}
         </div>
 
         <div class="cv-section">
-          <div class="cv-section-title">${d.sections.skills}</div>
+          <div data-edit-key="sections.skills" class="cv-section-title">${d.sections.skills}</div>
           <table class="cv-skills-table">
             ${renderSkills(d.skills)}
           </table>
         </div>
-
-
     `;
 
   elements.preview.innerHTML = html;
@@ -985,6 +1039,11 @@ function renderCV(lang) {
   updateFontSize();
   setA4Mode(a4ModeActive);
   updateCoverLetterText();
+
+  // Apply live edit status if active
+  if (typeof applyLiveEditState === "function") {
+    applyLiveEditState();
+  }
 }
 
 // ===================================
@@ -1480,6 +1539,244 @@ function updateCoverLetterText() {
         closeModal();
       }
     });
+  }
+
+  // ===================================
+  // LIVE EDIT & EXPORT MANAGER
+  // ===================================
+  let isLiveEditing = false;
+
+  const liveEditBtn = document.getElementById("liveEditBtn");
+  const exportCvBtn = document.getElementById("exportCvBtn");
+  const exportModalOverlay = document.getElementById("exportModalOverlay");
+  const exportModalCloseBtn = document.getElementById("exportModalCloseBtn");
+  const exportTextArea = document.getElementById("exportTextArea");
+  const exportClearBtn = document.getElementById("exportClearBtn");
+  const exportDownloadBtn = document.getElementById("exportDownloadBtn");
+  const exportCopyBtn = document.getElementById("exportCopyBtn");
+
+  function applyLiveEditState() {
+    const preview = elements.preview;
+    if (!preview) return;
+    
+    if (isLiveEditing) {
+      preview.classList.add("live-editing");
+      if (liveEditBtn) {
+        liveEditBtn.classList.add("active");
+        liveEditBtn.setAttribute("aria-pressed", "true");
+        liveEditBtn.textContent = currentLang === "vi" ? "Chỉnh sửa: Bật ✏️" : "Live Edit: ON ✏️";
+      }
+      if (exportCvBtn) {
+        exportCvBtn.style.display = "flex";
+      }
+      
+      // Select all elements with data-edit-key and make them editable
+      preview.querySelectorAll("[data-edit-key]").forEach(el => {
+        el.setAttribute("contenteditable", "true");
+        el.onblur = (e) => {
+          const path = el.getAttribute("data-edit-key");
+          const newValue = el.innerText.trim();
+          saveLiveEditChange(path, newValue, el);
+        };
+        el.onkeydown = (e) => {
+          if (e.key === "Enter") {
+            const editKey = el.getAttribute("data-edit-key") || "";
+            const isMultiline = el.classList.contains("cv-objective") || 
+                                editKey.endsWith(".desc") || 
+                                editKey.endsWith(".detail") ||
+                                el.tagName === "LI";
+            if (!isMultiline) {
+              e.preventDefault();
+              el.blur();
+            }
+          }
+        };
+      });
+    } else {
+      preview.classList.remove("live-editing");
+      if (liveEditBtn) {
+        liveEditBtn.classList.remove("active");
+        liveEditBtn.setAttribute("aria-pressed", "false");
+        liveEditBtn.textContent = currentLang === "vi" ? "Chỉnh sửa nhanh ✏️" : "Live Edit ✏️";
+      }
+      if (exportCvBtn) {
+        exportCvBtn.style.display = "none";
+      }
+      
+      preview.querySelectorAll("[data-edit-key]").forEach(el => {
+        el.removeAttribute("contenteditable");
+        el.onblur = null;
+        el.onkeydown = null;
+      });
+    }
+  }
+
+  // Expose it to global window scope so renderCV can call it
+  window.applyLiveEditState = applyLiveEditState;
+
+  function saveLiveEditChange(path, value, el) {
+    if (!path) return;
+
+    if (el && el.tagName === "A") {
+      let cleanUrl = value;
+      if (!/^https?:\/\//i.test(cleanUrl) && !/^mailto:/i.test(cleanUrl) && !/^tel:/i.test(cleanUrl)) {
+        cleanUrl = "https://" + cleanUrl;
+      }
+      el.setAttribute("href", cleanUrl);
+    }
+
+    if (path.startsWith("globalPool.")) {
+      const rest = path.substring(11);
+      const dotIdx = rest.indexOf('.');
+      if (dotIdx > -1) {
+        const projId = rest.substring(0, dotIdx);
+        const field = rest.substring(dotIdx + 1);
+        
+        const poolProj = globalProjectPool.find(p => p.id === projId);
+        if (poolProj && poolProj[currentLang]) {
+          if (field.startsWith("tasks.")) {
+            const taskIdx = parseInt(field.split('.')[1]);
+            if (Array.isArray(poolProj[currentLang].tasks) && poolProj[currentLang].tasks[taskIdx] !== undefined) {
+              poolProj[currentLang].tasks[taskIdx] = value;
+            }
+          } else {
+            poolProj[currentLang][field] = value;
+          }
+          
+          const cachedPoolKey = `cv_global_project_pool_${currentLang}`;
+          localStorage.setItem(cachedPoolKey, JSON.stringify(globalProjectPool));
+        }
+      }
+      return;
+    }
+
+    const parts = path.split('.');
+    let curr = cvData[currentLang];
+    for (let i = 0; i < parts.length - 1; i++) {
+      const part = parts[i];
+      if (curr[part] === undefined) {
+        curr[part] = {};
+      }
+      curr = curr[part];
+    }
+    
+    const lastPart = parts[parts.length - 1];
+    curr[lastPart] = value;
+
+    const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+    localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
+  }
+
+  if (liveEditBtn) {
+    liveEditBtn.onclick = () => {
+      isLiveEditing = !isLiveEditing;
+      applyLiveEditState();
+    };
+  }
+
+  const closeExportModal = () => {
+    if (exportModalOverlay) {
+      exportModalOverlay.style.display = "none";
+      exportModalOverlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+  };
+
+  if (exportCvBtn && exportModalOverlay) {
+    exportCvBtn.onclick = () => {
+      const fileHeader = `// ===================================
+// CV DATA - ${cvVersion.toUpperCase()} (Edited via Live Edit Mode)
+// ===================================
+
+if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
+    global.cvGlobalEdu = require('./cv-global.js');
+}
+
+var cvData = ${JSON.stringify(cvData, null, 2)};
+`;
+
+      if (exportTextArea) {
+        exportTextArea.value = fileHeader;
+      }
+      exportModalOverlay.style.display = "flex";
+      exportModalOverlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    };
+
+    if (exportModalCloseBtn) {
+      exportModalCloseBtn.onclick = closeExportModal;
+    }
+
+    exportModalOverlay.onclick = (e) => {
+      if (e.target === exportModalOverlay) {
+        closeExportModal();
+      }
+    };
+
+    window.addEventListener("keydown", (e) => {
+      if (
+        e.key === "Escape" &&
+        exportModalOverlay.getAttribute("aria-hidden") === "false"
+      ) {
+        closeExportModal();
+      }
+    });
+  }
+
+  if (exportCopyBtn && exportTextArea) {
+    exportCopyBtn.onclick = () => {
+      const text = exportTextArea.value;
+      navigator.clipboard
+        .writeText(text)
+        .then(() => {
+          const originalText = exportCopyBtn.textContent;
+          exportCopyBtn.innerHTML =
+            currentLang === "vi" ? "Đã sao chép! ✓" : "Copied! ✓";
+          exportCopyBtn.style.background = "#2d6a4f";
+          setTimeout(() => {
+            exportCopyBtn.innerHTML = originalText;
+            exportCopyBtn.style.background = "";
+          }, 2000);
+        })
+        .catch((err) => {
+          console.error("Failed to copy text: ", err);
+          alert(
+            currentLang === "vi"
+              ? "Không thể sao chép tự động. Vui lòng chọn và sao chép thủ công."
+              : "Could not copy automatically. Please select and copy manually.",
+          );
+        });
+    };
+  }
+
+  if (exportDownloadBtn && exportTextArea) {
+    exportDownloadBtn.onclick = () => {
+      const text = exportTextArea.value;
+      const blob = new Blob([text], { type: "application/javascript;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `cv-data-${cvVersion}.js`;
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+  }
+
+  if (exportClearBtn) {
+    exportClearBtn.onclick = () => {
+      const confirmClear = confirm(
+        currentLang === "vi"
+          ? "Bạn có chắc chắn muốn xóa toàn bộ các chỉnh sửa đã lưu và quay về dữ liệu gốc từ file không?"
+          : "Are you sure you want to clear all saved edits and restore the original data from the file?"
+      );
+      if (confirmClear) {
+        localStorage.removeItem(`cv_data_${cvVersion}_vi`);
+        localStorage.removeItem(`cv_data_${cvVersion}_en`);
+        localStorage.removeItem(`cv_global_project_pool_vi`);
+        localStorage.removeItem(`cv_global_project_pool_en`);
+        window.location.reload();
+      }
+    };
   }
 })();
 

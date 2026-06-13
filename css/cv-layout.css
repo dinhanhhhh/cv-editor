@@ -96,6 +96,7 @@ body {
   font-size: var(--cv-base-font-size);
   text-indent: 0;
   margin: 0;
+  white-space: pre-wrap;
 }
 
 /* ===== EXPERIENCE ITEM ===== */
@@ -145,6 +146,10 @@ p.cv-exp-desc {
   text-align: left;
 }
 
+p.cv-exp-desc span {
+  white-space: pre-wrap;
+}
+
 /* Bullet list — ul/li thật, native disc, không ::before */
 ul.cv-exp-tasks {
   margin: 3px 0 5px 0;
@@ -158,6 +163,7 @@ ul.cv-exp-tasks li {
   margin-bottom: 4px;
   line-height: 1.2;
   color: #000;
+  white-space: pre-wrap;
 }
 
 /* Technologies — block p riêng biệt */
@@ -229,6 +235,7 @@ p.cv-exp-tech {
   font-weight: 400;
   color: #111;
   line-height: 1.4;
+  white-space: pre-wrap;
 }
 
 /* ===== SKILLS TABLE ===== */
@@ -634,7 +641,7 @@ p.cv-exp-tech {
   border: 1px solid #ddd;
   width: 100px; /* Thu hẹp chiều ngang tránh đè CV */
   margin-bottom: 5px;
-  max-height: 280px;
+  max-height: 200px;
   overflow-y: auto;
   scrollbar-width: thin;
 }
@@ -985,7 +992,7 @@ p.cv-exp-tech {
 /* ===== PROJECT SELECTOR PANEL ===== */
 .project-selector-panel {
   position: fixed;
-  top: 30px;
+  top: 80px;
   left: 30px;
   width: 180px;
   background: white;
@@ -1311,5 +1318,82 @@ p.cv-exp-tech {
   color: #1b4332;
   min-width: 30px;
   text-align: right;
+}
+
+/* ===== LIVE EDIT MODE STYLES ===== */
+.live-edit-btn {
+  background: white;
+  color: #1b4332;
+  border: 1.5px solid #1b4332;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.live-edit-btn:hover {
+  background: #1b4332;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.live-edit-btn.active {
+  background: #d90429;
+  color: white;
+  border-color: #d90429;
+  box-shadow: 0 4px 15px rgba(217, 4, 41, 0.25);
+}
+
+.export-cv-btn {
+  background: #1b4332;
+  color: white;
+  border: 1.5px solid #1b4332;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+  box-shadow: 0 4px 15px rgba(27, 67, 50, 0.2);
+}
+
+.export-cv-btn:hover {
+  background: #2d6a4f;
+  border-color: #2d6a4f;
+  transform: translateY(-2px);
+}
+
+.cv-preview.live-editing [contenteditable="true"] {
+  outline: none;
+  border-bottom: 1px dashed rgba(27, 67, 50, 0.4);
+  transition: background-color 0.2s, border-bottom-color 0.2s;
+  cursor: text;
+}
+
+.cv-preview.live-editing [contenteditable="true"]:hover {
+  background-color: rgba(27, 67, 50, 0.05);
+  border-bottom-color: #1b4332;
+}
+
+.cv-preview.live-editing [contenteditable="true"]:focus {
+  background-color: rgba(27, 67, 50, 0.08);
+  border-bottom: 1.5px solid #1b4332;
+}
+
+/* Hide editable decorations during printing */
+@media print {
+  .cv-preview.live-editing [contenteditable="true"] {
+    border-bottom: none !important;
+    background-color: transparent !important;
+  }
 }
 
