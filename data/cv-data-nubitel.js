@@ -38,7 +38,7 @@ var cvData = {
       {
         name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE PLATFORM)",
         date: "08/2025 - 09/2025",
-        role: "Front-End Developer",
+        role: "Developer",
         desc: "Ứng dụng mua sắm trực tuyến với giỏ hàng động, thanh toán tối ưu và đồng bộ hóa thời gian thực.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
@@ -52,7 +52,7 @@ var cvData = {
       {
         name: "NỀN TẢNG TUYỂN DỤNG & KẾT NỐI (JOB PORTAL)",
         date: "11/2025 - 02/2026",
-        role: "Front-End Developer",
+        role: "Developer",
         desc: "Hệ thống tuyển dụng hiện đại hỗ trợ đăng tin việc làm, nộp CV trực tuyến và quản lý hồ sơ ứng viên.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -137,7 +137,7 @@ CV Online: https://github.com/dinhanhhhh/cv-editor`
       {
         name: "E-COMMERCE PLATFORM",
         date: "08/2025 - 09/2025",
-        role: "Front-End Developer",
+        role: "Developer",
         desc: "An online shopping web application featuring dynamic carts, optimized checkout flows, and real-time state synchronization.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
@@ -151,7 +151,7 @@ CV Online: https://github.com/dinhanhhhh/cv-editor`
       {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
-        role: "Front-End Developer",
+        role: "Developer",
         desc: "A modern recruitment system supporting job posting, online CV submission, and applicant profile management.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [

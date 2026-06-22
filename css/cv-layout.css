@@ -73,7 +73,7 @@ body {
 
 /* ===== SECTIONS ===== */
 .cv-section {
-  margin-bottom: 10px;
+  margin-bottom: var(--cv-section-margin, 10px);
 }
 
 .cv-section-title {
@@ -86,7 +86,7 @@ body {
 }
 
 .cv-exp-item {
-  margin-bottom: 8px;
+  margin-bottom: var(--cv-item-margin, 8px);
 }
 
 /* ===== OBJECTIVE ===== */
@@ -101,7 +101,7 @@ body {
 
 /* ===== EXPERIENCE ITEM ===== */
 .cv-exp-item {
-  margin-bottom: 12px;
+  margin-bottom: var(--cv-item-margin, 12px);
 }
 
 /* Project Name + Date row (chỉ dùng flex cho header trái/phải) */
@@ -204,7 +204,7 @@ p.cv-exp-tech {
 
 /* ===== EDUCATION ITEM ===== */
 .cv-edu-item {
-  margin-bottom: 12px;
+  margin-bottom: var(--cv-item-margin, 12px);
 }
 
 .cv-edu-header {
@@ -546,6 +546,29 @@ p.cv-exp-tech {
   background: #5a6268;
   transform: translateY(-2px);
 }
+
+/* ===== RESET DATA BUTTON ===== */
+.reset-data-btn {
+  background: #c94a29;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+}
+
+.reset-data-btn:hover {
+  background: #b53818;
+  transform: translateY(-2px);
+}
+
 
 /* ===== A4 PREVIEW BUTTON ===== */
 .a4-preview-btn {

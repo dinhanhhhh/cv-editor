@@ -1,13 +1,12 @@
 // ===================================
 
-if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
-    global.cvGlobalEdu = require('./cv-global.js');
+if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
+  global.cvGlobalEdu = require("./cv-global.js");
 }
-
 
 var cvData = {
   vi: {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Frontend Developer (React / Next.js)",
     contact: [
@@ -80,7 +79,7 @@ var cvData = {
     docTitle: "CV_TruongDinhAnh_FE_Intern_VI",
   },
   en: {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
     title: "Frontend Developer (React / Next.js)",
     contact: [

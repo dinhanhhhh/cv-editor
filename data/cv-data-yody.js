@@ -29,7 +29,7 @@ var cvData = {
             {
                 name: "JOB PORTAL PLATFORM",
                 date: "11/2025 - 02/2026",
-                role: "Developer (AI-assisted)",
+                role: "Developer",
                 desc: "Nền tảng tuyển dụng thông minh với giao diện responsive, được phát triển thần tốc nhờ tối ưu hóa quy trình coding bằng AI.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -43,7 +43,7 @@ var cvData = {
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
                 date: "06/2025 - 09/2025",
-                role: "Developer (AI-assisted)",
+                role: "Developer",
                 desc: "Hệ thống dashboard quản trị full-stack được thiết kế trực quan hỗ trợ xử lý dữ liệu và quản trị học viên.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
                 tasks: [
@@ -137,7 +137,7 @@ Trương Đình Anh`
             {
                 name: "JOB PORTAL PLATFORM",
                 date: "11/2025 - 02/2026",
-                role: "Developer (AI-assisted)",
+                role: "Developer",
                 desc: "A smart recruitment platform with a modern responsive UI, built rapidly by optimizing development processes with AI.",
                 github: "https://github.com/dinhanhhhh/JOB-PORTAL",
                 tasks: [
@@ -151,7 +151,7 @@ Trương Đình Anh`
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
                 date: "06/2025 - 09/2025",
-                role: "Developer (AI-assisted)",
+                role: "Developer",
                 desc: "A full-stack management dashboard designed to streamline operations, data management, and record indexing.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
                 tasks: [

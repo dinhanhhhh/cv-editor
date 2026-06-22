@@ -1,13 +1,12 @@
 // ===================================
 
-if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
-    global.cvGlobalEdu = require('./cv-global.js');
+if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
+  global.cvGlobalEdu = require("./cv-global.js");
 }
-
 
 var cvData = {
   vi: {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Software Engineering Intern (Node.js / TypeScript)",
     contact: [
@@ -34,7 +33,7 @@ var cvData = {
       "Fresher Developer đam mê xây dựng hệ thống backend hiệu năng cao với Node.js và TypeScript. Có tư duy về kiến trúc mô-đun và lập trình hướng sự kiện (Event-driven). Thành thạo việc sử dụng AI tools (Cursor, Claude) để tối ưu hóa quy trình phát triển mã nguồn và đảm bảo chất lượng code. Mong muốn đóng góp vào đội ngũ MDaaS tại OPSWAT.",
     education: cvGlobalEdu.vi,
     projects: [
-            {
+      {
         name: "JOB PORTAL PLATFORM (Node.js & TS)",
         date: "11/2025 - 02/2026",
         role: "Developer",
@@ -49,7 +48,7 @@ var cvData = {
         ],
         tech: "Node.js, TypeScript, Next.js, MongoDB, JWT, Tailwind CSS",
       },
-            {
+      {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
         role: "Developer",
@@ -63,8 +62,8 @@ var cvData = {
           "Sử dụng Docker Compose để thiết lập môi trường phát triển nhất quán giữa Local và Staging.",
         ],
         tech: "Node.js, TypeScript, MongoDB, Next.js, Swagger, Docker",
-      }
-        ],
+      },
+    ],
     skills: [
       {
         cat: "Core Tech",
@@ -96,7 +95,7 @@ var cvData = {
   },
 
   en: {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
     title: "Software Engineering Intern (Node.js / TypeScript)",
     contact: [
@@ -123,7 +122,7 @@ var cvData = {
       "Passionate Fresher Developer focused on building high-performance backend systems with Node.js and TypeScript. Strong interest in Modular Architecture and Event-driven systems. Proficient in leveraging AI tools (Cursor, Claude) to accelerate development cycles and ensure code quality. Eager to contribute to the MDaaS team at OPSWAT.",
     education: cvGlobalEdu.en,
     projects: [
-            {
+      {
         name: "JOB PORTAL PLATFORM (Node.js & TS)",
         date: "11/2025 - 02/2026",
         role: "Developer",
@@ -138,7 +137,7 @@ var cvData = {
         ],
         tech: "Node.js, TypeScript, Next.js, MongoDB, JWT, Tailwind CSS",
       },
-            {
+      {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
         role: "Developer",
@@ -152,8 +151,8 @@ var cvData = {
           "Leveraged Docker Compose to maintain a consistent development environment across local and staging.",
         ],
         tech: "Node.js, TypeScript, MongoDB, Next.js, Swagger, Docker",
-      }
-        ],
+      },
+    ],
     skills: [
       {
         cat: "Core Tech",

@@ -363,10 +363,16 @@ function getMasterCvFile(env) {
 function jsObjectToJson(str) {
   let result = str;
 
-  // Buoc 1: Thay single quotes thanh double quotes
+  // Bước 1: Tạm thời ẩn các dấu nháy đơn nằm giữa các chữ cái (sở hữu cách, viết tắt tiếng Anh, ví dụ don't, candidate's)
+  result = result.replace(/([a-zA-Z])\\?'([a-zA-Z])/g, '$1__SINGLE_QUOTE_PLACEHOLDER__$2');
+
+  // Bước 2: Thay thế toàn bộ dấu nháy đơn bọc ngoài còn lại thành dấu nháy kép
   result = result.replace(/'/g, '"');
 
-  // Buoc 2: Them double quotes quanh unquoted keys
+  // Bước 3: Khôi phục lại các dấu nháy đơn trong văn bản
+  result = result.replace(/__SINGLE_QUOTE_PLACEHOLDER__/g, "'");
+
+  // Bước 4: Thêm double quotes quanh unquoted keys
   result = result.replace(
     /([{,]\s*)([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/g,
     '$1"$2":',
@@ -375,10 +381,10 @@ function jsObjectToJson(str) {
   // Xu ly key o dong dau tien
   result = result.replace(/^\s*([a-zA-Z_$][a-zA-Z0-9_$]*)\s*:/gm, '"$1":');
 
-  // Buoc 3: Xoa trailing commas truoc } hoac ]
+  // Bước 5: Xóa trailing commas trước } hoặc ]
   result = result.replace(/,\s*([}\]])/g, "$1");
 
-  // Buoc 4: Fix double-quoted keys bi quote 2 lan
+  // Bước 6: Fix double-quoted keys bị quote 2 lan
   result = result.replace(/""+/g, '"');
 
   return result;

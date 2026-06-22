@@ -1,13 +1,12 @@
 // ===================================
 
-if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
-    global.cvGlobalEdu = require('./cv-global.js');
+if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
+  global.cvGlobalEdu = require("./cv-global.js");
 }
-
 
 var cvData = {
   vi: {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
     title: "AI Integration Researcher Intern",
     contact: [
@@ -34,7 +33,7 @@ var cvData = {
       "Fresher với nền tảng Khoa học Máy tính và đam mê mạnh mẽ với AI, LLMs và Agentic AI. Có kinh nghiệm thực tế xây dựng hệ thống backend tự động hóa, tích hợp API và xử lý dữ liệu. Thành thạo Python và JavaScript, có khả năng tiếp thu nhanh các công nghệ mới như Generative AI, prompt engineering và các mô hình AI tiên tiến. Sẵn sàng làm việc full-time trong môi trường năng động và không ngừng học hỏi.",
     education: cvGlobalEdu.vi,
     projects: [
-            {
+      {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
         role: "Developer",
@@ -47,7 +46,7 @@ var cvData = {
         ],
         tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Python scripting",
       },
-            {
+      {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
         role: "Developer",
@@ -60,8 +59,8 @@ var cvData = {
           "Phát triển dashboard xử lý dữ liệu real-time với CRUD thông minh và cơ chế đồng bộ dữ liệu tức thì.",
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger",
-      }
-        ],
+      },
+    ],
     skills: [
       {
         cat: "AI & LLM",
@@ -97,7 +96,7 @@ var cvData = {
   },
 
   en: {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
     title: "AI Integration Researcher Intern",
     contact: [
@@ -124,7 +123,7 @@ var cvData = {
       "Computer Science graduate with a strong passion for AI, Large Language Models, and Agentic AI systems. Hands-on experience building automated backend systems, integrating APIs, and processing data at scale. Proficient in Python and JavaScript with a rapid learning ability for emerging AI technologies including Generative AI, prompt engineering, and advanced AI models. Eager to grow in a fast-paced, AI-driven environment.",
     education: cvGlobalEdu.en,
     projects: [
-            {
+      {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
         role: "Developer",
@@ -137,7 +136,7 @@ var cvData = {
         ],
         tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Python scripting",
       },
-            {
+      {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
         role: "Developer",
@@ -150,8 +149,8 @@ var cvData = {
           "Built a real-time data dashboard with intelligent CRUD operations and instant data synchronization.",
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind, Swagger",
-      }
-        ],
+      },
+    ],
     skills: [
       {
         cat: "AI & LLM",

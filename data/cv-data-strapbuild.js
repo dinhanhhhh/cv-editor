@@ -2,68 +2,101 @@
 // CV DATA - STRAPBUILD JUNIOR FULL-STACK DEVELOPER
 // ===================================
 
-if (typeof require !== 'undefined' && typeof cvGlobalEdu === 'undefined') {
-    global.cvGlobalEdu = require('./cv-global.js');
+if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
+  global.cvGlobalEdu = require("./cv-global.js");
 }
 
 var cvData = {
-    vi: {
-        projectDisplayLimit: 2,
-        name: "TRƯƠNG ĐÌNH ANH",
-        title: "Junior Full-Stack Developer",
-        contact: [
-            { icon: 'phone', text: '0349421079' },
-            { icon: 'email', text: 'tdinhanh.it@gmail.com', link: 'mailto:tdinhanh.it@gmail.com' },
-            { icon: 'github', text: 'github.com/dinhanhhhh', link: 'https://github.com/dinhanhhhh' },
-            { icon: 'address', text: 'Thủ Đức, TP. Hồ Chí Minh' }
+  vi: {
+    projectDisplayLimit: 2,
+    name: "TRƯƠNG ĐÌNH ANH",
+    title: "Junior Full-Stack Developer",
+    contact: [
+      { icon: "phone", text: "0349421079" },
+      {
+        icon: "email",
+        text: "tdinhanh.it@gmail.com",
+        link: "mailto:tdinhanh.it@gmail.com",
+      },
+      {
+        icon: "github",
+        text: "github.com/dinhanhhhh",
+        link: "https://github.com/dinhanhhhh",
+      },
+      { icon: "address", text: "Thủ Đức, TP. Hồ Chí Minh" },
+    ],
+    sections: {
+      objective: "TÓM TẮT CHUYÊN MÔN",
+      education: "HỌC VẤN",
+      projects: "DỰ ÁN TIÊU BIỂU",
+      skills: "KỸ NĂNG",
+    },
+    objective:
+      "Lập trình viên Full-Stack JavaScript/TypeScript chủ động, đam mê giải quyết các bài toán hệ thống và tối ưu sản phẩm. Có khả năng tự thiết kế kiến trúc, làm chủ mã nguồn và sử dụng hiệu quả các công cụ hỗ trợ (GitHub Copilot, Claude) để tăng tốc độ phát triển mà không bị phụ thuộc. Mong muốn gia nhập Strapbuild để xây dựng các sản phẩm thực tế và phát triển hệ thống AI agent đột phá.",
+    education: cvGlobalEdu.vi,
+    projects: [
+      {
+        name: "JOB PORTAL PLATFORM",
+        date: "11/2025 - 02/2026",
+        role: "Developer",
+        desc: "Hệ thống tuyển dụng trực tuyến toàn diện, hỗ trợ ứng tuyển và kết nối giữa nhà tuyển dụng và ứng viên.",
+        github: "https://github.com/dinhanhhhh/JOB-PORTAL",
+        tasks: [
+          "Phát triển 20+ RESTful APIs bằng Node.js/Express, tối ưu hóa truy vấn MongoDB và lập chỉ mục (index) giúp giảm thời gian phản hồi API xuống dưới 150ms.",
+          "Thiết kế cơ chế xác thực JWT kết hợp phân quyền RBAC chặt chẽ để bảo vệ tài nguyên hệ thống.",
+          "Xây dựng giao diện Next.js responsive với Tailwind CSS, tối ưu hóa quá trình render phía client.",
         ],
-        sections: {
-            objective: "TÓM TẮT CHUYÊN MÔN",
-            education: "HỌC VẤN",
-            projects: "DỰ ÁN TIÊU BIỂU",
-            skills: "KỸ NĂNG"
-        },
-        objective: "Lập trình viên Full-Stack JavaScript/TypeScript chủ động, đam mê giải quyết các bài toán hệ thống và tối ưu sản phẩm. Có khả năng tự thiết kế kiến trúc, làm chủ mã nguồn và sử dụng hiệu quả các công cụ hỗ trợ (GitHub Copilot, Claude) để tăng tốc độ phát triển mà không bị phụ thuộc. Mong muốn gia nhập Strapbuild để xây dựng các sản phẩm thực tế và phát triển hệ thống AI agent đột phá.",
-        education: cvGlobalEdu.vi,
-        projects: [
-            {
-                name: "JOB PORTAL PLATFORM",
-                date: "11/2025 - 02/2026",
-                role: "Developer",
-                desc: "Hệ thống tuyển dụng trực tuyến toàn diện, hỗ trợ ứng tuyển và kết nối giữa nhà tuyển dụng và ứng viên.",
-                github: "https://github.com/dinhanhhhh/JOB-PORTAL",
-                tasks: [
-                    "Phát triển 20+ RESTful APIs bằng Node.js/Express, tối ưu hóa truy vấn MongoDB và lập chỉ mục (index) giúp giảm thời gian phản hồi API xuống dưới 150ms.",
-                    "Thiết kế cơ chế xác thực JWT kết hợp phân quyền RBAC chặt chẽ để bảo vệ tài nguyên hệ thống.",
-                    "Xây dựng giao diện Next.js responsive với Tailwind CSS, tối ưu hóa quá trình render phía client."
-                ],
-                tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS"
-            },
-            {
-                name: "STUDENT MANAGEMENT SYSTEM",
-                date: "06/2025 - 09/2025",
-                role: "Developer",
-                desc: "Hệ thống quản lý thông tin học tập của sinh viên tích hợp Dashboard phân tích dữ liệu trực quan.",
-                github: "BE: https://github.com/dinhanhhhh/student-management-BE | FE: https://github.com/dinhanhhhh/student-management-fe",
-                tasks: [
-                    "Áp dụng triệt để tư duy Lập trình chức năng (Functional Programming) giúp viết code sạch, dễ kiểm thử và bảo trì.",
-                    "Thiết kế cấu trúc dự án rõ ràng, tối ưu hóa state management trên Next.js dashboard để tránh re-render thừa.",
-                    "Sử dụng Docker để container hóa ứng dụng, tự viết script cấu hình môi trường nhất quán giữa các máy phát triển."
-                ],
-                tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Docker, Swagger"
-            }
+        tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS",
+      },
+      {
+        name: "STUDENT MANAGEMENT SYSTEM",
+        date: "06/2025 - 09/2025",
+        role: "Developer",
+        desc: "Hệ thống quản lý thông tin học tập của sinh viên tích hợp Dashboard phân tích dữ liệu trực quan.",
+        github:
+          "BE: https://github.com/dinhanhhhh/student-management-BE | FE: https://github.com/dinhanhhhh/student-management-fe",
+        tasks: [
+          "Áp dụng triệt để tư duy Lập trình chức năng (Functional Programming) giúp viết code sạch, dễ kiểm thử và bảo trì.",
+          "Thiết kế cấu trúc dự án rõ ràng, tối ưu hóa state management trên Next.js dashboard để tránh re-render thừa.",
+          "Sử dụng Docker để container hóa ứng dụng, tự viết script cấu hình môi trường nhất quán giữa các máy phát triển.",
         ],
-        skills: [
-            { cat: "Ngôn ngữ cốt lõi", items: "JavaScript (ES6+), TypeScript (Cấm dùng 'any'), HTML5/CSS3" },
-            { cat: "Frontend Stack", items: "React.js, Next.js, Redux, State Management, Responsive Web Design" },
-            { cat: "Backend & Database", items: "Node.js (Express), RESTful API, JWT, RBAC, MongoDB (Mongoose), SQL" },
-            { cat: "Công cụ & Tự động", items: "Git (Feature Branching), Docker, Swagger, Postman, Vercel, Render" },
-            { cat: "Hiệu suất AI", items: "Sử dụng hiệu quả Claude/ChatGPT/Copilot để sinh code mẫu, giải thích lỗi và tối ưu hóa giải pháp" },
-            { cat: "Kỹ năng cá nhân", items: "Tự chủ giải quyết vấn đề, Tư duy phản biện, Làm việc nhóm, Giao tiếp trực tuyến tốt" }
-        ],
-        btnText: "In / Tải PDF",
-        docTitle: "CV_TruongDinhAnh_Strapbuild_FullStack_Intern_VI",
-        coverLetter: `[Tiêu đề Email: Ứng tuyển Junior Full-Stack Developer – Trương Đình Anh]
+        tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Docker, Swagger",
+      },
+    ],
+    skills: [
+      {
+        cat: "Ngôn ngữ cốt lõi",
+        items: "JavaScript (ES6+), TypeScript (Cấm dùng 'any'), HTML5/CSS3",
+      },
+      {
+        cat: "Frontend Stack",
+        items:
+          "React.js, Next.js, Redux, State Management, Responsive Web Design",
+      },
+      {
+        cat: "Backend & Database",
+        items:
+          "Node.js (Express), RESTful API, JWT, RBAC, MongoDB (Mongoose), SQL",
+      },
+      {
+        cat: "Công cụ & Tự động",
+        items:
+          "Git (Feature Branching), Docker, Swagger, Postman, Vercel, Render",
+      },
+      {
+        cat: "Hiệu suất AI",
+        items:
+          "Sử dụng hiệu quả Claude/ChatGPT/Copilot để sinh code mẫu, giải thích lỗi và tối ưu hóa giải pháp",
+      },
+      {
+        cat: "Kỹ năng cá nhân",
+        items:
+          "Tự chủ giải quyết vấn đề, Tư duy phản biện, Làm việc nhóm, Giao tiếp trực tuyến tốt",
+      },
+    ],
+    btnText: "In / Tải PDF",
+    docTitle: "CV_TruongDinhAnh_Strapbuild_FullStack_Intern_VI",
+    coverLetter: `[Tiêu đề Email: Ứng tuyển Junior Full-Stack Developer – Trương Đình Anh]
 
 Kính gửi Bộ phận Tuyển dụng Strapbuild,
 
@@ -115,66 +148,99 @@ Tôi xin chân thành cảm ơn Ban tuyển dụng đã dành thời gian đọc
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079`
-    },
+SĐT: 0349421079`,
+  },
 
-    en: {
-        projectDisplayLimit: 2,
-        name: "TRUONG DINH ANH",
-        title: "Junior Full-Stack Developer",
-        contact: [
-            { icon: 'phone', text: '0349421079' },
-            { icon: 'email', text: 'tdinhanh.it@gmail.com', link: 'mailto:tdinhanh.it@gmail.com' },
-            { icon: 'github', text: 'github.com/dinhanhhhh', link: 'https://github.com/dinhanhhhh' },
-            { icon: 'address', text: 'Thu Duc, Ho Chi Minh City' }
+  en: {
+    projectDisplayLimit: 2,
+    name: "TRUONG DINH ANH",
+    title: "Junior Full-Stack Developer",
+    contact: [
+      { icon: "phone", text: "0349421079" },
+      {
+        icon: "email",
+        text: "tdinhanh.it@gmail.com",
+        link: "mailto:tdinhanh.it@gmail.com",
+      },
+      {
+        icon: "github",
+        text: "github.com/dinhanhhhh",
+        link: "https://github.com/dinhanhhhh",
+      },
+      { icon: "address", text: "Thu Duc, Ho Chi Minh City" },
+    ],
+    sections: {
+      objective: "PROFESSIONAL SUMMARY",
+      education: "EDUCATION",
+      projects: "TECHNICAL PROJECTS",
+      skills: "SKILLS",
+    },
+    objective:
+      "Self-driven Full-Stack JavaScript/TypeScript Developer with a strong passion for system design and product optimization. Capable of making independent architectural decisions, keeping full ownership of source code, and leveraging AI tools (GitHub Copilot, Claude) as accelerators without being dependent. Eager to join Strapbuild to build real-world products and develop innovative AI-agent systems.",
+    education: cvGlobalEdu.en,
+    projects: [
+      {
+        name: "JOB PORTAL PLATFORM",
+        date: "11/2025 - 02/2026",
+        role: "Developer",
+        desc: "An online job portal connecting candidates with recruiters, featuring secure profile management.",
+        github: "https://github.com/dinhanhhhh/JOB-PORTAL",
+        tasks: [
+          "Developed 20+ RESTful APIs using Node.js/Express; optimized MongoDB queries and indexing to achieve sub-150ms response times.",
+          "Designed secure JWT-based authentication combined with granular RBAC to protect resources.",
+          "Built responsive Next.js frontend with Tailwind CSS, optimizing client-side rendering performance.",
         ],
-        sections: {
-            objective: "PROFESSIONAL SUMMARY",
-            education: "EDUCATION",
-            projects: "TECHNICAL PROJECTS",
-            skills: "SKILLS"
-        },
-        objective: "Self-driven Full-Stack JavaScript/TypeScript Developer with a strong passion for system design and product optimization. Capable of making independent architectural decisions, keeping full ownership of source code, and leveraging AI tools (GitHub Copilot, Claude) as accelerators without being dependent. Eager to join Strapbuild to build real-world products and develop innovative AI-agent systems.",
-        education: cvGlobalEdu.en,
-        projects: [
-            {
-                name: "JOB PORTAL PLATFORM",
-                date: "11/2025 - 02/2026",
-                role: "Developer",
-                desc: "An online job portal connecting candidates with recruiters, featuring secure profile management.",
-                github: "https://github.com/dinhanhhhh/JOB-PORTAL",
-                tasks: [
-                    "Developed 20+ RESTful APIs using Node.js/Express; optimized MongoDB queries and indexing to achieve sub-150ms response times.",
-                    "Designed secure JWT-based authentication combined with granular RBAC to protect resources.",
-                    "Built responsive Next.js frontend with Tailwind CSS, optimizing client-side rendering performance."
-                ],
-                tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS"
-            },
-            {
-                name: "STUDENT MANAGEMENT SYSTEM",
-                date: "06/2025 - 09/2025",
-                role: "Developer",
-                desc: "A student record system featuring a responsive dashboard for grading and administrative insights.",
-                github: "BE: https://github.com/dinhanhhhh/student-management-BE | FE: https://github.com/dinhanhhhh/student-management-fe",
-                tasks: [
-                    "Applied Functional Programming principles to write clean, easily testable, and maintainable code.",
-                    "Structured projects cleanly, optimizing state management in Next.js dashboard to prevent redundant re-renders.",
-                    "Utilized Docker to containerize applications, writing custom setup scripts for consistent dev environments."
-                ],
-                tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Docker, Swagger"
-            }
+        tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS",
+      },
+      {
+        name: "STUDENT MANAGEMENT SYSTEM",
+        date: "06/2025 - 09/2025",
+        role: "Developer",
+        desc: "A student record system featuring a responsive dashboard for grading and administrative insights.",
+        github:
+          "BE: https://github.com/dinhanhhhh/student-management-BE | FE: https://github.com/dinhanhhhh/student-management-fe",
+        tasks: [
+          "Applied Functional Programming principles to write clean, easily testable, and maintainable code.",
+          "Structured projects cleanly, optimizing state management in Next.js dashboard to prevent redundant re-renders.",
+          "Utilized Docker to containerize applications, writing custom setup scripts for consistent dev environments.",
         ],
-        skills: [
-            { cat: "Core Languages", items: "JavaScript (ES6+), TypeScript (Zero 'any' usage), HTML5/CSS3" },
-            { cat: "Frontend Stack", items: "React.js, Next.js, Redux, State Management, Responsive Web Design" },
-            { cat: "Backend & Database", items: "Node.js (Express), RESTful API, JWT, RBAC, MongoDB (Mongoose), SQL" },
-            { cat: "Tools & DevOps", items: "Git (Feature Branching), Docker, Swagger, Postman, Vercel, Render" },
-            { cat: "AI Leverage", items: "Effectively leverage Claude/ChatGPT/Copilot for prototyping, debugging, and solution refactoring" },
-            { cat: "Soft Skills", items: "Self-driven problem solver, Critical thinking, Remote team collaboration, Clear communication" }
-        ],
-        btnText: "Print / Save PDF",
-        docTitle: "CV_TruongDinhAnh_Strapbuild_FullStack_Intern_EN",
-        coverLetter: `[Subject: Job Application: Junior Full-Stack Developer – Truong Dinh Anh]
+        tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Docker, Swagger",
+      },
+    ],
+    skills: [
+      {
+        cat: "Core Languages",
+        items: "JavaScript (ES6+), TypeScript (Zero 'any' usage), HTML5/CSS3",
+      },
+      {
+        cat: "Frontend Stack",
+        items:
+          "React.js, Next.js, Redux, State Management, Responsive Web Design",
+      },
+      {
+        cat: "Backend & Database",
+        items:
+          "Node.js (Express), RESTful API, JWT, RBAC, MongoDB (Mongoose), SQL",
+      },
+      {
+        cat: "Tools & DevOps",
+        items:
+          "Git (Feature Branching), Docker, Swagger, Postman, Vercel, Render",
+      },
+      {
+        cat: "AI Leverage",
+        items:
+          "Effectively leverage Claude/ChatGPT/Copilot for prototyping, debugging, and solution refactoring",
+      },
+      {
+        cat: "Soft Skills",
+        items:
+          "Self-driven problem solver, Critical thinking, Remote team collaboration, Clear communication",
+      },
+    ],
+    btnText: "Print / Save PDF",
+    docTitle: "CV_TruongDinhAnh_Strapbuild_FullStack_Intern_EN",
+    coverLetter: `[Subject: Job Application: Junior Full-Stack Developer – Truong Dinh Anh]
 
 Dear Strapbuild Hiring Team,
 
@@ -226,10 +292,10 @@ Thank you for your time and consideration. I look forward to the opportunity to 
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079`
-    }
+Phone: 0349421079`,
+  },
 };
 
-if (typeof module !== 'undefined') {
-    module.exports = cvData;
+if (typeof module !== "undefined") {
+  module.exports = cvData;
 }

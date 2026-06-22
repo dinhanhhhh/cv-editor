@@ -26,10 +26,10 @@ function escUrl(url) {
 }
 
 const icons = {
-  phone: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`,
-  email: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>`,
-  github: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"/></svg>`,
-  address: `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
+  phone: `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`,
+  email: `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>`,
+  github: `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M14.31 8l5.74 9.94M9.69 8h11.48M7.38 12l5.74-9.94M9.69 16L3.95 6.06M14.31 16H2.83M16.62 12l-5.74 9.94"/></svg>`,
+  address: `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0116 0z"/><circle cx="12" cy="10" r="3"/></svg>`,
 };
 
 // cvData được load từ file data tương ứng (khai báo trước script này trong HTML)
@@ -74,6 +74,7 @@ const elements = {
   a4PreviewBtn: document.getElementById("a4PreviewBtn"),
   magicFitBtn: document.getElementById("magicFitBtn"),
   resetBtn: document.getElementById("resetBtn"),
+  resetDataBtn: document.getElementById("resetDataBtn"),
   langViBtn: document.getElementById("lang-vi"),
   langEnBtn: document.getElementById("lang-en"),
   fontIncreaseBtn: document.getElementById("font-increase"),
@@ -146,19 +147,13 @@ function initSpacingCustomizer() {
   elements.sectionMarginSlider.oninput = (e) => {
     const val = parseInt(e.target.value);
     elements.sectionMarginVal.textContent = val + "px";
-    
-    document.querySelectorAll(".cv-section").forEach((s) => {
-      s.style.marginBottom = val + "px";
-    });
+    elements.preview.style.setProperty("--cv-section-margin", val + "px");
   };
 
   elements.itemMarginSlider.oninput = (e) => {
     const val = parseInt(e.target.value);
     elements.itemMarginVal.textContent = val + "px";
-    
-    document.querySelectorAll(".cv-exp-item, .cv-edu-item").forEach((item) => {
-      item.style.marginBottom = val + "px";
-    });
+    elements.preview.style.setProperty("--cv-item-margin", val + "px");
   };
 }
 
@@ -171,12 +166,8 @@ function resetLayoutStyles() {
   const sectionVal = elements.sectionMarginSlider ? elements.sectionMarginSlider.value + "px" : DEFAULT_SECTION_MARGIN;
   const itemVal = elements.itemMarginSlider ? elements.itemMarginSlider.value + "px" : DEFAULT_ITEM_MARGIN;
 
-  document.querySelectorAll(".cv-section").forEach((section) => {
-    section.style.marginBottom = sectionVal;
-  });
-  document.querySelectorAll(".cv-exp-item, .cv-edu-item").forEach((item) => {
-    item.style.marginBottom = itemVal;
-  });
+  elements.preview.style.setProperty("--cv-section-margin", sectionVal);
+  elements.preview.style.setProperty("--cv-item-margin", itemVal);
 }
 
 function setA4Mode(enabled) {
@@ -375,12 +366,8 @@ function magicFit() {
     updateFontSize();
     elements.preview.style.lineHeight = currentLineHeight;
     elements.preview.style.padding = `0 ${currentPaddingSide}mm 10mm ${currentPaddingSide}mm`;
-    document
-      .querySelectorAll(".cv-section")
-      .forEach((s) => (s.style.marginBottom = sectionMargin + "px"));
-    document
-      .querySelectorAll(".cv-exp-item, .cv-edu-item")
-      .forEach((i) => (i.style.marginBottom = itemMargin + "px"));
+    elements.preview.style.setProperty("--cv-section-margin", sectionMargin + "px");
+    elements.preview.style.setProperty("--cv-item-margin", itemMargin + "px");
 
     if (elements.sectionMarginSlider) {
       elements.sectionMarginSlider.value = sectionMargin;
@@ -417,6 +404,8 @@ function magicFit() {
     if (!changed) break;
   }
 
+  const isOverflowing = elements.preview.offsetHeight > targetHeight;
+
   safety = 0;
   // Phase 2: Giãn nở nếu quá ngắn (Expand phase)
   while (
@@ -446,10 +435,21 @@ function magicFit() {
   elements.preview.style.height = "297mm";
   elements.preview.style.overflow = "hidden";
 
-  elements.magicFitBtn.innerHTML = "Perfect Fit! ✨";
-  setTimeout(() => {
-    elements.magicFitBtn.innerHTML = "Magic Fit ✨";
-  }, 2000);
+  if (isOverflowing) {
+    elements.magicFitBtn.innerHTML = "Tràn nội dung! ⚠️";
+    elements.magicFitBtn.style.backgroundColor = "#e05638";
+    elements.magicFitBtn.style.color = "#ffffff";
+    setTimeout(() => {
+      elements.magicFitBtn.innerHTML = "Magic Fit ✨";
+      elements.magicFitBtn.style.backgroundColor = "";
+      elements.magicFitBtn.style.color = "";
+    }, 4000);
+  } else {
+    elements.magicFitBtn.innerHTML = "Perfect Fit! ✨";
+    setTimeout(() => {
+      elements.magicFitBtn.innerHTML = "Magic Fit ✨";
+    }, 2000);
+  }
 }
 
 elements.magicFitBtn.onclick = magicFit;
@@ -475,6 +475,24 @@ function resetSettings() {
 }
 
 elements.resetBtn.onclick = resetSettings;
+
+if (elements.resetDataBtn) {
+  elements.resetDataBtn.onclick = () => {
+    const confirmMsg = currentLang === "vi" 
+      ? "Bạn có chắc chắn muốn xóa toàn bộ nội dung đã chỉnh sửa và khôi phục về dữ liệu CV gốc không?" 
+      : "Are you sure you want to delete all edited content and restore the original CV data?";
+    if (confirm(confirmMsg)) {
+      // Xóa các key trong localStorage cho phiên bản hiện tại
+      localStorage.removeItem(`cv_data_${cvVersion}_vi`);
+      localStorage.removeItem(`cv_data_${cvVersion}_en`);
+      localStorage.removeItem(`cv_global_project_pool_vi`);
+      localStorage.removeItem(`cv_global_project_pool_en`);
+      localStorage.removeItem(`cv_projects_order_${cvVersion}`);
+      // Reload trang để tải lại data gốc
+      window.location.reload();
+    }
+  };
+}
 
 // ===================================
 // A4 PREVIEW MODE
@@ -527,6 +545,11 @@ function addProjectsToPool(viProjects, enProjects) {
   normVi.forEach((viProj, idx) => {
     const enProj = normEn[idx] || viProj;
     const projId = normalizeProjId(enProj, viProj.name) || normalizeProjId(viProj, enProj.name);
+    
+    // Gán ID tĩnh vào từng đối tượng dự án để không bị tính toán lại theo tên khi tên bị sửa đổi
+    if (viProj && !viProj.id) viProj.id = projId;
+    if (enProj && !enProj.id) enProj.id = projId;
+
     if (!globalProjectPool.some(p => p.id === projId)) {
       globalProjectPool.push({
         id: projId,
@@ -565,9 +588,8 @@ async function loadAllProjectsBackground() {
   // Giữ lại data của phiên bản hiện tại vì việc nạp file khác sẽ ghi đè window.cvData
   const currentCvData = window.cvData;
 
-  const currentFilePath = allDataFiles.find((path) => {
-    return path.includes(`-${cvVersion}.js`) || (cvVersion === "default" && path.includes("fullstack.js"));
-  });
+  const currentVerObj = (window.CV_MANIFEST || []).find((v) => v.key === cvVersion);
+  const currentFilePath = currentVerObj ? currentVerObj.file : null;
 
   const filesToFetch = allDataFiles.filter((path) => path !== currentFilePath);
 
@@ -878,7 +900,10 @@ function renderCV(lang) {
       const parsed = JSON.parse(cached);
       const deepMerge = (target, source) => {
         for (const key of Object.keys(source)) {
-          if (source[key] instanceof Object && key in target && target[key] !== null) {
+          if (Array.isArray(source[key])) {
+            // Đối với mảng, ghi đè hoàn toàn để tránh giữ lại các phần tử thừa khi bị xóa bớt
+            target[key] = JSON.parse(JSON.stringify(source[key]));
+          } else if (source[key] instanceof Object && key in target && target[key] !== null) {
             deepMerge(target[key], source[key]);
           } else {
             target[key] = source[key];
@@ -897,12 +922,14 @@ function renderCV(lang) {
   if (cachedPool) {
     try {
       const parsedPool = JSON.parse(cachedPool);
-      parsedPool.forEach(cachedProj => {
-        const poolProj = globalProjectPool.find(p => p.id === cachedProj.id);
-        if (poolProj) {
-          poolProj[lang] = Object.assign(poolProj[lang] || {}, cachedProj[lang]);
-        }
-      });
+      if (Array.isArray(parsedPool)) {
+        parsedPool.forEach(cachedProj => {
+          const poolProj = globalProjectPool.find(p => p.id === cachedProj.id);
+          if (poolProj) {
+            poolProj[lang] = Object.assign(poolProj[lang] || {}, cachedProj[lang]);
+          }
+        });
+      }
     } catch (e) {
       console.error("Failed to parse cached global project pool:", e);
     }
