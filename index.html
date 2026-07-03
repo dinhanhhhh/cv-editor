@@ -58,8 +58,9 @@
             aria-pressed="false" aria-label="Bật hoặc tắt chế độ xem trước A4">📄 A4 Preview</button>
         <button class="cover-letter-btn" id="coverLetterBtn" type="button" title="Xem thư xin việc (Cover Letter)"
             aria-label="Xem thư xin việc">✉️ Cover Letter</button>
-        <button class="live-edit-btn" id="liveEditBtn" type="button" title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV"
-            aria-pressed="false" aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Chỉnh sửa nhanh</button>
+        <button class="live-edit-btn" id="liveEditBtn" type="button"
+            title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV" aria-pressed="false"
+            aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Chỉnh sửa nhanh</button>
         <button class="export-cv-btn" id="exportCvBtn" type="button" title="Xuất dữ liệu CV đã chỉnh sửa"
             aria-label="Xuất dữ liệu CV" style="display: none;">💾 Xuất file JS</button>
 
@@ -146,11 +147,13 @@
             <div class="cl-modal-body">
                 <div class="cl-editor-pane" style="width: 100%;">
                     <div class="pane-label" id="exportPaneLabel">📄 JS Data File (cv-data-*.js)</div>
-                    <textarea id="exportTextArea" class="cl-textarea" aria-label="Nội dung file dữ liệu CV" readonly style="font-family: monospace; font-size: 11px; height: 350px;"></textarea>
+                    <textarea id="exportTextArea" class="cl-textarea" aria-label="Nội dung file dữ liệu CV" readonly
+                        style="font-family: monospace; font-size: 11px; height: 350px;"></textarea>
                 </div>
             </div>
             <div class="cl-modal-footer">
-                <button type="button" class="cl-btn-secondary" id="exportClearBtn" style="background-color: #d90429; color: white; border-color: #d90429;">Xóa Thay Đổi 🧹</button>
+                <button type="button" class="cl-btn-secondary" id="exportClearBtn"
+                    style="background-color: #d90429; color: white; border-color: #d90429;">Xóa Thay Đổi 🧹</button>
                 <button type="button" class="cl-btn-secondary" id="exportDownloadBtn">Tải File JS 📥</button>
                 <button type="button" class="cl-btn-primary" id="exportCopyBtn">Sao chép Code 📋</button>
             </div>

@@ -30,7 +30,7 @@ var cvData = {
             {
                 name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
                 date: "06/2025 - 09/2025",
-                role: "Thực tập sinh Front-End Web Developer",
+                role: "Developer",
                 desc: "Dự án nền tảng phân tích tài chính chứng khoán và hỗ trợ tối ưu hóa giao diện.",
                 tasks: [
                     "Chuyển đổi các bản vẽ thiết kế giao diện từ Figma sang mã HTML/CSS/JavaScript động, tối ưu responsive trên mọi thiết bị và đảm bảo chuẩn W3C.",
@@ -150,7 +150,7 @@ Trương Đình Anh`
             {
                 name: "TAMI TECHNOLOGY CO., LTD",
                 date: "06/2025 - 09/2025",
-                role: "Front-End Web Developer Intern",
+                role: "Developer",
                 desc: "FinTech stock market data analysis platform and UI styling.",
                 tasks: [
                     "Translated design assets from Figma into interactive HTML/CSS/JavaScript templates, ensuring full responsive layout compatibility.",

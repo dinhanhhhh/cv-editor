@@ -7,7 +7,7 @@ if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
 var cvData = {
   vi: {
     experienceDisplayLimit: 1,
-    projectDisplayLimit: 1,
+    projectDisplayLimit: 2,
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Back-End Developer",
     contact: [
@@ -28,11 +28,11 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
-      projects: "DỰ ÁN CÁ NHÂN",
+      projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
-      "Lập trình viên Back-End sử dụng Node.js và TypeScript với nền tảng tư duy hệ thống tốt, định hướng phát triển chuyên sâu vào tối ưu hóa API và bảo mật hệ thống. Có khả năng tự chủ công việc cao, thành thạo tối ưu hóa cơ sở dữ liệu và triển khai quy trình vận hành dự án thực tế. Mong muốn cống hiến năng lực giải quyết vấn đề của mình để xây dựng các giải pháp backend ổn định và đồng hành cùng sự tăng trưởng bền vững của công ty.",
+      "Lập trình viên Back-End sử dụng Node.js và TypeScript với nền tảng tư duy hệ thống tốt, định hướng phát triển chuyên sâu vào thiết kế RESTful API, tìm hiểu mô hình Microservices và tối ưu hóa hiệu suất cơ sở dữ liệu (PostgreSQL, MySQL, NoSQL). Có khả năng làm việc tự chủ cao, giải quyết vấn đề linh hoạt và sẵn sàng cống hiến năng lực để xây dựng các giải pháp backend ổn định, đồng hành cùng sự tăng trưởng bền vững của FIMI.",
     education: cvGlobalEdu.vi,
     experience: [
       {
@@ -61,23 +61,9 @@ var cvData = {
           "Thiết kế và triển khai hơn 30 RESTful API endpoints sử dụng Node.js và kiến trúc Controller-Service.",
           "Xây dựng hệ thống xác thực tập trung sử dụng JWT, HttpOnly cookies kết hợp với phân quyền RBAC chặt chẽ.",
           "Xử lý và tối ưu hóa truy vấn MongoDB (Aggregation Pipeline), đạt thời gian phản hồi API trung bình dưới 200ms.",
-          "Tích hợp các cơ chế xử lý lỗi (Global Error Handling) và Logging để giám sát hệ thống ổn định.",
+          "Tích hợp các cơ chế xử lý lỗi tập trung (Global Error Handling) và Middleware để đảm bảo hệ thống vận hành ổn định.",
         ],
         tech: "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman",
-      },
-      {
-        name: "STUDENT MANAGEMENT SERVER",
-        date: "06/2025 - 09/2025",
-        role: "Developer",
-        desc: "Xây dựng hạ tầng máy chủ cho quản lý hồ sơ sinh viên, đăng ký khóa học và quản trị điểm số.",
-        github: "https://github.com/dinhanhhhh/student-management-BE",
-        tasks: [
-          "Xây dựng backend theo mô hình MVC, tách biệt rõ giữa logic nghiệp vụ và lưu trữ dữ liệu.",
-          "Triển khai cơ chế refresh token để bảo mật phiên đăng nhập và đảm bảo trải nghiệm người dùng liền mạch.",
-          "Sử dụng Swagger để tự động hóa tài liệu API, hỗ trợ các thành viên Frontend tích hợp nhanh chóng.",
-          "Tối ưu hóa sơ đồ cơ sở dữ liệu (Schema Design) để đảm bảo toàn vẹn dữ liệu và mở rộng linh hoạt.",
-        ],
-        tech: "Node.js, Express, MongoDB (Mongoose), Swagger, TypeScript, Middleware",
       },
       {
         name: "E-COMMERCE API SERVICE",
@@ -86,12 +72,12 @@ var cvData = {
         desc: "Phát triển các dịch vụ API cốt lõi cho nền tảng thương mại điện tử, quản lý đơn hàng và tồn kho.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
-          "Xây dựng API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server.",
+          "Xây dựng các API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server.",
+          "Thiết kế sơ đồ cơ sở dữ liệu MySQL và tối ưu hóa quan hệ dữ liệu để đảm bảo tính nhất quán.",
           "Triển khai Middleware kiểm tra quyền hạn Admin cho các thao tác thay đổi dữ liệu nhạy cảm.",
-          "Thiết kế cơ chế xử lý thanh toán và trạng thái đơn hàng (Order Lifecycle) đảm bảo tính nhất quán.",
-          "Thực hiện kiểm thử API kỹ lưỡng với Postman để đảm bảo độ tin cậy của mã nguồn.",
+          "Thiết kế cơ chế xử lý thanh toán và quản lý trạng thái đơn hàng (Order Lifecycle) chuẩn xác.",
         ],
-        tech: "Node.js, Express, MySQL/MongoDB, JWT, Cloudinary (Image storage)",
+        tech: "Node.js, Express, MySQL, JWT, Cloudinary (Image storage), Postman",
       },
     ],
     skills: [
@@ -100,32 +86,53 @@ var cvData = {
         items: "TypeScript, JavaScript (ES6+), Node.js (Runtime)",
       },
       {
-        cat: "Frameworks",
+        cat: "Frameworks & Kiến trúc",
         items:
-          "Express.js, Nest.js (Learning), Next.js (API Routes), MVC Architecture",
+          "Express.js, NestJS (Learning), Next.js (API Routes), MVC Architecture, Microservices (concepts)",
       },
       {
-        cat: "Database",
+        cat: "Cơ sở dữ liệu",
         items:
-          "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions",
+          "PostgreSQL, MySQL, MongoDB (Mongoose), Query Optimization, Database Transactions",
       },
       {
         cat: "Security & API",
         items:
-          "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI",
+          "RESTful API Design, JWT, RBAC, OAuth2, Guards/Middleware, Swagger/OpenAPI",
       },
       {
-        cat: "Tools & DevOps",
+        cat: "Công cụ & DevOps",
         items: "Git/GitHub, Docker, Postman, CI/CD basic, Vercel/Render",
       },
     ],
     btnText: "In / Tải PDF",
-    docTitle: "CV_TruongDinhAnh_BackendDev_VI",
+    docTitle: "CV_TruongDinhAnh_Backend_FIMI_VI",
+    coverLetter: `[Tiêu đề Email: Ứng tuyển vị trí Backend Developer – Trương Đình Anh]
+
+Kính gửi Ms. Hồng và Bộ phận Tuyển dụng FIMI,
+
+Tôi tên là Trương Đình Anh, tốt nghiệp chuyên ngành Khoa học Máy tính tại Đại học Mở TP.HCM. Qua tin tuyển dụng từ FIMI, tôi nhận thấy yêu cầu của vị trí Backend Developer rất phù hợp với nền tảng kỹ thuật và định hướng nghề nghiệp của bản thân. Do đó, tôi viết thư này để bày tỏ mong muốn được đồng hành cùng Quý công ty.
+
+Với kinh nghiệm thực tế trong việc phát triển hệ thống backend sử dụng Node.js, Express và TypeScript, tôi đã từng:
+- Thiết kế và triển khai hơn 30 RESTful API endpoints với kiến trúc Controller-Service chặt chẽ, tối ưu truy vấn cơ sở dữ liệu MongoDB (Aggregation Pipeline) cho dự án Job Portal.
+- Có kinh nghiệm làm việc thực tế với PostgreSQL (Supabase Cloud) và MySQL thông qua dự án tại TAMI Technology (hệ thống dữ liệu chứng khoán sử dụng thư viện Vnstock3) và dự án E-Commerce API Service.
+- Triển khai thành thạo các cơ chế bảo mật như JWT, HttpOnly cookies, phân quyền RBAC và tích hợp các luồng xác thực OAuth2.
+
+Tôi luôn đặt chất lượng code lên hàng đầu, hướng tới việc viết code sạch, dễ bảo trì và tối ưu hiệu năng tối đa cho hệ thống. Tôi rất ấn tượng với định hướng "kiến tạo sản phẩm công nghệ hiện đại và bền vững" của FIMI và tin tưởng rằng sự chủ động, tinh thần cầu tiến cùng khả năng tự học nhanh của mình sẽ đóng góp hiệu quả cho đội ngũ phát triển.
+
+Tôi đã đính kèm CV chi tiết trong email này và rất mong có cơ hội được trao đổi sâu hơn với Ms. Hồng cùng Ban tuyển dụng trong một buổi phỏng vấn trực tiếp.
+
+Chúc Ms. Hồng và Công ty FIMI một ngày làm việc hiệu quả và gặt hái nhiều thành công!
+
+Trân trọng,
+Trương Đình Anh
+SĐT: 0349421079
+GitHub: https://github.com/dinhanhhhh`,
   },
 
   en: {
     experienceDisplayLimit: 1,
-    projectDisplayLimit: 1,
+    projectDisplayLimit: 2,
     name: "TRUONG DINH ANH",
     title: "Back-End Developer",
     contact: [
@@ -146,11 +153,11 @@ var cvData = {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       experience: "WORK EXPERIENCE",
-      projects: "PERSONAL PROJECTS",
+      projects: "FEATURED PROJECTS",
       skills: "TECHNICAL SKILLS",
     },
     objective:
-      "Back-End Developer proficient in Node.js and TypeScript with a solid system mindset, aiming to specialize in API optimization and system security. Possesses strong self-direction, database optimization skills, and hands-on experience in production deployment. Committed to leveraging problem-solving skills to build reliable backend services and grow alongside the company’s sustainable success.",
+      "Back-End Developer proficient in Node.js and TypeScript with a strong system mindset, aiming to specialize in RESTful API design, Microservices architecture, and database optimization (PostgreSQL, MySQL, NoSQL). Possesses high proactivity, problem-solving skills, and a willingness to build reliable backend services and contribute to FIMI's sustainable growth.",
     education: cvGlobalEdu.en,
     experience: [
       {
@@ -184,20 +191,6 @@ var cvData = {
         tech: "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman",
       },
       {
-        name: "STUDENT MANAGEMENT SERVER",
-        date: "06/2025 - 09/2025",
-        role: "Developer",
-        desc: "Server-side infrastructure for student records, course registration, and academic score management.",
-        github: "https://github.com/dinhanhhhh/student-management-BE",
-        tasks: [
-          "Built the backend using the MVC pattern, with clear separation between business logic and data persistence.",
-          "Implemented a robust refresh token mechanism for secure sessions and a seamless user experience.",
-          "Leveraged Swagger for automated API documentation, facilitating rapid frontend integration.",
-          "Optimized database schema design to ensure data integrity and flexible system scalability.",
-        ],
-        tech: "Node.js, Express, MongoDB (Mongoose), Swagger, TypeScript, Middleware",
-      },
-      {
         name: "E-COMMERCE API SERVICE",
         date: "08/2025 - 09/2025",
         role: "Developer",
@@ -205,11 +198,11 @@ var cvData = {
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
           "Developed server-side product management APIs and cart persistence systems.",
+          "Designed MySQL database schemas and optimized data relations to ensure consistency.",
           "Implemented admin authorization middleware for sensitive data operations and management features.",
           "Designed payment processing flows and order lifecycle management to maintain data consistency.",
-          "Performed rigorous API testing with Postman to ensure code reliability and high success rates.",
         ],
-        tech: "Node.js, Express, MySQL/MongoDB, JWT, Cloudinary",
+        tech: "Node.js, Express, MySQL, JWT, Cloudinary, Postman",
       },
     ],
     skills: [
@@ -218,19 +211,19 @@ var cvData = {
         items: "TypeScript, JavaScript (ES6+), Node.js (Runtime)",
       },
       {
-        cat: "Frameworks",
+        cat: "Frameworks & Architecture",
         items:
-          "Express.js, Nest.js (Learning), Next.js (API Routes), MVC Architecture",
+          "Express.js, NestJS (Learning), Next.js (API Routes), MVC Architecture, Microservices (concepts)",
       },
       {
         cat: "Databases",
         items:
-          "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions",
+          "PostgreSQL, MySQL, MongoDB (Mongoose), Query Optimization, Database Transactions",
       },
       {
         cat: "Security & API",
         items:
-          "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI",
+          "RESTful API Design, JWT, RBAC, OAuth2, Guards/Middleware, Swagger/OpenAPI",
       },
       {
         cat: "Tools & DevOps",
@@ -238,6 +231,27 @@ var cvData = {
       },
     ],
     btnText: "Print / Save PDF",
-    docTitle: "CV_TruongDinhAnh_BackendDev_EN",
+    docTitle: "CV_TruongDinhAnh_Backend_FIMI_EN",
+    coverLetter: `[Subject: Job Application: Backend Developer – Truong Dinh Anh]
+
+Dear Ms. Hong and the FIMI Hiring Team,
+
+My name is Truong Dinh Anh, a Computer Science graduate from Ho Chi Minh City Open University. Having read FIMI's hiring poster, I believe my technical background in backend development and database systems aligns perfectly with your Backend Developer position. Therefore, I am writing to express my strong interest in joining your team.
+
+With hands-on experience in backend development using Node.js, Express, and TypeScript, I have successfully:
+- Designed and implemented 30+ robust RESTful API endpoints with a modular Controller-Service architecture and optimized MongoDB queries (using Aggregation Pipelines) to achieve sub-200ms response times.
+- Gained practical database experience with PostgreSQL (Supabase Cloud) and MySQL through my work at TAMI Technology (stock market data analysis system) and an E-Commerce API Service.
+- Implemented secure authentication flows using JWT, HttpOnly cookies, RBAC, and integrated OAuth2 providers.
+
+I am highly committed to writing clean, maintainable code and optimizing database query performance. I am deeply inspired by FIMI's mission to "create modern and sustainable technology products." With my proactivity, problem-solving mindset, and rapid learning ability, I am confident in my ability to quickly adapt and add value to FIMI’s development team.
+
+I have attached my CV to this email and look forward to the opportunity to discuss my application further in an interview.
+
+Thank you for your time and consideration.
+
+Sincerely,
+Truong Dinh Anh
+Phone: 0349421079
+GitHub: https://github.com/dinhanhhhh`,
   },
 };

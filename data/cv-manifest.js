@@ -16,6 +16,36 @@
       label: "Chung",
     },
     {
+      key: "slimai",
+      file: "data/cv-data-slimai.js",
+      emoji: "✨",
+      label: "✨ SlimAI Intern",
+    },
+    {
+      key: "alphasphere",
+      file: "data/cv-data-alphasphere.js",
+      emoji: "🔺",
+      label: "🔺 AlphaSphere Fullstack",
+    },
+    {
+      key: "fimi",
+      file: "data/cv-data-fimi.js",
+      emoji: "🔴",
+      label: "🔴 FIMI Backend",
+    },
+    {
+      key: "danggiatrang",
+      file: "data/cv-data-danggiatrang.js",
+      emoji: "🌱",
+      label: "🌱 Đặng Gia Trang DE/BE",
+    },
+    {
+      key: "vitech",
+      file: "data/cv-data-vitech.js",
+      emoji: "🧡",
+      label: "🧡 Vitech Digital",
+    },
+    {
       key: "zalo",
       file: "data/cv-data-zalo.js",
       emoji: "🔵",

@@ -30,7 +30,7 @@ var cvData = {
             {
                 name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
                 date: "06/2025 - 09/2025",
-                role: "Thực tập sinh Backend & Product Analyst",
+                role: "Developer",
                 desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
                 tasks: [
                     "Phối hợp xác định yêu cầu nghiệp vụ và thiết kế sơ đồ luồng dữ liệu (data flow) cho hệ thống phân tích Vnstock3.",
@@ -150,7 +150,7 @@ Trương Đình Anh`
             {
                 name: "TAMI TECHNOLOGY CO., LTD",
                 date: "06/2025 - 09/2025",
-                role: "Backend & Product Analyst Intern",
+                role: "Developer",
                 desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
                 tasks: [
                     "Collaborated on business requirements analysis and designed data flow diagrams for the stock analysis system.",

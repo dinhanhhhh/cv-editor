@@ -15,6 +15,7 @@ const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 // Danh sách các phiên bản CV cần sinh PDF tự động
 const CV_VERSIONS = [
     { type: 'default', filename: 'CV_TruongDinhAnh_FullStack.pdf', label: '💼 Full-Stack Dev' },
+    { type: 'fimi', filename: 'CV_TruongDinhAnh_Backend_FIMI.pdf', label: '🔴 FIMI Backend' },
     { type: 'backend', filename: 'CV_TruongDinhAnh_Backend.pdf', label: '⚙️ Backend Dev' },
     { type: 'frontend', filename: 'CV_TruongDinhAnh_Frontend.pdf', label: '🎨 Frontend Dev' },
     { type: 'nestjs', filename: 'CV_TruongDinhAnh_NestJS.pdf', label: '🏥 NestJS Dev' },
@@ -59,6 +60,7 @@ async function generateAllPDFs() {
     const { execSync } = require('child_process');
     const fileToTypeMap = {
         'data/cv-data-fullstack.js': 'default',
+        'data/cv-data-fimi.js': 'fimi',
         'data/cv-data-be.js': 'backend',
         'data/cv-data-fe.js': 'frontend',
         'data/cv-data-nestjs.js': 'nestjs',

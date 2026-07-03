@@ -943,25 +943,8 @@ function renderCV(lang) {
     if (!d.experience || d.experience.length === 0) {
       const defaultExp = JSON.parse(JSON.stringify(cvGlobalExp[lang]));
       const titleUpper = (d.title || "").toUpperCase();
-      let tailoredRoleVi = "Thực tập sinh Developer";
-      let tailoredRoleEn = "Developer Intern";
-      
-      if (titleUpper.includes("FRONT")) {
-        tailoredRoleVi = "Thực tập sinh Front-End Developer";
-        tailoredRoleEn = "Front-End Developer Intern";
-      } else if (titleUpper.includes("BACK") || titleUpper.includes("NEST")) {
-        tailoredRoleVi = "Thực tập sinh Back-End Developer";
-        tailoredRoleEn = "Back-End Developer Intern";
-      } else if (titleUpper.includes("FULL") || titleUpper.includes("WEB") || titleUpper.includes("IT") || titleUpper.includes("DEV")) {
-        tailoredRoleVi = "Thực tập sinh Full-Stack Developer";
-        tailoredRoleEn = "Full-Stack Developer Intern";
-      } else if (titleUpper.includes("AI") || titleUpper.includes("RESEARCH")) {
-        tailoredRoleVi = "Thực tập sinh AI Developer";
-        tailoredRoleEn = "AI Developer Intern";
-      } else if (titleUpper.includes("SUPPORT")) {
-        tailoredRoleVi = "Thực tập sinh Kỹ thuật (Tech Support)";
-        tailoredRoleEn = "Technical Support Intern";
-      }
+      let tailoredRoleVi = "Developer";
+      let tailoredRoleEn = "Developer";
       
       defaultExp.forEach(exp => {
         exp.role = lang === "vi" ? tailoredRoleVi : tailoredRoleEn;
