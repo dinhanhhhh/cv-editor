@@ -12,7 +12,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Full-Stack JavaScript Developer Intern",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -108,7 +108,7 @@ Tôi xin chân thành cảm ơn!
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 
@@ -117,7 +117,7 @@ GitHub: https://github.com/dinhanhhhh`,
     name: "TRUONG DINH ANH",
     title: "Full-Stack JavaScript Developer Intern",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -213,7 +213,7 @@ Thank you for your time and consideration.
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 };

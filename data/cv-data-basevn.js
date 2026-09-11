@@ -11,7 +11,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Software Engineer (Fullstack / Product Engineer)",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -107,7 +107,7 @@ Tôi có đính kèm bản CV chi tiết để Quý công ty tiện xem xét. C�
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 
@@ -115,7 +115,7 @@ GitHub: https://github.com/dinhanhhhh`,
     name: "TRUONG DINH ANH",
     title: "Software Engineer (Fullstack / Product Engineer)",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -211,7 +211,7 @@ I have attached my CV for your review. Thank you for your time and consideration
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 };

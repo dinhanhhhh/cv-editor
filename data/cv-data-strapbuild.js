@@ -12,7 +12,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Junior Full-Stack Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -148,7 +148,7 @@ Tôi xin chân thành cảm ơn Ban tuyển dụng đã dành thời gian đọc
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079`,
+SĐT: 0923202861`,
   },
 
   en: {
@@ -156,7 +156,7 @@ SĐT: 0349421079`,
     name: "TRUONG DINH ANH",
     title: "Junior Full-Stack Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -292,7 +292,7 @@ Thank you for your time and consideration. I look forward to the opportunity to 
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079`,
+Phone: 0923202861`,
   },
 };
 

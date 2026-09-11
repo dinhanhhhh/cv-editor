@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV_TruongDinhAnh_FrontendDeveloper_EZGames</title>
+    <title>CV_TruongDinhAnh_Fullstack_OnHandBI</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
 
         <div class="font-customizer">
             <button id="font-decrease" title="Giảm font chữ">A-</button>
-            <div class="font-size-display" id="fontSizeDisplay">10pt</div>
+            <div class="font-size-display" id="fontSizeDisplay">10.5pt</div>
             <button id="font-increase" title="Tăng font chữ">A+</button>
         </div>
 
@@ -45,11 +45,6 @@
 
         <button class="a4-preview-btn" id="a4PreviewBtn" title="Bật/tắt xem khung A4 cố định">
             📄 A4 Preview
-        </button>
-
-        <!-- Nút mở thư giới thiệu / cover letter -->
-        <button class="cover-letter-btn" id="coverLetterBtn" title="Xem thư xin việc (Cover Letter)">
-            ✉️ Thư giới thiệu
         </button>
 
         <div class="btn-wrapper">
@@ -83,55 +78,11 @@
         </div>
     </div>
 
-    <!-- Modal Cover Letter -->
-    <div class="cl-modal-overlay" id="clModalOverlay" style="display: none;" aria-hidden="true" role="dialog" aria-labelledby="clModalTitle">
-      <div class="cl-modal-container">
-        <div class="cl-modal-header">
-          <div class="header-left">
-            <h2 class="cl-modal-title" id="clModalTitle">✉️ Thư giới thiệu</h2>
-            <div class="cl-lang-switch">
-              <button class="cl-lang-btn active" id="clLangViBtn">VI</button>
-              <button class="cl-lang-btn" id="clLangEnBtn">EN</button>
-            </div>
-            <div class="cl-template-switch">
-              <select id="clTemplateSelect" class="cl-template-select">
-                <option value="tech">Chuyên môn 💻</option>
-                <option value="short">Ngắn gọn ⚡</option>
-                <option value="warm">Thân thiện 😊</option>
-              </select>
-            </div>
-          </div>
-          <button class="cl-modal-close" id="clModalCloseBtn" aria-label="Đóng">&times;</button>
-        </div>
-        <div class="cl-modal-subtitle" id="clModalSubtitle">
-          Một thư giới thiệu ngắn gọn, chỉn chu sẽ giúp bạn trở nên chuyên nghiệp và gây ấn tượng hơn với nhà tuyển dụng.
-        </div>
-        <div class="cl-modal-body">
-          <div class="cl-editor-pane">
-            <div class="pane-label">✏️ Biên soạn (Raw Text)</div>
-            <textarea id="clTextArea" class="cl-textarea" spellcheck="false" placeholder="Nhập thư giới thiệu của bạn ở đây..."></textarea>
-          </div>
-          <div class="cl-preview-pane">
-            <div class="pane-label">👀 Xem trước (HTML Preview)</div>
-            <div id="clPreviewContainer" class="cl-preview-container"></div>
-          </div>
-        </div>
-        <div class="cl-modal-footer">
-          <button class="cl-modal-btn reset-btn" id="clResetBtn">Khôi phục 🔄</button>
-          <button class="cl-modal-btn copy-btn" id="clCopyBtn">Sao chép 📋</button>
-        </div>
-      </div>
-    </div>
-
     <div class="cv-preview" id="cvContent">
         <!-- Content rendered by cv-renderer.js -->
     </div>
 
-    <!-- NẠP DATA EZ GAMES MỚI VÀO -->
-    <script>
-      window.cvVersion = 'ezgames';
-    </script>
-    <script src="data/cv-data-ezgames.js"></script>
+    <script src="data/cv-data-onhandbi.js"></script>
     <script src="js/cv-renderer.js"></script>
 </body>
 

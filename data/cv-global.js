@@ -39,10 +39,10 @@ const cvGlobalExp = {
       role: "Developer",
       desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
       tasks: [
-        "Designed database schemas and successfully deployed PostgreSQL databases on the Supabase cloud infrastructure.",
+        "Designed database schemas and successfully deployed the PostgreSQL database on the Supabase cloud infrastructure.",
         "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
-        "Integrated Google Authentication OAuth flow centralized with NextAuth (Google Provider) for user sessions.",
-        "Tested and optimized API performance using Postman, resolving critical bugs under mentor guidance.",
+        "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for user sessions.",
+        "Tested and optimized API performance using Postman, resolving critical bugs under a mentor's guidance.",
         "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment."
       ],
       tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"

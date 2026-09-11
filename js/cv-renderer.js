@@ -105,6 +105,12 @@ function initSpacingCustomizer() {
   const sectionLabelText = currentLang === "vi" ? "↕️ Phần:" : "↕️ Section:";
   const itemLabelText = currentLang === "vi" ? "↕️ Mục:" : "↕️ Item:";
 
+  const d = (typeof cvData !== "undefined" && cvData[currentLang]) ? cvData[currentLang] : {};
+  const currentSectionMargin = d.sectionMargin || DEFAULT_SECTION_MARGIN;
+  const currentItemMargin = d.itemMargin || DEFAULT_ITEM_MARGIN;
+  const secInt = parseInt(currentSectionMargin) || 10;
+  const itemInt = parseInt(currentItemMargin) || 8;
+
   // Check if already created
   if (document.getElementById("sectionMarginSlider")) {
     const labels = document.querySelectorAll(".spacing-customizer .slider-label");
@@ -113,6 +119,16 @@ function initSpacingCustomizer() {
       labels[0].title = currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin';
       labels[1].textContent = itemLabelText;
       labels[1].title = currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin';
+    }
+    
+    // Sync slider values
+    if (elements.sectionMarginSlider) {
+      elements.sectionMarginSlider.value = secInt;
+      elements.sectionMarginVal.textContent = secInt + "px";
+    }
+    if (elements.itemMarginSlider) {
+      elements.itemMarginSlider.value = itemInt;
+      elements.itemMarginVal.textContent = itemInt + "px";
     }
     return;
   }
@@ -124,13 +140,13 @@ function initSpacingCustomizer() {
   spacingCustomizer.innerHTML = `
     <div class="slider-wrapper">
       <span class="slider-label" title="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">${sectionLabelText}</span>
-      <input type="range" id="sectionMarginSlider" min="4" max="35" value="10" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">
-      <span class="slider-value" id="sectionMarginVal">10px</span>
+      <input type="range" id="sectionMarginSlider" min="4" max="35" value="${secInt}" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">
+      <span class="slider-value" id="sectionMarginVal">${secInt}px</span>
     </div>
     <div class="slider-wrapper">
       <span class="slider-label" title="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">${itemLabelText}</span>
-      <input type="range" id="itemMarginSlider" min="2" max="25" value="8" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">
-      <span class="slider-value" id="itemMarginVal">8px</span>
+      <input type="range" id="itemMarginSlider" min="2" max="25" value="${itemInt}" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">
+      <span class="slider-value" id="itemMarginVal">${itemInt}px</span>
     </div>
   `;
 
@@ -148,12 +164,26 @@ function initSpacingCustomizer() {
     const val = parseInt(e.target.value);
     elements.sectionMarginVal.textContent = val + "px";
     elements.preview.style.setProperty("--cv-section-margin", val + "px");
+    
+    // Sync with settings data
+    if (typeof cvData !== "undefined" && cvData[currentLang]) {
+      cvData[currentLang].sectionMargin = val + "px";
+      const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+      localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
+    }
   };
 
   elements.itemMarginSlider.oninput = (e) => {
     const val = parseInt(e.target.value);
     elements.itemMarginVal.textContent = val + "px";
     elements.preview.style.setProperty("--cv-item-margin", val + "px");
+    
+    // Sync with settings data
+    if (typeof cvData !== "undefined" && cvData[currentLang]) {
+      cvData[currentLang].itemMargin = val + "px";
+      const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+      localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
+    }
   };
 }
 
@@ -163,8 +193,9 @@ function resetLayoutStyles() {
   elements.preview.style.lineHeight = DEFAULT_LINE_HEIGHT;
   elements.preview.style.padding = DEFAULT_PADDING;
 
-  const sectionVal = elements.sectionMarginSlider ? elements.sectionMarginSlider.value + "px" : DEFAULT_SECTION_MARGIN;
-  const itemVal = elements.itemMarginSlider ? elements.itemMarginSlider.value + "px" : DEFAULT_ITEM_MARGIN;
+  const d = (typeof cvData !== "undefined" && cvData[currentLang]) ? cvData[currentLang] : {};
+  const sectionVal = d.sectionMargin || (elements.sectionMarginSlider ? elements.sectionMarginSlider.value + "px" : DEFAULT_SECTION_MARGIN);
+  const itemVal = d.itemMargin || (elements.itemMarginSlider ? elements.itemMarginSlider.value + "px" : DEFAULT_ITEM_MARGIN);
 
   elements.preview.style.setProperty("--cv-section-margin", sectionVal);
   elements.preview.style.setProperty("--cv-item-margin", itemVal);
@@ -458,20 +489,28 @@ elements.magicFitBtn.onclick = magicFit;
 // RESET SETTINGS
 // ===================================
 function resetSettings() {
-  baseFontSize = DEFAULT_FONT_SIZE;
-  updateFontSize();
-
-  if (elements.sectionMarginSlider) {
-    elements.sectionMarginSlider.value = parseInt(DEFAULT_SECTION_MARGIN);
-    elements.sectionMarginVal.textContent = DEFAULT_SECTION_MARGIN;
+  const confirmMsg = currentLang === "vi" 
+    ? "Khôi phục toàn bộ giao diện, màu sắc, font chữ và căn lề về mặc định?" 
+    : "Reset all styling, colors, font family, and margins to default?";
+  if (confirm(confirmMsg)) {
+    const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+    const cached = localStorage.getItem(cachedKey);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        delete parsed.primaryColor;
+        delete parsed.fontFamily;
+        delete parsed.sectionOrder;
+        delete parsed.hiddenSections;
+        delete parsed.sectionMargin;
+        delete parsed.itemMargin;
+        localStorage.setItem(cachedKey, JSON.stringify(parsed));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    window.location.reload();
   }
-  if (elements.itemMarginSlider) {
-    elements.itemMarginSlider.value = parseInt(DEFAULT_ITEM_MARGIN);
-    elements.itemMarginVal.textContent = DEFAULT_ITEM_MARGIN;
-  }
-
-  resetLayoutStyles();
-  setA4Mode(false);
 }
 
 elements.resetBtn.onclick = resetSettings;
@@ -482,13 +521,11 @@ if (elements.resetDataBtn) {
       ? "Bạn có chắc chắn muốn xóa toàn bộ nội dung đã chỉnh sửa và khôi phục về dữ liệu CV gốc không?" 
       : "Are you sure you want to delete all edited content and restore the original CV data?";
     if (confirm(confirmMsg)) {
-      // Xóa các key trong localStorage cho phiên bản hiện tại
       localStorage.removeItem(`cv_data_${cvVersion}_vi`);
       localStorage.removeItem(`cv_data_${cvVersion}_en`);
       localStorage.removeItem(`cv_global_project_pool_vi`);
       localStorage.removeItem(`cv_global_project_pool_en`);
       localStorage.removeItem(`cv_projects_order_${cvVersion}`);
-      // Reload trang để tải lại data gốc
       window.location.reload();
     }
   };
@@ -677,6 +714,8 @@ function getProjectId(p) {
   return normalizeProjId(p);
 }
 
+let isProjSelectorCollapsed = false;
+
 function updateProjectSelector(d, lang) {
   let panel = document.getElementById("projectSelectorPanel");
   if (!panel && d.projects && d.projects.length > 0) {
@@ -691,6 +730,12 @@ function updateProjectSelector(d, lang) {
     return;
   } else {
     if (panel) panel.style.display = "flex";
+  }
+
+  if (isProjSelectorCollapsed) {
+    panel.classList.add("collapsed");
+  } else {
+    panel.classList.remove("collapsed");
   }
 
   // Check if version or language changed
@@ -784,11 +829,16 @@ function updateProjectSelector(d, lang) {
   const orderLabel = lang === "vi" ? "Thứ tự hiển thị (Kéo thả)" : "Display Order (Drag & Drop)";
 
   panel.innerHTML = `
-    <div class="proj-select-header">
-      <span class="proj-select-title">${titleText}</span>
-      <button class="proj-select-reset-btn" id="projSelectResetBtn" title="${lang === "vi" ? "Khôi phục mặc định" : "Restore defaults"}">
-        ${lang === "vi" ? "Khôi phục 🔄" : "Reset 🔄"}
-      </button>
+    <div class="proj-select-header" id="projSelectHeader" title="${lang === "vi" ? "Nhấp để thu gọn / mở rộng" : "Click to collapse / expand"}">
+      <span class="proj-select-title">${titleText} <span class="proj-select-count">${activeProjectIds.length}</span></span>
+      <div class="proj-select-header-actions">
+        <button class="proj-select-reset-btn" id="projSelectResetBtn" title="${lang === "vi" ? "Khôi phục mặc định" : "Restore defaults"}">
+          🔄
+        </button>
+        <button class="proj-select-toggle-btn" id="projSelectToggleBtn" title="${lang === "vi" ? (isProjSelectorCollapsed ? "Mở rộng" : "Thu gọn") : (isProjSelectorCollapsed ? "Expand" : "Collapse")}">
+          ${isProjSelectorCollapsed ? "▼" : "▲"}
+        </button>
+      </div>
     </div>
     <div class="proj-select-subtitle">${subtitleText}</div>
     
@@ -810,10 +860,21 @@ function updateProjectSelector(d, lang) {
     </div>
   `;
 
+  // Attach header / toggle collapse listener
+  const header = panel.querySelector("#projSelectHeader");
+  if (header) {
+    header.onclick = (e) => {
+      if (e.target.closest("#projSelectResetBtn")) return;
+      isProjSelectorCollapsed = !isProjSelectorCollapsed;
+      updateProjectSelector(d, lang);
+    };
+  }
+
   // Attach reset listener
   const resetBtn = panel.querySelector("#projSelectResetBtn");
   if (resetBtn) {
-    resetBtn.onclick = () => {
+    resetBtn.onclick = (e) => {
+      e.stopPropagation();
       localStorage.removeItem(`cv_projects_order_${cvVersion}`);
       const currentProjs = d.projects || [];
       const limit = d.projectDisplayLimit || 1;
@@ -886,6 +947,82 @@ function updateProjectSelector(d, lang) {
       }
     };
   });
+}
+
+// ===================================
+// SECTION ACTIONS (DRAG, MOVE, DELETE)
+// ===================================
+function saveCVSettings() {
+  const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+  localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
+}
+
+function moveSection(sectionId, direction) {
+  const d = cvData[currentLang];
+  const defaultSectionOrder = ["objective", "education", "experience", "projects", "skills"];
+  const order = [...(d.sectionOrder || defaultSectionOrder)];
+  
+  const index = order.indexOf(sectionId);
+  if (index === -1) return;
+  
+  const targetIndex = index + direction;
+  if (targetIndex < 0 || targetIndex >= order.length) return;
+  
+  const temp = order[index];
+  order[index] = order[targetIndex];
+  order[targetIndex] = temp;
+  
+  d.sectionOrder = order;
+  saveCVSettings();
+  renderCV(currentLang);
+  
+  if (typeof renderSectionList === "function") {
+    renderSectionList();
+  }
+}
+
+function deleteSection(sectionId) {
+  const d = cvData[currentLang];
+  if (!d.hiddenSections) {
+    d.hiddenSections = [];
+  }
+  if (!d.hiddenSections.includes(sectionId)) {
+    d.hiddenSections.push(sectionId);
+  }
+  
+  saveCVSettings();
+  renderCV(currentLang);
+  
+  if (typeof renderSectionList === "function") {
+    renderSectionList();
+  }
+}
+
+function reorderSections(draggedId, targetId, insertBefore) {
+  const d = cvData[currentLang];
+  const defaultSectionOrder = ["objective", "education", "experience", "projects", "skills"];
+  const order = [...(d.sectionOrder || defaultSectionOrder)];
+  
+  const draggedIndex = order.indexOf(draggedId);
+  const targetIndex = order.indexOf(targetId);
+  if (draggedIndex === -1 || targetIndex === -1) return;
+  
+  order.splice(draggedIndex, 1);
+  
+  let newTargetIndex = order.indexOf(targetId);
+  if (!insertBefore) {
+    newTargetIndex += 1;
+  }
+  
+  order.splice(newTargetIndex, 0, draggedId);
+  
+  d.sectionOrder = order;
+  saveCVSettings();
+  renderCV(currentLang);
+  
+  if (typeof renderSectionList === "function") {
+    renderSectionList();
+  }
 }
 
 // ===================================
@@ -977,16 +1114,90 @@ function renderCV(lang) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join("");
 
-  const cleanTitle = d.title
+  // Rút gọn chức danh: xóa phần trong ngoặc đơn, bỏ các tiền tố level và lấy phần vai trò chính
+  let shortTitle = d.title.replace(/\(.*?\)/g, "").trim();
+  shortTitle = shortTitle.replace(/^(?:\b(?:Fresher|Junior|Intern)\b|[\s/&|,-])+/i, "");
+  if (shortTitle.includes("/") || shortTitle.includes("|")) {
+    const parts = shortTitle.split(/[\/|]/);
+    shortTitle = parts[parts.length - 1].trim();
+  }
+
+  const cleanTitle = shortTitle
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/đ/g, "d")
     .replace(/Đ/g, "D")
-    .replace(/[^a-zA-Z0-9]/g, "_")
-    .replace(/_+/g, "_")
-    .replace(/^_+|_+$/g, "");
+    .replace(/[^a-zA-Z0-9]/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((word) => {
+      const upper = word.toUpperCase();
+      if (upper === "AI" || upper === "IT" || upper === "HR") return upper;
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    })
+    .join("");
 
-  document.title = `CV_${cleanName}_${cleanTitle}`;
+  document.title = d.docTitle || `CV_${cleanName}_${cleanTitle}_${lang.toUpperCase()}`;
+
+  const sectionRenderers = {
+    objective: () => `
+      <div class="cv-section" data-section-id="objective">
+        <div data-edit-key="sections.objective" class="cv-section-title">${esc(d.sections.objective)}</div>
+        <div data-edit-key="objective" class="cv-objective">${esc(d.objective)}</div>
+      </div>
+    `,
+    education: () => `
+      <div class="cv-section" data-section-id="education">
+        <div data-edit-key="sections.education" class="cv-section-title">${esc(d.sections.education)}</div>
+        ${renderEducation(d.education)}
+      </div>
+    `,
+    experience: () => {
+      if (!d.experience || d.experience.length === 0) return "";
+      return `
+        <div class="cv-section" data-section-id="experience">
+          <div data-edit-key="sections.experience" class="cv-section-title">${esc(d.sections.experience)}</div>
+          ${renderProjects(d.experience, t, d.experienceDisplayLimit, 'experience')}
+        </div>
+      `;
+    },
+    projects: () => `
+      <div class="cv-section" data-section-id="projects">
+        <div data-edit-key="sections.projects" class="cv-section-title">${esc(d.sections.projects)}</div>
+        ${renderProjects(
+          activeProjectIds
+            .map(id => {
+              const currentProj = (d.projects || []).find(p => getProjectId(p) === id);
+              if (currentProj) return currentProj;
+              const p = globalProjectPool.find(item => item.id === id);
+              return p ? p[lang] : null;
+            })
+            .filter(Boolean),
+          t,
+          undefined,
+          'projects'
+        )}
+      </div>
+    `,
+    skills: () => `
+      <div class="cv-section" data-section-id="skills">
+        <div data-edit-key="sections.skills" class="cv-section-title">${esc(d.sections.skills)}</div>
+        <table class="cv-skills-table">
+          ${renderSkills(d.skills)}
+        </table>
+      </div>
+    `
+  };
+
+  const defaultSectionOrder = ["objective", "education", "experience", "projects", "skills"];
+  const order = d.sectionOrder || defaultSectionOrder;
+  const hidden = d.hiddenSections || [];
+
+  const sectionsHtml = order
+    .filter(id => !hidden.includes(id))
+    .map(id => sectionRenderers[id] ? sectionRenderers[id]() : "")
+    .join("");
 
   const html = `
         <div class="cv-header">
@@ -996,54 +1207,123 @@ function renderCV(lang) {
             ${renderContact(d.contact)}
           </div>
         </div>
-
-        <div class="cv-section">
-          <div data-edit-key="sections.objective" class="cv-section-title">${esc(d.sections.objective)}</div>
-          <div data-edit-key="objective" class="cv-objective">${esc(d.objective)}</div>
-        </div>
-
-        <div class="cv-section">
-          <div data-edit-key="sections.education" class="cv-section-title">${esc(d.sections.education)}</div>
-          ${renderEducation(d.education)}
-        </div>
-
-        ${
-          d.experience && d.experience.length > 0
-            ? `
-        <div class="cv-section">
-          <div data-edit-key="sections.experience" class="cv-section-title">${esc(d.sections.experience)}</div>
-          ${renderProjects(d.experience, t, d.experienceDisplayLimit, 'experience')}
-        </div>
-        `
-            : ""
-        }
-
-        <div class="cv-section">
-          <div data-edit-key="sections.projects" class="cv-section-title">${esc(d.sections.projects)}</div>
-          ${renderProjects(
-            activeProjectIds
-              .map(id => {
-                const currentProj = (d.projects || []).find(p => getProjectId(p) === id);
-                if (currentProj) return currentProj;
-                const p = globalProjectPool.find(item => item.id === id);
-                return p ? p[lang] : null;
-              })
-              .filter(Boolean),
-            t,
-            undefined,
-            'projects'
-          )}
-        </div>
-
-        <div class="cv-section">
-          <div data-edit-key="sections.skills" class="cv-section-title">${d.sections.skills}</div>
-          <table class="cv-skills-table">
-            ${renderSkills(d.skills)}
-          </table>
-        </div>
+        ${sectionsHtml}
     `;
 
   elements.preview.innerHTML = html;
+
+  // Inject Hover Action Toolbars into each section
+  elements.preview.querySelectorAll(".cv-section").forEach(sectionEl => {
+    const sectionId = sectionEl.getAttribute("data-section-id");
+    if (!sectionId) return;
+
+    const toolbar = document.createElement("div");
+    toolbar.className = "section-toolbar";
+    toolbar.setAttribute("contenteditable", "false");
+    
+    const dragTitle = lang === "vi" ? "Kéo thả để di chuyển mục" : "Drag to reorder";
+    const upTitle = lang === "vi" ? "Di chuyển lên" : "Move up";
+    const downTitle = lang === "vi" ? "Di chuyển xuống" : "Move down";
+    const deleteText = lang === "vi" ? "Xóa" : "Delete";
+    
+    toolbar.innerHTML = `
+      <div class="tb-btn tb-drag" title="${dragTitle}" draggable="true">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="5 9 2 12 5 15"></polyline>
+          <polyline points="9 5 12 2 15 5"></polyline>
+          <polyline points="15 19 12 22 9 19"></polyline>
+          <polyline points="19 9 22 12 19 15"></polyline>
+          <line x1="2" y1="12" x2="22" y2="12"></line>
+          <line x1="12" y1="2" x2="12" y2="22"></line>
+        </svg>
+      </div>
+      <button class="tb-btn tb-up" title="${upTitle}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+      <button class="tb-btn tb-down" title="${downTitle}">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+      <button class="tb-btn tb-delete" title="${deleteText}">${deleteText}</button>
+    `;
+    
+    toolbar.querySelector(".tb-up").onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      moveSection(sectionId, -1);
+    };
+    toolbar.querySelector(".tb-down").onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      moveSection(sectionId, 1);
+    };
+    toolbar.querySelector(".tb-delete").onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (confirm(lang === "vi" ? `Bạn có chắc muốn ẩn mục này không? Bạn có thể hiển thị lại từ phần "Cấu hình CV".` : `Are you sure you want to hide this section? You can show it again from "CV Settings".`)) {
+        deleteSection(sectionId);
+      }
+    };
+    
+    // HTML5 Drag and Drop events on the drag handle button
+    const dragHandle = toolbar.querySelector(".tb-drag");
+    dragHandle.ondragstart = (e) => {
+      if (!elements.preview.classList.contains("live-editing")) {
+        e.preventDefault();
+        return;
+      }
+      e.dataTransfer.setData("text/plain", sectionId);
+      sectionEl.classList.add("section-dragging");
+      e.dataTransfer.effectAllowed = "move";
+    };
+    dragHandle.ondragend = () => {
+      sectionEl.classList.remove("section-dragging");
+      elements.preview.querySelectorAll(".cv-section").forEach(el => {
+        el.classList.remove("drag-over-top", "drag-over-bottom");
+      });
+    };
+
+    // Listeners for dropping on the section itself
+    sectionEl.ondragover = (e) => {
+      if (!elements.preview.classList.contains("live-editing")) return;
+      e.preventDefault();
+      const rect = sectionEl.getBoundingClientRect();
+      const relativeY = e.clientY - rect.top;
+      if (relativeY < rect.height / 2) {
+        sectionEl.classList.add("drag-over-top");
+        sectionEl.classList.remove("drag-over-bottom");
+      } else {
+        sectionEl.classList.add("drag-over-bottom");
+        sectionEl.classList.remove("drag-over-top");
+      }
+    };
+    sectionEl.ondragleave = () => {
+      sectionEl.classList.remove("drag-over-top", "drag-over-bottom");
+    };
+    sectionEl.ondrop = (e) => {
+      if (!elements.preview.classList.contains("live-editing")) return;
+      e.preventDefault();
+      sectionEl.classList.remove("drag-over-top", "drag-over-bottom");
+      const draggedId = e.dataTransfer.getData("text/plain");
+      if (draggedId && draggedId !== sectionId) {
+        const rect = sectionEl.getBoundingClientRect();
+        const relativeY = e.clientY - rect.top;
+        const insertBefore = relativeY < rect.height / 2;
+        reorderSections(draggedId, sectionId, insertBefore);
+      }
+    };
+    
+    // Add to the top of the section
+    sectionEl.insertBefore(toolbar, sectionEl.firstChild);
+  });
+  
+  // Apply primary color and font family custom properties
+  elements.preview.style.setProperty("--cv-color", d.primaryColor || "#000000");
+  elements.preview.style.setProperty("font-family", d.fontFamily || "'Be Vietnam Pro', sans-serif");
+  
   initSpacingCustomizer();
   resetLayoutStyles();
   updateFontSize();
@@ -1081,6 +1361,9 @@ elements.langEnBtn.onclick = () => {
 // PRINT / DOWNLOAD
 // ===================================
 elements.downloadBtn.onclick = () => {
+  if (cvData && cvData[currentLang] && cvData[currentLang].docTitle) {
+    document.title = cvData[currentLang].docTitle;
+  }
   window.print();
 };
 
@@ -1091,7 +1374,10 @@ elements.downloadBtn.onclick = () => {
 // COVER LETTER MANAGER
 // ===================================
 const urlParams = new URLSearchParams(window.location.search);
-const cvVersion = urlParams.get("type") || "default";
+// Tránh lỗi redeclaration khi HTML template đã khai báo cvVersion trước
+const cvVersion = (typeof window.cvVersion !== "undefined" && window.cvVersion)
+  ? window.cvVersion
+  : (urlParams.get("type") || "default");
 let currentTemplate = "tech";
 
 const clTemplates = {
@@ -1108,7 +1394,7 @@ Tôi xin gửi kèm CV và mong muốn được trao đổi chi tiết hơn tron
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
     en: `[Subject: Job Application: Developer – Truong Dinh Anh]
 
@@ -1122,7 +1408,7 @@ Please find my attached CV for more details. I look forward to the opportunity o
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
   short: {
@@ -1138,7 +1424,7 @@ Chi tiết về các dự án và kỹ năng của tôi được trình bày tro
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
     en: `[Subject: Job Application: Developer – Truong Dinh Anh]
 
@@ -1152,7 +1438,7 @@ Please find my CV attached for more details on my projects and skills. I look fo
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
   warm: {
@@ -1170,7 +1456,7 @@ Chúc Quý công ty một ngày làm việc hiệu quả!
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
     en: `[Subject: Job Application: Developer – Enthusiastic and Ready to Contribute]
 
@@ -1186,7 +1472,7 @@ Have a wonderful day!
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 };
@@ -1395,7 +1681,7 @@ function updateCoverLetterText() {
 }
 
 // Setup Event Listeners for Cover Letter Modal
-(function initCoverLetter() {
+function initCoverLetter() {
   const clTextArea = document.getElementById("clTextArea");
   const clResetBtn = document.getElementById("clResetBtn");
   const clCopyBtn = document.getElementById("clCopyBtn");
@@ -1788,6 +2074,747 @@ var cvData = ${JSON.stringify(cvData, null, 2)};
       }
     };
   }
-})();
+}
 
-renderCV(currentLang);
+// ===================================
+// SETTINGS DRAWER MANAGER
+// ===================================
+function initSettingsDrawer() {
+  const settingsBtn = document.getElementById("settingsBtn");
+  const overlay = document.getElementById("settingsDrawerOverlay");
+  const closeBtn = document.getElementById("settingsDrawerCloseBtn");
+  const saveBtn = document.getElementById("settingsSaveBtn");
+  const resetBtn = document.getElementById("settingsResetBtn");
+
+  const colorPicker = document.getElementById("primaryColorPicker");
+  const fontFamilySelect = document.getElementById("fontFamilySelect");
+
+  const sectionMarginSlider = document.getElementById("drawerSectionMarginSlider");
+  const sectionMarginVal = document.getElementById("drawerSectionMarginVal");
+  const itemMarginSlider = document.getElementById("drawerItemMarginSlider");
+  const itemMarginVal = document.getElementById("drawerItemMarginVal");
+  const sectionListContainer = document.getElementById("sectionListContainer");
+
+  if (!settingsBtn || !overlay) return;
+
+  // Toggle Drawer
+  settingsBtn.onclick = () => {
+    loadSettingsToDrawer();
+    overlay.style.display = "flex";
+    overlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+
+  const closeDrawer = () => {
+    overlay.style.display = "none";
+    overlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+
+  if (closeBtn) closeBtn.onclick = closeDrawer;
+  if (saveBtn) saveBtn.onclick = closeDrawer;
+
+  overlay.onclick = (e) => {
+    if (e.target === overlay) {
+      closeDrawer();
+    }
+  };
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.getAttribute("aria-hidden") === "false") {
+      closeDrawer();
+    }
+  });
+
+  // Load state to controls in Drawer
+  function loadSettingsToDrawer() {
+    const d = cvData[currentLang];
+    
+    // Color
+    colorPicker.value = d.primaryColor || "#000000";
+    
+    // Font
+    if (d.fontFamily) {
+      fontFamilySelect.value = d.fontFamily;
+    } else {
+      fontFamilySelect.selectedIndex = 0;
+    }
+
+    // Spacing (load from element styles or defaults)
+    const currentSectionMargin = elements.preview.style.getPropertyValue("--cv-section-margin") || DEFAULT_SECTION_MARGIN;
+    const currentItemMargin = elements.preview.style.getPropertyValue("--cv-item-margin") || DEFAULT_ITEM_MARGIN;
+    
+    const secVal = parseInt(currentSectionMargin);
+    const itemVal = parseInt(currentItemMargin);
+
+    sectionMarginSlider.value = isNaN(secVal) ? 10 : secVal;
+    sectionMarginVal.textContent = sectionMarginSlider.value + "px";
+
+    itemMarginSlider.value = isNaN(itemVal) ? 8 : itemVal;
+    itemMarginVal.textContent = itemMarginSlider.value + "px";
+
+    // Render section reordering list
+    renderSectionList();
+  }
+
+  // Live styling updates from Drawer controls
+  colorPicker.oninput = (e) => {
+    const color = e.target.value;
+    cvData[currentLang].primaryColor = color;
+    elements.preview.style.setProperty("--cv-color", color);
+    saveSettings();
+  };
+
+  fontFamilySelect.onchange = (e) => {
+    const font = e.target.value;
+    cvData[currentLang].fontFamily = font;
+    elements.preview.style.setProperty("font-family", font);
+    saveSettings();
+  };
+
+  sectionMarginSlider.oninput = (e) => {
+    const val = parseInt(e.target.value);
+    sectionMarginVal.textContent = val + "px";
+    elements.preview.style.setProperty("--cv-section-margin", val + "px");
+    
+    // Sync with main floating toolbar if exists
+    if (elements.sectionMarginSlider) {
+      elements.sectionMarginSlider.value = val;
+      if (elements.sectionMarginVal) elements.sectionMarginVal.textContent = val + "px";
+    }
+    
+    cvData[currentLang].sectionMargin = val + "px";
+    saveSettings();
+  };
+
+  itemMarginSlider.oninput = (e) => {
+    const val = parseInt(e.target.value);
+    itemMarginVal.textContent = val + "px";
+    elements.preview.style.setProperty("--cv-item-margin", val + "px");
+
+    // Sync with main floating toolbar if exists
+    if (elements.itemMarginSlider) {
+      elements.itemMarginSlider.value = val;
+      if (elements.itemMarginVal) elements.itemMarginVal.textContent = val + "px";
+    }
+
+    cvData[currentLang].itemMargin = val + "px";
+    saveSettings();
+  };
+
+  function saveSettings() {
+    const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+    localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
+  }
+
+  // Reset all custom settings to default
+  if (resetBtn) {
+    resetBtn.onclick = () => {
+      const confirmReset = confirm(
+        currentLang === "vi" 
+          ? "Khôi phục toàn bộ giao diện và bố cục về mặc định?"
+          : "Reset all theme and layout settings to default?"
+      );
+      if (confirmReset) {
+        const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
+        const cached = localStorage.getItem(cachedKey);
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            delete parsed.primaryColor;
+            delete parsed.fontFamily;
+            delete parsed.sectionOrder;
+            delete parsed.hiddenSections;
+            delete parsed.sectionMargin;
+            delete parsed.itemMargin;
+            localStorage.setItem(cachedKey, JSON.stringify(parsed));
+          } catch (e) {
+            console.error(e);
+          }
+        }
+        window.location.reload();
+      }
+    };
+  }
+
+  // Dynamic sections sorting and hiding list
+  function renderSectionList() {
+    const d = cvData[currentLang];
+    const defaultSectionOrder = ["objective", "education", "experience", "projects", "skills"];
+    const order = d.sectionOrder || defaultSectionOrder;
+    const hidden = d.hiddenSections || [];
+
+    const sectionLabels = {
+      vi: {
+        objective: "🎯 Mục tiêu nghề nghiệp",
+        education: "🎓 Học vấn",
+        experience: "💼 Kinh nghiệm làm việc",
+        projects: "💻 Dự án thực tế",
+        skills: "🛠️ Kỹ năng chuyên môn"
+      },
+      en: {
+        objective: "🎯 Objective",
+        education: "🎓 Education",
+        experience: "💼 Experience",
+        projects: "💻 Projects",
+        skills: "🛠️ Skills"
+      }
+    };
+
+    sectionListContainer.innerHTML = order.map((sectionId, idx) => {
+      const isVisible = !hidden.includes(sectionId);
+      const label = sectionLabels[currentLang][sectionId] || sectionId;
+      return `
+        <div class="section-item-drag" data-section-id="${sectionId}" draggable="true">
+          <div class="section-item-drag-left">
+            <span class="section-drag-handle">☰</span>
+            <span class="section-item-name ${isVisible ? '' : 'disabled'}">${label}</span>
+          </div>
+          <div class="section-item-actions">
+            <button class="section-action-btn section-move-up" title="Di chuyển lên" ${idx === 0 ? 'disabled' : ''}>▲</button>
+            <button class="section-action-btn section-move-down" title="Di chuyển xuống" ${idx === order.length - 1 ? 'disabled' : ''}>▼</button>
+            <button class="section-action-btn section-toggle-btn" title="${isVisible ? 'Ẩn phần' : 'Hiện phần'}">
+              ${isVisible ? '👁️' : '🙈'}
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // Attach drag events
+    let dragEl = null;
+
+    sectionListContainer.querySelectorAll(".section-item-drag").forEach(el => {
+      el.ondragstart = (e) => {
+        dragEl = el;
+        el.classList.add("dragging");
+        e.dataTransfer.effectAllowed = "move";
+      };
+
+      el.ondragend = () => {
+        el.classList.remove("dragging");
+        dragEl = null;
+        updateOrderFromDOM();
+      };
+
+      el.ondragover = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        const target = e.target.closest(".section-item-drag");
+        if (target && target !== dragEl) {
+          const rect = target.getBoundingClientRect();
+          const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5;
+          sectionListContainer.insertBefore(dragEl, next ? target.nextSibling : target);
+        }
+      };
+    });
+
+    // Attach click events for up/down/toggle
+    sectionListContainer.querySelectorAll(".section-item-drag").forEach((el, idx) => {
+      const sectionId = el.getAttribute("data-section-id");
+
+      const upBtn = el.querySelector(".section-move-up");
+      const downBtn = el.querySelector(".section-move-down");
+      const toggleBtn = el.querySelector(".section-toggle-btn");
+
+      upBtn.onclick = () => {
+        const order = d.sectionOrder || [...defaultSectionOrder];
+        const index = order.indexOf(sectionId);
+        if (index > 0) {
+          order.splice(index, 1);
+          order.splice(index - 1, 0, sectionId);
+          d.sectionOrder = order;
+          saveSettings();
+          renderCV(currentLang);
+          renderSectionList();
+        }
+      };
+
+      downBtn.onclick = () => {
+        const order = d.sectionOrder || [...defaultSectionOrder];
+        const index = order.indexOf(sectionId);
+        if (index > -1 && index < order.length - 1) {
+          order.splice(index, 1);
+          order.splice(index + 1, 0, sectionId);
+          d.sectionOrder = order;
+          saveSettings();
+          renderCV(currentLang);
+          renderSectionList();
+        }
+      };
+
+      toggleBtn.onclick = () => {
+        const hidden = d.hiddenSections || [];
+        const index = hidden.indexOf(sectionId);
+        if (index > -1) {
+          hidden.splice(index, 1); // Show it
+        } else {
+          hidden.push(sectionId); // Hide it
+        }
+        d.hiddenSections = hidden;
+        saveSettings();
+        renderCV(currentLang);
+        renderSectionList();
+      };
+    });
+    window.renderSectionList = renderSectionList;
+  }
+
+  function updateOrderFromDOM() {
+    const newOrder = Array.from(sectionListContainer.querySelectorAll(".section-item-drag"))
+      .map(el => el.getAttribute("data-section-id"));
+    
+    cvData[currentLang].sectionOrder = newOrder;
+    saveSettings();
+    renderCV(currentLang);
+  }
+}
+
+// ===================================
+// CV VERSION DIFF / COMPARISON VIEWER
+// ===================================
+const diffVersionCache = {};
+
+function initDiffViewer() {
+  const diffBtn = document.getElementById("diffBtn");
+  const modalOverlay = document.getElementById("diffModalOverlay");
+  const closeBtn = document.getElementById("diffModalCloseBtn");
+  const footerCloseBtn = document.getElementById("diffCloseBtn");
+  const selectA = document.getElementById("diffSelectA");
+  const selectB = document.getElementById("diffSelectB");
+  const swapBtn = document.getElementById("diffSwapBtn");
+  const filterDiffsBtn = document.getElementById("diffFilterDiffsBtn");
+  const langViBtn = document.getElementById("diffLangViBtn");
+  const langEnBtn = document.getElementById("diffLangEnBtn");
+  const panelHeaderA = document.getElementById("diffPanelHeaderA");
+  const panelHeaderB = document.getElementById("diffPanelHeaderB");
+  const panelContentA = document.getElementById("diffPanelContentA");
+  const panelContentB = document.getElementById("diffPanelContentB");
+  const footerLinks = document.getElementById("diffFooterLinks");
+
+  if (!diffBtn || !modalOverlay) return;
+
+  let diffLang = currentLang;
+  let diffOnlyDiffs = false;
+  let diffShowSharedProjects = false;
+
+  function openDiffModal() {
+    diffLang = currentLang;
+    syncLangButtons();
+    syncFilterButton();
+    populateSelectOptions();
+    modalOverlay.style.display = "flex";
+    modalOverlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    renderDiff();
+  }
+
+  function closeDiffModal() {
+    modalOverlay.style.display = "none";
+    modalOverlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  }
+
+  diffBtn.onclick = openDiffModal;
+  if (closeBtn) closeBtn.onclick = closeDiffModal;
+  if (footerCloseBtn) footerCloseBtn.onclick = closeDiffModal;
+
+  modalOverlay.onclick = (e) => {
+    if (e.target === modalOverlay) closeDiffModal();
+  };
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.getAttribute("aria-hidden") === "false") {
+      closeDiffModal();
+    }
+  });
+
+  if (swapBtn) {
+    swapBtn.onclick = () => {
+      const temp = selectA.value;
+      selectA.value = selectB.value;
+      selectB.value = temp;
+      renderDiff();
+    };
+  }
+
+  if (filterDiffsBtn) {
+    filterDiffsBtn.onclick = () => {
+      diffOnlyDiffs = !diffOnlyDiffs;
+      diffShowSharedProjects = false;
+      syncFilterButton();
+      renderDiff();
+    };
+  }
+
+  function syncFilterButton() {
+    if (filterDiffsBtn) {
+      filterDiffsBtn.classList.toggle("active", diffOnlyDiffs);
+      filterDiffsBtn.textContent = diffLang === "vi" 
+        ? (diffOnlyDiffs ? "⚡ Đang lọc khác biệt" : "⚡ Chỉ khác biệt")
+        : (diffOnlyDiffs ? "⚡ Filtering diffs" : "⚡ Only diffs");
+    }
+  }
+
+  if (selectA) selectA.onchange = () => renderDiff();
+  if (selectB) selectB.onchange = () => renderDiff();
+
+  function syncLangButtons() {
+    if (langViBtn && langEnBtn) {
+      langViBtn.classList.toggle("active", diffLang === "vi");
+      langEnBtn.classList.toggle("active", diffLang === "en");
+    }
+    const titleEl = document.getElementById("diffModalTitle");
+    if (titleEl) {
+      titleEl.textContent = diffLang === "vi" ? "⚖️ So Sánh CV" : "⚖️ CV Comparison";
+    }
+    if (footerCloseBtn) {
+      footerCloseBtn.textContent = diffLang === "vi" ? "Đóng ✓" : "Close ✓";
+    }
+    syncFilterButton();
+  }
+
+  if (langViBtn) {
+    langViBtn.onclick = () => {
+      diffLang = "vi";
+      syncLangButtons();
+      populateSelectOptions();
+      renderDiff();
+    };
+  }
+
+  if (langEnBtn) {
+    langEnBtn.onclick = () => {
+      diffLang = "en";
+      syncLangButtons();
+      populateSelectOptions();
+      renderDiff();
+    };
+  }
+
+  function populateSelectOptions() {
+    const manifest = window.CV_MANIFEST || [];
+    const prevA = selectA.value;
+    const prevB = selectB.value;
+
+    const hasLocalDraft = localStorage.getItem(`cv_data_${cvVersion}_${diffLang}`);
+    
+    let optionsHtml = "";
+    if (hasLocalDraft) {
+      const draftLabel = diffLang === "vi" 
+        ? `✏️ Bản nháp đang sửa (${cvVersion})`
+        : `✏️ Local Draft (${cvVersion})`;
+      optionsHtml += `<option value="__local_draft__">${draftLabel}</option>`;
+    }
+
+    manifest.forEach(v => {
+      optionsHtml += `<option value="${v.key}">${v.emoji} ${v.label.replace(/^[^\w\s\u00C0-\u1EF9]+/, '').trim()}</option>`;
+    });
+
+    selectA.innerHTML = optionsHtml;
+    selectB.innerHTML = optionsHtml;
+
+    if (prevA && selectA.querySelector(`option[value="${prevA}"]`)) {
+      selectA.value = prevA;
+    } else {
+      selectA.value = cvVersion || "default";
+    }
+
+    if (prevB && selectB.querySelector(`option[value="${prevB}"]`)) {
+      selectB.value = prevB;
+    } else {
+      if (selectA.value === "default") {
+        const second = manifest.find(v => v.key !== "default");
+        selectB.value = second ? second.key : "default";
+      } else {
+        selectB.value = "default";
+      }
+    }
+  }
+
+  // Load a single CV version with strict sequential isolation
+  async function fetchVersionData(versionKey) {
+    if (versionKey === "__local_draft__") {
+      return JSON.parse(JSON.stringify(window.cvData || {}));
+    }
+    if (diffVersionCache[versionKey]) {
+      return diffVersionCache[versionKey];
+    }
+    const manifest = window.CV_MANIFEST || [];
+    const ver = manifest.find(v => v.key === versionKey);
+    if (!ver) return null;
+
+    const currentCvData = window.cvData;
+    try {
+      const loaded = await loadDataScript(ver.file);
+      const cloned = JSON.parse(JSON.stringify(loaded || {}));
+      diffVersionCache[versionKey] = cloned;
+      window.cvData = currentCvData;
+      return cloned;
+    } catch (e) {
+      console.error("Failed to load script for diff:", e);
+      window.cvData = currentCvData;
+      return null;
+    }
+  }
+
+  // Extract clean tech tags
+  function extractTechTags(skillsArr) {
+    if (!Array.isArray(skillsArr)) return [];
+    const tags = new Set();
+    skillsArr.forEach(s => {
+      if (s && s.items) {
+        s.items.split(/[,;•|]/).forEach(item => {
+          const clean = item.replace(/\(.*?\)/g, "").trim();
+          if (clean && clean.length > 1 && clean.length < 35) {
+            tags.add(clean);
+          }
+        });
+      }
+    });
+    return Array.from(tags);
+  }
+
+  window.__toggleDiffShared = () => {
+    diffShowSharedProjects = !diffShowSharedProjects;
+    renderDiff();
+  };
+
+  // Render a single panel's content
+  function renderPanelContent(data, lang, techOwn, allProjectIds, myMap, otherMap, isA) {
+    const colorClass = isA ? "diff-tag-a" : "diff-tag-b";
+    const projsAll = (data.projects || []).concat(data.experience || []);
+
+    // --- Objective ---
+    let html = `
+      <div class="diff-section">
+        <div class="diff-section-label">${lang === "vi" ? "🎯 Mục tiêu & Tóm tắt" : "🎯 Objective"}</div>
+        <div class="diff-objective-text">${esc(data.objective || (lang === "vi" ? "— Chưa có —" : "— None —"))}</div>
+      </div>
+    `;
+
+    // --- Unique tech tags ---
+    if (techOwn.length > 0) {
+      html += `
+        <div class="diff-section">
+          <div class="diff-section-label">${lang === "vi" ? "⭐ Công nghệ đặc trưng (chỉ bản này)" : "⭐ Unique tech (this version only)"}</div>
+          <div class="diff-tag-group">
+            ${techOwn.map(t => `<span class="diff-tag ${colorClass}">${esc(t)}</span>`).join("")}
+          </div>
+        </div>
+      `;
+    } else if (diffOnlyDiffs) {
+      html += `
+        <div class="diff-section" style="opacity:0.7;">
+          <div class="diff-section-label">${lang === "vi" ? "⭐ Công nghệ đặc trưng" : "⭐ Unique tech"}</div>
+          <div style="font-size: 11px; font-style: italic; color: #666;">${lang === "vi" ? "Không có tech stack riêng biệt so với bản còn lại." : "No unique tech stack compared to the other version."}</div>
+        </div>
+      `;
+    }
+
+    // --- Skills ---
+    const skills = data.skills || [];
+    if (skills.length > 0 && !diffOnlyDiffs) {
+      html += `
+        <div class="diff-section">
+          <div class="diff-section-label">${lang === "vi" ? "🛠️ Kỹ năng" : "🛠️ Skills"}</div>
+          ${skills.map(s => `
+            <div class="diff-skill-cat">
+              <div class="diff-skill-cat-name">${esc(s.cat || "")}</div>
+              <div class="diff-skill-items">${esc(s.items || "")}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    // --- Projects & Experience ---
+    const sharedIds = allProjectIds.filter(id => myMap.has(id) && otherMap.has(id));
+    const uniqueIds = allProjectIds.filter(id => myMap.has(id) && !otherMap.has(id));
+    const absentIds = allProjectIds.filter(id => !myMap.has(id) && otherMap.has(id));
+
+    html += `
+      <div class="diff-section">
+        <div class="diff-section-label">${lang === "vi" ? "💼 Dự án & Kinh nghiệm" : "💼 Projects & Experience"}</div>
+    `;
+
+    if (diffOnlyDiffs && sharedIds.length > 0) {
+      const bannerText = diffShowSharedProjects
+        ? (lang === "vi" ? `🤝 ${sharedIds.length} dự án trùng khớp (đang hiện) — Bấm để thu gọn ▴` : `🤝 ${sharedIds.length} shared projects (showing) — Click to collapse ▴`)
+        : (lang === "vi" ? `🤝 ${sharedIds.length} dự án giống nhau ở cả 2 bản — Bấm để xem chi tiết ▾` : `🤝 ${sharedIds.length} shared projects in both — Click to view ▾`);
+      html += `
+        <div class="diff-shared-banner" onclick="window.__toggleDiffShared()">
+          <span>${bannerText}</span>
+        </div>
+      `;
+    }
+
+    allProjectIds.forEach(id => {
+      const inMe = myMap.get(id);
+      const inOther = otherMap.get(id);
+      const isUnique = inMe && !inOther;
+      const isShared = inMe && inOther;
+
+      // When filtering diffs only and shared projects are collapsed, skip shared projects
+      if (diffOnlyDiffs && isShared && !diffShowSharedProjects) {
+        return;
+      }
+
+      if (!inMe) {
+        // This project is only in the other version
+        const name = inOther ? (inOther.name || id) : id;
+        html += `
+          <div class="diff-proj-card" style="opacity:0.4; border-style: dashed;">
+            <div class="diff-proj-name" style="color:#aaa;">
+              ${esc(name)}
+              <span class="diff-proj-unique-badge" style="background:#f1f3f5; color:#888; border-color:#ccc;">${lang === "vi" ? "Không có" : "Not in this"}</span>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const p = inMe;
+      html += `
+        <div class="diff-proj-card${isUnique ? " unique" : ""}">
+          <div class="diff-proj-name">
+            ${esc(p.name || "")}
+            ${isUnique ? `<span class="diff-proj-unique-badge">${lang === "vi" ? "Độc quyền ★" : "Unique ★"}</span>` : ""}
+          </div>
+          ${p.role ? `<div class="diff-proj-role">${esc(p.role)}</div>` : ""}
+          ${p.date ? `<div class="diff-proj-date">📅 ${esc(p.date)}</div>` : ""}
+          ${(p.tasks || []).length > 0 ? `
+            <ul class="diff-proj-tasks">
+              ${(p.tasks || []).map(t => `<li>${esc(t)}</li>`).join("")}
+            </ul>
+          ` : ""}
+          ${p.tech ? `<div class="diff-proj-tech">🔧 ${esc(p.tech)}</div>` : ""}
+        </div>
+      `;
+    });
+
+    if (diffOnlyDiffs && uniqueIds.length === 0 && absentIds.length === 0) {
+      html += `
+        <div style="font-size: 12px; color: #2d6a4f; padding: 12px; text-align: center; background: #edf5f1; border-radius: 8px; font-weight: 600;">
+          🎉 ${lang === "vi" ? "Tất cả các dự án hoàn toàn giống nhau giữa 2 bản!" : "All projects are identical between both versions!"}
+        </div>
+      `;
+    }
+
+    html += `</div>`;
+    return html;
+  }
+
+  async function renderDiff() {
+    const keyA = selectA.value;
+    const keyB = selectB.value;
+    const lang = diffLang;
+
+    const loadingHtml = `
+      <div class="diff-loading">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spin">
+          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line>
+          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
+          <line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line>
+          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
+        </svg>
+        ${lang === "vi" ? "Đang tải..." : "Loading..."}
+      </div>
+    `;
+    if (panelContentA) panelContentA.innerHTML = loadingHtml;
+    if (panelContentB) panelContentB.innerHTML = loadingHtml;
+
+    // Sequential fetch to prevent window.cvData race condition
+    const rawA = await fetchVersionData(keyA);
+    const rawB = await fetchVersionData(keyB);
+
+    if (!rawA || !rawB) {
+      const errHtml = `<div class="diff-empty-state">❌ ${lang === "vi" ? "Không thể tải dữ liệu." : "Failed to load data."}</div>`;
+      if (panelContentA) panelContentA.innerHTML = errHtml;
+      if (panelContentB) panelContentB.innerHTML = errHtml;
+      return;
+    }
+
+    const dataA = (rawA && rawA[lang]) ? rawA[lang] : (rawA.vi || {});
+    const dataB = (rawB && rawB[lang]) ? rawB[lang] : (rawB.vi || {});
+
+    const nameA = selectA.options[selectA.selectedIndex] ? selectA.options[selectA.selectedIndex].text : keyA;
+    const nameB = selectB.options[selectB.selectedIndex] ? selectB.options[selectB.selectedIndex].text : keyB;
+    const titleA = dataA.title || "";
+    const titleB = dataB.title || "";
+
+    // Projects maps
+    const projsA = (dataA.projects || []).concat(dataA.experience || []);
+    const projsB = (dataB.projects || []).concat(dataB.experience || []);
+
+    const mapA = new Map();
+    projsA.forEach(p => { const id = normalizeProjId(p); if (id) mapA.set(id, p); });
+    const mapB = new Map();
+    projsB.forEach(p => { const id = normalizeProjId(p); if (id) mapB.set(id, p); });
+    const allProjectIds = Array.from(new Set([...mapA.keys(), ...mapB.keys()]));
+
+    // Tech tags
+    const techListA = extractTechTags(dataA.skills || []);
+    const techListB = extractTechTags(dataB.skills || []);
+    const setA = new Set(techListA.map(t => t.toLowerCase()));
+    const setB = new Set(techListB.map(t => t.toLowerCase()));
+    const onlyTechA = techListA.filter(t => !setB.has(t.toLowerCase()));
+    const onlyTechB = techListB.filter(t => !setA.has(t.toLowerCase()));
+
+    // Panel headers
+    const metaA = `${projsA.length} ${lang === "vi" ? "dự án" : "projects"} · ${techListA.length} ${lang === "vi" ? "kỹ năng" : "skills"}`;
+    const metaB = `${projsB.length} ${lang === "vi" ? "dự án" : "projects"} · ${techListB.length} ${lang === "vi" ? "kỹ năng" : "skills"}`;
+
+    if (panelHeaderA) {
+      panelHeaderA.innerHTML = `
+        <div class="diff-panel-version-label">Bản A · ${esc(nameA)}</div>
+        <div class="diff-panel-title">${esc(titleA)}</div>
+        <div class="diff-panel-meta">${metaA}</div>
+      `;
+    }
+    if (panelHeaderB) {
+      panelHeaderB.innerHTML = `
+        <div class="diff-panel-version-label">Bản B · ${esc(nameB)}</div>
+        <div class="diff-panel-title">${esc(titleB)}</div>
+        <div class="diff-panel-meta">${metaB}</div>
+      `;
+    }
+
+    if (panelContentA) {
+      panelContentA.scrollTop = 0;
+      panelContentA.innerHTML = renderPanelContent(dataA, lang, onlyTechA, allProjectIds, mapA, mapB, true);
+    }
+    if (panelContentB) {
+      panelContentB.scrollTop = 0;
+      panelContentB.innerHTML = renderPanelContent(dataB, lang, onlyTechB, allProjectIds, mapB, mapA, false);
+    }
+    const splitBody = document.getElementById("diffSplitBody");
+    if (splitBody) splitBody.scrollTop = 0;
+
+    // Footer links
+    if (footerLinks) {
+      const getHref = (key) => key === "default" ? "index.html" : `index.html?type=${encodeURIComponent(key)}`;
+      footerLinks.innerHTML = `
+        <span style="font-size: 11px; font-weight: 700; color: #555;">${lang === "vi" ? "Mở trực tiếp:" : "Open:"}</span>
+        ${keyA !== "__local_draft__" ? `<a href="${getHref(keyA)}" target="_blank" class="diff-link-btn">${nameA} ↗</a>` : ""}
+        ${keyB !== "__local_draft__" ? `<a href="${getHref(keyB)}" target="_blank" class="diff-link-btn">${nameB} ↗</a>` : ""}
+      `;
+    }
+  }
+}
+
+// Khởi tạo Settings Drawer sau khi DOM sẵn sàng
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    initSettingsDrawer();
+    initCoverLetter();
+    initDiffViewer();
+    renderCV(currentLang);
+  });
+} else {
+  initSettingsDrawer();
+  initCoverLetter();
+  initDiffViewer();
+  renderCV(currentLang);
+}
+

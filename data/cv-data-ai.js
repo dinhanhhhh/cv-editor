@@ -10,7 +10,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "AI Integration Researcher Intern",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -100,7 +100,7 @@ var cvData = {
     name: "TRUONG DINH ANH",
     title: "AI Integration Researcher Intern",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",

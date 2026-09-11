@@ -12,7 +12,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "AI Developer Intern",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -123,7 +123,7 @@ Tôi xin gửi kèm CV và mong muốn được trao đổi chi tiết hơn tron
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
       short: `[Tiêu đề Email: Ứng tuyển Thực tập sinh AI Developer – Trương Đình Anh]
 
@@ -137,7 +137,7 @@ Tôi rất mong muốn được đồng hành cùng SlimAI phát triển các s�
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
       warm: `[Tiêu đề Email: Ứng tuyển Thực tập sinh AI Developer – Trương Đình Anh]
 
@@ -151,7 +151,7 @@ Cảm ơn anh/chị đã dành thời gian đọc thư. Tôi rất mong có cơ 
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`
     },
     btnText: "In / Tải PDF",
@@ -163,7 +163,7 @@ GitHub: https://github.com/dinhanhhhh`
     name: "TRUONG DINH ANH",
     title: "AI Developer Intern",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -274,7 +274,7 @@ Please find my attached CV. I look forward to discussing how I can contribute to
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
       short: `[Subject: Application for AI Developer Intern – Truong Dinh Anh]
 
@@ -288,7 +288,7 @@ I am eager to join SlimAI and help build global software products that generate 
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
       warm: `[Subject: Application for AI Developer Intern – Truong Dinh Anh]
 
@@ -302,7 +302,7 @@ Thank you for your time and consideration. I look forward to an opportunity to d
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`
     },
     btnText: "Print / Save PDF",

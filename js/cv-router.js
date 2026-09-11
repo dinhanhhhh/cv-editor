@@ -24,6 +24,7 @@
         a.id = manifest.navId(v.key);
         a.href = v.key === 'default' ? 'index.html' : 'index.html?type=' + encodeURIComponent(v.key);
         a.textContent = v.label;
+        a.title = v.label;
         nav.appendChild(a);
       });
     }

@@ -10,7 +10,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Full-Stack Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -43,10 +43,10 @@ var cvData = {
           "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu chứng khoán.",
           "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
           "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
-          "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel."
+          "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel.",
         ],
-        tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
-      }
+        tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
+      },
     ],
     projects: [
       {
@@ -114,7 +114,7 @@ var cvData = {
     name: "TRUONG DINH ANH",
     title: "Full-Stack Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -143,14 +143,14 @@ var cvData = {
         role: "Developer",
         desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
         tasks: [
-          "Designed database schemas and successfully deployed PostgreSQL databases on the Supabase cloud infrastructure.",
+          "Designed database schemas and successfully deployed the PostgreSQL database on the Supabase cloud infrastructure.",
           "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
-          "Integrated Google Authentication OAuth flow centralized with NextAuth (Google Provider) for user sessions.",
-          "Tested and optimized API performance using Postman, resolving critical bugs under mentor guidance.",
-          "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment."
+          "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for user sessions.",
+          "Tested and optimized API performance using Postman, resolving critical bugs under a mentor's guidance.",
+          "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment.",
         ],
-        tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
-      }
+        tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
+      },
     ],
     projects: [
       {

@@ -10,10 +10,40 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "digifytech",
+      file: "data/cv-data-digifytech.js",
+      emoji: "🔷",
+      label: "🔷 DigifyTech BE Intern",
+    },
+    {
+      key: "onhandbi",
+      file: "data/cv-data-onhandbi.js",
+      emoji: "📊",
+      label: "📊 On Hand BI Fullstack",
+    },
+    {
+      key: "lienkhuong",
+      file: "data/cv-data-lienkhuong.js",
+      emoji: "✈️",
+      label: "✈️ Kỹ Sư CNTT - SB Liên Khương",
+    },
+    {
+      key: "webdev-intern",
+      file: "data/cv-data-webdev-intern.js",
+      emoji: "💻",
+      label: "💻 WebDev Intern (Remote US)",
+    },
+    {
       key: "default",
       file: "data/cv-data-fullstack.js",
       emoji: "💼",
       label: "Chung",
+    },
+    {
+      key: "ginstudio",
+      file: "data/cv-data-ginstudio.js",
+      emoji: "🎯",
+      label: "🎯 GIN Studio Fresher AI",
     },
     {
       key: "slimai",

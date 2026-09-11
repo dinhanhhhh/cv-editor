@@ -12,7 +12,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Full-Stack Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -133,7 +133,7 @@ Tôi rất mong có cơ hội tham gia các vòng tuyển chọn tiếp theo đ�
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
     },
     btnText: "In / Tải PDF",
@@ -145,7 +145,7 @@ GitHub: https://github.com/dinhanhhhh`,
     name: "TRUONG DINH ANH",
     title: "Full-Stack Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -266,7 +266,7 @@ I look forward to demonstrating my skills in the next rounds of the selection pr
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
     },
     btnText: "Print / Save PDF",

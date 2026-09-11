@@ -56,11 +56,6 @@
             aria-label="Khôi phục toàn bộ nội dung CV gốc">Reset Data 🧹</button>
         <button class="a4-preview-btn" id="a4PreviewBtn" type="button" title="Bật hoặc tắt xem khung A4 cố định"
             aria-pressed="false" aria-label="Bật hoặc tắt chế độ xem trước A4">📄 A4 Preview</button>
-        <button class="cover-letter-btn" id="coverLetterBtn" type="button" title="Xem thư xin việc (Cover Letter)"
-            aria-label="Xem thư xin việc">✉️ Cover Letter</button>
-        <button class="live-edit-btn" id="liveEditBtn" type="button"
-            title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV" aria-pressed="false"
-            aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Chỉnh sửa nhanh</button>
         <button class="export-cv-btn" id="exportCvBtn" type="button" title="Xuất dữ liệu CV đã chỉnh sửa"
             aria-label="Xuất dữ liệu CV" style="display: none;">💾 Xuất file JS</button>
 
@@ -84,6 +79,19 @@
                 <span id="btn-text">In / Tải PDF</span>
             </button>
         </div>
+    </div>
+
+    <!-- 4 nút chuyển sang bên trái để tránh làm controls bên phải bị đẩy quá cao -->
+    <div class="left-controls" aria-label="CV secondary controls">
+        <button class="cover-letter-btn" id="coverLetterBtn" type="button" title="Xem thư xin việc (Cover Letter)"
+            aria-label="Xem thư xin việc">✉️ Cover Letter</button>
+        <button class="diff-btn" id="diffBtn" type="button"
+            title="So sánh các phiên bản CV" aria-label="So sánh các phiên bản CV">⚖️ So sánh CV</button>
+        <button class="live-edit-btn" id="liveEditBtn" type="button"
+            title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV" aria-pressed="false"
+            aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Chỉnh sửa nhanh</button>
+        <button class="settings-btn" id="settingsBtn" type="button"
+            title="Cấu hình Bố cục & Giao diện" aria-label="Cấu hình Bố cục & Giao diện">⚙️ Cấu hình CV</button>
     </div>
 
     <main class="cv-preview" id="cvContent" tabindex="-1">
@@ -156,6 +164,126 @@
                     style="background-color: #d90429; color: white; border-color: #d90429;">Xóa Thay Đổi 🧹</button>
                 <button type="button" class="cl-btn-secondary" id="exportDownloadBtn">Tải File JS 📥</button>
                 <button type="button" class="cl-btn-primary" id="exportCopyBtn">Sao chép Code 📋</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Drawer -->
+    <div class="cl-modal-overlay" id="settingsDrawerOverlay" aria-hidden="true" style="display: none;">
+        <div class="cl-modal settings-drawer" role="dialog" aria-labelledby="settingsDrawerTitle">
+            <div class="cl-modal-header">
+                <div class="cl-header-left">
+                    <h2 id="settingsDrawerTitle">⚙️ Cấu hình CV</h2>
+                </div>
+                <button type="button" class="cl-modal-close" id="settingsDrawerCloseBtn" aria-label="Đóng">&times;</button>
+            </div>
+            <div class="cl-modal-subtitle" id="settingsDrawerSubtitle">
+                Tùy chỉnh màu sắc chủ đạo, font chữ và sắp xếp thứ tự hiển thị các phần (sections) trên CV.
+            </div>
+            <div class="cl-modal-body" style="display: block; padding: 20px; overflow-y: auto;">
+                <!-- Group 1: Theme & Typography -->
+                <div class="settings-group">
+                    <h3>🎨 Giao diện & Typography</h3>
+                    <div class="setting-item">
+                        <label for="primaryColorPicker">Màu sắc chủ đạo:</label>
+                        <input type="color" id="primaryColorPicker" value="#1b4332" style="width: 50px; height: 30px; border: 1px solid #ddd; border-radius: 4px; padding: 0; cursor: pointer;">
+                    </div>
+                    <div class="setting-item">
+                        <label for="fontFamilySelect">Font chữ:</label>
+                        <select id="fontFamilySelect" class="settings-select">
+                            <option value="'Be Vietnam Pro', sans-serif">Be Vietnam Pro</option>
+                            <option value="'Inter', sans-serif">Inter</option>
+                            <option value="'Roboto', sans-serif">Roboto</option>
+                            <option value="'Outfit', sans-serif">Outfit</option>
+                            <option value="Georgia, serif">Georgia (Classic)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Group 2: Spacing Slider -->
+                <div class="settings-group">
+                    <h3>↕️ Khoảng cách (Spacing)</h3>
+                    <div class="setting-item-range">
+                        <div class="range-header">
+                            <span>Phần (Sections):</span>
+                            <span id="drawerSectionMarginVal">10px</span>
+                        </div>
+                        <input type="range" id="drawerSectionMarginSlider" min="4" max="35" value="10" class="settings-slider">
+                    </div>
+                    <div class="setting-item-range">
+                        <div class="range-header">
+                            <span>Mục (Items):</span>
+                            <span id="drawerItemMarginVal">8px</span>
+                        </div>
+                        <input type="range" id="drawerItemMarginSlider" min="2" max="25" value="8" class="settings-slider">
+                    </div>
+                </div>
+
+                <!-- Group 3: Sections Sorting -->
+                <div class="settings-group">
+                    <h3>📋 Sắp xếp & Ẩn/Hiện phần</h3>
+                    <div class="section-list-container" id="sectionListContainer">
+                        <!-- Chèn bằng JavaScript -->
+                    </div>
+                </div>
+            </div>
+            <div class="cl-modal-footer">
+                <button type="button" class="cl-btn-secondary" id="settingsResetBtn">Mặc định 🔄</button>
+                <button type="button" class="cl-btn-primary" id="settingsSaveBtn">Đóng & Lưu ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CV Version Diff Modal -->
+    <div class="cl-modal-overlay diff-modal-overlay" id="diffModalOverlay" aria-hidden="true" style="display: none;">
+        <div class="diff-modal" role="dialog" aria-labelledby="diffModalTitle">
+            <div class="diff-header">
+                <div class="diff-header-left">
+                    <h2 id="diffModalTitle">⚖️ So Sánh CV</h2>
+                    <div class="diff-selectors-wrapper">
+                        <div class="diff-select-group">
+                            <label for="diffSelectA" class="diff-select-label">Bản A:</label>
+                            <select id="diffSelectA" class="diff-select" aria-label="Chọn phiên bản A"></select>
+                        </div>
+                        <button type="button" id="diffSwapBtn" class="diff-swap-btn" title="Hoán đổi Bản A và B" aria-label="Hoán đổi phiên bản">⇄</button>
+                        <div class="diff-select-group">
+                            <label for="diffSelectB" class="diff-select-label">Bản B:</label>
+                            <select id="diffSelectB" class="diff-select" aria-label="Chọn phiên bản B"></select>
+                        </div>
+                    </div>
+                    <div class="diff-header-tools">
+                        <button type="button" id="diffFilterDiffsBtn" class="diff-filter-btn" title="Chỉ hiển thị các mục khác nhau giữa 2 bản">⚡ Chỉ khác biệt</button>
+                        <div class="cl-lang-switch diff-lang-switch">
+                            <button type="button" id="diffLangViBtn" class="cl-lang-btn active">VI</button>
+                            <button type="button" id="diffLangEnBtn" class="cl-lang-btn">EN</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="cl-modal-close" id="diffModalCloseBtn" aria-label="Đóng">&times;</button>
+            </div>
+            <!-- 2-column split body -->
+            <div class="diff-split-body" id="diffSplitBody">
+                <div class="diff-panel diff-panel-a" id="diffPanelA">
+                    <div class="diff-panel-header diff-panel-header-a" id="diffPanelHeaderA">
+                        <!-- filled by JS -->
+                    </div>
+                    <div class="diff-panel-content" id="diffPanelContentA">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+                <div class="diff-panel-divider"></div>
+                <div class="diff-panel diff-panel-b" id="diffPanelB">
+                    <div class="diff-panel-header diff-panel-header-b" id="diffPanelHeaderB">
+                        <!-- filled by JS -->
+                    </div>
+                    <div class="diff-panel-content" id="diffPanelContentB">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+            </div>
+            <div class="diff-modal-footer">
+                <div class="diff-footer-links" id="diffFooterLinks"></div>
+                <button type="button" class="cl-btn-primary" id="diffCloseBtn">Đóng ✓</button>
             </div>
         </div>
     </div>

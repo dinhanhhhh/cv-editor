@@ -12,7 +12,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Web Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -117,7 +117,7 @@ Cảm ơn Quý công ty đã dành thời gian xem xét hồ sơ. Tôi rất mon
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 
@@ -126,7 +126,7 @@ GitHub: https://github.com/dinhanhhhh`,
     name: "TRUONG DINH ANH",
     title: "Web Developer",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -231,7 +231,7 @@ Thank you for your time and consideration. I look forward to the possibility of 
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 };

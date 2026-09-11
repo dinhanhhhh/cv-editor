@@ -10,7 +10,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Full-Stack Developer Intern (ReactJS & NodeJS)",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -98,7 +98,7 @@ var cvData = {
     name: "TRUONG DINH ANH",
     title: "Full-Stack Developer Intern (ReactJS & NodeJS)",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",

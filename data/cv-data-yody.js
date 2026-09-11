@@ -12,7 +12,7 @@ var cvData = {
         name: "TRƯƠNG ĐÌNH ANH",
         title: "IT Fresher - AI Product Builder",
         contact: [
-            { icon: 'phone', text: '0349421079' },
+            { icon: 'phone', text: '0923202861' },
             { icon: 'email', text: 'tdinhanh.it@gmail.com', link: 'mailto:tdinhanh.it@gmail.com' },
             { icon: 'github', text: 'github.com/dinhanhhhh', link: 'https://github.com/dinhanhhhh' },
             { icon: 'address', text: 'Thủ Đức, TP. Hồ Chí Minh' }
@@ -120,7 +120,7 @@ Trương Đình Anh`
         name: "TRUONG DINH ANH",
         title: "IT Fresher - AI Product Builder",
         contact: [
-            { icon: 'phone', text: '0349421079' },
+            { icon: 'phone', text: '0923202861' },
             { icon: 'email', text: 'tdinhanh.it@gmail.com', link: 'mailto:tdinhanh.it@gmail.com' },
             { icon: 'github', text: 'github.com/dinhanhhhh', link: 'https://github.com/dinhanhhhh' },
             { icon: 'address', text: 'Thu Duc, Ho Chi Minh City' }

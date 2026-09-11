@@ -12,7 +12,7 @@ var cvData = {
     name: "TRƯƠNG ĐÌNH ANH",
     title: "Front-End Developer (VueJS / ReactJS)",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -102,7 +102,7 @@ Tôi rất mong nhận được phản hồi từ Quý công ty và có cơ hộ
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0349421079
+SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh
 CV Online: https://github.com/dinhanhhhh/cv-editor`
   },
@@ -111,7 +111,7 @@ CV Online: https://github.com/dinhanhhhh/cv-editor`
     name: "TRUONG DINH ANH",
     title: "Front-End Developer (VueJS / ReactJS)",
     contact: [
-      { icon: "phone", text: "0349421079" },
+      { icon: "phone", text: "0923202861" },
       {
         icon: "email",
         text: "tdinhanh.it@gmail.com",
@@ -201,7 +201,7 @@ Thank you, Mr. Huy and the Hiring Team, for your time and consideration of my ap
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0349421079
+Phone: 0923202861
 GitHub: https://github.com/dinhanhhhh
 Online CV: https://github.com/dinhanhhhh/cv-editor`
   },
