@@ -602,7 +602,8 @@ function addProjectsToPool(viProjects, enProjects) {
 function loadDataScript(src) {
   return new Promise((resolve, reject) => {
     const script = document.createElement("script");
-    script.src = src;
+    const versionedSrc = window.withCvVersion ? window.withCvVersion(src) : (src + "?v=1.1.0");
+    script.src = versionedSrc;
     script.async = false;
     script.onload = () => {
       // Lấy snapshot cvData mới nạp rồi gỡ thẻ script cho gọn
@@ -612,7 +613,7 @@ function loadDataScript(src) {
     };
     script.onerror = () => {
       script.remove();
-      reject(new Error("Failed to load data script: " + src));
+      reject(new Error("Failed to load data script: " + versionedSrc));
     };
     document.head.appendChild(script);
   });
@@ -728,8 +729,6 @@ function updateProjectSelector(d, lang) {
   if (!d.projects || d.projects.length === 0) {
     if (panel) panel.style.display = "none";
     return;
-  } else {
-    if (panel) panel.style.display = "flex";
   }
 
   if (isProjSelectorCollapsed) {
@@ -1346,6 +1345,8 @@ elements.langViBtn.onclick = () => {
   elements.langViBtn.setAttribute("aria-pressed", "true");
   elements.langEnBtn.setAttribute("aria-pressed", "false");
   renderCV("vi");
+  window.__rerunAtsIfOpen?.();
+  window.__syncHrView?.();
 };
 
 elements.langEnBtn.onclick = () => {
@@ -1355,6 +1356,8 @@ elements.langEnBtn.onclick = () => {
   elements.langEnBtn.setAttribute("aria-pressed", "true");
   elements.langViBtn.setAttribute("aria-pressed", "false");
   renderCV("en");
+  window.__rerunAtsIfOpen?.();
+  window.__syncHrView?.();
 };
 
 // ===================================
@@ -2803,18 +2806,630 @@ function initDiffViewer() {
   }
 }
 
-// Khởi tạo Settings Drawer sau khi DOM sẵn sàng
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    initSettingsDrawer();
-    initCoverLetter();
-    initDiffViewer();
-    renderCV(currentLang);
+// ===================================
+// ATS & JD MATCHER ENGINE (CLIENT-SIDE)
+// ===================================
+
+const TECH_KEYWORD_DICTIONARY = [
+  // Languages
+  { canonical: "JavaScript", aliases: ["javascript", "js", "ecmascript"] },
+  { canonical: "TypeScript", aliases: ["typescript", "ts"] },
+  { canonical: "Python", aliases: ["python", "python3", "py"] },
+  { canonical: "Java", aliases: ["java", "core java"] },
+  { canonical: "C#", aliases: ["c#", "csharp", "c-sharp"] },
+  { canonical: "C++", aliases: ["c++", "cpp"] },
+  { canonical: "Golang", aliases: ["golang", "go"] },
+  { canonical: "Rust", aliases: ["rust"] },
+  { canonical: "PHP", aliases: ["php"] },
+  { canonical: "Ruby", aliases: ["ruby"] },
+  { canonical: "Dart", aliases: ["dart"] },
+  { canonical: "Kotlin", aliases: ["kotlin"] },
+  { canonical: "Swift", aliases: ["swift"] },
+  { canonical: "SQL", aliases: ["sql", "tsql", "plsql"] },
+  { canonical: "HTML5", aliases: ["html", "html5"] },
+  { canonical: "CSS3", aliases: ["css", "css3"] },
+
+  // Frontend
+  { canonical: "React", aliases: ["react", "reactjs", "react.js"] },
+  { canonical: "Next.js", aliases: ["nextjs", "next.js", "next js"] },
+  { canonical: "Vue.js", aliases: ["vue", "vuejs", "vue.js"] },
+  { canonical: "Nuxt.js", aliases: ["nuxt", "nuxtjs", "nuxt.js"] },
+  { canonical: "Angular", aliases: ["angular", "angularjs"] },
+  { canonical: "Svelte", aliases: ["svelte", "sveltekit"] },
+  { canonical: "TailwindCSS", aliases: ["tailwind", "tailwindcss", "tailwind css"] },
+  { canonical: "Bootstrap", aliases: ["bootstrap"] },
+  { canonical: "Sass/SCSS", aliases: ["sass", "scss"] },
+  { canonical: "Redux", aliases: ["redux", "redux toolkit", "rtk"] },
+  { canonical: "Zustand", aliases: ["zustand"] },
+  { canonical: "Recoil", aliases: ["recoil"] },
+  { canonical: "React Query", aliases: ["react query", "tanstack query", "react-query"] },
+  { canonical: "Webpack", aliases: ["webpack"] },
+  { canonical: "Vite", aliases: ["vite", "vitejs"] },
+  { canonical: "UI/UX", aliases: ["ui/ux", "ui-ux", "ui ux", "user experience", "user interface"] },
+  { canonical: "Figma", aliases: ["figma"] },
+  { canonical: "Responsive Design", aliases: ["responsive", "responsive design", "mobile-first"] },
+
+  // Backend & APIs
+  { canonical: "Node.js", aliases: ["node", "nodejs", "node.js"] },
+  { canonical: "Express", aliases: ["express", "expressjs", "express.js"] },
+  { canonical: "NestJS", aliases: ["nestjs", "nest.js", "nest js"] },
+  { canonical: "Spring Boot", aliases: ["spring boot", "springboot", "spring framework"] },
+  { canonical: "Django", aliases: ["django"] },
+  { canonical: "Flask", aliases: ["flask"] },
+  { canonical: "FastAPI", aliases: ["fastapi", "fast-api"] },
+  { canonical: "Laravel", aliases: ["laravel"] },
+  { canonical: ".NET", aliases: [".net", "dotnet", "asp.net", ".net core"] },
+  { canonical: "RESTful API", aliases: ["restful api", "rest api", "restful", "rest apis"] },
+  { canonical: "GraphQL", aliases: ["graphql"] },
+  { canonical: "WebSocket", aliases: ["websocket", "websockets", "ws", "socket.io"] },
+  { canonical: "Microservices", aliases: ["microservices", "microservice", "micro-services"] },
+  { canonical: "gRPC", aliases: ["grpc"] },
+  { canonical: "RabbitMQ", aliases: ["rabbitmq"] },
+  { canonical: "Kafka", aliases: ["kafka", "apache kafka"] },
+
+  // Databases & ORM
+  { canonical: "PostgreSQL", aliases: ["postgresql", "postgres", "psql"] },
+  { canonical: "MySQL", aliases: ["mysql"] },
+  { canonical: "MongoDB", aliases: ["mongodb", "mongo"] },
+  { canonical: "Redis", aliases: ["redis"] },
+  { canonical: "SQLite", aliases: ["sqlite"] },
+  { canonical: "Firebase", aliases: ["firebase", "firestore"] },
+  { canonical: "Oracle DB", aliases: ["oracle", "oracle db"] },
+  { canonical: "Prisma", aliases: ["prisma", "prisma orm"] },
+  { canonical: "TypeORM", aliases: ["typeorm"] },
+  { canonical: "Mongoose", aliases: ["mongoose"] },
+
+  // DevOps, Cloud & Tools
+  { canonical: "Docker", aliases: ["docker", "dockerfile", "docker-compose"] },
+  { canonical: "Kubernetes", aliases: ["kubernetes", "k8s"] },
+  { canonical: "AWS", aliases: ["aws", "amazon web services", "ec2", "s3", "lambda"] },
+  { canonical: "Google Cloud", aliases: ["gcp", "google cloud", "google cloud platform"] },
+  { canonical: "Azure", aliases: ["azure", "microsoft azure"] },
+  { canonical: "Cloudflare", aliases: ["cloudflare", "cloudflare workers"] },
+  { canonical: "CI/CD", aliases: ["ci/cd", "ci-cd", "cicd", "continuous integration"] },
+  { canonical: "GitHub Actions", aliases: ["github actions", "github action"] },
+  { canonical: "Git", aliases: ["git", "github", "gitlab", "bitbucket"] },
+  { canonical: "Linux", aliases: ["linux", "ubuntu", "bash", "shell"] },
+  { canonical: "Nginx", aliases: ["nginx"] },
+  { canonical: "Postman", aliases: ["postman"] },
+  { canonical: "Swagger", aliases: ["swagger", "openapi"] },
+
+  // Testing & Methodologies
+  { canonical: "Unit Testing", aliases: ["unit test", "unit testing", "jest", "mocha", "chai", "cypress", "playwright"] },
+  { canonical: "Agile / Scrum", aliases: ["agile", "scrum", "kanban", "sprint"] },
+  { canonical: "OOP", aliases: ["oop", "object oriented programming", "huong doi tuong"] },
+  { canonical: "Clean Code", aliases: ["clean code", "refactoring", "code quality"] },
+  { canonical: "Clean Architecture", aliases: ["clean architecture", "onion architecture", "hexagonal architecture"] },
+  { canonical: "Design Patterns", aliases: ["design patterns", "design pattern"] },
+  { canonical: "Problem Solving", aliases: ["problem solving", "giai quyet van de"] },
+  { canonical: "Teamwork", aliases: ["teamwork", "lam viec nhom", "collaboration"] },
+  { canonical: "AI Tools", aliases: ["chatgpt", "gemini", "copilot", "claude", "ai-first", "llm"] },
+];
+
+function initAtsMatcher() {
+  const atsBtn = document.getElementById("atsMatchBtn");
+  const modalOverlay = document.getElementById("atsModalOverlay");
+  const closeBtn = document.getElementById("atsModalCloseBtn");
+  const footerCloseBtn = document.getElementById("atsCloseBtn");
+  const sampleBtn = document.getElementById("atsSampleBtn");
+  const clearBtn = document.getElementById("atsClearBtn");
+  const analyzeBtn = document.getElementById("atsAnalyzeBtn");
+  const jdInput = document.getElementById("atsJdInput");
+  const charCountEl = document.getElementById("atsCharCount");
+  const emptyState = document.getElementById("atsEmptyState");
+  const resultsWrap = document.getElementById("atsAnalysisResults");
+  const scoreValueEl = document.getElementById("atsScoreValue");
+  const scoreCircleEl = document.getElementById("atsScoreCircle");
+  const scoreTitleEl = document.getElementById("atsScoreTitle");
+  const scoreDescEl = document.getElementById("atsScoreDesc");
+  const statMatchedEl = document.getElementById("atsStatMatched");
+  const statMissingEl = document.getElementById("atsStatMissing");
+  const statTotalEl = document.getElementById("atsStatTotal");
+  const missingContainer = document.getElementById("atsMissingKeywordsContainer");
+  const matchedContainer = document.getElementById("atsMatchedKeywordsContainer");
+  const highlightToggle = document.getElementById("atsHighlightToggle");
+
+  if (!atsBtn || !modalOverlay) return;
+
+  const CACHE_KEY = "cv_ats_jd_cache";
+  let lastMatchedTerms = [];
+  let isHighlightActive = false;
+
+  // Khôi phục JD đã lưu nếu có
+  try {
+    const savedJd = sessionStorage.getItem(CACHE_KEY);
+    if (savedJd && jdInput) {
+      jdInput.value = savedJd;
+      updateCharCount();
+    }
+  } catch (_) {}
+
+  function updateCharCount() {
+    if (!jdInput || !charCountEl) return;
+    const len = (jdInput.value || "").trim().length;
+    charCountEl.textContent = `${len.toLocaleString("vi-VN")} ký tự`;
+  }
+
+  if (jdInput) {
+    jdInput.addEventListener("input", () => {
+      updateCharCount();
+      try {
+        sessionStorage.setItem(CACHE_KEY, jdInput.value);
+      } catch (_) {}
+    });
+  }
+
+  function openAtsModal() {
+    modalOverlay.style.display = "flex";
+    modalOverlay.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    updateCharCount();
+    if (jdInput && jdInput.value.trim().length > 20) {
+      runAnalysis();
+    }
+  }
+
+  function closeAtsModal() {
+    modalOverlay.style.display = "none";
+    modalOverlay.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    if (isHighlightActive && !highlightToggle?.checked) {
+      removeCvHighlights();
+    }
+  }
+
+  atsBtn.onclick = openAtsModal;
+  if (closeBtn) closeBtn.onclick = closeAtsModal;
+  if (footerCloseBtn) footerCloseBtn.onclick = closeAtsModal;
+
+  modalOverlay.onclick = (e) => {
+    if (e.target === modalOverlay) closeAtsModal();
+  };
+
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalOverlay.getAttribute("aria-hidden") === "false") {
+      closeAtsModal();
+    }
   });
-} else {
+
+  // Sample JD
+  if (sampleBtn && jdInput) {
+    sampleBtn.onclick = () => {
+      jdInput.value = `[TUYỂN DỤNG] Lập trình viên Fullstack / Frontend (React, Node.js, TypeScript)
+
+Về chúng tôi: Công ty công nghệ phát triển các giải pháp phần mềm EdTech & SaaS chất lượng cao.
+
+Mô tả công việc:
+- Thiết kế, phát triển và bảo trì các ứng dụng web với ReactJS, Next.js và TailwindCSS.
+- Tối ưu hóa trải nghiệm người dùng (UI/UX), đảm bảo giao diện responsive mượt mà trên đa thiết bị.
+- Xây dựng hệ thống backend và RESTful API với Node.js (Express hoặc NestJS), tích hợp WebSocket cho tính năng realtime.
+- Làm việc với cơ sở dữ liệu quan hệ PostgreSQL / MySQL và cơ sở dữ liệu NoSQL MongoDB.
+- Tham gia thiết kế kiến trúc Clean Architecture, viết Unit Testing để đảm bảo chất lượng source code.
+- Phối hợp chặt chẽ cùng team theo mô hình Agile / Scrum, sử dụng Git và quy trình CI/CD (GitHub Actions, Docker).
+- Có tư duy Clean Code, OOP và sẵn sàng ứng dụng các công cụ AI (Gemini, ChatGPT) để tăng tốc độ phát triển.`;
+      updateCharCount();
+      try {
+        sessionStorage.setItem(CACHE_KEY, jdInput.value);
+      } catch (_) {}
+      runAnalysis();
+    };
+  }
+
+  // Clear button
+  if (clearBtn && jdInput) {
+    clearBtn.onclick = () => {
+      jdInput.value = "";
+      updateCharCount();
+      try {
+        sessionStorage.removeItem(CACHE_KEY);
+      } catch (_) {}
+      if (emptyState) emptyState.style.display = "flex";
+      if (resultsWrap) resultsWrap.style.display = "none";
+      removeCvHighlights();
+      if (highlightToggle) highlightToggle.checked = false;
+    };
+  }
+
+  // Analyze button
+  if (analyzeBtn) {
+    analyzeBtn.onclick = runAnalysis;
+  }
+
+  // Highlight toggle
+  if (highlightToggle) {
+    highlightToggle.onchange = () => {
+      if (highlightToggle.checked) {
+        applyCvHighlights(lastMatchedTerms);
+      } else {
+        removeCvHighlights();
+      }
+    };
+  }
+
+  // Trích xuất từ khóa dựa trên từ điển
+  function extractKeywords(text) {
+    if (!text || typeof text !== "string") return [];
+    const lower = " " + text.toLowerCase() + " ";
+    const found = [];
+
+    TECH_KEYWORD_DICTIONARY.forEach((entry) => {
+      const isMatched = entry.aliases.some((alias) => {
+        const escaped = alias.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const reg = new RegExp("(?:^|[^a-zA-Z0-9_#+.-])" + escaped + "(?:[^a-zA-Z0-9_#+.-]|$)", "i");
+        return reg.test(lower);
+      });
+      if (isMatched) {
+        found.push(entry.canonical);
+      }
+    });
+
+    return Array.from(new Set(found));
+  }
+
+  // Lấy toàn bộ text từ dữ liệu CV hiện tại
+  function getCurrentCvFullText() {
+    const data = (window.cvData && window.cvData[currentLang]) ? window.cvData[currentLang] : (window.cvData || {});
+    const parts = [];
+
+    if (data.name) parts.push(data.name);
+    if (data.title) parts.push(data.title);
+    if (data.objective) parts.push(data.objective);
+
+    if (Array.isArray(data.skills)) {
+      data.skills.forEach((s) => {
+        if (s.cat) parts.push(s.cat);
+        if (s.items) parts.push(s.items);
+      });
+    }
+
+    if (Array.isArray(data.projects)) {
+      data.projects.forEach((p) => {
+        if (p.name) parts.push(p.name);
+        if (p.role) parts.push(p.role);
+        if (p.desc) parts.push(p.desc);
+        if (p.tech) parts.push(p.tech);
+        if (Array.isArray(p.tasks)) parts.push(p.tasks.join(" "));
+      });
+    }
+
+    if (Array.isArray(data.experience)) {
+      data.experience.forEach((e) => {
+        if (e.role) parts.push(e.role);
+        if (e.company) parts.push(e.company);
+        if (e.desc) parts.push(e.desc);
+        if (e.tech) parts.push(e.tech);
+        if (Array.isArray(e.tasks)) parts.push(e.tasks.join(" "));
+      });
+    }
+
+    if (data.education) {
+      if (data.education.school) parts.push(data.education.school);
+      if (data.education.major) parts.push(data.education.major);
+    }
+
+    return parts.join(" ");
+  }
+
+  function runAnalysis() {
+    const text = (jdInput ? jdInput.value : "").trim();
+    if (!text || text.length < 10) {
+      showToast("⚠️ Vui lòng dán nội dung JD để phân tích");
+      return;
+    }
+
+    const jdKeywords = extractKeywords(text);
+    if (jdKeywords.length === 0) {
+      showToast("⚠️ Không tìm thấy từ khóa công nghệ nào trong JD!");
+      return;
+    }
+
+    const cvFullText = getCurrentCvFullText();
+    const cvKeywords = extractKeywords(cvFullText);
+
+    const matched = [];
+    const missing = [];
+
+    jdKeywords.forEach((k) => {
+      if (cvKeywords.includes(k)) {
+        matched.push(k);
+      } else {
+        missing.push(k);
+      }
+    });
+
+    lastMatchedTerms = matched;
+
+    // Thuật toán tính điểm ATS
+    const matchRate = jdKeywords.length > 0 ? (matched.length / jdKeywords.length) : 0;
+    let score = Math.round(matchRate * 100);
+
+    // Hiển thị kết quả
+    if (emptyState) emptyState.style.display = "none";
+    if (resultsWrap) resultsWrap.style.display = "block";
+
+    if (scoreValueEl) scoreValueEl.textContent = `${score}%`;
+    if (scoreCircleEl) {
+      scoreCircleEl.className = "ats-score-circle " + (score >= 75 ? "score-high" : score >= 50 ? "score-med" : "score-low");
+    }
+
+    if (scoreTitleEl && scoreDescEl) {
+      if (score >= 75) {
+        scoreTitleEl.textContent = "🟢 Rất phù hợp với JD (ATS Thắng Lớn)";
+        scoreDescEl.textContent = `CV hiện tại bao phủ tốt ${matched.length}/${jdKeywords.length} từ khóa cốt lõi mà nhà tuyển dụng yêu cầu. Tỷ lệ vượt qua vòng quét ATS rất cao!`;
+      } else if (score >= 50) {
+        scoreTitleEl.textContent = "🟡 Khá phù hợp (Cần tinh chỉnh thêm)";
+        scoreDescEl.textContent = `CV đã có ${matched.length} từ khóa quan trọng, nhưng vẫn thiếu ${missing.length} kỹ năng mà JD đòi hỏi. Hãy bổ sung các từ khóa thiếu vào phần Kỹ năng hoặc Mô tả dự án.`;
+      } else {
+        scoreTitleEl.textContent = "🔴 Khớp mức thấp (Cần may đo lại)";
+        scoreDescEl.textContent = `CV chỉ khớp ${matched.length}/${jdKeywords.length} từ khóa của JD. Bạn nên đổi sang phiên bản CV chuyên môn hơn hoặc điều chỉnh lại tech stack.`;
+      }
+    }
+
+    if (statMatchedEl) statMatchedEl.textContent = `✅ ${matched.length} khớp`;
+    if (statMissingEl) statMissingEl.textContent = `⚠️ ${missing.length} thiếu`;
+    if (statTotalEl) statTotalEl.textContent = `📊 ${jdKeywords.length} từ khóa JD`;
+
+    // Render Missing Chips
+    if (missingContainer) {
+      if (missing.length === 0) {
+        missingContainer.innerHTML = '<span class="ats-chip-empty">🎉 Tuyệt vời! Không thiếu từ khóa kỹ thuật nào so với JD.</span>';
+      } else {
+        missingContainer.innerHTML = missing
+          .map(
+            (k) => `<button type="button" class="ats-chip ats-chip-missing" data-keyword="${esc(k)}" title="Click để sao chép từ khóa">+ ${esc(k)}</button>`
+          )
+          .join("");
+
+        missingContainer.querySelectorAll(".ats-chip-missing").forEach((btn) => {
+          btn.onclick = () => {
+            const kw = btn.getAttribute("data-keyword");
+            if (kw) {
+              navigator.clipboard?.writeText(kw);
+              showToast(`📋 Đã sao chép: "${kw}"`);
+            }
+          };
+        });
+      }
+    }
+
+    // Render Matched Chips
+    if (matchedContainer) {
+      if (matched.length === 0) {
+        matchedContainer.innerHTML = '<span class="ats-chip-empty">Chưa có từ khóa nào trùng khớp.</span>';
+      } else {
+        matchedContainer.innerHTML = matched
+          .map((k) => `<span class="ats-chip ats-chip-matched">✓ ${esc(k)}</span>`)
+          .join("");
+      }
+    }
+
+    // Tự động highlight nếu công tắc đang bật
+    if (highlightToggle && highlightToggle.checked) {
+      applyCvHighlights(matched);
+    }
+  }
+
+  function showToast(msg) {
+    let toast = document.getElementById("atsToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "atsToast";
+      toast.className = "ats-toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2400);
+  }
+
+  function removeCvHighlights() {
+    isHighlightActive = false;
+    renderCV(currentLang);
+  }
+
+  function applyCvHighlights(keywords) {
+    if (!keywords || keywords.length === 0) {
+      removeCvHighlights();
+      return;
+    }
+    isHighlightActive = true;
+    renderCV(currentLang); // Render sạch trước
+
+    const cvEl = document.getElementById("cvContent");
+    if (!cvEl) return;
+
+    // Tập hợp toàn bộ alias của các từ khóa canonical đã khớp
+    const searchTerms = [];
+    keywords.forEach((can) => {
+      const item = TECH_KEYWORD_DICTIONARY.find((d) => d.canonical === can);
+      if (item) {
+        searchTerms.push(...item.aliases);
+      } else {
+        searchTerms.push(can);
+      }
+    });
+
+    const uniqueTerms = Array.from(new Set(searchTerms)).sort((a, b) => b.length - a.length);
+    const escaped = uniqueTerms.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    const regex = new RegExp("(?:^|(?<=[^a-zA-Z0-9_#+.-]))(" + escaped.join("|") + ")(?=[^a-zA-Z0-9_#+.-]|$)", "gi");
+
+    const walker = document.createTreeWalker(cvEl, NodeFilter.SHOW_TEXT, null, false);
+    const textNodes = [];
+    let n;
+    while ((n = walker.nextNode())) {
+      if (n.nodeValue && regex.test(n.nodeValue)) {
+        textNodes.push(n);
+      }
+    }
+
+    textNodes.forEach((tNode) => {
+      const parent = tNode.parentNode;
+      if (!parent || parent.nodeName === "SCRIPT" || parent.nodeName === "STYLE" || parent.classList?.contains("ats-highlight-term")) {
+        return;
+      }
+      const frag = document.createDocumentFragment();
+      let lastIdx = 0;
+      regex.lastIndex = 0;
+      let m;
+      const text = tNode.nodeValue;
+      while ((m = regex.exec(text)) !== null) {
+        if (m.index > lastIdx) {
+          frag.appendChild(document.createTextNode(text.substring(lastIdx, m.index)));
+        }
+        const span = document.createElement("span");
+        span.className = "ats-highlight-term";
+        span.textContent = m[0];
+        frag.appendChild(span);
+        lastIdx = regex.lastIndex;
+      }
+      if (lastIdx < text.length) {
+        frag.appendChild(document.createTextNode(text.substring(lastIdx)));
+      }
+      parent.replaceChild(frag, tNode);
+    });
+  }
+
+  // Tự động phân tích lại nếu đang mở modal khi đổi ngôn ngữ / phiên bản
+  window.__rerunAtsIfOpen = () => {
+    if (modalOverlay.getAttribute("aria-hidden") === "false" && jdInput && jdInput.value.trim().length > 10) {
+      runAnalysis();
+    }
+  };
+}
+
+// ===================================
+// RECRUITER VIEW CONTROLLER (?view=hr)
+// ===================================
+
+function initRecruiterView() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const isHrMode = urlParams.get("view") === "hr" || urlParams.get("view") === "recruiter" || urlParams.get("mode") === "clean" || urlParams.get("hr") === "1";
+
+  const hrActionBar = document.getElementById("hrActionBar");
+  const hrViewBtn = document.getElementById("hrViewBtn");
+  const hrDownloadPdfBtn = document.getElementById("hrDownloadPdfBtn");
+  const hrLangViBtn = document.getElementById("hrLangViBtn");
+  const hrLangEnBtn = document.getElementById("hrLangEnBtn");
+  const hrCopyLinkBtn = document.getElementById("hrCopyLinkBtn");
+  const hrExitBtn = document.getElementById("hrExitBtn");
+
+  function setHrMode(active) {
+    if (active) {
+      document.body.classList.add("recruiter-view");
+      if (hrActionBar) hrActionBar.style.display = "flex";
+      syncHrLang();
+    } else {
+      document.body.classList.remove("recruiter-view");
+      if (hrActionBar) hrActionBar.style.display = "none";
+    }
+  }
+
+  function syncHrLang() {
+    if (hrLangViBtn && hrLangEnBtn) {
+      hrLangViBtn.classList.toggle("active", currentLang === "vi");
+      hrLangEnBtn.classList.toggle("active", currentLang === "en");
+    }
+    if (hrDownloadPdfBtn) {
+      const textSpan = hrDownloadPdfBtn.querySelector("span");
+      if (textSpan) {
+        textSpan.textContent = currentLang === "vi" ? "Tải bản PDF" : "Download PDF";
+      }
+    }
+  }
+
+  if (isHrMode) {
+    setHrMode(true);
+  }
+
+  if (hrViewBtn) {
+    hrViewBtn.onclick = () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("view", "hr");
+      window.history.pushState({}, "", url.toString());
+      setHrMode(true);
+      showToastNotification("✨ Đã bật Giao diện Nhà tuyển dụng (sạch sẽ, không thanh công cụ)");
+    };
+  }
+
+  if (hrExitBtn) {
+    hrExitBtn.onclick = () => {
+      const url = new URL(window.location.href);
+      url.searchParams.delete("view");
+      url.searchParams.delete("mode");
+      url.searchParams.delete("hr");
+      window.history.pushState({}, "", url.toString());
+      setHrMode(false);
+      showToastNotification("🔄 Đã quay lại Chế độ chỉnh sửa đầy đủ");
+    };
+  }
+
+  if (hrLangViBtn) {
+    hrLangViBtn.onclick = () => {
+      if (elements.langViBtn) elements.langViBtn.click();
+      syncHrLang();
+    };
+  }
+
+  if (hrLangEnBtn) {
+    hrLangEnBtn.onclick = () => {
+      if (elements.langEnBtn) elements.langEnBtn.click();
+      syncHrLang();
+    };
+  }
+
+  if (hrDownloadPdfBtn) {
+    hrDownloadPdfBtn.onclick = () => {
+      if (cvData && cvData[currentLang] && cvData[currentLang].docTitle) {
+        document.title = cvData[currentLang].docTitle;
+      }
+      window.print();
+    };
+  }
+
+  if (hrCopyLinkBtn) {
+    hrCopyLinkBtn.onclick = () => {
+      const url = new URL(window.location.href);
+      url.searchParams.set("view", "hr");
+      navigator.clipboard?.writeText(url.toString());
+      showToastNotification("📋 Đã sao chép liên kết sạch để gửi cho HR!");
+    };
+  }
+
+  function showToastNotification(msg) {
+    let toast = document.getElementById("atsToast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "atsToast";
+      toast.className = "ats-toast";
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2500);
+  }
+
+  window.__syncHrView = syncHrLang;
+}
+
+// Khởi tạo Settings Drawer sau khi DOM sẵn sàng
+function bootstrapApp() {
   initSettingsDrawer();
   initCoverLetter();
   initDiffViewer();
+  initAtsMatcher();
+  initRecruiterView();
   renderCV(currentLang);
+  console.log("🚀 CV Editor initialized - Version:", window.CV_APP_VERSION || "1.1.0");
 }
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", bootstrapApp);
+} else {
+  bootstrapApp();
+}
+
 

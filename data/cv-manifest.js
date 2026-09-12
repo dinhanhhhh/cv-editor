@@ -235,5 +235,16 @@
     return "ver-" + key;
   };
 
+  // Phiên bản ứng dụng để cache-busting toàn bộ tài nguyên (CSS, JS, data)
+  const APP_VERSION = "1.1.0";
+  CV_MANIFEST.version = APP_VERSION;
+  root.CV_APP_VERSION = APP_VERSION;
+  root.withCvVersion = function (url) {
+    if (!url) return url;
+    const v = root.CV_APP_VERSION || APP_VERSION;
+    const sep = url.includes("?") ? "&" : "?";
+    return url + sep + "v=" + encodeURIComponent(v);
+  };
+
   root.CV_MANIFEST = CV_MANIFEST;
 })(typeof window !== "undefined" ? window : globalThis);

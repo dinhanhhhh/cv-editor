@@ -65,9 +65,10 @@
   function loadScript(src) {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
-      script.src = src;
+      const versionedSrc = window.withCvVersion ? window.withCvVersion(src) : (src + '?v=1.1.0');
+      script.src = versionedSrc;
       script.onload = resolve;
-      script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
+      script.onerror = () => reject(new Error(`Failed to load script: ${versionedSrc}`));
       document.head.appendChild(script);
     });
   }

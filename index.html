@@ -11,11 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/cv-layout.css">
+    <link rel="stylesheet" href="css/cv-layout.css?v=1.1.0">
     <!-- Manifest (nguồn danh sách phiên bản duy nhất) phải nạp trước router -->
-    <script src="data/cv-manifest.js"></script>
+    <script src="data/cv-manifest.js?v=1.1.0"></script>
     <!-- Router Logic (Xử lý nạp dữ liệu ngay lập tức) -->
-    <script src="js/cv-router.js"></script>
+    <script src="js/cv-router.js?v=1.1.0"></script>
 </head>
 
 <body>
@@ -81,8 +81,12 @@
         </div>
     </div>
 
-    <!-- 4 nút chuyển sang bên trái để tránh làm controls bên phải bị đẩy quá cao -->
+    <!-- Các nút công cụ bổ trợ bên trái -->
     <div class="left-controls" aria-label="CV secondary controls">
+        <button class="hr-view-btn" id="hrViewBtn" type="button"
+            title="Chuyển sang chế độ xem sạch cho Nhà tuyển dụng" aria-label="Xem kiểu Nhà tuyển dụng">👁️ Giao diện HR</button>
+        <button class="ats-match-btn" id="atsMatchBtn" type="button"
+            title="So khớp CV với JD & Chấm điểm ATS" aria-label="So khớp CV với JD">🎯 So khớp JD</button>
         <button class="cover-letter-btn" id="coverLetterBtn" type="button" title="Xem thư xin việc (Cover Letter)"
             aria-label="Xem thư xin việc">✉️ Cover Letter</button>
         <button class="diff-btn" id="diffBtn" type="button"
@@ -97,6 +101,53 @@
     <main class="cv-preview" id="cvContent" tabindex="-1">
         <!-- Nội dung đổ bởi cv-renderer.js -->
     </main>
+
+    <!-- Recruiter View Floating Action Bar (Chỉ hiển thị ở chế độ ?view=hr) -->
+    <aside class="hr-action-bar" id="hrActionBar" aria-label="Thanh thao tác nhanh cho Nhà tuyển dụng" style="display: none;">
+        <div class="hr-bar-content">
+            <div class="hr-lang-switch">
+                <button type="button" class="hr-btn hr-lang-btn active" id="hrLangViBtn">VI</button>
+                <button type="button" class="hr-btn hr-lang-btn" id="hrLangEnBtn">EN</button>
+            </div>
+            <div class="hr-divider"></div>
+            <button type="button" class="hr-btn hr-download-btn" id="hrDownloadPdfBtn" title="Tải file PDF của bản CV này">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Tải bản PDF</span>
+            </button>
+            <div class="hr-divider"></div>
+            <a href="tel:0923202861" class="hr-btn hr-contact-btn" title="Gọi điện thoại trực tiếp">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                <span>Gọi điện</span>
+            </a>
+            <a href="mailto:tdinhanh.it@gmail.com" class="hr-btn hr-contact-btn" title="Gửi email cho ứng viên">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                </svg>
+                <span>Gửi Email</span>
+            </a>
+            <div class="hr-divider"></div>
+            <button type="button" class="hr-btn hr-share-btn" id="hrCopyLinkBtn" title="Sao chép liên kết CV này">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                </svg>
+                <span>Sao chép Link</span>
+            </button>
+            <button type="button" class="hr-btn hr-exit-btn" id="hrExitBtn" title="Quay lại chế độ chỉnh sửa đầy đủ">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                <span>Bản sửa</span>
+            </button>
+        </div>
+    </aside>
 
     <!-- Cover Letter Modal -->
     <div class="cl-modal-overlay" id="clModalOverlay" aria-hidden="true" style="display: none;">
@@ -284,6 +335,105 @@
             <div class="diff-modal-footer">
                 <div class="diff-footer-links" id="diffFooterLinks"></div>
                 <button type="button" class="cl-btn-primary" id="diffCloseBtn">Đóng ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ATS & JD Matcher Modal -->
+    <div class="cl-modal-overlay ats-modal-overlay" id="atsModalOverlay" aria-hidden="true" style="display: none;">
+        <div class="cl-modal ats-modal" role="dialog" aria-labelledby="atsModalTitle">
+            <div class="cl-modal-header ats-modal-header">
+                <div class="ats-header-left">
+                    <span class="cl-modal-icon">🎯</span>
+                    <div>
+                        <h2 class="cl-modal-title" id="atsModalTitle">ATS &amp; JD Matcher</h2>
+                        <div class="ats-modal-subtitle" id="atsModalSubtitle">Phân tích mức độ phù hợp và chấm điểm từ khóa CV với JD</div>
+                    </div>
+                </div>
+                <div class="ats-header-actions">
+                    <button type="button" class="ats-sample-btn" id="atsSampleBtn" title="Dán nhanh văn bản JD mẫu">📋 Dán JD mẫu</button>
+                    <button type="button" class="cl-modal-close" id="atsModalCloseBtn" aria-label="Đóng">&times;</button>
+                </div>
+            </div>
+
+            <div class="ats-modal-body">
+                <!-- Cột trái: Nhập JD -->
+                <div class="ats-input-pane">
+                    <div class="ats-pane-header">
+                        <label for="atsJdInput" class="ats-label">📄 Bản mô tả công việc (Job Description):</label>
+                        <button type="button" class="ats-clear-btn" id="atsClearBtn" title="Xóa trắng JD">Xóa</button>
+                    </div>
+                    <textarea id="atsJdInput" class="ats-textarea" placeholder="Dán nội dung tin tuyển dụng / JD vào đây (Tech stack, Yêu cầu công việc, Trách nhiệm...)..."></textarea>
+                    <div class="ats-input-footer">
+                        <span class="ats-char-count" id="atsCharCount">0 ký tự</span>
+                        <button type="button" class="ats-analyze-btn" id="atsAnalyzeBtn">⚡ Phân tích &amp; Chấm điểm</button>
+                    </div>
+                </div>
+
+                <!-- Cột phải: Kết quả phân tích -->
+                <div class="ats-result-pane" id="atsResultPane">
+                    <div class="ats-empty-state" id="atsEmptyState">
+                        <div class="ats-empty-icon">🎯</div>
+                        <div class="ats-empty-title">Chưa có kết quả phân tích</div>
+                        <div class="ats-empty-desc">Dán bản mô tả công việc (JD) ở cột bên trái và bấm <b>"Phân tích &amp; Chấm điểm"</b> để xem mức độ tương thích ATS.</div>
+                    </div>
+
+                    <div class="ats-analysis-results" id="atsAnalysisResults" style="display: none;">
+                        <!-- Score card -->
+                        <div class="ats-score-card" id="atsScoreCard">
+                            <div class="ats-score-circle" id="atsScoreCircle">
+                                <span class="ats-score-value" id="atsScoreValue">0%</span>
+                                <span class="ats-score-label">MATCH</span>
+                            </div>
+                            <div class="ats-score-meta">
+                                <div class="ats-score-title" id="atsScoreTitle">Mức độ tương thích</div>
+                                <div class="ats-score-desc" id="atsScoreDesc">Đang tính toán...</div>
+                                <div class="ats-score-stats">
+                                    <span class="ats-stat-pill stat-matched" id="atsStatMatched">✅ 0 khớp</span>
+                                    <span class="ats-stat-pill stat-missing" id="atsStatMissing">⚠️ 0 thiếu</span>
+                                    <span class="ats-stat-pill stat-total" id="atsStatTotal">📊 0 từ khóa</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action bar -->
+                        <div class="ats-action-bar">
+                            <label class="ats-highlight-toggle">
+                                <input type="checkbox" id="atsHighlightToggle">
+                                <span class="ats-toggle-slider"></span>
+                                <span class="ats-toggle-text">✨ Tô sáng từ khóa trên CV</span>
+                            </label>
+                            <span class="ats-hint-copy">Click vào từ khóa thiếu để copy nhanh</span>
+                        </div>
+
+                        <!-- Missing keywords -->
+                        <div class="ats-keywords-section">
+                            <div class="ats-section-heading">
+                                <span class="heading-badge missing-badge">⚠️ Từ khóa còn thiếu (JD cần nhưng CV chưa có):</span>
+                            </div>
+                            <div class="ats-keywords-container" id="atsMissingKeywordsContainer">
+                                <!-- render by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Matched keywords -->
+                        <div class="ats-keywords-section">
+                            <div class="ats-section-heading">
+                                <span class="heading-badge matched-badge">✅ Từ khóa đã khớp:</span>
+                            </div>
+                            <div class="ats-keywords-container" id="atsMatchedKeywordsContainer">
+                                <!-- render by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cl-modal-footer ats-modal-footer">
+                <div class="ats-footer-info" id="atsFooterInfo">
+                    💡 Mẹo: Nhớ lưu hoặc cập nhật từ khóa còn thiếu vào phần Kỹ năng &amp; Dự án để tăng tỷ lệ qua vòng lọc CV.
+                </div>
+                <button type="button" class="cl-btn-primary" id="atsCloseBtn">Đóng ✓</button>
             </div>
         </div>
     </div>
