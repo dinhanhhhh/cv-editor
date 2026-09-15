@@ -22,32 +22,30 @@
 
 | Trường | Giá trị |
 |---|---|
-| **Tên project** | `<điền>` |
-| **Loại project** | `<vd: web app / portfolio / CLI tool / API service>` |
-| **Mục tiêu chính** | `<điền>` |
-| **Người dùng cuối** | `<điền>` |
-| **Giai đoạn hiện tại** | `<vd: MVP / đang phát triển / bảo trì>` |
-| **Ngôn ngữ hiển thị (của sản phẩm)** | `<vd: Tiếng Việt>` |
+| **Tên project** | CV Editor |
+| **Loại project** | Công cụ tạo & chỉnh sửa CV (Single-page HTML/JS/CSS) |
+| **Mục tiêu chính** | Cho phép người dùng chỉnh sửa thông tin, chọn template và xuất CV ra file HTML/PDF |
+| **Người dùng cuối** | Ứng viên đang chuẩn bị hồ sơ phỏng vấn |
+| **Giai đoạn hiện tại** | Đang phát triển / Tối ưu |
+| **Ngôn ngữ hiển thị (của sản phẩm)** | Tiếng Việt / Tiếng Anh |
 
 ---
 
 ## Phần 2: Tech Stack
 
-> Điền đúng stack thực tế. Nếu là project vanilla (HTML/CSS/JS thuần) thì ghi rõ "không framework" để AI không gợi ý React/Next.js.
-
 | Loại | Công nghệ | Ghi chú / Gotcha |
 |---|---|---|
-| Framework | `<điền hoặc "không có">` | |
-| Language | `<điền>` | |
-| Styling | `<điền>` | |
-| Package Manager | `<điền>` | Dùng đúng cái này, không tự đổi |
-| Deploy | `<điền>` | |
+| Framework | Không framework (Vanilla HTML/CSS/JS) | Viết JS thuần thao tác DOM, không import React |
+| Backend | Cloudflare Workers | Xử lý webhook Telegram, route deploy qua script `cloudflare-worker.js` |
+| Styling | CSS thuần (`css/cv-layout.css`) | Tối ưu in ấn khổ A4 |
+| Data | JS Objects (`data/cv-data-*.js`) | Dữ liệu CV lưu trữ dạng tĩnh bằng Javascript Object |
 
 **Quy tắc liên quan:**
 - Không tự ý đề xuất thêm thư viện/framework mới trừ khi tôi yêu cầu hoặc nó thực sự cần thiết (và phải giải thích lý do trước).
 - Bám sát stack hiện tại của codebase, không "kéo" project sang công nghệ khác.
 
-> 💡 Mục "Ghi chú / Gotcha" là nơi ghi các bẫy đã gặp (vd: phiên bản thư viện đổi API, config đặc biệt). Càng nhiều gotcha thực tế, AI càng ít sai.
+### ⚠️ Quy tắc dữ liệu CV (BẮT BUỘC):
+- **Role chuẩn:** Mọi trường `role` trong các file `data/cv-data-*.js` (ở cả mục Kinh nghiệm/Experience lẫn Dự án/Projects, cho cả tiếng Việt và tiếng Anh) **BẮT BUỘC LUÔN ĐỂ LÀ `"Developer"`**. Tuyệt đối không tự ý đổi thành Web Developer, Full-Stack Developer, hay System Integrator...
 
 ---
 

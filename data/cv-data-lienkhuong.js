@@ -38,7 +38,7 @@ var cvData = {
       {
         name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI (AUTOMATED CV BUILDER)",
         date: "05/2026 - Hiện tại",
-        role: "Developer / System Integrator",
+        role: "Developer",
         desc: "Hệ thống tự động hóa tối ưu và cá nhân hóa CV theo mô tả công việc (JD) tích hợp AI Agent và CI/CD Pipeline.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
@@ -122,7 +122,7 @@ var cvData = {
       {
         name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
         date: "05/2026 - Present",
-        role: "Developer / System Integrator",
+        role: "Developer",
         desc: "An automated CV optimization system integrating AI Agents to tailor resume contents based on Job Descriptions (JDs).",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [

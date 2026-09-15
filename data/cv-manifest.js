@@ -10,6 +10,12 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "banviet",
+      file: "data/cv-data-banviet.js",
+      emoji: "🎓",
+      label: "🎓 Bản Việt IT WordPress",
+    },
+    {
       key: "digifytech",
       file: "data/cv-data-digifytech.js",
       emoji: "🔷",
