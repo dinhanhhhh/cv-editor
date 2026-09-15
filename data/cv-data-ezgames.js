@@ -77,9 +77,9 @@ var cvData = {
           "React Hooks, Zustand, RESTful API Integration, Axios, Fetch, JSON data processing",
       },
       {
-        cat: "Điểm cộng & DB",
+        cat: "Cơ sở dữ liệu & Nền tảng",
         items:
-          "PostgreSQL, Supabase (đã thực hành thực tế), MySQL, MongoDB, OOP, C#/.NET (sẵn sàng học Unity)",
+          "PostgreSQL, Supabase, MySQL, MongoDB, OOP, C#/.NET (sẵn sàng tiếp cận Unity)",
       },
       {
         cat: "Công cụ & Kiểm soát",

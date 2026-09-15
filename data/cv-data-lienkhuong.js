@@ -36,7 +36,7 @@ var cvData = {
     education: cvGlobalEdu.vi,
     projects: [
       {
-        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI (AUTOMATED CV BUILDER)",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI",
         date: "05/2026 - Hiện tại",
         role: "Developer",
         desc: "Hệ thống tự động hóa tối ưu và cá nhân hóa CV theo mô tả công việc (JD) tích hợp AI Agent và CI/CD Pipeline.",
@@ -44,7 +44,7 @@ var cvData = {
         tasks: [
           "Xây dựng Web App tĩnh (Vanilla HTML/CSS/JS), tối ưu tốc độ tải trang, hỗ trợ chỉnh sửa trực tiếp (live inline editing) và quản lý state cục bộ.",
           "Thiết kế serverless backend trên Cloudflare Workers kết nối Telegram Bot Bridge với Gemini API và GitHub API.",
-          "Tối ưu luồng dữ liệu tự động hóa (Data Flow): Nhận JD qua Telegram -> AI phân tích may đo nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF.",
+          "Tối ưu luồng dữ liệu tự động hóa (Data Flow): Nhận JD qua Telegram -> AI phân tích nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF.",
         ],
         tech: "Vanilla JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
       },

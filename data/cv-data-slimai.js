@@ -52,7 +52,7 @@ var cvData = {
     ],
     projects: [
       {
-        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI",
         date: "05/2026 - Hiện tại",
         role: "Developer",
         desc: "Công cụ quản trị và tối ưu hóa CV tự động tích hợp AI giúp cá nhân hóa nội dung CV phù hợp với mô tả công việc (JD).",
@@ -60,7 +60,7 @@ var cvData = {
         tasks: [
           "Xây dựng Web App tĩnh bằng Vanilla HTML/CSS/JS thuần, tối ưu hóa tốc độ load, hỗ trợ live inline editing, quản lý local state và tính năng căn chỉnh trang A4 (Magic Fit).",
           "Thiết kế serverless backend sử dụng Cloudflare Workers làm cổng kết nối Telegram Bot Bridge đến Gemini API và GitHub API.",
-          "Tự động hóa pipeline: Khi gửi JD qua Telegram Bot, AI phân tích và may đo nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF mới trong 40 giây.",
+          "Tự động hóa pipeline: Khi gửi JD qua Telegram Bot, AI phân tích nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF mới trong 40 giây.",
           "Chăm chút kỹ lưỡng trải nghiệm người dùng (UX) với đầy đủ các trạng thái dữ liệu (Loading/Skeleton, Empty, Error) và micro-animations.",
         ],
         tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
@@ -115,7 +115,7 @@ Tôi tên là Trương Đình Anh, tốt nghiệp chuyên ngành Khoa học Máy
 Tôi rất ấn tượng với định hướng của SlimAI trong việc dùng AI để tạo ra sản phẩm thực tế có người dùng và doanh thu thật. Bản thân tôi là một người theo đuổi tư duy AI-first, thường xuyên ứng dụng AI (Gemini, Claude, Copilot, Cursor) để gia tăng hiệu suất và tốc độ phát triển phần mềm.
 
 Một số điểm nổi bật về kinh nghiệm của tôi phù hợp với SlimAI:
-- **Đã tự build một AI tool & automation:** Hệ thống tự động hóa tối ưu nội dung CV (cv-editor) theo JD thông qua Telegram Bot chạy trên Cloudflare Workers kết nối Gemini API và GitHub API. Hệ thống tự động nhận JD -> AI phân tích/may đo nội dung -> commit lên repo -> GitHub Actions tự biên dịch PDF mới trong 40 giây.
+- **Đã tự build một AI tool & automation:** Hệ thống tự động hóa tối ưu nội dung CV (cv-editor) theo JD thông qua Telegram Bot chạy trên Cloudflare Workers kết nối Gemini API và GitHub API. Hệ thống tự động nhận JD -> AI phân tích nội dung -> commit lên repo -> GitHub Actions tự biên dịch PDF mới trong 40 giây.
 - **Kỹ năng lập trình tốt:** Thành thạo Python, JavaScript, TypeScript, Next.js và backend Node.js/Express. Có khả năng tự học rất nhanh và tư duy giải quyết vấn đề độc lập.
 - **Quan tâm sâu sắc đến UI/UX:** Luôn thiết kế giao diện tối ưu trải nghiệm người dùng, xử lý đầy đủ các trạng thái dữ liệu (Loading/Skeleton, Empty, Error) thay vì chỉ biết viết code.
 
@@ -131,7 +131,7 @@ Kính gửi Bộ phận Tuyển dụng SlimAI,
 
 Tôi viết thư này để ứng tuyển vào vị trí Thực tập sinh AI Developer tại SlimAI. Là một cử nhân Khoa học Máy tính có tư duy AI-first, tôi có thế mạnh trong việc ứng dụng AI để xây dựng sản phẩm nhanh và có tính ứng dụng cao.
 
-Tôi đã tự tay xây dựng một AI & Automation tool thực tế: Hệ thống tự động hóa may đo CV theo mô tả công việc (JD) qua Telegram Bot sử dụng Cloudflare Workers, Gemini API và GitHub API. Ngoài ra, tôi có nền tảng tốt về Python, JavaScript, Next.js, Node.js và đặc biệt quan tâm tới UI/UX của sản phẩm.
+Tôi đã tự tay xây dựng một AI & Automation tool thực tế: Hệ thống tự động hóa tối ưu nội dung CV theo mô tả công việc (JD) qua Telegram Bot sử dụng Cloudflare Workers, Gemini API và GitHub API. Ngoài ra, tôi có nền tảng tốt về Python, JavaScript, Next.js, Node.js và đặc biệt quan tâm tới UI/UX của sản phẩm.
 
 Tôi rất mong muốn được đồng hành cùng SlimAI phát triển các sản phẩm phần mềm nhỏ nhưng đem lại doanh thu thật trên thị trường toàn cầu. Chi tiết dự án có trong CV đính kèm.
 

@@ -73,7 +73,7 @@ var cvData = {
     ],
     skills: [
       {
-        cat: "Lập trình Web (đã thực hành)",
+        cat: "Lập trình Web",
         items:
           "HTML5, CSS3, JavaScript (ES6+), React.js, Next.js, TypeScript, Tailwind CSS, Thiết kế Responsive (Mobile / Tablet / PC), RESTful API, Node.js, Express",
       },
@@ -83,14 +83,14 @@ var cvData = {
           "PostgreSQL, MySQL, MongoDB, Supabase Cloud, Git/GitHub, Vercel, Postman, Swagger",
       },
       {
-        cat: "WordPress & CMS (kiến thức cơ bản)",
+        cat: "WordPress & CMS",
         items:
           "Cấu trúc WordPress CMS, Elementor (kéo thả giao diện), Cài đặt Theme/Plugin, Gutenberg, Quản trị nội dung & Đăng bài",
       },
       {
-        cat: "SEO & Hosting (kiến thức cơ bản)",
+        cat: "SEO & Web Hosting",
         items:
-          "SEO Onpage cơ bản (thẻ H1-H6, Meta Tags), Tối ưu tốc độ tải trang, Cấu hình Hosting cPanel, DNS/Cloudflare, SSL, Sao lưu CSDL",
+          "On-page SEO (H1-H6, Meta Tags), Tối ưu tốc độ tải trang (PageSpeed), cPanel Hosting, Cấu hình DNS/Cloudflare, SSL, Sao lưu dữ liệu",
       },
       {
         cat: "Công cụ hỗ trợ & Kỹ năng mềm",
@@ -221,7 +221,7 @@ SĐT: 0923202861`
     ],
     skills: [
       {
-        cat: "Web Development (Hands-on)",
+        cat: "Web Development",
         items:
           "HTML5, CSS3, JavaScript (ES6+), React.js, Next.js, TypeScript, Tailwind CSS, Responsive Design (Mobile / Tablet / PC), RESTful API, Node.js, Express",
       },
@@ -231,12 +231,12 @@ SĐT: 0923202861`
           "PostgreSQL, MySQL, MongoDB, Supabase Cloud, Git/GitHub, Vercel, Postman, Swagger",
       },
       {
-        cat: "WordPress & CMS (Foundational)",
+        cat: "WordPress & CMS",
         items:
           "WordPress CMS Structure, Elementor (Drag & Drop Builder), Theme/Plugin Setup, Gutenberg, Content Management & Publishing",
       },
       {
-        cat: "SEO & Hosting (Foundational)",
+        cat: "SEO & Web Hosting",
         items:
           "Basic On-page SEO (H1-H6, Meta Tags), Page Speed Optimization, cPanel Hosting, DNS/Cloudflare, SSL, Database Backup",
       },

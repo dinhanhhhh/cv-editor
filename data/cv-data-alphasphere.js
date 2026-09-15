@@ -66,7 +66,7 @@ var cvData = {
         tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS",
       },
       {
-        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI",
         date: "05/2026 - Hiện tại",
         role: "Developer",
         desc: "Công cụ quản trị và tối ưu hóa CV tự động tích hợp AI giúp cá nhân hóa nội dung CV phù hợp với mô tả công việc (JD).",
@@ -74,7 +74,7 @@ var cvData = {
         tasks: [
           "Xây dựng Web App tĩnh bằng Vanilla HTML/CSS/JS thuần, hỗ trợ live inline editing, quản lý local state và tính năng căn chỉnh trang A4 (Magic Fit).",
           "Thiết kế serverless backend sử dụng Cloudflare Workers làm cổng kết nối Telegram Bot Bridge đến Gemini API và GitHub API.",
-          "Tự động hóa pipeline: Khi gửi JD qua Telegram Bot, AI phân tích và may đo nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF mới trong 40 giây.",
+          "Tự động hóa pipeline: Khi gửi JD qua Telegram Bot, AI phân tích nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF mới trong 40 giây.",
         ],
         tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
       },

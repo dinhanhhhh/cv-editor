@@ -3307,6 +3307,10 @@ function initRecruiterView() {
   const urlParams = new URLSearchParams(window.location.search);
   const isHrMode = urlParams.get("view") === "hr" || urlParams.get("view") === "recruiter" || urlParams.get("mode") === "clean" || urlParams.get("hr") === "1";
 
+  const hrActionContainer = document.getElementById("hrActionContainer");
+  const hrToggleBtn = document.getElementById("hrToggleBtn");
+  const hrIconMenu = hrToggleBtn?.querySelector(".hr-icon-menu");
+  const hrIconClose = hrToggleBtn?.querySelector(".hr-icon-close");
   const hrActionBar = document.getElementById("hrActionBar");
   const hrViewBtn = document.getElementById("hrViewBtn");
   const hrDownloadPdfBtn = document.getElementById("hrDownloadPdfBtn");
@@ -3315,14 +3319,42 @@ function initRecruiterView() {
   const hrCopyLinkBtn = document.getElementById("hrCopyLinkBtn");
   const hrExitBtn = document.getElementById("hrExitBtn");
 
+  function toggleMenu(forceOpen) {
+    if (!hrActionContainer) return;
+    const shouldOpen = typeof forceOpen === "boolean" ? forceOpen : !hrActionContainer.classList.contains("open");
+    hrActionContainer.classList.toggle("open", shouldOpen);
+    if (hrToggleBtn) hrToggleBtn.setAttribute("aria-expanded", shouldOpen ? "true" : "false");
+    if (hrIconMenu && hrIconClose) {
+      hrIconMenu.style.display = shouldOpen ? "none" : "block";
+      hrIconClose.style.display = shouldOpen ? "block" : "none";
+    }
+  }
+
+  if (hrToggleBtn) {
+    hrToggleBtn.onclick = (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    };
+  }
+
+  document.addEventListener("click", (e) => {
+    if (hrActionContainer && hrActionContainer.classList.contains("open") && !hrActionContainer.contains(e.target)) {
+      toggleMenu(false);
+    }
+  });
+
   function setHrMode(active) {
     if (active) {
       document.body.classList.add("recruiter-view");
-      if (hrActionBar) hrActionBar.style.display = "flex";
+      if (hrActionContainer) hrActionContainer.style.display = "flex";
+      toggleMenu(false); // Mặc định thu gọn, chỉ hiện nút tròn
       syncHrLang();
     } else {
       document.body.classList.remove("recruiter-view");
-      if (hrActionBar) hrActionBar.style.display = "none";
+      if (hrActionContainer) {
+        hrActionContainer.style.display = "none";
+        toggleMenu(false);
+      }
     }
   }
 
@@ -3334,7 +3366,7 @@ function initRecruiterView() {
     if (hrDownloadPdfBtn) {
       const textSpan = hrDownloadPdfBtn.querySelector("span");
       if (textSpan) {
-        textSpan.textContent = currentLang === "vi" ? "Tải bản PDF" : "Download PDF";
+        textSpan.textContent = currentLang === "vi" ? "Tải PDF" : "Download PDF";
       }
     }
   }
@@ -3349,7 +3381,6 @@ function initRecruiterView() {
       url.searchParams.set("view", "hr");
       window.history.pushState({}, "", url.toString());
       setHrMode(true);
-      showToastNotification("✨ Đã bật Giao diện Nhà tuyển dụng (sạch sẽ, không thanh công cụ)");
     };
   }
 
@@ -3361,7 +3392,6 @@ function initRecruiterView() {
       url.searchParams.delete("hr");
       window.history.pushState({}, "", url.toString());
       setHrMode(false);
-      showToastNotification("🔄 Đã quay lại Chế độ chỉnh sửa đầy đủ");
     };
   }
 
@@ -3393,7 +3423,7 @@ function initRecruiterView() {
       const url = new URL(window.location.href);
       url.searchParams.set("view", "hr");
       navigator.clipboard?.writeText(url.toString());
-      showToastNotification("📋 Đã sao chép liên kết sạch để gửi cho HR!");
+      showToastNotification("📋 Đã sao chép liên kết!");
     };
   }
 
@@ -3409,7 +3439,7 @@ function initRecruiterView() {
     toast.classList.add("show");
     setTimeout(() => {
       toast.classList.remove("show");
-    }, 2500);
+    }, 1000);
   }
 
   window.__syncHrView = syncHrLang;

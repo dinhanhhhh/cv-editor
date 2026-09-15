@@ -103,51 +103,59 @@
     </main>
 
     <!-- Recruiter View Floating Action Bar (Chỉ hiển thị ở chế độ ?view=hr) -->
-    <aside class="hr-action-bar" id="hrActionBar" aria-label="Thanh thao tác nhanh cho Nhà tuyển dụng" style="display: none;">
-        <div class="hr-bar-content">
-            <div class="hr-lang-switch">
-                <button type="button" class="hr-btn hr-lang-btn active" id="hrLangViBtn">VI</button>
-                <button type="button" class="hr-btn hr-lang-btn" id="hrLangEnBtn">EN</button>
+    <div class="hr-action-container" id="hrActionContainer" style="display: none;">
+        <button type="button" class="hr-toggle-btn" id="hrToggleBtn" title="Menu tiện ích" aria-label="Mở tiện ích CV" aria-expanded="false">
+            <svg class="hr-icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="hr-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+
+        <aside class="hr-action-bar" id="hrActionBar" aria-label="Thanh thao tác nhanh cho Nhà tuyển dụng">
+            <div class="hr-bar-content">
+                <div class="hr-lang-switch">
+                    <button type="button" class="hr-btn hr-lang-btn active" id="hrLangViBtn">VI</button>
+                    <button type="button" class="hr-btn hr-lang-btn" id="hrLangEnBtn">EN</button>
+                </div>
+                <div class="hr-divider"></div>
+                <button type="button" class="hr-btn hr-download-btn" id="hrDownloadPdfBtn" title="Tải file PDF của bản CV này">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Tải PDF</span>
+                </button>
+                <div class="hr-divider"></div>
+                <a href="tel:0923202861" class="hr-btn hr-contact-btn" title="Gọi điện thoại trực tiếp">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <span>Gọi điện</span>
+                </a>
+                <a href="mailto:tdinhanh.it@gmail.com" class="hr-btn hr-contact-btn" title="Gửi email cho ứng viên">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                    </svg>
+                    <span>Gửi Email</span>
+                </a>
+                <div class="hr-divider"></div>
+                <button type="button" class="hr-btn hr-share-btn" id="hrCopyLinkBtn" title="Sao chép liên kết CV này">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    <span>Sao chép</span>
+                </button>
             </div>
-            <div class="hr-divider"></div>
-            <button type="button" class="hr-btn hr-download-btn" id="hrDownloadPdfBtn" title="Tải file PDF của bản CV này">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="7 10 12 15 17 10"></polyline>
-                    <line x1="12" y1="15" x2="12" y2="3"></line>
-                </svg>
-                <span>Tải bản PDF</span>
-            </button>
-            <div class="hr-divider"></div>
-            <a href="tel:0923202861" class="hr-btn hr-contact-btn" title="Gọi điện thoại trực tiếp">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                </svg>
-                <span>Gọi điện</span>
-            </a>
-            <a href="mailto:tdinhanh.it@gmail.com" class="hr-btn hr-contact-btn" title="Gửi email cho ứng viên">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                </svg>
-                <span>Gửi Email</span>
-            </a>
-            <div class="hr-divider"></div>
-            <button type="button" class="hr-btn hr-share-btn" id="hrCopyLinkBtn" title="Sao chép liên kết CV này">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                </svg>
-                <span>Sao chép Link</span>
-            </button>
-            <button type="button" class="hr-btn hr-exit-btn" id="hrExitBtn" title="Quay lại chế độ chỉnh sửa đầy đủ">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                <span>Bản sửa</span>
-            </button>
-        </div>
-    </aside>
+        </aside>
+    </div>
 
     <!-- Cover Letter Modal -->
     <div class="cl-modal-overlay" id="clModalOverlay" aria-hidden="true" style="display: none;">

@@ -52,7 +52,7 @@ var cvData = {
     ],
     projects: [
       {
-        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI",
         date: "05/2026 - Hiện tại",
         role: "Developer",
         desc: "Hệ thống tự động hóa tối ưu hóa CV tích hợp AI giúp cá nhân hóa nội dung phù hợp với mô tả công việc (JD).",
@@ -60,7 +60,7 @@ var cvData = {
         tasks: [
           "Xây dựng Web App tĩnh bằng Vanilla HTML/CSS/JS thuần, tối ưu hóa tốc độ load, hỗ trợ live inline editing, quản lý local state.",
           "Thiết kế serverless backend sử dụng Cloudflare Workers làm cổng kết nối Telegram Bot Bridge đến Gemini API và GitHub API.",
-          "Tối ưu hóa Data flow: Nhận JD qua Telegram Bot -> AI Agent phân tích và may đo nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF trong 40 giây.",
+          "Tối ưu hóa Data flow: Nhận JD qua Telegram Bot -> AI Agent phân tích nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF trong 40 giây.",
         ],
         tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
       },

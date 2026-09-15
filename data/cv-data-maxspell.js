@@ -79,7 +79,7 @@ var cvData = {
       {
         cat: "Hạ tầng & DB",
         items:
-          "Vercel (Cloud Hosting), Supabase, PostgreSQL (đã thực hành thực tế), MySQL, MongoDB, Git/GitHub",
+          "Vercel (Cloud Hosting), Supabase, PostgreSQL, MySQL, MongoDB, Git/GitHub",
       },
       {
         cat: "Tối ưu & Công cụ",
