@@ -1141,43 +1141,64 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
     throw new Error("Chua cau hinh GROQ_API_KEY tren Cloudflare Worker! Hay lay key free tai console.groq.com/keys");
   }
 
-  const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      Authorization: "Bearer " + env.GROQ_API_KEY.trim(),
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        {
-          role: "system",
-          content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON.",
-        },
-        {
-          role: "user",
-          content: systemPrompt,
-        },
-      ],
-      response_format: { type: "json_object" },
-      temperature: 0.2,
-    }),
-  });
+  // Danh sach model pho bien tren Groq (thu lan luot de tranh loi 404 model)
+  const candidateModels = [
+    "llama-3.1-70b-versatile",
+    "llama-3.1-8b-instant",
+    "llama3-70b-8192",
+    "llama3-8b-8192",
+    "mixtral-8x7b-32768",
+    "gemma2-9b-it",
+  ];
 
-  if (!groqRes.ok) {
-    const errText = await groqRes.text();
-    throw new Error("Groq API Error " + groqRes.status + ": " + errText.slice(0, 150));
+  let lastError = null;
+
+  for (const modelName of candidateModels) {
+    try {
+      const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + env.GROQ_API_KEY.trim(),
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: modelName,
+          messages: [
+            {
+              role: "system",
+              content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON.",
+            },
+            {
+              role: "user",
+              content: systemPrompt,
+            },
+          ],
+          response_format: { type: "json_object" },
+          temperature: 0.2,
+        }),
+      });
+
+      if (groqRes.ok) {
+        const groqData = await groqRes.json();
+        if (
+          groqData.choices &&
+          groqData.choices[0] &&
+          groqData.choices[0].message
+        ) {
+          return groqData.choices[0].message.content.trim();
+        }
+      } else {
+        const errText = await groqRes.text();
+        lastError = new Error(`Groq ${modelName} (${groqRes.status}): ${errText.slice(0, 150)}`);
+        // Neu bi 404 model thi tiep tuc thu model tiep theo
+        continue;
+      }
+    } catch (err) {
+      lastError = err;
+    }
   }
 
-  const groqData = await groqRes.json();
-  if (
-    groqData.choices &&
-    groqData.choices[0] &&
-    groqData.choices[0].message
-  ) {
-    return groqData.choices[0].message.content.trim();
-  }
-
-  throw new Error("Groq tra ve du lieu khong hop le.");
+  throw lastError || new Error("Groq API khong the khoi tao voi bat ky model nao.");
 }
+
 
