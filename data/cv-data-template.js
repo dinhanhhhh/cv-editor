@@ -27,6 +27,7 @@ var cvData = {
     sections: {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
+      experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG",
     },
@@ -37,6 +38,22 @@ var cvData = {
       date: "2020 - 2024",
       detail: "Khoa học Máy tính",
     },
+    experience: [
+      {
+        name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
+        date: "06/2025 - 09/2025",
+        role: "Developer",
+        desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
+        tasks: [
+          "Thiết kế cấu trúc cơ sở dữ liệu và triển khai cơ sở dữ liệu PostgreSQL trên hạ tầng Supabase Cloud.",
+          "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu chứng khoán.",
+          "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
+          "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
+          "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel.",
+        ],
+        tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
+      },
+    ],
     projectDisplayLimit: 2,
     projects: [
       {
@@ -124,6 +141,7 @@ var cvData = {
     sections: {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
+      experience: "WORK EXPERIENCE",
       projects: "FEATURED PROJECTS",
       skills: "TECHNICAL SKILLS",
     },
@@ -134,6 +152,22 @@ var cvData = {
       date: "2020 - 2024",
       detail: "Computer Science",
     },
+    experience: [
+      {
+        name: "TAMI TECHNOLOGY CO., LTD",
+        date: "06/2025 - 09/2025",
+        role: "Developer",
+        desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
+        tasks: [
+          "Designed database schemas and successfully deployed the PostgreSQL database on the Supabase cloud infrastructure.",
+          "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
+          "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for user sessions.",
+          "Tested and optimized API performance using Postman, resolving critical bugs under a mentor's guidance.",
+          "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment.",
+        ],
+        tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
+      },
+    ],
     projectDisplayLimit: 2,
     projects: [
       {
