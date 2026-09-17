@@ -12,19 +12,34 @@ const PORT = 3000;
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
-// Danh sách các phiên bản CV cần sinh PDF tự động
-const CV_VERSIONS = [
-    { type: 'default', filename: 'CV_TruongDinhAnh_FullStack.pdf', label: '💼 Full-Stack Dev' },
-    { type: 'fimi', filename: 'CV_TruongDinhAnh_Backend_FIMI.pdf', label: '🔴 FIMI Backend' },
-    { type: 'backend', filename: 'CV_TruongDinhAnh_Backend.pdf', label: '⚙️ Backend Dev' },
-    { type: 'frontend', filename: 'CV_TruongDinhAnh_Frontend.pdf', label: '🎨 Frontend Dev' },
-    { type: 'nestjs', filename: 'CV_TruongDinhAnh_NestJS.pdf', label: '🏥 NestJS Dev' },
-    { type: 'healthcare', filename: 'CV_TruongDinhAnh_Healthcare.pdf', label: '🦷 Healthcare Fullstack' },
-    { type: 'agrizen', filename: 'CV_TruongDinhAnh_Agrizen.pdf', label: '🌱 Agrizen Fullstack' },
-    { type: 'opswat', filename: 'CV_TruongDinhAnh_OPSWAT.pdf', label: '🛡️ OPSWAT Security' },
-    { type: 'beone', filename: 'CV_TruongDinhAnh_BeOne.pdf', label: '🐝 BeOne Full-Stack JS Intern' },
-    { type: 'strapbuild', filename: 'CV_TruongDinhAnh_Strapbuild.pdf', label: '🚀 Strapbuild Junior Full-Stack' }
-];
+// Nạp danh sách các phiên bản CV trực tiếp từ cv-manifest.js (Single Source of Truth)
+function loadManifestVersions() {
+    const vm = require('vm');
+    const manifestPath = path.join(__dirname, '../../data/cv-manifest.js');
+    if (!fs.existsSync(manifestPath)) {
+        console.warn('⚠️ cv-manifest.js not found, using fallback.');
+        return [{ type: 'default', file: 'data/cv-data-fullstack.js', filename: 'CV_TruongDinhAnh_FullStack.pdf', label: '💼 Full-Stack Dev' }];
+    }
+
+    const manifestContent = fs.readFileSync(manifestPath, 'utf8');
+    const sandbox = {};
+    vm.createContext(sandbox);
+    vm.runInContext(manifestContent, sandbox);
+    const manifest = sandbox.CV_MANIFEST || [];
+
+    return manifest.map((item) => {
+        const baseName =
+            item.key === 'default'
+                ? 'FullStack'
+                : item.key.charAt(0).toUpperCase() + item.key.slice(1);
+        return {
+            type: item.key,
+            file: (item.file || '').replace(/\\/g, '/'),
+            filename: `CV_TruongDinhAnh_${baseName}.pdf`,
+            label: item.label || item.key,
+        };
+    });
+}
 
 if (!BOT_TOKEN || !CHAT_ID) {
     console.error('❌ Error: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables must be provided.');
@@ -56,40 +71,52 @@ const server = app.listen(PORT, async () => {
 // 2. GENERATE ALL PDFs USING PUPPETEER
 // ===================================
 async function generateAllPDFs() {
-    // Tự động nhận diện file nào bị thay đổi để chỉ sinh đúng PDF đó
+    const allVersions = loadManifestVersions();
     const { execSync } = require('child_process');
-    const fileToTypeMap = {
-        'data/cv-data-fullstack.js': 'default',
-        'data/cv-data-fimi.js': 'fimi',
-        'data/cv-data-be.js': 'backend',
-        'data/cv-data-fe.js': 'frontend',
-        'data/cv-data-nestjs.js': 'nestjs',
-        'data/cv-data-healthcare-fullstack.js': 'healthcare',
-        'data/cv-data-agrizen-fullstack.js': 'agrizen',
-        'data/cv-data-opswat.js': 'opswat',
-        'data/cv-data-beone.js': 'beone',
-        'data/cv-data-strapbuild.js': 'strapbuild'
-    };
 
     let targetTypes = [];
     try {
         // Lấy danh sách các file thay đổi trong commit gần nhất
         const diffOutput = execSync('git diff-tree --no-commit-id --name-only -r HEAD', { encoding: 'utf8' });
-        const changedFiles = diffOutput.split('\n').map(f => f.trim()).filter(Boolean);
+        const changedFiles = diffOutput.split('\n').map(f => f.trim().replace(/\\/g, '/')).filter(Boolean);
         console.log('📝 Files modified in this commit:', changedFiles);
 
         for (const file of changedFiles) {
-            if (fileToTypeMap[file]) {
-                targetTypes.push(fileToTypeMap[file]);
+            const matchedVer = allVersions.find(v => v.file === file || file.endsWith(v.file));
+            if (matchedVer) {
+                targetTypes.push(matchedVer.type);
+            } else {
+                const m = file.match(/data\/cv-data-([a-zA-Z0-9_-]+)\.js$/);
+                if (m) {
+                    targetTypes.push(m[1]);
+                }
             }
         }
     } catch (err) {
-        console.warn('⚠️ Could not run git diff, falling back to generating all CVs.', err.message);
+        console.warn('⚠️ Could not run git diff, falling back to default CV.', err.message);
     }
 
-    const versionsToGenerate = targetTypes.length > 0
-        ? CV_VERSIONS.filter(cv => targetTypes.includes(cv.type))
-        : CV_VERSIONS;
+    let versionsToGenerate = [];
+    if (targetTypes.length > 0) {
+        // Loại bỏ trùng lặp type
+        const uniqueTypes = [...new Set(targetTypes)];
+        uniqueTypes.forEach(t => {
+            const found = allVersions.find(v => v.type === t);
+            if (found) {
+                versionsToGenerate.push(found);
+            } else {
+                const baseName = t.charAt(0).toUpperCase() + t.slice(1);
+                versionsToGenerate.push({
+                    type: t,
+                    filename: `CV_TruongDinhAnh_${baseName}.pdf`,
+                    label: `⚡ ${t.toUpperCase()}`
+                });
+            }
+        });
+    } else {
+        const defaultVer = allVersions.find(v => v.type === 'default') || allVersions[0];
+        if (defaultVer) versionsToGenerate.push(defaultVer);
+    }
 
     console.log(`🚀 Versions to compile: ${versionsToGenerate.map(cv => cv.label).join(', ')}`);
 

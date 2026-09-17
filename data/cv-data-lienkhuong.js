@@ -51,7 +51,7 @@ var cvData = {
       {
         name: "HỆ THỐNG QUẢN LÝ DỮ LIỆU & PHÂN QUYỀN (JOB PORTAL PLATFORM)",
         date: "11/2025 - 02/2026",
-        role: "Developer / Technical Contributor",
+        role: "Developer",
         desc: "Hệ thống ứng dụng web quản lý dữ liệu người dùng, phân quyền truy cập và xử lý quy trình nộp hồ sơ trực tuyến.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -135,7 +135,7 @@ var cvData = {
       {
         name: "DATA MANAGEMENT & AUTHORIZATION SYSTEM (JOB PORTAL)",
         date: "11/2025 - 02/2026",
-        role: "Developer / Technical Contributor",
+        role: "Developer",
         desc: "A web platform designed for user profile administration, role-based authorization, and online application processing.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [

@@ -12,7 +12,16 @@
       return;
     }
 
-    const ver = manifest.byKey(mode) || manifest.byKey('default');
+    const ver =
+      manifest.byKey(mode) ||
+      (mode
+        ? {
+            key: mode,
+            file: `data/cv-data-${mode}.js`,
+            emoji: '⚡',
+            label: `⚡ ${mode.toUpperCase()}`,
+          }
+        : manifest.byKey('default'));
 
     // Render menu chọn phiên bản từ manifest (thay cho hardcode trong HTML)
     function renderNav() {
@@ -27,6 +36,17 @@
         a.title = v.label;
         nav.appendChild(a);
       });
+
+      // Neu type dang xem chua co trong manifest, them tam 1 nut active vao dau menu
+      if (mode && !manifest.byKey(mode)) {
+        const a = document.createElement('a');
+        a.className = 'version-item active';
+        a.id = manifest.navId(ver.key);
+        a.href = 'index.html?type=' + encodeURIComponent(ver.key);
+        a.textContent = ver.label;
+        a.title = ver.label;
+        nav.insertBefore(a, nav.firstChild);
+      }
     }
 
     // Highlight nút phiên bản đang chọn sau khi DOM sẵn sàng
@@ -55,7 +75,13 @@
 
     // Nạp global data trước → data version → renderer
     loadScript('data/cv-global.js')
-      .then(() => loadScript(ver.file))
+      .then(() =>
+        loadScript(ver.file).catch((err) => {
+          console.warn(`Khong the tai ${ver.file}, chuyen ve phien ban mac dinh:`, err);
+          const def = manifest.byKey('default');
+          return loadScript(def.file);
+        })
+      )
       .then(() => loadScript('js/cv-renderer.js'))
       .catch((error) => {
         console.error(error);

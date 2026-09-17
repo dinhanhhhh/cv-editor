@@ -40,7 +40,7 @@ var cvData = {
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
         date: "06/2025 - 09/2025",
-        role: "Back-End Developer Intern",
+        role: "Developer",
         desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối dữ liệu tài chính Vnstock3).",
         tasks: [
           "Thiết kế cấu trúc cơ sở dữ liệu quan hệ và triển khai PostgreSQL trên hạ tầng Supabase Cloud.",
@@ -56,7 +56,7 @@ var cvData = {
       {
         name: "E-COMMERCE API SERVICE",
         date: "08/2025 - 09/2025",
-        role: "Back-End Developer",
+        role: "Developer",
         desc: "Hệ thống API dịch vụ lõi cho nền tảng thương mại điện tử, quản lý sản phẩm, giỏ hàng và vòng đời đơn hàng.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
@@ -70,7 +70,7 @@ var cvData = {
       {
         name: "JOB PORTAL BACKEND SYSTEM",
         date: "11/2025 - 02/2026",
-        role: "Back-End Developer",
+        role: "Developer",
         desc: "Hệ thống lõi quản lý tuyển dụng trực tuyến, xử lý luồng dữ liệu phân quyền giữa nhà tuyển dụng và ứng viên.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -140,7 +140,7 @@ var cvData = {
       {
         name: "TAMI TECHNOLOGY CO., LTD",
         date: "06/2025 - 09/2025",
-        role: "Back-End Developer Intern",
+        role: "Developer",
         desc: "Financial stock market data analysis platform integrated with the Vnstock3 financial library.",
         tasks: [
           "Designed relational database schemas and deployed PostgreSQL on the Supabase cloud infrastructure.",
@@ -156,7 +156,7 @@ var cvData = {
       {
         name: "E-COMMERCE API SERVICE",
         date: "08/2025 - 09/2025",
-        role: "Back-End Developer",
+        role: "Developer",
         desc: "Core backend API services for an e-commerce platform managing products, server-side carts, and order lifecycles.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
@@ -170,7 +170,7 @@ var cvData = {
       {
         name: "JOB PORTAL BACKEND SYSTEM",
         date: "11/2025 - 02/2026",
-        role: "Back-End Developer",
+        role: "Developer",
         desc: "Core recruitment management backend handling secure authentication and complex data workflows.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [

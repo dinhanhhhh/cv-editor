@@ -38,7 +38,7 @@ var cvData = {
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
         date: "06/2025 - 09/2025",
-        role: "Fullstack Developer Intern",
+        role: "Developer",
         desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối dữ liệu tài chính Vnstock3).",
         tasks: [
           "Thiết kế cấu trúc cơ sở dữ liệu và triển khai PostgreSQL trên hạ tầng Supabase Cloud.",
@@ -54,7 +54,7 @@ var cvData = {
       {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
-        role: "Fullstack Developer",
+        role: "Developer",
         desc: "Nền tảng tuyển dụng hỗ trợ đăng tin, ứng tuyển và quản lý thông tin tuyển dụng toàn diện.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -68,7 +68,7 @@ var cvData = {
       {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
-        role: "Fullstack Developer",
+        role: "Developer",
         desc: "Hệ thống quản trị hồ sơ sinh viên, đăng ký học phần và trực quan hóa kết quả học tập.",
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -138,7 +138,7 @@ var cvData = {
       {
         name: "TAMI TECHNOLOGY CO., LTD",
         date: "06/2025 - 09/2025",
-        role: "Fullstack Developer Intern",
+        role: "Developer",
         desc: "Stock market data analysis platform integrated with Vnstock3 financial data library.",
         tasks: [
           "Designed relational database schemas and deployed PostgreSQL database on Supabase Cloud.",
@@ -154,7 +154,7 @@ var cvData = {
       {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
-        role: "Fullstack Developer",
+        role: "Developer",
         desc: "Recruitment platform streamlining job posting, applications, and user management.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -168,7 +168,7 @@ var cvData = {
       {
         name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
-        role: "Fullstack Developer",
+        role: "Developer",
         desc: "Administrative system for student records, course registration, and academic visualization.",
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",

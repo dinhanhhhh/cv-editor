@@ -249,6 +249,6 @@ Truong Dinh Anh`
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = cvData;
-} else {
+} else if (typeof window !== 'undefined') {
     window.cvData = cvData;
 }

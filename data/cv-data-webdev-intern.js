@@ -40,7 +40,7 @@ var cvData = {
       {
         name: "TAMI TECHNOLOGY CO., LTD",
         date: "06/2025 - 09/2025",
-        role: "Web Developer Intern",
+        role: "Developer",
         desc: "Built automated internal workflows and web analytics tools for stock market data processing.",
         tasks: [
           "Built internal web tools and automated data workflows using Next.js Route Handlers and Node.js (Express).",
@@ -54,7 +54,7 @@ var cvData = {
       {
         name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
-        role: "Full-Stack Developer",
+        role: "Developer",
         desc: "A recruitment platform with responsive UI, role-based access, and automated candidate application workflows.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -67,7 +67,7 @@ var cvData = {
       {
         name: "STUDENT & CLIENT MANAGEMENT SYSTEM",
         date: "06/2025 - 09/2025",
-        role: "Frontend & Backend Developer",
+        role: "Developer",
         desc: "An administrative web system for real-time record management, client data tracking, and API documentation.",
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -141,7 +141,7 @@ var cvData = {
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
         date: "06/2025 - 09/2025",
-        role: "Web Developer Intern",
+        role: "Developer",
         desc: "Xây dựng quy trình tự động hóa dữ liệu nội bộ và công cụ phân tích web.",
         tasks: [
           "Xây dựng công cụ nội bộ và tự động hóa luồng xử lý dữ liệu bằng Next.js Route Handlers và Node.js (Express).",
@@ -155,7 +155,7 @@ var cvData = {
       {
         name: "NỀN TẢNG TUYỂN DỤNG (JOB PORTAL)",
         date: "11/2025 - 02/2026",
-        role: "Full-Stack Developer",
+        role: "Developer",
         desc: "Nền tảng tuyển dụng với giao diện responsive, phân quyền và tự động hóa quy trình nộp hồ sơ.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
@@ -168,7 +168,7 @@ var cvData = {
       {
         name: "HỆ THỐNG QUẢN LÝ KHÁCH HÀNG & SINH VIÊN",
         date: "06/2025 - 09/2025",
-        role: "Frontend & Backend Developer",
+        role: "Developer",
         desc: "Hệ thống quản trị web theo thời gian thực hỗ trợ theo dõi dữ liệu và chuẩn hóa tài liệu API.",
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",

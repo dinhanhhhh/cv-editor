@@ -54,7 +54,7 @@ var cvData = {
       {
         name: "HỆ THỐNG QUẢN LÝ DỰ ÁN & ĐIỀU PHỐI DỮ LIỆU (STUDENT MANAGEMENT SYSTEM)",
         date: "06/2025 - 09/2025",
-        role: "Backend Developer",
+        role: "Developer",
         desc: "Hệ thống quản lý thông tin học tập và hồ sơ sinh viên quy mô lớn với Dashboard quan sát số liệu trực quan.",
         github: "https://github.com/dinhanhhhh/student-management-BE",
         tasks: [
@@ -157,7 +157,7 @@ GitHub: https://github.com/dinhanhhhh`
       {
         name: "STUDENT MANAGEMENT & DATA COORDINATION SYSTEM",
         date: "06/2025 - 09/2025",
-        role: "Backend Developer",
+        role: "Developer",
         desc: "A large-scale student record and grade administration system with an intuitive administrative dashboard.",
         github: "https://github.com/dinhanhhhh/student-management-BE",
         tasks: [

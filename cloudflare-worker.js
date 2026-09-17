@@ -461,7 +461,7 @@ async function sendMsg(token, chatId, text) {
 }
 
 // Ghi de file len GitHub bang REST API
-async function commitToGitHub(env, filePath, content) {
+async function commitToGitHub(env, filePath, content, customMessage) {
   const owner = env.GITHUB_OWNER;
   const repo = env.GITHUB_REPO;
   const token = env.GITHUB_TOKEN;
@@ -497,7 +497,7 @@ async function commitToGitHub(env, filePath, content) {
       "User-Agent": "Cloudflare-Worker-Telegram-CV",
     },
     body: JSON.stringify({
-      message: "chore: auto-update cv data via Telegram Bot",
+      message: customMessage || "chore: auto-update cv data via Telegram Bot",
       content: base64Content,
       sha: sha,
       branch: branch,
@@ -505,6 +505,51 @@ async function commitToGitHub(env, filePath, content) {
   });
 
   return putRes.status === 200 || putRes.status === 201;
+}
+
+// Tu dong dang ky phien ban moi vao data/cv-manifest.js neu chua ton tai
+async function ensureInManifest(env, hashtagKey) {
+  try {
+    const manifestContent = await fetchFromGitHub(env, "data/cv-manifest.js");
+    if (!manifestContent) return false;
+
+    // Kiem tra xem key da ton tai trong manifest chua
+    const keyPattern = new RegExp(`key:\\s*["']${hashtagKey}["']`, "i");
+    if (keyPattern.test(manifestContent)) {
+      return true; // Da co trong manifest
+    }
+
+    // Chen entry moi truoc dau dong cua CV_MANIFEST
+    const upperKey = hashtagKey.toUpperCase();
+    const newEntry = `    {\n      key: "${hashtagKey}",\n      file: "data/cv-data-${hashtagKey}.js",\n      emoji: "⚡",\n      label: "⚡ ${upperKey}",\n    },\n  ];`;
+
+    let updatedContent = manifestContent.replace(
+      /\s*\];\s*\r?\n\s*\/\/\s*Tiện ích/m,
+      "\n" + newEntry + "\n\n  // Tiện ích",
+    );
+
+    if (updatedContent === manifestContent) {
+      const lastIndex = manifestContent.lastIndexOf("];");
+      if (lastIndex !== -1) {
+        updatedContent =
+          manifestContent.substring(0, lastIndex) +
+          newEntry +
+          manifestContent.substring(lastIndex + 2);
+      } else {
+        return false;
+      }
+    }
+
+    return await commitToGitHub(
+      env,
+      "data/cv-manifest.js",
+      updatedContent,
+      "feat: auto-register " + hashtagKey + " in cv-manifest",
+    );
+  } catch (err) {
+    console.error("ensureInManifest error:", err);
+    return false;
+  }
 }
 
 // ===================================================================
@@ -630,8 +675,34 @@ async function handleAITailor(env, chatId, bodyText) {
     tailoredCvJson = tailoredCvJson.substring(jsonStart, jsonEnd + 1);
   }
 
+  let parsedTailoredCv;
+  let tailorSummary = null;
+
   try {
-    JSON.parse(tailoredCvJson);
+    const rawParsed = JSON.parse(tailoredCvJson);
+    if (rawParsed.cvData && (rawParsed.cvData.vi || rawParsed.cvData.en)) {
+      parsedTailoredCv = rawParsed.cvData;
+      tailorSummary = rawParsed.tailorSummary || null;
+    } else {
+      parsedTailoredCv = rawParsed;
+      tailorSummary = rawParsed.tailorSummary || null;
+    }
+
+    ["vi", "en"].forEach((lang) => {
+      if (parsedTailoredCv[lang]) {
+        if (Array.isArray(parsedTailoredCv[lang].projects)) {
+          parsedTailoredCv[lang].projects.forEach((p) => {
+            p.role = "Developer";
+          });
+        }
+        if (Array.isArray(parsedTailoredCv[lang].experience)) {
+          parsedTailoredCv[lang].experience.forEach((e) => {
+            e.role = "Developer";
+          });
+        }
+      }
+    });
+    tailoredCvJson = JSON.stringify(parsedTailoredCv, null, 2);
   } catch (err) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
@@ -640,6 +711,9 @@ async function handleAITailor(env, chatId, bodyText) {
     );
     return;
   }
+
+  const cleanTag = hashtag.replace("#", "").toLowerCase();
+  const livePreviewUrl = `https://dinhanhhhh.github.io/cv-editor/?type=${cleanTag}`;
 
   await sendMsg(
     env.TELEGRAM_BOT_TOKEN,
@@ -656,26 +730,44 @@ async function handleAITailor(env, chatId, bodyText) {
     tailoredCvJson +
     ';\n\nif (typeof module !== "undefined") module.exports = cvData;\n';
 
-  const success = await commitToGitHub(env, targetFile, fileContentJs);
+  const success = await commitToGitHub(env, targetFile, fileContentJs, "feat: auto-tailor CV for " + hashtag);
 
   if (success) {
     // Luu ban backup vao data/history/ de giu lich su
     const timestamp = getTimestamp();
-    const hashtagName = hashtag.replace("#", "");
-    const historyFile = "data/history/" + hashtagName + "-" + timestamp + ".js";
+    const historyFile = "data/history/" + cleanTag + "-" + timestamp + ".js";
     const historySaved = await commitToGitHub(
       env,
       historyFile,
       fileContentJs,
+      "chore: backup tailored CV for " + hashtag,
     );
 
-    let resultMsg =
-      "✅ Da tu dong cap nhat " +
-      targetFile +
-      " tren GitHub!\n🕒 GitHub Actions dang tu dong bien dich PDF cho ban. Vui long cho 30-40s de nhan file...";
+    // Tu dong dang ky phien ban vao data/cv-manifest.js
+    await ensureInManifest(env, cleanTag);
+
+    // Soan ban tin tong hop gui ve Telegram
+    let resultMsg = "🎯 MAY ĐO CV THÀNH CÔNG CHO #" + cleanTag.toUpperCase() + "!\n\n";
+
+    if (tailorSummary) {
+      if (tailorSummary.titleVi) {
+        resultMsg += "💼 Vị trí: " + tailorSummary.titleVi + "\n";
+      }
+      if (Array.isArray(tailorSummary.highlights) && tailorSummary.highlights.length > 0) {
+        resultMsg += "📌 Điểm tối ưu theo JD:\n";
+        tailorSummary.highlights.forEach((h) => {
+          resultMsg += " • " + h + "\n";
+        });
+      }
+      resultMsg += "\n";
+    }
+
+    resultMsg += "🌐 Xem trực tiếp CV trên Web:\n👉 " + livePreviewUrl + "\n\n";
+    resultMsg += "✅ Đã tự động cập nhật " + targetFile + " trên GitHub!\n";
+    resultMsg += "🕒 GitHub Actions đang tự động biên dịch PDF (khoảng 30-40s)...";
 
     if (historySaved) {
-      resultMsg += "\n📂 Ban backup da luu tai: " + historyFile;
+      resultMsg += "\n📂 Bản backup: " + historyFile;
     }
 
     await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, resultMsg);
@@ -882,11 +974,17 @@ async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
     "2. Under 'vi' and 'en':",
     "   - 'title': Update the title if necessary to align with the role in the JD (e.g. change 'Full-Stack Developer Intern' to 'Software Engineering Intern' or 'Backend Developer Intern' as appropriate for the JD).",
     "   - 'objective' (Professional Summary): Rewrite this in both languages. Highlight matching key qualifications, passions, and how the candidate's core technologies (React/NextJS/NodeJS/TS) solve the problems outlined in the JD. Maintain the same professional, technical, and proactive tone. Keep it under 4 sentences.",
-    "   - 'projects': Review the projects. For each project, rewrite the 'role', 'desc', and especially the 'tasks' array. Align these tasks with the requirements in the JD by emphasizing matching tech stacks, methodologies (e.g. Agile/Scrum, Event-driven, Microservices, Testing, AI workflow), and business/performance outcomes. Ensure you include target keywords from the JD, but do not invent fake facts or projects. Keep exactly 3 projects in the data.",
+    "   - 'projects': Review the projects. For each project, keep 'role' strictly as 'Developer' (MANDATORY: DO NOT change 'role' to any other value; it MUST always be 'Developer'). Rewrite 'desc', and especially the 'tasks' array. Align these tasks with the requirements in the JD by emphasizing matching tech stacks, methodologies (e.g. Agile/Scrum, Event-driven, Microservices, Testing, AI workflow), and business/performance outcomes. Ensure you include target keywords from the JD, but do not invent fake facts or projects. Keep exactly 3 projects in the data.",
     "   - 'projectDisplayLimit': Keep this value as 2. Because only the first 2 projects are rendered in the one-page CV template, reorder the 3 projects so the 2 strongest and most relevant ones for the JD appear first, while the least relevant one remains as the third backup project in the data.",
     "   - 'skills': Reorder or slightly adjust the 'skills' categories and items to prioritize technologies and soft skills mentioned in the JD. Maintain the bilingual mapping correctly.",
     "3. Make sure the 'docTitle' field is updated appropriately, e.g., 'CV_TruongDinhAnh_' + hashtag name.",
-    "4. Output ONLY a strictly valid, clean JSON string representing the tailored 'cvData'. Do not wrap it in markdown code blocks like ```json. Do not include any greeting or conversational filler. Start directly with the opening curly brace { and end with the closing curly brace }",
+    "4. Output format: Return ONLY a strictly valid, clean JSON object with two top-level keys:",
+    "   - 'tailorSummary': an object containing:",
+    "       'titleVi': the tailored title in Vietnamese,",
+    "       'titleEn': the tailored title in English,",
+    "       'highlights': an array of 2 to 3 concise bullet points in Vietnamese explaining: (1) why the top 2 projects were selected to match this JD, and (2) what core tech stacks or keywords were emphasized.",
+    "   - 'cvData': the complete tailored cvData object containing 'vi' and 'en' branches.",
+    "Do not wrap in markdown code blocks like ```json. Start directly with { and end with }",
   ].join("\n");
 
   const payload = {
