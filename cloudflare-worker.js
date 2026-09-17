@@ -634,11 +634,11 @@ async function ensureInManifest(env, hashtagKey) {
 // ===================================================================
 
 async function handleAITailor(env, chatId, bodyText) {
-  if (!env.GEMINI_API_KEY) {
+  if (!env.GROQ_API_KEY && !env.GEMINI_API_KEY) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "⚠️ Loi: Vui long cau hinh bien GEMINI_API_KEY trong Cloudflare Worker de dung tinh nang nay!",
+      "⚠️ Vui long cau hinh bien GROQ_API_KEY (khuyen dung, free 100% tai console.groq.com) hoac GEMINI_API_KEY trong Cloudflare Worker!",
     );
     return;
   }
@@ -725,13 +725,13 @@ async function handleAITailor(env, chatId, bodyText) {
   await sendMsg(
     env.TELEGRAM_BOT_TOKEN,
     chatId,
-    "🧠 Dang gui du lieu den Gemini AI de may do va toi uu hoa CV...",
+    "🧠 Dang gui du lieu den AI de may do va toi uu hoa CV...",
   );
 
   let tailoredCvJson;
   try {
-    tailoredCvJson = await callGeminiToTailor(
-      env.GEMINI_API_KEY,
+    tailoredCvJson = await callAIToTailor(
+      env,
       parsedMasterCv,
       jdText,
       hashtag,
@@ -740,7 +740,7 @@ async function handleAITailor(env, chatId, bodyText) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi goi Gemini AI: " + err.message,
+      "❌ Loi goi AI: " + err.message,
     );
     return;
   }
@@ -1107,7 +1107,7 @@ async function fetchFromGitHub(env, filePath) {
   return await res.text();
 }
 
-async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
+async function callAIToTailor(env, masterCv, jdText, hashtag) {
   const systemPrompt = [
     "You are a professional CV writing and tailoring expert. Your objective is to optimize a candidate's bilingual (Vietnamese/vi and English/en) CV data to align perfectly with a target Job Description (JD).",
     "",
@@ -1136,57 +1136,97 @@ async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
     "Do not wrap in markdown code blocks like ```json. Start directly with { and end with }",
   ].join("\n");
 
-  const payload = {
-    contents: [
-      {
-        parts: [{ text: systemPrompt }],
-      },
-    ],
-    generationConfig: {
-      responseMimeType: "application/json",
-    },
-  };
-
-  const models = ["gemini-2.0-flash", "gemini-1.5-flash"];
-  let lastError = null;
-
-  for (const model of models) {
-    const url =
-      "https://generativelanguage.googleapis.com/v1beta/models/" +
-      model +
-      ":generateContent?key=" +
-      apiKey;
-
+  // 1. UU TIEN 1: GROQ API (100% Free, sieu toc ~0.5s, cuc ky on dinh)
+  if (env.GROQ_API_KEY) {
     try {
-      const res = await fetch(url, {
+      const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
+          Authorization: "Bearer " + env.GROQ_API_KEY.trim(),
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            {
+              role: "system",
+              content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON.",
+            },
+            {
+              role: "user",
+              content: systemPrompt,
+            },
+          ],
+          response_format: { type: "json_object" },
+          temperature: 0.2,
+        }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
+      if (groqRes.ok) {
+        const groqData = await groqRes.json();
         if (
-          data.candidates &&
-          data.candidates.length > 0 &&
-          data.candidates[0].content &&
-          data.candidates[0].content.parts &&
-          data.candidates[0].content.parts.length > 0
+          groqData.choices &&
+          groqData.choices[0] &&
+          groqData.choices[0].message
         ) {
-          return data.candidates[0].content.parts[0].text.trim();
+          return groqData.choices[0].message.content.trim();
         }
       } else {
-        const errText = await res.text();
-        lastError = new Error(
-          `Gemini API (${model}) error status ${res.status}: ${errText.slice(0, 150)}`,
-        );
+        const errText = await groqRes.text();
+        console.warn("Groq API error status " + groqRes.status + ":", errText);
       }
     } catch (err) {
-      lastError = err;
+      console.warn("Groq API request failed, falling back to Gemini:", err.message);
     }
   }
 
-  throw lastError || new Error("Invalid response from Gemini API");
+  // 2. UU TIEN 2: GOOGLE GEMINI API (Ho tro ca v1 va v1beta, da dang model)
+  if (env.GEMINI_API_KEY) {
+    const apiKey = env.GEMINI_API_KEY.trim();
+    const payload = {
+      contents: [{ parts: [{ text: systemPrompt }] }],
+      generationConfig: { responseMimeType: "application/json" },
+    };
+
+    const endpoints = [
+      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + apiKey,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKey,
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey,
+      "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + apiKey,
+    ];
+
+    let lastError = null;
+    for (const url of endpoints) {
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          if (
+            data.candidates &&
+            data.candidates.length > 0 &&
+            data.candidates[0].content &&
+            data.candidates[0].content.parts &&
+            data.candidates[0].content.parts.length > 0
+          ) {
+            return data.candidates[0].content.parts[0].text.trim();
+          }
+        } else {
+          const errText = await res.text();
+          lastError = new Error(`Gemini status ${res.status}: ${errText.slice(0, 150)}`);
+        }
+      } catch (err) {
+        lastError = err;
+      }
+    }
+
+    if (lastError) throw lastError;
+  }
+
+  throw new Error("Khong tim thay AI provider kha dung (vui long cau hinh GROQ_API_KEY hoac GEMINI_API_KEY)!");
 }
