@@ -1108,10 +1108,6 @@ async function fetchFromGitHub(env, filePath) {
 }
 
 async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
-  const url =
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" +
-    apiKey;
-
   const systemPrompt = [
     "You are a professional CV writing and tailoring expert. Your objective is to optimize a candidate's bilingual (Vietnamese/vi and English/en) CV data to align perfectly with a target Job Description (JD).",
     "",
@@ -1151,29 +1147,46 @@ async function callGeminiToTailor(apiKey, masterCv, jdText, hashtag) {
     },
   };
 
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(payload),
-  });
+  const models = ["gemini-2.0-flash", "gemini-1.5-flash"];
+  let lastError = null;
 
-  if (!res.ok) {
-    const errText = await res.text();
-    throw new Error("Gemini API error status " + res.status);
+  for (const model of models) {
+    const url =
+      "https://generativelanguage.googleapis.com/v1beta/models/" +
+      model +
+      ":generateContent?key=" +
+      apiKey;
+
+    try {
+      const res = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (
+          data.candidates &&
+          data.candidates.length > 0 &&
+          data.candidates[0].content &&
+          data.candidates[0].content.parts &&
+          data.candidates[0].content.parts.length > 0
+        ) {
+          return data.candidates[0].content.parts[0].text.trim();
+        }
+      } else {
+        const errText = await res.text();
+        lastError = new Error(
+          `Gemini API (${model}) error status ${res.status}: ${errText.slice(0, 150)}`,
+        );
+      }
+    } catch (err) {
+      lastError = err;
+    }
   }
 
-  const data = await res.json();
-  if (
-    !data.candidates ||
-    data.candidates.length === 0 ||
-    !data.candidates[0].content ||
-    !data.candidates[0].content.parts ||
-    data.candidates[0].content.parts.length === 0
-  ) {
-    throw new Error("Invalid response from Gemini API");
-  }
-
-  return data.candidates[0].content.parts[0].text.trim();
+  throw lastError || new Error("Invalid response from Gemini API");
 }
