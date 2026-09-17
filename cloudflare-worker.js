@@ -745,18 +745,22 @@ async function handleAITailor(env, chatId, bodyText) {
     return;
   }
 
-  // Loc dau/cuoi block code neu Gemini tu dong wrap markdown
-  const jsonStart = tailoredCvJson.indexOf("{");
-  const jsonEnd = tailoredCvJson.lastIndexOf("}");
+  // Loc dau/cuoi block code neu AI tra ve kem markdown fence
+  let cleanedJson = tailoredCvJson.trim();
+  if (cleanedJson.startsWith("```")) {
+    cleanedJson = cleanedJson.replace(/^```[a-zA-Z]*\n?/, "").replace(/\n?```$/, "").trim();
+  }
+  const jsonStart = cleanedJson.indexOf("{");
+  const jsonEnd = cleanedJson.lastIndexOf("}");
   if (jsonStart !== -1 && jsonEnd !== -1) {
-    tailoredCvJson = tailoredCvJson.substring(jsonStart, jsonEnd + 1);
+    cleanedJson = cleanedJson.substring(jsonStart, jsonEnd + 1);
   }
 
   let parsedTailoredCv;
   let tailorSummary = null;
 
   try {
-    const rawParsed = JSON.parse(tailoredCvJson);
+    const rawParsed = JSON.parse(cleanedJson);
     if (rawParsed.cvData && (rawParsed.cvData.vi || rawParsed.cvData.en)) {
       parsedTailoredCv = rawParsed.cvData;
       tailorSummary = rawParsed.tailorSummary || null;
@@ -781,10 +785,11 @@ async function handleAITailor(env, chatId, bodyText) {
     });
     tailoredCvJson = JSON.stringify(parsedTailoredCv, null, 2);
   } catch (err) {
+    const snippet = (tailoredCvJson || "").slice(0, 200);
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi: Ket qua AI tra ve khong phai JSON hop le. Thu lai sau!",
+      "❌ Loi parse JSON tu AI: " + err.message + "\n\nNoi dung AI tra ve:\n" + snippet,
     );
     return;
   }
@@ -1153,7 +1158,7 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
     if (listRes.ok) {
       const listData = await listRes.json();
       if (Array.isArray(listData.data)) {
-        // Lay cac model text/chat dang hoat dong
+        // Lay cac model text/chat dang hoat dong, loai bo model vision / audio
         activeModels = listData.data
           .filter((m) => m.active !== false && !m.id.includes("whisper") && !m.id.includes("vision") && !m.id.includes("distil-whisper"))
           .map((m) => m.id);
@@ -1163,7 +1168,7 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
     console.warn("Could not fetch models list:", e);
   }
 
-  // Danh sach model hien dang live tren Groq Cloud 2026
+  // Danh sach model uu tien cao nhat tren Groq
   const verifiedModels = [
     "llama-3.3-70b-specdec",
     "deepseek-r1-distill-llama-70b",
@@ -1171,12 +1176,10 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
     "mistral-saba-24b",
     "llama-3.2-11b-text-preview",
     "llama-3.2-3b-preview",
-    "llama-3.2-1b-preview",
   ];
 
   // Ghep ca model query duoc va danh sach verified
-  const modelQueue = Array.from(new Set([...activeModels, ...verifiedModels]));
-
+  const modelQueue = Array.from(new Set([...verifiedModels, ...activeModels]));
 
   let lastError = null;
 
@@ -1193,7 +1196,7 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
           messages: [
             {
               role: "system",
-              content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON.",
+              content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON starting with { and ending with }. Do not include reasoning or markdown explanations.",
             },
             {
               role: "user",
@@ -1202,6 +1205,7 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
           ],
           response_format: { type: "json_object" },
           temperature: 0.2,
+          max_tokens: 8000,
         }),
       });
 
@@ -1212,7 +1216,12 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
           groqData.choices[0] &&
           groqData.choices[0].message
         ) {
-          return groqData.choices[0].message.content.trim();
+          let content = groqData.choices[0].message.content.trim();
+          // Loai bo the suy nghi cua cac model DeepSeek/R1 <think>...</think>
+          if (content.includes("</think>")) {
+            content = content.split("</think>").pop().trim();
+          }
+          return content;
         }
       } else {
         const errText = await groqRes.text();
