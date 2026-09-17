@@ -212,7 +212,7 @@ export default {
             "👉 Vi du: `/job #opswat Can tuyen Node.js developer, TypeScript, co tu duy clean code...`",
             "👉 Bot se tu lay CV goc (" +
               masterCvFile +
-              "), dung Gemini de may do sang VI & EN, roi tu cap nhat len GitHub de sinh PDF moi!",
+              "), dung AI (Groq) de may do sang VI & EN, tao ban nhap xem truoc tren Web!",
             "",
             "2️⃣ CACH 2: KEO THA FILE DATA TUY CHINH",
             "👉 Keo file cv-data-opswat.js vao chat Telegram.",
@@ -634,11 +634,11 @@ async function ensureInManifest(env, hashtagKey) {
 // ===================================================================
 
 async function handleAITailor(env, chatId, bodyText) {
-  if (!env.GROQ_API_KEY && !env.GEMINI_API_KEY) {
+  if (!env.GROQ_API_KEY) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "⚠️ Vui long cau hinh bien GROQ_API_KEY (khuyen dung, free 100% tai console.groq.com) hoac GEMINI_API_KEY trong Cloudflare Worker!",
+      "⚠️ Vui long cau hinh bien GROQ_API_KEY (100% Free tai console.groq.com/keys) tren Cloudflare Worker!",
     );
     return;
   }
@@ -784,7 +784,7 @@ async function handleAITailor(env, chatId, bodyText) {
     await sendMsg(
       env.TELEGRAM_BOT_TOKEN,
       chatId,
-      "❌ Loi: Ket qua Gemini tra ve khong phai JSON hop le. Thu lai sau!",
+      "❌ Loi: Ket qua AI tra ve khong phai JSON hop le. Thu lai sau!",
     );
     return;
   }
@@ -1136,97 +1136,48 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
     "Do not wrap in markdown code blocks like ```json. Start directly with { and end with }",
   ].join("\n");
 
-  // 1. UU TIEN 1: GROQ API (100% Free, sieu toc ~0.5s, cuc ky on dinh)
-  if (env.GROQ_API_KEY) {
-    try {
-      const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + env.GROQ_API_KEY.trim(),
-          "Content-Type": "application/json",
+  // SU DUNG GROQ API (100% Free, sieu toc ~0.5s, cuc ky on dinh)
+  if (!env.GROQ_API_KEY) {
+    throw new Error("Chua cau hinh GROQ_API_KEY tren Cloudflare Worker! Hay lay key free tai console.groq.com/keys");
+  }
+
+  const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + env.GROQ_API_KEY.trim(),
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model: "llama-3.3-70b-versatile",
+      messages: [
+        {
+          role: "system",
+          content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON.",
         },
-        body: JSON.stringify({
-          model: "llama-3.3-70b-versatile",
-          messages: [
-            {
-              role: "system",
-              content: "You are an expert bilingual CV tailoring assistant. Always output strictly valid JSON.",
-            },
-            {
-              role: "user",
-              content: systemPrompt,
-            },
-          ],
-          response_format: { type: "json_object" },
-          temperature: 0.2,
-        }),
-      });
+        {
+          role: "user",
+          content: systemPrompt,
+        },
+      ],
+      response_format: { type: "json_object" },
+      temperature: 0.2,
+    }),
+  });
 
-      if (groqRes.ok) {
-        const groqData = await groqRes.json();
-        if (
-          groqData.choices &&
-          groqData.choices[0] &&
-          groqData.choices[0].message
-        ) {
-          return groqData.choices[0].message.content.trim();
-        }
-      } else {
-        const errText = await groqRes.text();
-        console.warn("Groq API error status " + groqRes.status + ":", errText);
-      }
-    } catch (err) {
-      console.warn("Groq API request failed, falling back to Gemini:", err.message);
-    }
+  if (!groqRes.ok) {
+    const errText = await groqRes.text();
+    throw new Error("Groq API Error " + groqRes.status + ": " + errText.slice(0, 150));
   }
 
-  // 2. UU TIEN 2: GOOGLE GEMINI API (Ho tro ca v1 va v1beta, da dang model)
-  if (env.GEMINI_API_KEY) {
-    const apiKey = env.GEMINI_API_KEY.trim();
-    const payload = {
-      contents: [{ parts: [{ text: systemPrompt }] }],
-      generationConfig: { responseMimeType: "application/json" },
-    };
-
-    const endpoints = [
-      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=" + apiKey,
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey,
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" + apiKey,
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey,
-      "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=" + apiKey,
-    ];
-
-    let lastError = null;
-    for (const url of endpoints) {
-      try {
-        const res = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (
-            data.candidates &&
-            data.candidates.length > 0 &&
-            data.candidates[0].content &&
-            data.candidates[0].content.parts &&
-            data.candidates[0].content.parts.length > 0
-          ) {
-            return data.candidates[0].content.parts[0].text.trim();
-          }
-        } else {
-          const errText = await res.text();
-          lastError = new Error(`Gemini status ${res.status}: ${errText.slice(0, 150)}`);
-        }
-      } catch (err) {
-        lastError = err;
-      }
-    }
-
-    if (lastError) throw lastError;
+  const groqData = await groqRes.json();
+  if (
+    groqData.choices &&
+    groqData.choices[0] &&
+    groqData.choices[0].message
+  ) {
+    return groqData.choices[0].message.content.trim();
   }
 
-  throw new Error("Khong tim thay AI provider kha dung (vui long cau hinh GROQ_API_KEY hoac GEMINI_API_KEY)!");
+  throw new Error("Groq tra ve du lieu khong hop le.");
 }
+
