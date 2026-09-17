@@ -37,6 +37,11 @@ const icons = {
 // ===================================
 // STATE
 // ===================================
+const urlParams = new URLSearchParams(window.location.search);
+const cvVersion = (typeof window.cvVersion !== "undefined" && window.cvVersion)
+  ? window.cvVersion
+  : (urlParams.get("draft") ? ("draft_" + urlParams.get("draft")) : (urlParams.get("type") || "default"));
+
 let currentLang = "vi";
 let baseFontSize = 10.5;
 const DEFAULT_FONT_SIZE = 10.5;
@@ -1376,11 +1381,6 @@ elements.downloadBtn.onclick = () => {
 // ===================================
 // COVER LETTER MANAGER
 // ===================================
-const urlParams = new URLSearchParams(window.location.search);
-// Tránh lỗi redeclaration khi HTML template đã khai báo cvVersion trước
-const cvVersion = (typeof window.cvVersion !== "undefined" && window.cvVersion)
-  ? window.cvVersion
-  : (urlParams.get("type") || "default");
 let currentTemplate = "tech";
 
 const clTemplates = {

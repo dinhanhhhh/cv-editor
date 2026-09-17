@@ -85,6 +85,33 @@ var cvData = {
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger",
       },
+      {
+        name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE PLATFORM)",
+        date: "08/2025 - 09/2025",
+        role: "Developer",
+        desc: "Hệ thống thương mại điện tử mua sắm trực tuyến với giỏ hàng, danh mục sản phẩm và quy trình thanh toán mượt mà.",
+        github: "https://github.com/dinhanhhhh/ecommerce",
+        tasks: [
+          "Xây dựng giao diện danh mục sản phẩm, chi tiết, giỏ hàng và thanh toán bằng React kết hợp Tailwind CSS tối ưu UX.",
+          "Đồng bộ hóa giỏ hàng và trạng thái người dùng theo thời gian thực, xử lý form validation chặt chẽ.",
+          "Tích hợp RESTful API với backend services, tối ưu hiển thị responsive hoàn chỉnh trên cả mobile và desktop.",
+          "Đóng gói ứng dụng và triển khai frontend ổn định lên nền tảng đám mây Vercel.",
+        ],
+        tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, REST API, Docker, Vercel",
+      },
+      {
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI (CV-EDITOR)",
+        date: "05/2026 - Hiện tại",
+        role: "Developer",
+        desc: "Hệ thống tự động hóa quản lý và tối ưu hóa CV tích hợp AI giúp may đo nội dung theo mô tả công việc (JD).",
+        github: "https://github.com/dinhanhhhh/cv-editor",
+        tasks: [
+          "Xây dựng Web App tĩnh bằng Vanilla HTML/CSS/JS thuần, tối ưu hóa tốc độ load, hỗ trợ live inline editing và quản lý local state.",
+          "Thiết kế serverless backend sử dụng Cloudflare Workers làm cổng kết nối Telegram Bot Bridge đến AI API và GitHub API.",
+          "Tối ưu luồng dữ liệu tự động: Nhận JD qua Telegram -> AI phân tích may đo CV -> lưu bản nháp Cloudflare KV -> tự động xuất bản PDF qua GitHub Actions trong 40 giây.",
+        ],
+        tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Groq AI, GitHub API, GitHub Actions",
+      },
     ],
     skills: [
       {
@@ -198,6 +225,33 @@ var cvData = {
           "Implemented access token and refresh token authentication flows to improve system stability and maintainability.",
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger",
+      },
+      {
+        name: "E-COMMERCE PLATFORM",
+        date: "08/2025 - 09/2025",
+        role: "Developer",
+        desc: "An e-commerce shopping web application with shopping cart, product catalog, and seamless checkout workflows.",
+        github: "https://github.com/dinhanhhhh/ecommerce",
+        tasks: [
+          "Developed responsive product catalog, product details, cart, and checkout UI using React and Tailwind CSS.",
+          "Synchronized shopping cart state across tabs in real-time, handling form validations securely.",
+          "Integrated RESTful APIs with backend services, ensuring optimal performance on both mobile and desktop views.",
+          "Packaged and deployed frontend application smoothly to Vercel cloud environment.",
+        ],
+        tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, REST API, Docker, Vercel",
+      },
+      {
+        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
+        date: "05/2026 - Present",
+        role: "Developer",
+        desc: "An automated CV management and optimization tool powered by AI to tailor CV content matching Job Descriptions (JD).",
+        github: "https://github.com/dinhanhhhh/cv-editor",
+        tasks: [
+          "Developed a lightweight static web app using Vanilla HTML/CSS/JS supporting live inline editing and local state management.",
+          "Designed a serverless backend with Cloudflare Workers acting as a Telegram Bot Bridge connecting to AI APIs and GitHub API.",
+          "Optimized data flow: User sends JD via Telegram -> AI tailors CV data -> stores Cloudflare KV draft -> auto-builds PDF via GitHub Actions in 40s.",
+        ],
+        tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Groq AI, GitHub API, GitHub Actions",
       },
     ],
     skills: [
