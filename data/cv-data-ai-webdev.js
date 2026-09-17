@@ -49,7 +49,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị full-stack với dashboard admin responsive cho phép quản lý sinh viên và kết quả học tập.",
         github:
@@ -140,7 +140,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "A full-stack management system with a responsive admin dashboard for student records and academic data.",
         github:

@@ -50,7 +50,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị hồ sơ với Dashboard tương tác thời gian thực và tài liệu API chuẩn hóa.",
         github:
@@ -139,7 +139,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "An administrative system featuring a real-time interactive dashboard and standardized API documentation.",
         github:

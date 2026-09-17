@@ -19,7 +19,7 @@ const cvGlobalExp = {
   vi: [
     {
       name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-      date: "06/2025 - 09/2025",
+      date: "06/2025 - 12/2025",
       role: "Developer",
       desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
       tasks: [
@@ -35,7 +35,7 @@ const cvGlobalExp = {
   en: [
     {
       name: "TAMI TECHNOLOGY CO., LTD",
-      date: "06/2025 - 09/2025",
+      date: "06/2025 - 12/2025",
       role: "Developer",
       desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
       tasks: [

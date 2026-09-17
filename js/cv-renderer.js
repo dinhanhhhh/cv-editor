@@ -1325,7 +1325,7 @@ function renderCV(lang) {
   });
   
   // Apply primary color and font family custom properties
-  elements.preview.style.setProperty("--cv-color", d.primaryColor || "#000000");
+  elements.preview.style.setProperty("--cv-color", d.primaryColor || "#1e3a8a");
   elements.preview.style.setProperty("font-family", d.fontFamily || "'Be Vietnam Pro', sans-serif");
   
   initSpacingCustomizer();
@@ -2134,7 +2134,7 @@ function initSettingsDrawer() {
     const d = cvData[currentLang];
     
     // Color
-    colorPicker.value = d.primaryColor || "#000000";
+    colorPicker.value = d.primaryColor || "#1e3a8a";
     
     // Font
     if (d.fontFamily) {

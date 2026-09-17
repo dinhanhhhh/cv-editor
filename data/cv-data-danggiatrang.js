@@ -37,7 +37,7 @@ var cvData = {
     experience: [
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI (BACKEND / DATA INTERN)",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống thu thập và phân tích dữ liệu thị trường tài chính tích hợp thư viện Vnstock3.",
         tasks: [
@@ -53,7 +53,7 @@ var cvData = {
     projects: [
       {
         name: "HỆ THỐNG QUẢN LÝ DỰ ÁN & ĐIỀU PHỐI DỮ LIỆU (STUDENT MANAGEMENT SYSTEM)",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản lý thông tin học tập và hồ sơ sinh viên quy mô lớn với Dashboard quan sát số liệu trực quan.",
         github: "https://github.com/dinhanhhhh/student-management-BE",
@@ -140,7 +140,7 @@ GitHub: https://github.com/dinhanhhhh`
     experience: [
       {
         name: "TAMI TECHNOLOGY CO., LTD (BACKEND / DATA INTERN)",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "A financial stock market data collection and analysis platform integrated with the Vnstock3 financial library.",
         tasks: [
@@ -156,7 +156,7 @@ GitHub: https://github.com/dinhanhhhh`
     projects: [
       {
         name: "STUDENT MANAGEMENT & DATA COORDINATION SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "A large-scale student record and grade administration system with an intuitive administrative dashboard.",
         github: "https://github.com/dinhanhhhh/student-management-BE",

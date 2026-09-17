@@ -39,7 +39,7 @@ var cvData = {
     experience: [
       {
         name: "TAMI TECHNOLOGY CO., LTD",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Built automated internal workflows and web analytics tools for stock market data processing.",
         tasks: [
@@ -66,7 +66,7 @@ var cvData = {
       },
       {
         name: "STUDENT & CLIENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "An administrative web system for real-time record management, client data tracking, and API documentation.",
         github:
@@ -140,7 +140,7 @@ var cvData = {
     experience: [
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Xây dựng quy trình tự động hóa dữ liệu nội bộ và công cụ phân tích web.",
         tasks: [
@@ -167,7 +167,7 @@ var cvData = {
       },
       {
         name: "HỆ THỐNG QUẢN LÝ KHÁCH HÀNG & SINH VIÊN",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị web theo thời gian thực hỗ trợ theo dõi dữ liệu và chuẩn hóa tài liệu API.",
         github:

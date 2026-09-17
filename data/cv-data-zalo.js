@@ -29,7 +29,7 @@ var cvData = {
         experience: [
             {
                 name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
                 tasks: [
@@ -57,7 +57,7 @@ var cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "Hệ thống dashboard quản trị full-stack hỗ trợ xử lý dữ liệu trực quan và theo dõi chỉ số vận hành.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -149,7 +149,7 @@ Trương Đình Anh`
         experience: [
             {
                 name: "TAMI TECHNOLOGY CO., LTD",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
                 tasks: [
@@ -177,7 +177,7 @@ Trương Đình Anh`
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "A full-stack admin dashboard built to visualize data metrics and manage student indexing.",
                 tasks: [

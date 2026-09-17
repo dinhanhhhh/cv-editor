@@ -37,7 +37,7 @@ var cvData = {
     experience: [
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối dữ liệu tài chính Vnstock3).",
         tasks: [
@@ -67,7 +67,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị hồ sơ sinh viên, đăng ký học phần và trực quan hóa kết quả học tập.",
         github:
@@ -137,7 +137,7 @@ var cvData = {
     experience: [
       {
         name: "TAMI TECHNOLOGY CO., LTD",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Stock market data analysis platform integrated with Vnstock3 financial data library.",
         tasks: [
@@ -167,7 +167,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Administrative system for student records, course registration, and academic visualization.",
         github:

@@ -42,7 +42,7 @@ var cvData = {
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "Hệ thống dashboard quản trị full-stack được thiết kế trực quan hỗ trợ xử lý dữ liệu và quản trị học viên.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
@@ -150,7 +150,7 @@ Trương Đình Anh`
             },
             {
                 name: "STUDENT MANAGEMENT SYSTEM",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "A full-stack management dashboard designed to streamline operations, data management, and record indexing.",
                 github: "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",

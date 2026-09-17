@@ -58,7 +58,7 @@ var cvData = {
     projects: [
       {
         name: "HỆ THỐNG QUẢN LÝ ĐÀO TẠO & SINH VIÊN",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản lý thông tin học vụ, hồ sơ sinh viên và khóa học với giao diện bảng điều khiển (Dashboard) trực quan.",
         github: "https://github.com/dinhanhhhh/student-management-BE",
@@ -206,7 +206,7 @@ SĐT: 0923202861`
     projects: [
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Academic information and student management system with an intuitive administrative dashboard.",
         github: "https://github.com/dinhanhhhh/student-management-BE",

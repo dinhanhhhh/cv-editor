@@ -48,7 +48,7 @@ var cvData = {
       },
       {
         name: "HỆ THỐNG QUẢN LÝ SINH VIÊN (STUDENT MANAGEMENT)",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị dữ liệu học thuật hỗ trợ tự động hóa các tác vụ quản lý sinh viên.",
         github: "https://github.com/dinhanhhhh/student-management-BE",
@@ -127,7 +127,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "An administrative system designed to automate academic student data handling.",
         github: "https://github.com/dinhanhhhh/student-management-BE",

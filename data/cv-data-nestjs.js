@@ -49,7 +49,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SERVER",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Xây dựng hạ tầng máy chủ cho quản lý hồ sơ sinh viên, đăng ký khóa học và quản trị điểm số.",
         github: "https://github.com/dinhanhhhh/student-management-BE",
@@ -140,7 +140,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SERVER",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Server-side infrastructure for student records, course registration, and academic score management.",
         github: "https://github.com/dinhanhhhh/student-management-BE",

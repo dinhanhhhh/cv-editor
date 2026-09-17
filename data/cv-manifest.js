@@ -10,6 +10,18 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "favolist5",
+      file: "data/cv-data-favolist5.js",
+      emoji: "🧪",
+      label: "🧪 Favolist5 QA/QC Intern",
+    },
+    {
+      key: "cgecom",
+      file: "data/cv-data-cgecom.js",
+      emoji: "🛒",
+      label: "🛒 CG Ecom Fullstack",
+    },
+    {
       key: "banviet",
       file: "data/cv-data-banviet.js",
       emoji: "🎓",

@@ -41,7 +41,7 @@ var cvData = {
     experience: [
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
         tasks: [
@@ -72,7 +72,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị full-stack phục vụ quản lý hồ sơ sinh viên, đăng ký khóa học, kết quả học tập và dashboard quan sát dữ liệu cho admin.",
         github:
@@ -87,7 +87,7 @@ var cvData = {
       },
       {
         name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE PLATFORM)",
-        date: "08/2025 - 09/2025",
+        date: "08/2025 - 11/2025",
         role: "Developer",
         desc: "Hệ thống thương mại điện tử mua sắm trực tuyến với giỏ hàng, danh mục sản phẩm và quy trình thanh toán mượt mà.",
         github: "https://github.com/dinhanhhhh/ecommerce",
@@ -182,7 +182,7 @@ var cvData = {
     experience: [
       {
         name: "TAMI TECHNOLOGY CO., LTD",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
         tasks: [
@@ -213,7 +213,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "A full-stack administrative system for student records, course registration, academic performance tracking, and admin data dashboards.",
         github:
@@ -228,7 +228,7 @@ var cvData = {
       },
       {
         name: "E-COMMERCE PLATFORM",
-        date: "08/2025 - 09/2025",
+        date: "08/2025 - 11/2025",
         role: "Developer",
         desc: "An e-commerce shopping web application with shopping cart, product catalog, and seamless checkout workflows.",
         github: "https://github.com/dinhanhhhh/ecommerce",

@@ -29,7 +29,7 @@ var cvData = {
         experience: [
             {
                 name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "Dự án nền tảng phân tích tài chính chứng khoán và hỗ trợ tối ưu hóa giao diện.",
                 tasks: [
@@ -149,7 +149,7 @@ Trương Đình Anh`
         experience: [
             {
                 name: "TAMI TECHNOLOGY CO., LTD",
-                date: "06/2025 - 09/2025",
+                date: "06/2025 - 12/2025",
                 role: "Developer",
                 desc: "FinTech stock market data analysis platform and UI styling.",
                 tasks: [

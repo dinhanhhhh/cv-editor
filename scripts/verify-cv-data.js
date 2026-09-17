@@ -190,6 +190,13 @@ allDataFiles.forEach((file) => {
             `[${file}] [${lang}] Kinh nghiệm #${idx + 1} ('${exp.name || "N/A"}') có role = "${exp.role}". QUY TẮC BẮT BUỘC: role phải luôn là "Developer"!`
           );
         }
+
+        // QUY TẮC: Mốc thời gian thực tập Tami bắt buộc là 06/2025 - 12/2025 (6 tháng)
+        if (exp.name && exp.name.toUpperCase().includes("TAMI") && exp.date === "06/2025 - 09/2025") {
+          logError(
+            `[${file}] [${lang}] Kinh nghiệm TAMI có date = "${exp.date}". QUY TẮC: phải là "06/2025 - 12/2025" (6 tháng)!`
+          );
+        }
       });
     }
   });

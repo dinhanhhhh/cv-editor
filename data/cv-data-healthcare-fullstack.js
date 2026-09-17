@@ -50,7 +50,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Hệ thống quản trị hồ sơ full-stack với dashboard, tương tự mô hình quản lý hồ sơ khách hàng/bệnh nhân trong healthcare.",
         github:
@@ -138,7 +138,7 @@ var cvData = {
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
-        date: "06/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Full-stack administrative system with a dashboard, similar to electronic medical record (EMR) management systems.",
         github:
