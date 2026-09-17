@@ -4,8 +4,97 @@
 (function () {
   const params = new URLSearchParams(window.location.search);
   const mode = params.get('type');
+  const draftKey = params.get('draft');
 
-  function start() {
+  // Cho phep tuy bien worker URL qua tham so ?worker=... hoac bien toan cuc
+  const workerParam = params.get('worker');
+  if (workerParam) {
+    try {
+      localStorage.setItem('CV_WORKER_URL', workerParam);
+    } catch (e) {}
+  }
+
+  const defaultWorkerUrl = 'https://cv-telegram-bridge.tdinhanh-it.workers.dev';
+  const workerApiBase =
+    window.CV_WORKER_URL ||
+    (function () {
+      try {
+        return localStorage.getItem('CV_WORKER_URL');
+      } catch (e) {
+        return null;
+      }
+    })() ||
+    defaultWorkerUrl;
+
+  function renderDraftBanner(key, status, errorMsg) {
+    let banner = document.getElementById('cvDraftBanner');
+    if (!banner) {
+      banner = document.createElement('div');
+      banner.id = 'cvDraftBanner';
+      banner.className = 'cv-draft-banner no-print';
+      document.body.appendChild(banner);
+    }
+
+    const upper = key.toUpperCase();
+    if (status === 'loading') {
+      banner.className = 'cv-draft-banner loading no-print';
+      banner.innerHTML = `
+        <div class="draft-content">
+          <span class="draft-badge">⏳ ĐANG TẢI BẢN NHÁP</span>
+          <span class="draft-desc">Đang kéo dữ liệu #${upper} từ Cloudflare KV...</span>
+        </div>
+      `;
+    } else if (status === 'ready') {
+      banner.className = 'cv-draft-banner ready no-print';
+      banner.innerHTML = `
+        <div class="draft-content">
+          <span class="draft-badge">📝 BẢN NHÁP (DRAFT)</span>
+          <span class="draft-title">#${upper}</span>
+          <span class="draft-desc">Lưu tạm trên Cloudflare KV (Git sạch 100%).</span>
+        </div>
+        <div class="draft-actions">
+          <span class="draft-hint">Chốt bản này? Gõ trên Telegram: <code>/publish #${key.toLowerCase()}</code></span>
+        </div>
+      `;
+    } else if (status === 'error') {
+      banner.className = 'cv-draft-banner error no-print';
+      banner.innerHTML = `
+        <div class="draft-content">
+          <span class="draft-badge">⚠️ LỖI BẢN NHÁP</span>
+          <span class="draft-desc">${errorMsg || 'Không thể tải bản nháp.'}</span>
+        </div>
+      `;
+      setTimeout(() => banner && banner.remove(), 7000);
+    }
+  }
+
+  function fetchDraftCv(key) {
+    renderDraftBanner(key, 'loading');
+    const endpoint = `${workerApiBase.replace(/\/$/, '')}/api/cv?draft=${encodeURIComponent(key)}`;
+
+    fetch(endpoint)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Bản nháp #${key} không tồn tại hoặc đã hết hạn 7 ngày.`);
+        }
+        return res.json();
+      })
+      .then((draftData) => {
+        // Gán dữ liệu nháp vào window.cvData
+        window.cvData = draftData;
+        renderDraftBanner(key, 'ready');
+
+        // Nạp global data trước rồi nạp renderer
+        return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js'));
+      })
+      .catch((err) => {
+        console.warn('Lỗi tải bản nháp từ KV, chuyển về chế độ thông thường:', err);
+        renderDraftBanner(key, 'error', err.message);
+        startNormalRouter();
+      });
+  }
+
+  function startNormalRouter() {
     const manifest = window.CV_MANIFEST;
     if (!manifest) {
       console.error('CV_MANIFEST chưa được nạp. Kiểm tra thứ tự <script> trong index.html.');
@@ -55,7 +144,6 @@
       const btn = document.getElementById(manifest.navId(ver.key));
       if (btn) {
         btn.classList.add('active');
-        // Cuộn phần tử active vào giữa menu cho dễ thấy
         setTimeout(() => {
           btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
@@ -99,11 +187,17 @@
     });
   }
 
-  // Manifest được nạp đồng bộ trước router trong index.html, nhưng phòng
-  // trường hợp router chạy trước (file:// race), chờ tới khi có CV_MANIFEST.
+  function init() {
+    if (draftKey) {
+      fetchDraftCv(draftKey);
+    } else {
+      startNormalRouter();
+    }
+  }
+
   if (window.CV_MANIFEST) {
-    start();
+    init();
   } else {
-    window.addEventListener('DOMContentLoaded', start);
+    window.addEventListener('DOMContentLoaded', init);
   }
 })();

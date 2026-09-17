@@ -3299,4 +3299,94 @@ body.recruiter-view .cv-preview {
   .hr-action-bar {
     margin-bottom: 4px;
   }
+}
+
+/* ===================================
+   DRAFT MODE BANNER (Cloudflare KV)
+   =================================== */
+.cv-draft-banner {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  background: rgba(17, 24, 39, 0.94);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(245, 158, 11, 0.5);
+  color: #f3f4f6;
+  padding: 12px 18px;
+  border-radius: 12px;
+  box-shadow: 0 12px 28px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(245, 158, 11, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  max-width: 420px;
+  animation: draftSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes draftSlideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cv-draft-banner .draft-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cv-draft-banner .draft-badge {
+  background: #f59e0b;
+  color: #111827;
+  font-weight: 700;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.cv-draft-banner.error .draft-badge {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.cv-draft-banner .draft-title {
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+.cv-draft-banner .draft-desc {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.cv-draft-banner .draft-actions {
+  font-size: 12px;
+  color: #d1d5db;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 6px;
+}
+
+.cv-draft-banner code {
+  background: rgba(255, 255, 255, 0.15);
+  color: #93c5fd;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 12px;
+}
+
+@media print {
+  .cv-draft-banner {
+    display: none !important;
+  }
 }

@@ -4,8 +4,71 @@
 
 export default {
   async fetch(request, env) {
+    const url = new URL(request.url);
+
+    // Headers CORS cho phep Web App fetch du lieu ban nhap
+    const corsHeaders = {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    };
+
+    if (request.method === "OPTIONS") {
+      return new Response(null, { headers: corsHeaders });
+    }
+
+    // 0. API LAY BAN NHAP DRAFT TU CLOUDFLARE KV
+    if (
+      request.method === "GET" &&
+      (url.pathname === "/api/cv" || url.pathname.startsWith("/api/draft/"))
+    ) {
+      const draftKey =
+        url.searchParams.get("draft") ||
+        url.pathname.replace("/api/draft/", "").trim();
+
+      if (!draftKey) {
+        return new Response(
+          JSON.stringify({ error: "Missing draft parameter" }),
+          {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
+      }
+
+      if (!env.CV_KV) {
+        return new Response(
+          JSON.stringify({
+            error: "CV_KV namespace is not bound in Cloudflare Worker settings.",
+          }),
+          {
+            status: 500,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
+      }
+
+      const draftData = await env.CV_KV.get("draft:" + draftKey.toLowerCase());
+      if (!draftData) {
+        return new Response(
+          JSON.stringify({ error: "Draft not found or expired" }),
+          {
+            status: 404,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          },
+        );
+      }
+
+      return new Response(draftData, {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     if (request.method !== "POST") {
-      return new Response("Method Not Allowed", { status: 405 });
+      return new Response("Method Not Allowed", {
+        status: 405,
+        headers: corsHeaders,
+      });
     }
 
     try {
@@ -170,7 +233,7 @@ export default {
           return new Response("OK", { status: 200 });
         }
 
-        // Kiem tra lenh AI Tailor
+        // Kiem tra lenh AI Tailor (Tao ban nhap tren Cloudflare KV)
         if (bodyText.startsWith("/job") || bodyText.startsWith("/tailor")) {
           try {
             await handleAITailor(env, chatId, bodyText);
@@ -179,6 +242,20 @@ export default {
               env.TELEGRAM_BOT_TOKEN,
               chatId,
               "❌ Loi he thong khi may do CV bang AI: " + err.message,
+            );
+          }
+          return new Response("OK", { status: 200 });
+        }
+
+        // Kiem tra lenh Publish / Commit ban nhap len GitHub
+        if (bodyText.startsWith("/publish") || bodyText.startsWith("/commit")) {
+          try {
+            await handlePublishDraft(env, chatId, bodyText);
+          } catch (err) {
+            await sendMsg(
+              env.TELEGRAM_BOT_TOKEN,
+              chatId,
+              "❌ Loi khi luu ban nhap: " + err.message,
             );
           }
           return new Response("OK", { status: 200 });
@@ -713,62 +790,138 @@ async function handleAITailor(env, chatId, bodyText) {
   }
 
   const cleanTag = hashtag.replace("#", "").toLowerCase();
-  const livePreviewUrl = `https://dinhanhhhh.github.io/cv-editor/?type=${cleanTag}`;
+  const livePreviewUrl = `https://dinhanhhhh.github.io/cv-editor/?draft=${cleanTag}`;
+
+  let kvSaved = false;
+  if (env.CV_KV) {
+    try {
+      await env.CV_KV.put("draft:" + cleanTag, tailoredCvJson, {
+        expirationTtl: 60 * 60 * 24 * 7, // 7 ngay tu huy
+      });
+      kvSaved = true;
+    } catch (err) {
+      console.error("Failed to save draft in KV:", err);
+    }
+  }
+
+  // Soan ban tin tong hop gui ve Telegram
+  let resultMsg = "🎯 MAY ĐO BẢN NHÁP THÀNH CÔNG CHO #" + cleanTag.toUpperCase() + "!\n\n";
+
+  if (tailorSummary) {
+    if (tailorSummary.titleVi) {
+      resultMsg += "💼 Vị trí: " + tailorSummary.titleVi + "\n";
+    }
+    if (Array.isArray(tailorSummary.highlights) && tailorSummary.highlights.length > 0) {
+      resultMsg += "📌 Điểm tối ưu theo JD:\n";
+      tailorSummary.highlights.forEach((h) => {
+        resultMsg += " • " + h + "\n";
+      });
+    }
+    resultMsg += "\n";
+  }
+
+  resultMsg += "🌐 Mở xem & chỉnh sửa trực tiếp trên Web:\n👉 " + livePreviewUrl + "\n\n";
+
+  if (kvSaved) {
+    resultMsg += "💡 Bản nháp đã lưu trên Cloudflare KV (giữ Git sạch 100%, tự hủy sau 7 ngày).\n";
+    resultMsg += "👉 Nếu ưng ý bản này và muốn lưu chính thức vào Git & xuất PDF: Gõ `/publish #" + cleanTag + "`";
+  } else {
+    resultMsg += "⚠️ Lưu ý: Chưa cấu hình binding CV_KV trên Cloudflare Worker. Vui lòng vào Settings > KV bind namespace 'CV_KV' để tận dụng tính năng bản nháp không làm bẩn Git!";
+  }
+
+  await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, resultMsg);
+}
+
+// Chot va Publish ban nhap tu KV len GitHub
+async function handlePublishDraft(env, chatId, bodyText) {
+  const parts = bodyText.split(/\s+/);
+  let hashtag = "";
+  for (const part of parts) {
+    if (part.startsWith("#")) {
+      hashtag = part.trim().toLowerCase();
+      break;
+    }
+  }
+
+  if (!hashtag) {
+    await sendMsg(
+      env.TELEGRAM_BOT_TOKEN,
+      chatId,
+      "⚠️ Vui long nhap kem hashtag! Vi du: `/publish #shopee` hoac `/commit #shopee`",
+    );
+    return;
+  }
+
+  const cleanTag = hashtag.replace("#", "");
+
+  if (!env.CV_KV) {
+    await sendMsg(
+      env.TELEGRAM_BOT_TOKEN,
+      chatId,
+      "⚠️ CV_KV namespace chua duoc cau hinh tren Cloudflare Worker!",
+    );
+    return;
+  }
+
+  const draftData = await env.CV_KV.get("draft:" + cleanTag);
+  if (!draftData) {
+    await sendMsg(
+      env.TELEGRAM_BOT_TOKEN,
+      chatId,
+      "⚠️ Khong tim thay ban nhap #" +
+        cleanTag.toUpperCase() +
+        " tren Cloudflare KV (hoac da het han 7 ngay)!\n👉 Hay tao ban nhap moi bang lenh: `/job #" +
+        cleanTag +
+        " <JD>`",
+    );
+    return;
+  }
 
   await sendMsg(
     env.TELEGRAM_BOT_TOKEN,
     chatId,
-    "🚀 May do thanh cong! Dang commit du lieu moi len GitHub: " +
-      targetFile +
-      "...",
+    "🚀 Dang tien hanh luu ban nhap #" +
+      cleanTag.toUpperCase() +
+      " len GitHub...",
   );
 
+  const targetFile = "data/cv-data-" + cleanTag + ".js";
   const fileContentJs =
     "// AUTO GENERATED BY TELEGRAM BOT - AI OPTIMIZED FOR " +
-    hashtag.toUpperCase() +
+    cleanTag.toUpperCase() +
     "\n\nconst cvData = " +
-    tailoredCvJson +
+    draftData +
     ';\n\nif (typeof module !== "undefined") module.exports = cvData;\n';
 
-  const success = await commitToGitHub(env, targetFile, fileContentJs, "feat: auto-tailor CV for " + hashtag);
+  const success = await commitToGitHub(
+    env,
+    targetFile,
+    fileContentJs,
+    "feat: publish tailored CV for #" + cleanTag,
+  );
 
   if (success) {
-    // Luu ban backup vao data/history/ de giu lich su
     const timestamp = getTimestamp();
     const historyFile = "data/history/" + cleanTag + "-" + timestamp + ".js";
-    const historySaved = await commitToGitHub(
+    await commitToGitHub(
       env,
       historyFile,
       fileContentJs,
-      "chore: backup tailored CV for " + hashtag,
+      "chore: backup tailored CV for #" + cleanTag,
     );
 
-    // Tu dong dang ky phien ban vao data/cv-manifest.js
+    // Tu dong dang ky vao cv-manifest.js
     await ensureInManifest(env, cleanTag);
 
-    // Soan ban tin tong hop gui ve Telegram
-    let resultMsg = "🎯 MAY ĐO CV THÀNH CÔNG CHO #" + cleanTag.toUpperCase() + "!\n\n";
-
-    if (tailorSummary) {
-      if (tailorSummary.titleVi) {
-        resultMsg += "💼 Vị trí: " + tailorSummary.titleVi + "\n";
-      }
-      if (Array.isArray(tailorSummary.highlights) && tailorSummary.highlights.length > 0) {
-        resultMsg += "📌 Điểm tối ưu theo JD:\n";
-        tailorSummary.highlights.forEach((h) => {
-          resultMsg += " • " + h + "\n";
-        });
-      }
-      resultMsg += "\n";
-    }
-
-    resultMsg += "🌐 Xem trực tiếp CV trên Web:\n👉 " + livePreviewUrl + "\n\n";
-    resultMsg += "✅ Đã tự động cập nhật " + targetFile + " trên GitHub!\n";
-    resultMsg += "🕒 GitHub Actions đang tự động biên dịch PDF (khoảng 30-40s)...";
-
-    if (historySaved) {
-      resultMsg += "\n📂 Bản backup: " + historyFile;
-    }
+    let resultMsg =
+      "🎉 ĐÃ LƯU CHÍNH THỨC #" + cleanTag.toUpperCase() + " LÊN GITHUB!\n\n";
+    resultMsg += "📁 File dữ liệu: " + targetFile + "\n";
+    resultMsg +=
+      "🌐 Web trực tiếp: https://dinhanhhhh.github.io/cv-editor/?type=" +
+      cleanTag +
+      "\n";
+    resultMsg +=
+      "🕒 GitHub Actions đang tự động biên dịch PDF (khoảng 30-40s)...";
 
     await sendMsg(env.TELEGRAM_BOT_TOKEN, chatId, resultMsg);
   } else {
