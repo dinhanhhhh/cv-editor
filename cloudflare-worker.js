@@ -1137,28 +1137,55 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
   ].join("\n");
 
   // SU DUNG GROQ API (100% Free, sieu toc ~0.5s, cuc ky on dinh)
+  // SU DUNG GROQ API (100% Free, sieu toc ~0.5s, cuc ky on dinh)
   if (!env.GROQ_API_KEY) {
     throw new Error("Chua cau hinh GROQ_API_KEY tren Cloudflare Worker! Hay lay key free tai console.groq.com/keys");
   }
 
-  // Danh sach model pho bien tren Groq (thu lan luot de tranh loi 404 model)
-  const candidateModels = [
-    "llama-3.1-70b-versatile",
-    "llama-3.1-8b-instant",
-    "llama3-70b-8192",
-    "llama3-8b-8192",
-    "mixtral-8x7b-32768",
-    "gemma2-9b-it",
+  const groqAuth = "Bearer " + env.GROQ_API_KEY.trim();
+
+  // 1. TU DONG LAY DANH SACH MODEL DANG ACTIVE TREN TAI KHOAN GROQ
+  let activeModels = [];
+  try {
+    const listRes = await fetch("https://api.groq.com/openai/v1/models", {
+      headers: { Authorization: groqAuth },
+    });
+    if (listRes.ok) {
+      const listData = await listRes.json();
+      if (Array.isArray(listData.data)) {
+        // Lay cac model text/chat dang hoat dong
+        activeModels = listData.data
+          .filter((m) => m.active !== false && !m.id.includes("whisper") && !m.id.includes("vision") && !m.id.includes("distil-whisper"))
+          .map((m) => m.id);
+      }
+    }
+  } catch (e) {
+    console.warn("Could not fetch models list:", e);
+  }
+
+  // Danh sach model hien dang live tren Groq Cloud 2026
+  const verifiedModels = [
+    "llama-3.3-70b-specdec",
+    "deepseek-r1-distill-llama-70b",
+    "qwen-2.5-32b",
+    "mistral-saba-24b",
+    "llama-3.2-11b-text-preview",
+    "llama-3.2-3b-preview",
+    "llama-3.2-1b-preview",
   ];
+
+  // Ghep ca model query duoc va danh sach verified
+  const modelQueue = Array.from(new Set([...activeModels, ...verifiedModels]));
+
 
   let lastError = null;
 
-  for (const modelName of candidateModels) {
+  for (const modelName of modelQueue) {
     try {
       const groqRes = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
         headers: {
-          Authorization: "Bearer " + env.GROQ_API_KEY.trim(),
+          Authorization: groqAuth,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -1189,9 +1216,7 @@ async function callAIToTailor(env, masterCv, jdText, hashtag) {
         }
       } else {
         const errText = await groqRes.text();
-        lastError = new Error(`Groq ${modelName} (${groqRes.status}): ${errText.slice(0, 150)}`);
-        // Neu bi 404 model thi tiep tuc thu model tiep theo
-        continue;
+        lastError = new Error(`Groq ${modelName} (${groqRes.status}): ${errText.slice(0, 120)}`);
       }
     } catch (err) {
       lastError = err;
