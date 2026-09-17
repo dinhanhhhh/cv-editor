@@ -80,9 +80,13 @@
         return res.json();
       })
       .then((draftData) => {
-        // Gán dữ liệu nháp vào window.cvData
+        // Gán dữ liệu nháp vào window.cvData và đặt cvVersion
         window.cvData = draftData;
+        window.cvVersion = `draft_${key}`;
         renderDraftBanner(key, 'ready');
+
+        // Render menu phien ban ben trai
+        renderNavForDraft(key);
 
         // Nạp global data trước rồi nạp renderer
         return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js'));
@@ -92,6 +96,30 @@
         renderDraftBanner(key, 'error', err.message);
         startNormalRouter();
       });
+  }
+
+  function renderNavForDraft(key) {
+    const manifest = window.CV_MANIFEST;
+    const nav = document.getElementById('versionSwitch');
+    if (!nav || !manifest) return;
+
+    // Nut draft o dau menu
+    const draftBtn = document.createElement('a');
+    draftBtn.className = 'version-item active';
+    draftBtn.href = window.location.href;
+    draftBtn.textContent = `📝 #${key.toUpperCase()} (DRAFT)`;
+    draftBtn.title = `Bản nháp ${key}`;
+    nav.appendChild(draftBtn);
+
+    manifest.forEach((v) => {
+      const a = document.createElement('a');
+      a.className = 'version-item';
+      a.id = manifest.navId(v.key);
+      a.href = v.key === 'default' ? 'index.html' : 'index.html?type=' + encodeURIComponent(v.key);
+      a.textContent = v.label;
+      a.title = v.label;
+      nav.appendChild(a);
+    });
   }
 
   function startNormalRouter() {
