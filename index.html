@@ -11,11 +11,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/cv-layout.css?v=1.1.6">
+    <link rel="stylesheet" href="css/cv-layout.css?v=1.3.0">
     <!-- Manifest (nguồn danh sách phiên bản duy nhất) phải nạp trước router -->
-    <script src="data/cv-manifest.js?v=1.1.6"></script>
+    <script src="data/cv-manifest.js?v=1.2.0"></script>
     <!-- Router Logic (Xử lý nạp dữ liệu ngay lập tức) -->
-    <script src="js/cv-router.js?v=1.1.6"></script>
+    <script src="js/cv-router.js?v=1.2.0"></script>
 </head>
 
 <body>
@@ -83,6 +83,12 @@
 
     <!-- Các nút công cụ bổ trợ bên trái -->
     <div class="left-controls" aria-label="CV secondary controls">
+        <button class="job-tracker-btn" id="jobTrackerBtn" type="button"
+            title="Theo dõi tiến độ nộp hồ sơ các công ty" aria-label="Bảng theo dõi ứng tuyển">
+            📋 Tiến độ ứng tuyển <span class="tracker-badge" id="trackerBadge" style="display: none;">0</span>
+        </button>
+        <button class="email-gen-btn" id="emailGenBtn" type="button"
+            title="Tạo Email Ứng Tuyển 1-Click theo CV hiện tại" aria-label="Tạo Email Ứng Tuyển">📧 Tạo Email Ứng Tuyển</button>
         <button class="hr-view-btn" id="hrViewBtn" type="button"
             title="Chuyển sang chế độ xem sạch cho Nhà tuyển dụng" aria-label="Xem kiểu Nhà tuyển dụng">👁️ Giao diện HR</button>
         <button class="ats-match-btn" id="atsMatchBtn" type="button"
@@ -445,6 +451,245 @@
             </div>
         </div>
     </div>
+
+    <!-- Job Application Tracker Modal -->
+    <div class="cl-modal-overlay jt-modal-overlay" id="jobTrackerModalOverlay" aria-hidden="true" style="display: none;">
+        <div class="cl-modal jt-modal" role="dialog" aria-labelledby="jtModalTitle">
+            <div class="cl-modal-header jt-modal-header">
+                <div class="jt-header-left">
+                    <span class="cl-modal-icon">📋</span>
+                    <div>
+                        <h2 class="cl-modal-title" id="jtModalTitle">Tiến Độ Ứng Tuyển (Job Tracker)</h2>
+                        <div class="jt-modal-subtitle">Theo dõi danh sách công ty đã nộp CV, trạng thái phản hồi &amp; phỏng vấn</div>
+                    </div>
+                </div>
+                <div class="jt-header-actions">
+                    <button type="button" class="jt-top-btn jt-add-btn" id="jtAddBtn">➕ Thêm ứng tuyển</button>
+                    <button type="button" class="jt-top-btn jt-backup-btn" id="jtExportBtn" title="Sao lưu toàn bộ danh sách ra file JSON">📥 Backup</button>
+                    <button type="button" class="jt-top-btn jt-restore-btn" id="jtImportBtn" title="Nhập danh sách từ file JSON">📤 Restore</button>
+                    <button type="button" class="cl-modal-close" id="jobTrackerCloseBtn" aria-label="Đóng">&times;</button>
+                </div>
+            </div>
+
+            <div class="jt-modal-body">
+                <!-- Thống kê trạng thái -->
+                <div class="jt-stats-bar" id="jobTrackerStats">
+                    <!-- Render dynamically by cv-tracker.js -->
+                </div>
+
+                <!-- Form Thêm/Sửa (ẩn mặc định) -->
+                <div class="jt-form-panel" id="jobTrackerFormPanel" style="display: none;">
+                    <div class="jt-form-header">
+                        <h3 class="jt-form-title" id="jtFormTitle">➕ Thêm đơn ứng tuyển mới</h3>
+                    </div>
+                    <div class="jt-form-grid">
+                        <div class="jt-form-group">
+                            <label for="jtInputCompany">🏢 Tên Công ty <span class="jt-required">*</span></label>
+                            <input type="text" id="jtInputCompany" class="jt-input" placeholder="Ví dụ: CÔNG TY TNHH CG ECOM">
+                        </div>
+                        <div class="jt-form-group">
+                            <label for="jtInputPosition">💼 Vị trí ứng tuyển</label>
+                            <input type="text" id="jtInputPosition" class="jt-input" placeholder="Ví dụ: Full Stack Developer">
+                        </div>
+                        <div class="jt-form-group">
+                            <label for="jtInputCvType">📄 Bản CV đã nộp</label>
+                            <select id="jtInputCvType" class="jt-select">
+                                <!-- Render dynamically from CV_MANIFEST -->
+                            </select>
+                        </div>
+                        <div class="jt-form-group">
+                            <label for="jtInputDate">📅 Ngày nộp</label>
+                            <input type="date" id="jtInputDate" class="jt-input">
+                        </div>
+                        <div class="jt-form-group">
+                            <label for="jtInputStatus">🏷️ Trạng thái</label>
+                            <select id="jtInputStatus" class="jt-select">
+                                <option value="applied">📝 Đã nộp hồ sơ</option>
+                                <option value="reviewing">⏳ Chờ phản hồi</option>
+                                <option value="interviewing">🎯 Phỏng vấn</option>
+                                <option value="offered">🎉 Trúng tuyển (Offer)</option>
+                                <option value="rejected">❌ Từ chối</option>
+                            </select>
+                        </div>
+                        <div class="jt-form-group">
+                            <label for="jtInputContact">📞 Người liên hệ / Email / Zalo</label>
+                            <input type="text" id="jtInputContact" class="jt-input" placeholder="Ví dụ: giang.ha@favolist5.com / Zalo: 0973820220">
+                        </div>
+                        <div class="jt-form-group jt-full-width">
+                            <label for="jtInputNotes">💡 Ghi chú tóm tắt (Địa chỉ, Lương, Liên hệ nhanh...)</label>
+                            <input type="text" id="jtInputNotes" class="jt-input" placeholder="Ví dụ: Gò Vấp, yêu cầu React/Node, IT Support nội bộ...">
+                        </div>
+                        <div class="jt-form-group jt-full-width">
+                            <label for="jtInputJd">📄 Bản mô tả công việc (JD chi tiết để xem lại khi phỏng vấn)</label>
+                            <textarea id="jtInputJd" class="jt-textarea" rows="4" placeholder="Dán nội dung tin tuyển dụng / JD chi tiết vào đây..."></textarea>
+                        </div>
+                    </div>
+                    <div class="jt-form-actions">
+                        <button type="button" class="jt-btn-cancel" id="jtCancelFormBtn">Hủy</button>
+                        <button type="button" class="jt-btn-save" id="jtSaveFormBtn">Lưu hồ sơ ✓</button>
+                    </div>
+                </div>
+
+                <!-- Thanh tìm kiếm -->
+                <div class="jt-toolbar">
+                    <div class="jt-search-box">
+                        <span class="jt-search-icon">🔍</span>
+                        <input type="text" id="jtSearchInput" class="jt-search-input" placeholder="Tìm kiếm theo công ty, vị trí, ghi chú, bản CV...">
+                    </div>
+                </div>
+
+                <!-- Danh sách đơn ứng tuyển -->
+                <div class="jt-list-container" id="jobTrackerList">
+                    <!-- Render dynamically by cv-tracker.js -->
+                </div>
+            </div>
+
+            <div class="cl-modal-footer jt-modal-footer">
+                <div class="jt-footer-hint">
+                    💡 Dữ liệu lưu bền vững trong trình duyệt. Nhấn <b>Backup</b> để tải file sao lưu JSON an toàn phòng khi dọn cache.
+                </div>
+                <button type="button" class="cl-btn-primary" onclick="window.cvTracker.closeModal()">Đóng ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JD Detail Viewer Modal -->
+    <div class="cl-modal-overlay jt-jd-modal-overlay" id="jtJdModalOverlay" aria-hidden="true" style="display: none;">
+        <div class="cl-modal jt-jd-modal" role="dialog" aria-labelledby="jtJdModalTitle">
+            <div class="cl-modal-header jt-jd-modal-header">
+                <div class="jt-header-left">
+                    <span class="cl-modal-icon">📄</span>
+                    <div>
+                        <h2 class="cl-modal-title" id="jtJdModalTitle">Chi Tiết Tin Tuyển Dụng (JD)</h2>
+                        <div class="jt-modal-subtitle" id="jtJdModalSubtitle">Bản mô tả công việc đã lưu</div>
+                    </div>
+                </div>
+                <div class="jt-header-actions">
+                    <button type="button" class="jt-top-btn jt-copy-jd-btn" id="jtCopyJdBtn" title="Sao chép toàn bộ nội dung JD">📋 Sao chép JD</button>
+                    <button type="button" class="jt-top-btn jt-edit-jd-btn" id="jtEditJdBtn" title="Chỉnh sửa nội dung tin tuyển dụng">✏️ Sửa JD</button>
+                    <button type="button" class="jt-top-btn jt-email-jd-btn" id="jtEmailJdBtn" title="Tạo Email ứng tuyển may đo theo JD này">📧 Soạn Email</button>
+                    <button type="button" class="jt-top-btn jt-ats-jd-btn" id="jtAtsJdBtn" title="Chuyển sang công cụ Chấm điểm ATS với JD này">🎯 So khớp ATS</button>
+                    <button type="button" class="cl-modal-close" id="jtJdModalCloseBtn" aria-label="Đóng">&times;</button>
+                </div>
+            </div>
+
+            <div class="jt-jd-modal-body">
+                <pre class="jt-jd-content" id="jtJdContent"></pre>
+            </div>
+
+            <div class="cl-modal-footer jt-jd-modal-footer">
+                <div class="jt-footer-hint">💡 Bấm <b>"So khớp ATS"</b> để hệ thống tự động phân tích độ tương thích của CV hiện tại với JD này.</div>
+                <button type="button" class="cl-btn-primary" onclick="window.cvTracker.closeJdModal()">Đóng ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tạo Email Ứng Tuyển 1-Click -->
+    <div class="cl-modal-overlay eg-modal-overlay" id="emailGenModalOverlay" aria-hidden="true" style="display: none;">
+        <div class="cl-modal eg-modal" role="dialog" aria-labelledby="egModalTitle">
+            <div class="cl-modal-header eg-modal-header">
+                <div class="eg-header-left">
+                    <span class="cl-modal-icon">📧</span>
+                    <div>
+                        <h2 class="cl-modal-title" id="egModalTitle">Tạo Email Ứng Tuyển 1-Click</h2>
+                        <div class="eg-modal-subtitle">Tự động may đo 3 điểm mạnh nhất theo CV & JD để gửi nhà tuyển dụng</div>
+                    </div>
+                </div>
+                <div class="eg-header-actions">
+                    <div class="eg-lang-switch">
+                        <button type="button" class="eg-lang-btn active" data-lang="vi">🇻🇳 Tiếng Việt</button>
+                        <button type="button" class="eg-lang-btn" data-lang="en">🇬🇧 English</button>
+                    </div>
+                    <button type="button" class="cl-modal-close" id="emailGenCloseBtn" aria-label="Đóng">&times;</button>
+                </div>
+            </div>
+
+            <div class="eg-modal-body">
+                <!-- Cột trái: Tùy biến thông tin -->
+                <div class="eg-col-config">
+                    <div class="eg-section-title">⚙️ Thông tin ứng tuyển</div>
+                    
+                    <div class="eg-field-group">
+                        <label class="eg-label" for="egInputCompany">Tên Công Ty / Doanh Nghiệp:</label>
+                        <input type="text" id="egInputCompany" class="eg-input" placeholder="Ví dụ: CÔNG TY TNHH CG ECOM">
+                    </div>
+
+                    <div class="eg-field-row">
+                        <div class="eg-field-group">
+                            <label class="eg-label" for="egInputPosition">Vị Trí Ứng Tuyển:</label>
+                            <input type="text" id="egInputPosition" class="eg-input" placeholder="Full Stack Developer">
+                        </div>
+                        <div class="eg-field-group">
+                            <label class="eg-label" for="egInputRecipient">Kính Gửi (Người nhận):</label>
+                            <input type="text" id="egInputRecipient" class="eg-input" placeholder="Anh/Chị phụ trách tuyển dụng">
+                        </div>
+                    </div>
+
+                    <div class="eg-field-group">
+                        <label class="eg-label" for="egInputEmail">Email Nhà Tuyển Dụng (Để mở Gmail gửi luôn):</label>
+                        <input type="email" id="egInputEmail" class="eg-input" placeholder="hr@company.com hoặc tuyendung@...">
+                    </div>
+
+                    <div class="eg-field-group">
+                        <label class="eg-label">Phong Cách Văn Phong (Tone):</label>
+                        <div class="eg-tone-selector">
+                            <button type="button" class="eg-tone-btn active" data-tone="tech" title="Nêu bật số liệu, stack công nghệ & dự án thực tế">💻 Kỹ Thuật & Số Liệu</button>
+                            <button type="button" class="eg-tone-btn" data-tone="short" title="Đi thẳng vào điểm cốt lõi, siêu ngắn gọn">⚡ Ngắn Gọn & Súc Tích</button>
+                            <button type="button" class="eg-tone-btn" data-tone="warm" title="Ấn tượng văn hóa, nhiệt huyết & cầu tiến">😊 Nhiệt Huyết & Cầu Tiến</button>
+                        </div>
+                    </div>
+
+                    <div class="eg-field-group">
+                        <label class="eg-label" for="egInputJd">Bản mô tả công việc (JD) tùy chọn:</label>
+                        <textarea id="egInputJd" class="eg-textarea" rows="4" placeholder="Dán yêu cầu tuyển dụng vào đây để hệ thống tự tối ưu từ khóa phù hợp..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Cột phải: Kết quả Email trực tiếp -->
+                <div class="eg-col-preview">
+                    <div class="eg-section-title eg-preview-title">
+                        <span>✉️ Email Hoàn Chỉnh (Đã may đo)</span>
+                        <div class="eg-preview-quick-actions">
+                            <button type="button" class="eg-btn-text" id="egCopySubjectBtn" title="Sao chép tiêu đề">📋 Chép Tiêu Đề</button>
+                            <button type="button" class="eg-btn-text" id="egCopyBodyBtn" title="Sao chép nội dung">📋 Chép Nội Dung</button>
+                        </div>
+                    </div>
+
+                    <div class="eg-subject-wrapper">
+                        <span class="eg-subject-tag">Tiêu đề:</span>
+                        <input type="text" id="egSubjectOutput" class="eg-subject-input" readonly>
+                    </div>
+
+                    <div class="eg-body-wrapper">
+                        <textarea id="egBodyOutput" class="eg-body-textarea" readonly></textarea>
+                    </div>
+
+                    <!-- Thanh nút hành động 1-Click -->
+                    <div class="eg-actions-bar">
+                        <button type="button" class="eg-action-btn eg-btn-copy" id="egCopyAllBtn" title="Sao chép cả tiêu đề và nội dung">
+                            📋 Sao Chép Toàn Bộ
+                        </button>
+                        <button type="button" class="eg-action-btn eg-btn-gmail" id="egGmailBtn" title="Mở thẳng cửa sổ soạn thư Gmail mới">
+                            🚀 Mở Gmail Soạn Luôn
+                        </button>
+                        <button type="button" class="eg-action-btn eg-btn-mailto" id="egMailtoBtn" title="Mở ứng dụng Email mặc định (Outlook/Mail)">
+                            ✉️ Mở Mail Client
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cl-modal-footer eg-modal-footer">
+                <div class="eg-footer-hint">💡 <b>Mẹo:</b> Nhấn <b>"Mở Gmail Soạn Luôn"</b> để hệ thống tự điền Tiêu đề và Nội dung thư trực tiếp vào Gmail giúp bạn gửi hồ sơ chỉ trong 10 giây!</div>
+                <button type="button" class="cl-btn-primary" onclick="window.cvEmailGen.closeModal()">Xong ✓</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Quản lý Tiến độ ứng tuyển -->
+    <script defer src="js/cv-tracker.js?v=1.3.0"></script>
+    <!-- Script Tạo Email Ứng Tuyển 1-Click -->
+    <script defer src="js/cv-email-generator.js?v=1.3.0"></script>
 </body>
 
 </html>
