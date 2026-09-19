@@ -30,7 +30,7 @@ var cvData = {
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Lập trình viên Full-Stack với kinh nghiệm xây dựng ứng dụng web bằng React.js, Next.js, Node.js, TypeScript và các hệ cơ sở dữ liệu (PostgreSQL, MongoDB, MySQL). Thành thạo phát triển nền tảng Ecommerce, tích hợp API và ứng dụng AI (Gemini, ChatGPT, Copilot) để tối ưu quy trình làm việc. Trách nhiệm cao, linh hoạt xử lý vấn đề, sẵn sàng hỗ trợ các tác vụ IT nội bộ.",

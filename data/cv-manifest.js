@@ -10,6 +10,12 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "namphuong",
+      file: "data/cv-data-namphuong.js",
+      emoji: "⚡",
+      label: "⚡ Nam Phương Tech BE Intern",
+    },
+    {
       key: "favolist5",
       file: "data/cv-data-favolist5.js",
       emoji: "🧪",

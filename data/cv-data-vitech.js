@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
-      skills: "KỸ NĂNG & CÔNG CỤ",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Lập trình viên với nền tảng vững vàng về JavaScript (ES6+), ReactJS, Next.js và TypeScript, định hướng phát triển chuyên sâu cả Web và Mobile (React Native). Đã có kinh nghiệm tự xây dựng dự án Next.js 15 kết nối RESTful API, tối ưu giao diện responsive mượt mà và xử lý dữ liệu JSON. Nắm vững quy trình quản lý mã nguồn bằng Git/GitHub, có tư duy phối hợp tốt với UI/UX Designer để triển khai giao diện theo thiết kế. Sẵn sàng học hỏi công nghệ mới, cam kết tuân thủ lộ trình đào tạo của Vitech Digital để đóng góp giá trị thực tế cho các dự án của công ty.",

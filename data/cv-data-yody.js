@@ -21,7 +21,7 @@ var cvData = {
             objective: "TÓM TẮT CHUYÊN MÔN",
             education: "HỌC VẤN",
             projects: "DỰ ÁN TIÊU BIỂU",
-            skills: "KỸ NĂNG"
+            skills: "KỸ NĂNG CHUYÊN MÔN"
         },
         objective: "Fresher Khoa học Máy tính với tư duy AI-first và niềm đam mê tự tay thiết kế, xây dựng các giải pháp/công cụ thực tế bằng sức mạnh AI (Vibe Coding qua Claude, Cursor). Có kinh nghiệm linh hoạt từ làm prototype giao diện web (Next.js, React, Tailwind CSS) đến thiết kế sơ bộ (Wireframe), tích hợp API và tự động hóa quy trình. Sở hữu tinh thần Ownership cao, ham học hỏi các công nghệ mới (n8n, low-code) và luôn đặt câu hỏi về giá trị thực tế của sản phẩm mang lại cho người dùng cuối.",
         education: cvGlobalEdu.vi,
@@ -129,7 +129,7 @@ Trương Đình Anh`
             objective: "PROFESSIONAL SUMMARY",
             education: "EDUCATION",
             projects: "FEATURED PROJECTS",
-            skills: "SKILLS"
+            skills: "TECHNICAL SKILLS"
         },
         objective: "Computer Science Fresher with an AI-first mindset and a passion for designing and building practical tools/solutions using Generative AI (Vibe Coding with Claude, Cursor). Hands-on experience ranging from web interface prototyping (Next.js, React, Tailwind CSS) to wireframing, API integration, and workflow automation. Possesses a strong ownership mindset, adapts quickly to new tools (n8n, low-code), and consistently focuses on the business value delivered to the end-users.",
         education: cvGlobalEdu.en,

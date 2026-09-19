@@ -30,7 +30,7 @@ var cvData = {
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Ứng viên QA/QC Tester với nền tảng Khoa học Máy tính vững chắc, thành thạo kiểm thử chức năng (Manual Testing), kiểm thử API bằng Postman và truy vấn cơ sở dữ liệu SQL để xác thực dữ liệu. Có tư duy logic cẩn trọng, hiểu rõ luồng phát triển phần mềm và chủ động ứng dụng AI tools (ChatGPT, Gemini) để tự động hóa việc thiết kế test case và phát hiện edge cases. Mong muốn đóng góp nâng cao chất lượng sản phẩm tại Favolist5 Asia.",

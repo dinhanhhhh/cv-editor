@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Lập trình viên Web với thế mạnh về JavaScript/TypeScript, React và Next.js. Có kinh nghiệm xây dựng ứng dụng Web responsive mượt mà trên Mobile/Tablet/Desktop, tối ưu hóa hiệu năng tải trang và áp dụng SEO kỹ thuật (HTML ngữ nghĩa, tối ưu metadata). Có kiến thức thực tế về quản lý hạ tầng đám mây (Vercel, Supabase Cloud) và kết nối cơ sở dữ liệu (PostgreSQL, MySQL). Kỹ năng tiếng Anh tốt và tinh thần tự giác cao giúp làm việc từ xa (remote) hiệu quả trực tiếp với các khách hàng/đối tác nước ngoài.",

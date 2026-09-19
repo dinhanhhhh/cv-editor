@@ -192,12 +192,32 @@ allDataFiles.forEach((file) => {
         }
 
         // QUY TẮC: Mốc thời gian thực tập Tami bắt buộc là 06/2025 - 12/2025 (6 tháng)
-        if (exp.name && exp.name.toUpperCase().includes("TAMI") && exp.date === "06/2025 - 09/2025") {
+        if (exp.name && exp.name.toUpperCase().includes("TAMI") && exp.date !== "06/2025 - 12/2025") {
           logError(
-            `[${file}] [${lang}] Kinh nghiệm TAMI có date = "${exp.date}". QUY TẮC: phải là "06/2025 - 12/2025" (6 tháng)!`
+            `[${file}] [${lang}] Kinh nghiệm TAMI có date = "${exp.date}". QUY TẮC BẮT BUỘC: phải là "06/2025 - 12/2025" (6 tháng)!`
           );
         }
       });
+    }
+
+    // QUY TẮC BẮT BUỘC: Tiêu đề mục kinh nghiệm phải chuẩn khuôn mẫu
+    if (dataLang.sections && dataLang.sections.experience) {
+      const expectedExpTitle = lang === "vi" ? "KINH NGHIỆM LÀM VIỆC" : "WORK EXPERIENCE";
+      if (dataLang.sections.experience !== expectedExpTitle) {
+        logError(
+          `[${file}] [${lang}] sections.experience = "${dataLang.sections.experience}". QUY TẮC BẮT BUỘC: phải luôn là "${expectedExpTitle}"!`
+        );
+      }
+    }
+
+    // QUY TẮC BẮT BUỘC: Tiêu đề mục kỹ năng phải chuẩn khuôn mẫu
+    if (dataLang.sections && dataLang.sections.skills) {
+      const expectedSkillsTitle = lang === "vi" ? "KỸ NĂNG CHUYÊN MÔN" : "TECHNICAL SKILLS";
+      if (dataLang.sections.skills !== expectedSkillsTitle) {
+        logError(
+          `[${file}] [${lang}] sections.skills = "${dataLang.sections.skills}". QUY TẮC BẮT BUỘC: phải luôn là "${expectedSkillsTitle}"!`
+        );
+      }
     }
   });
 });

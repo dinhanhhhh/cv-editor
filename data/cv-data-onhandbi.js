@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG KỸ THUẬT",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Sinh viên IT định hướng Fullstack Developer với nền tảng vững chắc về Frontend (React.js, Next.js, HTML5, CSS3, JavaScript/TypeScript, Responsive & UI/UX Design) và Backend (OOP, Node.js, RESTful API, PostgreSQL, MySQL, MongoDB). Đã có kinh nghiệm thực tế trong thiết kế cơ sở dữ liệu, xây dựng RESTful APIs và phát triển hệ thống phân tích dữ liệu chứng khoán. Sẵn sàng làm việc remote ban ngày (8:30 - 17:30) và trao đổi buổi tối khi cần, có tinh thần chủ động học hỏi, chịu khó tiếp thu feedback và sẵn sàng tiếp cận các công nghệ backend mới như Ruby hay Golang theo yêu cầu dự án tại On Hand BI.",

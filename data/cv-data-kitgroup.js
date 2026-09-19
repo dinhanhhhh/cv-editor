@@ -27,7 +27,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Full-Stack Developer có nền tảng vững vàng về Node.js, Next.js, TypeScript và cơ sở dữ liệu quan hệ MySQL. Có kiến thức cơ bản về dịch vụ đám mây AWS (S3, RDS) và quy trình làm việc Agile/Scrum qua các dự án học thuật và cá nhân. Tinh thần chủ động, sẵn sàng học hỏi công nghệ mới và phối hợp cùng đội ngũ để hoàn thành công việc chất lượng cao. Mong muốn gia nhập KIT Group để đóng góp vào sự phát triển của sản phẩm và tích lũy kinh nghiệm thực tế.",
@@ -115,7 +115,7 @@ var cvData = {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       projects: "TECHNICAL PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "A Full-Stack Developer Intern with a solid foundation in Node.js, Next.js, TypeScript, and MySQL relational database. Proficient in AWS cloud services (S3, RDS) and Agile/Scrum workflows through academic and personal projects. Proactive, fast learner, and team-oriented. Eager to join KIT Group to support real-world product development, write clean code, and learn from experienced mentors.",

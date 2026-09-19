@@ -33,7 +33,7 @@ var cvData = {
     sections: {
       objective: "MỤC TIÊU NGHỀ NGHIỆP",
       education: "HỌC VẤN",
-      experience: "KINH NGHIỆM THỰC TẾ",
+      experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG CHUYÊN MÔN",
     },
@@ -43,7 +43,7 @@ var cvData = {
     experience: [
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-        date: "03/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Nền tảng phân tích dữ liệu chứng khoán và quản lý thông tin trực tuyến.",
         tasks: [
@@ -191,7 +191,7 @@ SĐT: 0923202861`
     experience: [
       {
         name: "TAMI TECHNOLOGY CO., LTD",
-        date: "03/2025 - 09/2025",
+        date: "06/2025 - 12/2025",
         role: "Developer",
         desc: "Financial market data analytics and online information management platform.",
         tasks: [

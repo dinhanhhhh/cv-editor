@@ -27,7 +27,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Lập trình viên Full-Stack với nền tảng React.js, Next.js, Node.js và TypeScript. Có kinh nghiệm xây dựng ứng dụng web full-stack, tích hợp RESTful API, làm việc với cơ sở dữ liệu và triển khai tính năng ở cả frontend lẫn backend. Quan tâm đến automation, scripting và xử lý dữ liệu; luôn ưu tiên viết code sạch, dễ bảo trì. Sẵn sàng làm việc full-time, học nhanh và thích nghi tốt với nhiều nhiệm vụ IT khác nhau.",
@@ -131,7 +131,7 @@ var cvData = {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       projects: "FEATURED PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Full-Stack Developer with hands-on experience in React.js, Next.js, Node.js, and TypeScript. Experienced in building full-stack web applications, integrating RESTful APIs, working with databases, and delivering features across both frontend and backend. Interested in automation, scripting, and data-related tasks, with a strong focus on clean, maintainable code. Available full-time, eager to learn, and adaptable to various IT responsibilities.",

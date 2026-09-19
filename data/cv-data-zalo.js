@@ -20,9 +20,9 @@ var cvData = {
         sections: {
             objective: "TÓM TẮT CHUYÊN MÔN",
             education: "HỌC VẤN",
-            experience: "KINH NGHIỆM THỰC TẾ",
+            experience: "KINH NGHIỆM LÀM VIỆC",
             projects: "DỰ ÁN SẢN PHẨM TIÊU BIỂU",
-            skills: "KỸ NĂNG NỔI BẬT"
+            skills: "KỸ NĂNG CHUYÊN MÔN"
         },
         objective: "Cử nhân Khoa học Máy tính có tư duy Product-Oriented và định hướng User-Centric sắc bén. Sở hữu kỹ năng phân tích dữ liệu hệ thống mạnh mẽ và khả năng chuyển đổi các yêu cầu phức tạp thành tài liệu đặc tả sản phẩm (PRD, User Flows, Wireframe) rõ ràng cho đội ngũ Kỹ thuật. Có kinh nghiệm xây dựng các sản phẩm thực tế (E-commerce, Job Portal) độc lập và cộng tác nhóm, thành thạo việc chuẩn hóa tài liệu (Swagger, API docs, Markdown). Đam mê tự động hóa quy trình bằng AI (Cursor, Claude, ChatGPT) để nâng cao năng suất. Mong muốn gia nhập Zalo Business Solutions ở vị trí Product Intern để nghiên cứu hành vi người dùng, phân tích chỉ số và đồng hành triển khai các giải pháp sản phẩm nhắn tin & kinh doanh hiệu quả.",
         education: cvGlobalEdu.vi,
@@ -142,7 +142,7 @@ Trương Đình Anh`
             education: "EDUCATION",
             experience: "WORK EXPERIENCE",
             projects: "FEATURED PRODUCT PROJECTS",
-            skills: "KEY SKILLS"
+            skills: "TECHNICAL SKILLS"
         },
         objective: "Computer Science graduate with a strong Product-Oriented mindset and a sharp User-Centric focus. Possesses robust system data analysis skills and the ability to translate complex business needs into clear product specifications (PRDs, User Flows, Wireframes) for Engineering teams. Experienced in building practical web products (E-commerce, Job Portal) both independently and collaboratively, with a strong habit of process standardization (Swagger, API docs, Markdown). Highly proficient in leveraging AI tools (Cursor, Claude, ChatGPT) to automate workflows and optimize team productivity. Eager to join Zalo Business Solutions as a Product Intern to analyze user behavior, track product metrics, and deliver impactful messaging & business solutions.",
         education: cvGlobalEdu.en,

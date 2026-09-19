@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Full-Stack JavaScript có nền tảng vững về JavaScript/ES6+, Node.js, React/Redux và TypeScript. Nắm vững cấu trúc dữ liệu và lập trình chức năng (Functional Programming). Kinh nghiệm làm việc với Git và UI responsive. Mong muốn gia nhập BeOne học hỏi Odoo ERP và phát triển dự án thực tế dưới sự hướng dẫn của các mentor.",
@@ -134,7 +134,7 @@ GitHub: https://github.com/dinhanhhhh`,
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       projects: "TECHNICAL PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Full-Stack JavaScript Intern with a solid grasp of JavaScript/ES6+, React/Redux, Node.js, and TypeScript. Strong background in Data Structures and Functional Programming. Experienced in responsive UI design and Git. Eager to learn Odoo ERP and modern tech (PWA) under senior mentors at BeOne.",

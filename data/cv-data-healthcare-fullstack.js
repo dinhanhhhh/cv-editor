@@ -27,7 +27,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Full-Stack Developer với nền tảng vững về ReactJS, Next.js, Node.js và TypeScript. Có kinh nghiệm xây dựng ứng dụng web full-stack bao gồm dashboard quản trị, hệ thống quản lý người dùng và tích hợp RESTful API. Quan tâm đến lĩnh vực Y tế số (HealthTech) và mong muốn đóng góp vào các sản phẩm quản lý phòng khám, booking lịch hẹn. Sẵn sàng học hỏi domain nha khoa, làm việc Agile/Scrum và thích nghi nhanh với nhiều nhiệm vụ.",
@@ -115,7 +115,7 @@ var cvData = {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       projects: "FEATURED PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Full-Stack Developer Intern with a solid foundation in ReactJS, Next.js, Node.js, and TypeScript. Experienced in building full-stack web applications including admin dashboards, user management systems, and RESTful API integration. Passionate about HealthTech and eager to contribute to clinic management and appointment booking products. Ready to learn the dental/healthcare domain, work in Agile/Scrum, and adapt quickly to diverse tasks.",

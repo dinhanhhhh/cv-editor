@@ -27,7 +27,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Fresher với nền tảng Khoa học Máy tính và đam mê mạnh mẽ với AI, LLMs và Agentic AI. Có kinh nghiệm thực tế xây dựng hệ thống backend tự động hóa, tích hợp API và xử lý dữ liệu. Thành thạo Python và JavaScript, có khả năng tiếp thu nhanh các công nghệ mới như Generative AI, prompt engineering và các mô hình AI tiên tiến. Sẵn sàng làm việc full-time trong môi trường năng động và không ngừng học hỏi.",
@@ -117,7 +117,7 @@ var cvData = {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       projects: "FEATURED PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Computer Science graduate with a strong passion for AI, Large Language Models, and Agentic AI systems. Hands-on experience building automated backend systems, integrating APIs, and processing data at scale. Proficient in Python and JavaScript with a rapid learning ability for emerging AI technologies including Generative AI, prompt engineering, and advanced AI models. Eager to grow in a fast-paced, AI-driven environment.",

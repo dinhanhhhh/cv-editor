@@ -26,7 +26,7 @@ var cvData = {
     sections: {
       objective: "TÓM TẮT NĂNG LỰC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
       education: "HỌC VẤN",
     },
     objective:
@@ -99,7 +99,7 @@ var cvData = {
     sections: {
       objective: "PROFESSIONAL SUMMARY",
       projects: "FEATURED PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
       education: "EDUCATION",
     },
     objective:

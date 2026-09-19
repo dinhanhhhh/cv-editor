@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Frontend Developer chuyên React và Next.js với nền tảng Khoa học Máy tính vững vàng. Có kinh nghiệm xây dựng giao diện responsive mượt mà trên Mobile/Tablet/Desktop, tích hợp REST API và làm việc với các hệ thống cơ sở dữ liệu (PostgreSQL/Supabase, MySQL). Có tư duy hướng đối tượng (OOP) tốt và nền tảng lập trình C#/.NET (lợi thế lớn giúp nhanh chóng tiếp cận Unity/Game Development). Sẵn sàng làm việc full-time, học hỏi chủ động và phối hợp chặt chẽ cùng đội ngũ EZ Games để phát triển các sản phẩm công nghệ và game đột phá.",

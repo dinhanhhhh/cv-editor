@@ -30,7 +30,7 @@ var cvData = {
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Cử nhân Khoa học Máy tính có nền tảng thuật toán vững chắc và tư duy AI-first. Đam mê ứng dụng LLMs, Prompt Engineering để phát triển nhanh sản phẩm thực tế. Có kinh nghiệm xây dựng Web App (Next.js), AI Tool/Automation (Cloudflare Workers, Gemini API, Telegram Bot) và Backend (Node.js, SQL/NoSQL). Làm việc kỷ luật, chủ động, nhạy bén UI/UX và mong muốn tạo ra các sản phẩm tinh gọn (micro-SaaS) mang lại giá trị và doanh thu thật.",

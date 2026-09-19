@@ -22,6 +22,19 @@
   // Dữ liệu mẫu khởi đầu nếu chưa có gì
   const DEFAULT_SEED_DATA = [
     {
+      id: "job_namphuong_seed",
+      company: "NAM PHUONG TECHNOLOGY",
+      position: "Thực tập sinh Backend",
+      cvType: "namphuong",
+      cvLabel: "⚡ Nam Phương Tech BE Intern",
+      appliedDate: "2026-09-19",
+      status: "reviewing",
+      contact: "career@namphuongso.com / 076 381 3891 (Ms. Quỳnh)",
+      notes: "Tân Bình. Fulltime T2-T6 (08h-17h30). Hỗ trợ phát triển BE Web/App, API, CSDL. Lợi thế: C#, ASP.NET Core.",
+      jobUrl: "",
+      jdText: `NAM PHUONG TECHNOLOGY TUYỂN DỤNG\n1. Vị trí: Thực tập sinh Backend\n2. Hình thức làm việc: Fulltime từ thứ 2 đến thứ 6 (08:00 - 12h; 13h30 - 17h30)\n3. Địa điểm làm việc: Tòa nhà Vietnamairlines, 108 Hồng Hà, P2, Tân Bình, TP. HCM\n\nMô tả công việc:\n• Tham gia hỗ trợ phát triển hệ thống Back-end cho các dự án Web/App của công ty dưới sự hướng dẫn của Mentor.\n• Hỗ trợ xây dựng API, xử lý các chức năng và logic nghiệp vụ cơ bản của hệ thống.\n• Tham gia thiết kế, xây dựng và tối ưu cơ sở dữ liệu.\n• Phối hợp với BA, UI/UX Designer, Front-end và Mobile Developer để triển khai các tính năng theo yêu cầu dự án.\n• Hỗ trợ kiểm thử, bảo trì và nâng cấp các hệ thống hiện có.\n\nYêu cầu:\n• Sinh viên năm cuối hoặc mới tốt nghiệp Đại học/Cao đẳng chuyên ngành Công nghệ Thông tin, Khoa học Máy tính, Hệ thống Thông tin hoặc các ngành liên quan.\n• Có kiến thức cơ bản về lập trình hướng đối tượng (OOP), cấu trúc dữ liệu và giải thuật.\n• Có kiến thức hoặc đã thực hành với .NET (C#, ASP.NET Core) là một lợi thế.\n• Có tinh thần trách nhiệm, tư duy logic tốt và khả năng làm việc nhóm.\n\nQuyền lợi:\n• Chủ động học hỏi, ham tìm hiểu công nghệ mới.\n• Có cơ hội tham gia vào các dự án thực tế của công ty.\n• Môi trường làm việc chuyên nghiệp, thân thiện, hỗ trợ phát triển kỹ năng chuyên môn.\n• Được tiếp cận và học hỏi các công nghệ mới trong quá trình làm việc.\n• Có cơ hội trở thành nhân viên chính thức sau thời gian thực tập.\n• Hỗ trợ phụ cấp thực tập theo năng lực.\n\nCách ứng tuyển:\n• Gửi CV về địa chỉ email: career@namphuongso.com\n• Tiêu đề email: [Ứng tuyển Intern BE – Họ và tên]\n• Liên hệ: 076 381 3891 (Ms. Quỳnh)`
+    },
+    {
       id: "job_cgecom_seed",
       company: "CÔNG TY TNHH CG ECOM",
       position: "Full Stack Developer",
@@ -87,6 +100,13 @@
             }
           }
         });
+        // Tự động bổ sung job Nam Phương nếu chưa có trong danh sách
+        const hasNamPhuong = jobs.some(j => j.cvType === "namphuong" || (j.company && j.company.toLowerCase().includes("nam phuong")));
+        if (!hasNamPhuong) {
+          jobs.unshift(DEFAULT_SEED_DATA[0]);
+          updated = true;
+        }
+
         if (updated) saveJobs();
       } else {
         jobs = [...DEFAULT_SEED_DATA];

@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Lập trình viên Full-Stack JavaScript/TypeScript chủ động, đam mê giải quyết các bài toán hệ thống và tối ưu sản phẩm. Có khả năng tự thiết kế kiến trúc, làm chủ mã nguồn và sử dụng hiệu quả các công cụ hỗ trợ (GitHub Copilot, Claude) để tăng tốc độ phát triển mà không bị phụ thuộc. Mong muốn gia nhập Strapbuild để xây dựng các sản phẩm thực tế và phát triển hệ thống AI agent đột phá.",
@@ -173,7 +173,7 @@ SĐT: 0923202861`,
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
       projects: "TECHNICAL PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Self-driven Full-Stack JavaScript/TypeScript Developer with a strong passion for system design and product optimization. Capable of making independent architectural decisions, keeping full ownership of source code, and leveraging AI tools (GitHub Copilot, Claude) as accelerators without being dependent. Eager to join Strapbuild to build real-world products and develop innovative AI-agent systems.",

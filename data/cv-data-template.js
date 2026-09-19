@@ -29,7 +29,7 @@ var cvData = {
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Software Developer với nền tảng React.js, Next.js, Node.js, Express và TypeScript, có kinh nghiệm xây dựng ứng dụng web full-stack, tích hợp RESTful API và xử lý dữ liệu ở cả frontend lẫn backend. Chủ động ứng dụng AI tools như Gemini, ChatGPT và GitHub Copilot để tăng tốc phân tích, viết code, kiểm thử và tài liệu hóa. Quan tâm đến automation, clean architecture và khả năng duy trì sản phẩm thực tế. Sẵn sàng làm việc full-time, học nhanh và thích nghi tốt với nhiều domain công nghệ khác nhau.",

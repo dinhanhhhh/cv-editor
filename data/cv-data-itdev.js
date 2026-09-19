@@ -27,7 +27,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Sinh viên tốt nghiệp ngành Khoa học Máy tính có tư duy logic tốt, đam mê công nghệ và tinh thần chủ động cao. Thành thạo HTML, CSS, JavaScript, ReactJS để phát triển website và landing page chuẩn responsive. Có thói quen kết hợp các công cụ thiết kế (Figma, Canva) và trợ lý AI thông minh (Lovable AI, Claude, Copilot) để tăng tốc độ triển khai giao diện tối ưu. Nắm vững nền tảng cơ bản về cơ sở dữ liệu (MySQL, MongoDB) và Git. Sẵn sàng thực tập tối thiểu 3-6 tháng, làm việc nhóm tốt để đồng hành cùng các sản phẩm phần mềm của công ty.",

@@ -20,9 +20,9 @@ var cvData = {
         sections: {
             objective: "TÓM TẮT CHUYÊN MÔN",
             education: "HỌC VẤN",
-            experience: "KINH NGHIỆM THỰC TẾ",
+            experience: "KINH NGHIỆM LÀM VIỆC",
             projects: "DỰ ÁN TIÊU BIỂU",
-            skills: "KỸ NĂNG"
+            skills: "KỸ NĂNG CHUYÊN MÔN"
         },
         objective: "Cử nhân Khoa học Máy tính chuyên chuyển đổi thiết kế (Figma, Stitch) sang giao diện HTML/CSS/JS (JQuery) responsive chuẩn W3C và tích hợp theme WordPress. Thành thạo ứng dụng AI (Cursor, Claude, Copilot) giúp tối ưu hóa hiệu suất và chất lượng code. Mong muốn gia nhập Vietry ở vị trí Front-End Web Developer để xây dựng giao diện tối ưu và bảo trì hệ thống hiệu quả.",
         education: cvGlobalEdu.vi,
@@ -142,7 +142,7 @@ Trương Đình Anh`
             education: "EDUCATION",
             experience: "WORK EXPERIENCE",
             projects: "FEATURED PROJECTS",
-            skills: "KEY SKILLS"
+            skills: "TECHNICAL SKILLS"
         },
         objective: "Computer Science graduate specializing in converting designs (Figma, Photoshop) into W3C-compliant responsive HTML/CSS/JS (JQuery) layouts and custom WordPress themes. Highly proficient in leveraging AI tools (Cursor, Claude, Copilot) to optimize development speed and code quality. Eager to join Vietry as a Front-End Web Developer to deliver pixel-perfect user interfaces and maintain web systems effectively.",
         education: cvGlobalEdu.en,

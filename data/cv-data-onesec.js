@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Intern Developer định hướng React Native với nền tảng JavaScript và TypeScript vững vàng. Nắm rõ các nguyên lý cốt lõi của React (State, Props, Component Lifecycle) và quản lý trạng thái (Redux, Context API). Có tư duy phát triển giao diện responsive, đang học hỏi cấu trúc React Native, Expo CLI và cách chuyển dịch tư duy từ web sang mobile. Sẵn sàng thích nghi nhanh với môi trường startup để phát triển ứng dụng Small Jobs tại ONESEC.",

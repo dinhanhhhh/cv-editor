@@ -31,7 +31,7 @@ var cvData = {
       education: "EDUCATION",
       experience: "WORK EXPERIENCE",
       projects: "FEATURED PROJECTS",
-      skills: "SKILLS",
+      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Web Development Engineer Intern with strong foundations in React.js, Next.js, JavaScript, and Node.js (Express). Hands-on experience building responsive web interfaces, automating internal workflows, and working with SQL/NoSQL databases (Firebase, MongoDB). Experienced in browser debugging, Postman testing, and Google ecosystem integrations. Strong technical English communicator confident in client support and collaborating with US partners.",
@@ -132,7 +132,7 @@ var cvData = {
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Web Development Engineer với nền tảng React.js, Next.js, JavaScript và Node.js (Express). Có kinh nghiệm thực tế xây dựng giao diện web responsive, tự động hóa quy trình nội bộ (automated workflows) và làm việc với hệ cơ sở dữ liệu SQL/NoSQL (Firebase, MongoDB). Có kỹ năng debug trên trình duyệt, kiểm thử API và tích hợp dịch vụ Google. Giao tiếp Tiếng Anh tốt, sẵn sàng hỗ trợ kỹ thuật khách hàng và làm việc với đối tác Mỹ.",

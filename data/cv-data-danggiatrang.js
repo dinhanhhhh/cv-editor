@@ -29,7 +29,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
-      skills: "KỸ NĂNG & CÔNG CỤ",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Thực tập sinh Backend & Data Engineer có nền tảng về Node.js, JavaScript/TypeScript và cơ sở dữ liệu (PostgreSQL, MongoDB). Có kinh nghiệm viết script thu thập, chuẩn hóa dữ liệu từ REST API và sử dụng Docker. Đang chủ động tìm hiểu các công nghệ về Data Pipeline (Kafka, MinIO). Mong muốn thực tập tại Đặng Gia Trang để hỗ trợ tối ưu hệ thống dữ liệu và học hỏi từ các dự án thực tế.",

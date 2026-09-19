@@ -33,7 +33,7 @@ var cvData = {
     sections: {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
-      experience: "KINH NGHIỆM THỰC TẾ",
+      experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG CHUYÊN MÔN",
     },

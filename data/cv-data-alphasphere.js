@@ -30,7 +30,7 @@ var cvData = {
       education: "HỌC VẤN",
       experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Cử nhân Khoa học Máy tính có nền tảng thuật toán và tư duy logic vững chắc. Có kinh nghiệm thực chiến phát triển các ứng dụng Web Fullstack bằng React.js, Next.js, Node.js/Express và TypeScript. Đam mê học hỏi qua trải nghiệm thực tế (learn by doing), luôn hướng tới viết code sạch, tối ưu hiệu suất hệ thống. Sẵn sàng cống hiến 100% thời gian và năng lượng để đồng hành cùng AlphaSphere phát triển các dự án thực tế.",

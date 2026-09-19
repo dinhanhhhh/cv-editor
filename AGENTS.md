@@ -46,7 +46,9 @@
 
 ### ⚠️ Quy tắc dữ liệu CV (BẮT BUỘC):
 - **Role chuẩn:** Mọi trường `role` trong các file `data/cv-data-*.js` (ở cả mục Kinh nghiệm/Experience lẫn Dự án/Projects, cho cả tiếng Việt và tiếng Anh) **BẮT BUỘC LUÔN ĐỂ LÀ `"Developer"`**. Tuyệt đối không tự ý đổi thành Web Developer, Full-Stack Developer, hay System Integrator...
-- **Thời gian thực tập chuẩn (Tami Technology):** Mốc thời gian làm việc tại CÔNG TY TNHH CÔNG NGHỆ TAMI / TAMI TECHNOLOGY CO., LTD **BẮT BUỘC LUÔN ĐỂ LÀ `"06/2025 - 12/2025"`** (6 tháng). Tuyệt đối không để là 06/2025 - 09/2025.
+- **Thời gian thực tập chuẩn (Tami Technology):** Mốc thời gian làm việc tại CÔNG TY TNHH CÔNG NGHỆ TAMI / TAMI TECHNOLOGY CO., LTD **BẮT BUỘC LUÔN ĐỂ LÀ `"06/2025 - 12/2025"`** (6 tháng). Tuyệt đối không để là 03/2025 - 09/2025 hay 06/2025 - 09/2025.
+- **Tiêu đề mục kinh nghiệm chuẩn:** Trường `sections.experience` (nếu có khai báo) **BẮT BUỘC LUÔN ĐỂ LÀ `"KINH NGHIỆM LÀM VIỆC"`** (tiếng Việt) và **`"WORK EXPERIENCE"`** (tiếng Anh). Tuyệt đối không tự ý đổi thành "KINH NGHIỆM THỰC TẾ" hay "KINH NGHIỆM THỰC CHIẾN".
+- **Tiêu đề mục kỹ năng chuẩn:** Trường `sections.skills` (nếu có khai báo) **BẮT BUỘC LUÔN ĐỂ LÀ `"KỸ NĂNG CHUYÊN MÔN"`** (tiếng Việt) và **`"TECHNICAL SKILLS"`** (tiếng Anh). Tuyệt đối không tự ý đổi thành "KỸ NĂNG", "SKILLS" hay "KEY SKILLS".
 
 ---
 

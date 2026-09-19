@@ -27,7 +27,7 @@ var cvData = {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
       projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG",
+      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Lập trình viên Frontend chuyên ReactJS và Next.js với tư duy AI-first và sự hiểu biết sâu sắc về UI/UX. Luôn chú trọng thiết kế giao diện responsive mượt mà và tối ưu hóa trải nghiệm người dùng (UX flow, micro-interactions). Có kinh nghiệm thực tế phát triển các dự án cá nhân và sản phẩm full-stack, tích hợp các tính năng realtime (WebSocket) và API phức tạp. Chủ động ứng dụng các công cụ AI (Gemini, Claude, GitHub Copilot) để tăng tốc độ phát triển và tối ưu hóa chất lượng code. Sẵn sàng học hỏi, làm việc nhóm tốt và mong muốn gắn bó lâu dài để đồng hành cùng CatSpeak phát triển các giải pháp EdTech đột phá.",

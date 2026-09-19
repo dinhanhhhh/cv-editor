@@ -1104,6 +1104,11 @@ function renderCV(lang) {
     }
   }
 
+  if (!d.sections) d.sections = {};
+  if (!d.sections.skills) {
+    d.sections.skills = lang === "vi" ? "KỸ NĂNG CHUYÊN MÔN" : "TECHNICAL SKILLS";
+  }
+
   updateProjectSelector(d, lang);
 
   elements.downloadBtnText.innerText = d.btnText;
@@ -1397,8 +1402,7 @@ Tôi xin gửi kèm CV và mong muốn được trao đổi chi tiết hơn tron
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0923202861
-GitHub: https://github.com/dinhanhhhh`,
+SĐT: 0923202861`,
     en: `[Subject: Job Application: Developer – Truong Dinh Anh]
 
 Dear Hiring Team,
@@ -1411,8 +1415,7 @@ Please find my attached CV for more details. I look forward to the opportunity o
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0923202861
-GitHub: https://github.com/dinhanhhhh`,
+Phone: 0923202861`,
   },
   short: {
     vi: `[Tiêu đề Email: Ứng tuyển Lập trình viên – Trương Đình Anh]
@@ -1427,8 +1430,7 @@ Chi tiết về các dự án và kỹ năng của tôi được trình bày tro
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0923202861
-GitHub: https://github.com/dinhanhhhh`,
+SĐT: 0923202861`,
     en: `[Subject: Job Application: Developer – Truong Dinh Anh]
 
 Dear Hiring Team,
@@ -1441,8 +1443,7 @@ Please find my CV attached for more details on my projects and skills. I look fo
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0923202861
-GitHub: https://github.com/dinhanhhhh`,
+Phone: 0923202861`,
   },
   warm: {
     vi: `[Tiêu đề Email: Ứng tuyển Lập trình viên – Mong muốn đồng hành cùng Quý công ty]
@@ -1459,8 +1460,7 @@ Chúc Quý công ty một ngày làm việc hiệu quả!
 
 Trân trọng,
 Trương Đình Anh
-SĐT: 0923202861
-GitHub: https://github.com/dinhanhhhh`,
+SĐT: 0923202861`,
     en: `[Subject: Job Application: Developer – Enthusiastic and Ready to Contribute]
 
 Dear Hiring Team,
@@ -1475,8 +1475,7 @@ Have a wonderful day!
 
 Sincerely,
 Truong Dinh Anh
-Phone: 0923202861
-GitHub: https://github.com/dinhanhhhh`,
+Phone: 0923202861`,
   },
 };
 
@@ -1636,14 +1635,14 @@ function updateCoverLetterText() {
       clCopyBtn.textContent = "Sao chép 📋";
     }
     if (coverLetterBtn) {
-      coverLetterBtn.textContent = "✉️ Thư giới thiệu";
-      coverLetterBtn.setAttribute("title", "Xem thư xin việc (Cover Letter)");
+      coverLetterBtn.textContent = "✉️ Thư & Email ứng tuyển";
+      coverLetterBtn.setAttribute("title", "Soạn Email Ứng Tuyển 1-Click & Thư giới thiệu (Cover Letter)");
     }
   } else {
-    if (clModalTitle) clModalTitle.innerHTML = "✉️ Cover Letter";
+    if (clModalTitle) clModalTitle.innerHTML = "✉️ Cover Letter & Application Email";
     if (clModalSubtitle)
       clModalSubtitle.innerHTML =
-        "A concise, well-written cover letter will help you stand out and make a professional impression on recruiters.";
+        "A concise, well-written cover letter or application email will help you stand out and make a professional impression on recruiters.";
     if (editorLabel) editorLabel.innerHTML = "✏️ Editor (Raw Text)";
     if (previewLabel) previewLabel.innerHTML = "👀 HTML Preview";
     if (
@@ -1657,8 +1656,8 @@ function updateCoverLetterText() {
       clCopyBtn.textContent = "Copy 📋";
     }
     if (coverLetterBtn) {
-      coverLetterBtn.textContent = "✉️ Cover Letter";
-      coverLetterBtn.setAttribute("title", "View Cover Letter");
+      coverLetterBtn.textContent = "✉️ Cover Letter & Email";
+      coverLetterBtn.setAttribute("title", "Application Email & Cover Letter");
     }
   }
 
@@ -1806,12 +1805,18 @@ function initCoverLetter() {
     };
   }
 
+  window.updateCoverLetterText = updateCoverLetterText;
+
   if (coverLetterBtn && clModalOverlay) {
     coverLetterBtn.onclick = () => {
-      updateCoverLetterText();
-      clModalOverlay.style.display = "flex";
-      clModalOverlay.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
+      if (window.cvEmailGen && typeof window.cvEmailGen.openModal === "function") {
+        window.cvEmailGen.openModal(null, "email");
+      } else {
+        updateCoverLetterText();
+        clModalOverlay.style.display = "flex";
+        clModalOverlay.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      }
     };
 
     const closeModal = () => {
