@@ -11,51 +11,82 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/cv-layout.css?v=1.3.5">
+    <link rel="stylesheet" href="css/cv-layout.css?v=1.4.7">
     <!-- Manifest (nguồn danh sách phiên bản duy nhất) phải nạp trước router -->
     <script src="data/cv-manifest.js?v=1.2.1"></script>
     <!-- Router Logic (Xử lý nạp dữ liệu ngay lập tức) -->
-    <script src="js/cv-router.js?v=1.2.0"></script>
+    <script src="js/cv-router.js?v=1.2.4"></script>
 </head>
 
 <body>
 
     <a class="skip-link" href="#cvContent">Bỏ qua phần điều khiển và đến nội dung CV</a>
 
-    <div class="controls" aria-label="CV controls">
-        <!-- MENU CHỌN PHIÊN BẢN (DỌC) — render động từ data/cv-manifest.js -->
-        <nav class="version-switch" aria-label="Chọn phiên bản CV" id="versionSwitch">
-            <div class="version-label">📦 Bản CV</div>
+    <!-- MENU CHỌN PHIÊN BẢN (DỌC TRÊN ĐỈNH) — render động từ data/cv-manifest.js -->
+    <nav class="version-switch" aria-label="Chọn phiên bản CV" id="versionSwitch">
+        <div class="version-header-sticky">
+            <div class="version-header-top">
+                <div class="version-label">📦 Bản CV (<span id="versionCount">0</span>)</div>
+                <button type="button" class="version-toggle-btn" id="versionToggleBtn" title="Thu gọn danh sách bản CV" aria-label="Thu gọn hoặc mở rộng danh sách">▲</button>
+            </div>
+            <div class="version-search-wrap">
+                <input type="text" id="versionSearchInput" class="version-search-input" placeholder="🔍 Lọc bản..." aria-label="Tìm nhanh bản CV" autocomplete="off" />
+            </div>
+        </div>
+        <div class="version-list" id="versionList">
             <!-- Các nút phiên bản được chèn bằng JavaScript từ CV_MANIFEST -->
-        </nav>
+        </div>
+    </nav>
 
-        <div class="lang-switch" role="group" aria-label="Chọn ngôn ngữ CV">
-            <button type="button" class="lang-item active" id="lang-vi" aria-pressed="true">VI</button>
-            <button type="button" class="lang-item" id="lang-en" aria-pressed="false">EN</button>
+    <!-- CỤM ĐIỀU KHIỂN BÊN PHẢI (GHIM DƯỚI ĐÁY BẰNG VỚI CỘT TRÁI) -->
+    <div class="controls" aria-label="CV controls">
+        <!-- HÀNG 1: NGÔN NGỮ + ĐỔI CỠ CHỮ -->
+        <div class="controls-row font-lang-row">
+            <div class="lang-switch" role="group" aria-label="Chọn ngôn ngữ CV">
+                <button type="button" class="lang-item active" id="lang-vi" aria-pressed="true">VI</button>
+                <button type="button" class="lang-item" id="lang-en" aria-pressed="false">EN</button>
+            </div>
+            <div class="font-customizer" role="group" aria-label="Tùy chỉnh cỡ chữ">
+                <button id="font-decrease" type="button" title="Giảm font chữ (-)" aria-label="Giảm cỡ chữ CV">A-</button>
+                <div class="font-size-display" id="fontSizeDisplay" aria-live="polite">10.5pt</div>
+                <button id="font-increase" type="button" title="Tăng font chữ (+)" aria-label="Tăng cỡ chữ CV">A+</button>
+            </div>
         </div>
 
-        <div class="font-customizer" role="group" aria-label="Tùy chỉnh cỡ chữ">
-            <button id="font-decrease" type="button" title="Giảm font chữ" aria-label="Giảm cỡ chữ CV">A-</button>
-            <div class="font-size-display" id="fontSizeDisplay" aria-live="polite">10.5pt</div>
-            <button id="font-increase" type="button" title="Tăng font chữ" aria-label="Tăng cỡ chữ CV">A+</button>
+        <!-- THƯỚC ĐO ĐỘ TRÀN TRANG A4 -->
+        <div class="a4-fit-meter" id="a4FitMeter" title="Thước đo dung lượng trang A4. Bấm để tự động co vừa 1 trang (Magic Fit [M])">
+            <div class="a4-fit-header">
+                <span class="a4-fit-title">📄 Trang A4</span>
+                <span class="a4-fit-percent" id="a4FitPercent">--%</span>
+            </div>
+            <div class="a4-fit-track">
+                <div class="a4-fit-progress" id="a4FitProgress" style="width: 0%;"></div>
+            </div>
+            <div class="a4-fit-status" id="a4FitStatus">Đang tính...</div>
         </div>
 
-        <button class="magic-btn" id="magicFitBtn" type="button" title="Tự động căn chỉnh vừa 1 trang A4"
-            aria-label="Tự động căn chỉnh CV vừa một trang A4">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round">
-                <path
-                    d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
-            </svg>
-            Magic Fit ✨
-        </button>
+        <!-- HÀNG 2: MAGIC FIT & A4 PREVIEW -->
+        <div class="controls-row controls-row-buttons">
+            <button class="magic-btn" id="magicFitBtn" type="button" title="Tự động căn chỉnh vừa 1 trang A4 [M]"
+                aria-label="Tự động căn chỉnh CV vừa một trang A4">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path
+                        d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                </svg>
+                Magic Fit ✨
+            </button>
+            <button class="a4-preview-btn" id="a4PreviewBtn" type="button" title="Bật hoặc tắt xem khung A4 cố định"
+                aria-pressed="false" aria-label="Bật hoặc tắt chế độ xem trước A4">📄 A4 Preview</button>
+        </div>
 
-        <button class="reset-btn" id="resetBtn" type="button" title="Đặt lại về mặc định"
-            aria-label="Đặt lại bố cục CV về mặc định">Reset Layout 🔄</button>
-        <button class="reset-data-btn" id="resetDataBtn" type="button" title="Khôi phục toàn bộ nội dung gốc"
-            aria-label="Khôi phục toàn bộ nội dung CV gốc">Reset Data 🧹</button>
-        <button class="a4-preview-btn" id="a4PreviewBtn" type="button" title="Bật hoặc tắt xem khung A4 cố định"
-            aria-pressed="false" aria-label="Bật hoặc tắt chế độ xem trước A4">📄 A4 Preview</button>
+        <!-- HÀNG 3: RESET LAYOUT & RESET DATA -->
+        <div class="controls-row controls-row-buttons">
+            <button class="reset-btn" id="resetBtn" type="button" title="Đặt lại về mặc định"
+                aria-label="Đặt lại bố cục CV về mặc định">Reset Layout 🔄</button>
+            <button class="reset-data-btn" id="resetDataBtn" type="button" title="Khôi phục toàn bộ nội dung gốc"
+                aria-label="Khôi phục toàn bộ nội dung CV gốc">Reset Data 🧹</button>
+        </div>
         <button class="export-cv-btn" id="exportCvBtn" type="button" title="Xuất dữ liệu CV đã chỉnh sửa"
             aria-label="Xuất dữ liệu CV" style="display: none;">💾 Xuất file JS</button>
 
@@ -83,25 +114,32 @@
 
     <!-- Các nút công cụ bổ trợ bên trái -->
     <div class="left-controls" aria-label="CV secondary controls">
+        <!-- 3 Nút chính ứng tuyển (Full width) -->
         <button class="job-tracker-btn" id="jobTrackerBtn" type="button"
-            title="Theo dõi tiến độ nộp hồ sơ các công ty" aria-label="Bảng theo dõi ứng tuyển">
+            title="Theo dõi tiến độ nộp hồ sơ các công ty [T]" aria-label="Bảng theo dõi ứng tuyển">
             📋 Tiến độ ứng tuyển <span class="tracker-badge" id="trackerBadge" style="display: none;">0</span>
         </button>
         <button class="cover-letter-btn email-cover-btn" id="coverLetterBtn" type="button"
-            title="Soạn Email Ứng Tuyển 1-Click & Thư giới thiệu (Cover Letter)" aria-label="Soạn thư & Email ứng tuyển">✉️ Thư & Email ứng tuyển</button>
-        <button class="hr-view-btn" id="hrViewBtn" type="button"
-            title="Chuyển sang chế độ xem sạch cho Nhà tuyển dụng" aria-label="Xem kiểu Nhà tuyển dụng">👁️ Giao diện HR</button>
-        <button class="ats-match-btn" id="atsMatchBtn" type="button"
-            title="So khớp CV với JD & Chấm điểm ATS" aria-label="So khớp CV với JD">🎯 So khớp JD</button>
+            title="Soạn Email Ứng Tuyển 1-Click & Thư giới thiệu [E]" aria-label="Soạn thư & Email ứng tuyển">✉️ Thư & Email ứng tuyển</button>
         <button class="interview-prep-btn" id="interviewPrepBtn" type="button"
-            title="Cẩm nang Phỏng vấn: Giới thiệu bản thân 30s & Top câu hỏi kỹ thuật STAR" aria-label="Cẩm nang Phỏng vấn">🎙️ Ôn phỏng vấn</button>
-        <button class="diff-btn" id="diffBtn" type="button"
-            title="So sánh các phiên bản CV" aria-label="So sánh các phiên bản CV">⚖️ So sánh CV</button>
-        <button class="live-edit-btn" id="liveEditBtn" type="button"
-            title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV" aria-pressed="false"
-            aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Chỉnh sửa nhanh</button>
-        <button class="settings-btn" id="settingsBtn" type="button"
-            title="Cấu hình Bố cục & Giao diện" aria-label="Cấu hình Bố cục & Giao diện">⚙️ Cấu hình CV</button>
+            title="Cẩm nang Phỏng vấn 1-Click: STAR Q&A [I]" aria-label="Cẩm nang Phỏng vấn">🎙️ Ôn phỏng vấn</button>
+
+        <!-- Lưới 2 cột cho các công cụ bổ trợ (Giảm 50% chiều cao) -->
+        <div class="left-tools-grid">
+            <button class="ats-match-btn" id="atsMatchBtn" type="button"
+                title="So khớp CV với JD & Chấm điểm ATS" aria-label="So khớp CV với JD">🎯 So khớp JD</button>
+            <button class="hr-view-btn" id="hrViewBtn" type="button"
+                title="Chuyển sang chế độ xem sạch cho Nhà tuyển dụng" aria-label="Xem kiểu Nhà tuyển dụng">👁️ HR View</button>
+            <button class="live-edit-btn" id="liveEditBtn" type="button"
+                title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV [L]" aria-pressed="false"
+                aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Sửa nhanh</button>
+            <button class="diff-btn" id="diffBtn" type="button"
+                title="So sánh các phiên bản CV" aria-label="So sánh các phiên bản CV">⚖️ So sánh</button>
+            <button class="settings-btn" id="settingsBtn" type="button"
+                title="Cấu hình Bố cục & Giao diện [S]" aria-label="Cấu hình Bố cục & Giao diện">⚙️ Cấu hình</button>
+            <button class="hotkeys-btn" id="hotkeysBtn" type="button"
+                title="Bảng phím tắt thao tác nhanh [?]" aria-label="Bảng phím tắt">⌨️ Phím tắt</button>
+        </div>
     </div>
 
     <main class="cv-preview" id="cvContent" tabindex="-1">
@@ -566,6 +604,7 @@
                 </div>
                 <div class="jt-header-actions">
                     <button type="button" class="jt-top-btn jt-add-btn" id="jtAddBtn">➕ Thêm ứng tuyển</button>
+                    <button type="button" class="jt-top-btn jt-sync-btn" id="jtSyncBtn" title="Đồng bộ danh sách ứng tuyển lên Cloudflare KV">☁️ Sync Cloud</button>
                     <button type="button" class="jt-top-btn jt-backup-btn" id="jtExportBtn" title="Sao lưu toàn bộ danh sách ra file JSON">📥 Backup</button>
                     <button type="button" class="jt-top-btn jt-restore-btn" id="jtImportBtn" title="Nhập danh sách từ file JSON">📤 Restore</button>
                     <button type="button" class="cl-modal-close" id="jobTrackerCloseBtn" aria-label="Đóng">&times;</button>
@@ -685,12 +724,38 @@
         </div>
     </div>
 
+    <!-- Cloud Sync Modal (Đồng bộ đám mây Cloudflare KV) -->
+    <div class="cl-modal-overlay" id="jtSyncModalOverlay" aria-hidden="true" style="display: none; z-index: 1250;">
+        <div class="cl-modal" style="max-width: 440px; padding: 22px; background: white; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+                <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #1e293b;">☁️ Đồng bộ Cloudflare KV</h3>
+                <button type="button" class="cl-modal-close" id="jtSyncCloseTopBtn" style="font-size: 20px; border: none; background: transparent; cursor: pointer; color: #64748b;">&times;</button>
+            </div>
+            <p style="font-size: 12.5px; color: #64748b; line-height: 1.5; margin-top: 0; margin-bottom: 14px;">
+                Lưu trữ và đồng bộ danh sách đơn ứng tuyển an toàn trên Cloudflare KV. Bạn có thể truy cập hoặc cập nhật danh sách trên mọi thiết bị bằng mã PIN.
+            </p>
+            <div style="margin-bottom: 14px;">
+                <label for="jtSyncPinInput" style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px; color: #334155;">🔑 Mã PIN cá nhân bí mật:</label>
+                <input type="text" id="jtSyncPinInput" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; font-weight: 600; box-sizing: border-box; outline: none;" placeholder="vd: dinhanh2026">
+                <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Dùng cùng 1 mã PIN trên các thiết bị để chia sẻ chung danh sách ứng tuyển.</div>
+            </div>
+            <div id="jtSyncStatusMsg" style="display: none; font-size: 12px; margin-bottom: 14px; padding: 8px 12px; border-radius: 8px; line-height: 1.4;"></div>
+            <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                <button type="button" class="cl-btn-secondary" id="jtSyncCancelBtn" style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #cbd5e1; background: white; cursor: pointer;">Hủy</button>
+                <button type="button" class="cl-btn-secondary" id="jtSyncPullBtn" style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; cursor: pointer;">📥 Tải từ Cloud</button>
+                <button type="button" class="cl-btn-primary" id="jtSyncPushBtn" style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: none; background: #7c3aed; color: white; cursor: pointer;">☁️ Tải lên Cloud</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Script Quản lý Tiến độ ứng tuyển -->
-    <script defer src="js/cv-tracker.js?v=1.3.3"></script>
+    <script defer src="js/cv-tracker.js?v=1.3.6"></script>
     <!-- Script Tạo Email Ứng Tuyển 1-Click -->
-    <script defer src="js/cv-email-generator.js?v=1.3.2"></script>
+    <script defer src="js/cv-email-generator.js?v=1.3.5"></script>
     <!-- Script Cẩm nang Phỏng vấn 1-Click -->
-    <script defer src="js/cv-interview-prep.js?v=1.0.0"></script>
+    <script defer src="js/cv-interview-prep.js?v=1.0.5"></script>
+    <!-- Script Quản lý Phím tắt thao tác nhanh -->
+    <script defer src="js/cv-hotkeys.js?v=1.0.0"></script>
 </body>
 
 </html>

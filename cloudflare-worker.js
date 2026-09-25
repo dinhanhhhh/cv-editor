@@ -64,6 +64,54 @@ export default {
       });
     }
 
+    // 0.1 API LƯU & TẢI DỮ LIỆU JOB TRACKER LÊN CLOUDFLARE KV
+    if (url.pathname === "/api/tracker") {
+      if (!env.CV_KV) {
+        return new Response(
+          JSON.stringify({ error: "CV_KV namespace is not bound in Cloudflare Worker settings." }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+
+      const pin = (url.searchParams.get("pin") || "default").trim().toLowerCase();
+
+      if (request.method === "GET") {
+        const trackerData = await env.CV_KV.get("tracker:" + pin);
+        if (!trackerData) {
+          return new Response(
+            JSON.stringify({ success: true, jobs: [], message: "No data found for this PIN" }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+        return new Response(trackerData, {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      if (request.method === "POST") {
+        try {
+          const body = await request.json();
+          const jobs = body.jobs || [];
+          const payload = JSON.stringify({
+            updatedAt: new Date().toISOString(),
+            pin,
+            jobs,
+          });
+          // Lưu dữ liệu trong 365 ngày
+          await env.CV_KV.put("tracker:" + pin, payload, { expirationTtl: 365 * 86400 });
+          return new Response(
+            JSON.stringify({ success: true, count: jobs.length, message: "Đã đồng bộ lên Cloud KV thành công!" }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        } catch (err) {
+          return new Response(
+            JSON.stringify({ error: "Invalid JSON payload: " + err.message }),
+            { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+    }
+
     if (request.method !== "POST") {
       return new Response("Method Not Allowed", {
         status: 405,

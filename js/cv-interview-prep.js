@@ -13,6 +13,90 @@
   // Kho câu hỏi kỹ thuật chuyên sâu theo từng mảng công nghệ
   const QUESTION_BANK = [
     {
+      id: "ecommerce_cart_order",
+      keywords: ["ecommerce", "e-commerce", "thương mại điện tử", "giỏ hàng", "đơn hàng", "checkout", "cart"],
+      category: "E-Commerce & System Architecture",
+      q_vi: "Trong dự án Nền tảng Thương mại Điện tử (E-Commerce Platform), bạn thiết kế luồng Giỏ hàng, Đặt hàng (Checkout) và xử lý đồng bộ giữa Frontend và Backend như thế nào?",
+      star_vi: {
+        situation: "Hệ thống bán hàng online cần phục vụ cả khách vãng lai và khách đã đăng nhập, bảo đảm không mất giỏ hàng và tránh đặt hàng khi hết tồn kho.",
+        task: "Xây dựng luồng giỏ hàng mượt mà ở Client và đồng bộ an toàn ở Server Database, xử lý checkout atomic và bảo vệ tính toàn vẹn dữ liệu.",
+        action: "Khách chưa đăng nhập lưu giỏ hàng ở LocalStorage để thêm sản phẩm tức thì; khi đăng nhập tự động gọi API merge giỏ hàng vào MongoDB/MySQL. Khi bấm Thanh toán, Backend kiểm tra tồn kho (inventory check), mở Database Transaction để trừ số lượng sản phẩm và tạo đơn hàng (Order Lifecycle) trước khi phản hồi.",
+        result: "Trải nghiệm mua sắm mượt mà, không gặp tình trạng âm kho (race condition), thời gian xử lý API đặt hàng dưới 200ms."
+      }
+    },
+    {
+      id: "sql_vs_nosql_ecommerce",
+      keywords: ["postgresql", "mongodb", "mysql", "nosql", "sql", "csdl", "database design"],
+      category: "Database & System Architecture",
+      q_vi: "Khi nào bạn chọn PostgreSQL (SQL) và khi nào chọn MongoDB (NoSQL) trong một hệ thống E-commerce đa dạng mặt hàng?",
+      star_vi: {
+        situation: "Hệ thống E-commerce xử lý song song cả giao dịch tài chính nhạy cảm lẫn danh mục hàng hóa đa dạng với vô số biến thể sản phẩm khác nhau.",
+        task: "Lựa chọn và phối hợp giữa CSDL quan hệ (SQL) và CSDL phi quan hệ (NoSQL) để vừa đảm bảo an toàn giao dịch vừa linh hoạt mở rộng nghiệp vụ.",
+        action: "Sử dụng PostgreSQL/MySQL cho User, Đơn hàng (Orders) và Giao dịch thanh toán đòi hỏi tính toàn vẹn dữ liệu và chuẩn ACID tuyệt đối. Sử dụng MongoDB cho Danh mục sản phẩm (Product Catalog) vì mỗi mặt hàng có thuộc tính riêng biệt (quần áo có size/màu, điện máy có chip/ram); schema JSON linh hoạt giúp truy vấn nhanh và thêm thuộc tính mà không cần chạy migration nặng nề.",
+        result: "Đảm bảo 100% tính chính xác của hóa đơn và doanh thu, đồng thời tốc độ truy xuất trang sản phẩm luôn duy trì dưới 200ms."
+      }
+    },
+    {
+      id: "nextjs_ssr_seo_ecommerce",
+      keywords: ["next.js", "nextjs", "ssr", "isr", "seo", "render", "vite", "react"],
+      category: "Frontend & SEO Architecture",
+      q_vi: "Next.js khác gì React thuần (SPA/Vite)? Tại sao các nền tảng E-commerce lại bắt buộc phải ưu tiên sử dụng SSR và ISR của Next.js?",
+      star_vi: {
+        situation: "Website thương mại điện tử cần hiển thị sản phẩm ngay lập tức và phải được Google Bot cào dữ liệu nhanh chóng để đạt thứ hạng SEO cao.",
+        task: "Khắc phục nhược điểm của React SPA truyền thống: ban đầu chỉ có file HTML trắng, phải tải JS rồi mới render, gây tải chậm lần đầu và rất kém SEO.",
+        action: "Áp dụng Next.js với SSR (Server-Side Rendering) để sinh sẵn mã HTML chứa đầy đủ thông tin sản phẩm và thẻ meta OpenGraph trực tiếp từ Server. Kết hợp ISR (Incremental Static Regeneration) để tạo sẵn trang HTML tĩnh cho hàng nghìn sản phẩm và tự động làm mới ngầm (revalidate) định kỳ mà không cần build lại toàn bộ ứng dụng.",
+        result: "Trang sản phẩm hiển thị tức thì (FCP dưới 0.8s), điểm Google Lighthouse SEO đạt 95+ và bot tìm kiếm lập chỉ mục (index) sản phẩm trọn vẹn."
+      }
+    },
+    {
+      id: "jwt_rbac_auth_security",
+      keywords: ["jwt", "auth", "rbac", "security", "token", "bảo mật", "phân quyền", "cookie"],
+      category: "Security & Authentication",
+      q_vi: "Bạn xử lý cơ chế Authentication & Phân quyền người dùng (RBAC) với JWT như thế nào để đảm bảo tính an toàn và ngăn chặn lộ Token?",
+      star_vi: {
+        situation: "Hệ thống cần phân tách ranh giới bảo mật tuyệt đối giữa Khách mua hàng và Quản trị viên (Admin), đồng thời phòng chống các cuộc tấn công XSS và đánh cắp phiên đăng nhập.",
+        task: "Xây dựng luồng xác thực an toàn, cấp phát và thu hồi token chuẩn mực cùng các middleware kiểm tra quyền hạn chặt chẽ.",
+        action: "Áp dụng cơ chế Dual Token: Access Token thời hạn ngắn (15-30 phút) đính kèm Header Authorization cho các API call thông thường; Refresh Token thời hạn dài (7 ngày) lưu an toàn trong httpOnly Cookie (có cờ Secure, SameSite=Strict) để chống đánh cắp qua mã độc XSS. Ở Backend tạo Middleware giải mã JWT, kiểm tra Role của User (User/Admin) và từ chối ngay HTTP 403 Forbidden nếu không đủ thẩm quyền.",
+        result: "Toàn bộ API quản trị nội bộ được bảo vệ 100%, phiên đăng nhập của người dùng được duy trì mượt mà và an toàn."
+      }
+    },
+    {
+      id: "ecommerce_race_condition_bug",
+      keywords: ["bug", "sự cố", "race condition", "checkout", "tồn kho", "atomic", "transaction", "debug"],
+      category: "Problem Solving & Bug Fixing (STAR)",
+      q_vi: "Kể về một bug hoặc sự cố kỹ thuật khó khăn nhất mà bạn từng gặp trong dự án E-Commerce và cách bạn debug giải quyết triệt để?",
+      star_vi: {
+        situation: "Trong quá trình kiểm thử tải luồng đặt hàng, phát hiện trường hợp khách hàng click nút 'Thanh toán' liên tục (double-click) hoặc nhiều người cùng mua món hàng cuối cùng trong cùng một tích tắc dẫn đến tình trạng trừ âm số lượng tồn kho (Race Condition).",
+        task: "Xử lý đồng thời (concurrency control) để đảm bảo giao dịch đặt hàng diễn ra mang tính Atomic và không bao giờ bị bán quá số lượng kho.",
+        action: "Xử lý triệt để ở 2 lớp: (1) Client: Vô hiệu hóa (disable) nút Đặt hàng ngay cú click đầu tiên, hiển thị loading spinner và áp dụng debounce; (2) Server: Bọc toàn bộ logic kiểm tra và trừ tồn kho trong một Database Transaction có điều kiện khóa bản ghi (SELECT ... FOR UPDATE trong PostgreSQL hoặc câu lệnh update atomic 'quantity >= ordered_qty' trong MongoDB). Nếu số lượng không đủ, transaction tự động rollback và báo lỗi hết hàng.",
+        result: "Loại bỏ hoàn toàn 100% nguy cơ trừ âm kho và đơn hàng trùng lặp, hệ thống vận hành ổn định và chính xác dưới tải cao."
+      }
+    },
+    {
+      id: "it_support_troubleshooting",
+      keywords: ["it support", "máy tính", "mạng", "phần mềm", "thiết bị", "hardware", "network"],
+      category: "IT Support & Office Operations",
+      q_vi: "Trong JD có yêu cầu hỗ trợ sự cố IT nội bộ (máy tính, mạng LAN/Wifi, phần mềm, thiết bị). Là một Developer, bạn có thái độ như thế nào và quy trình xử lý sự cố mạng/máy tính của bạn ra sao?",
+      star_vi: {
+        situation: "Trong môi trường công ty, sự cố mạng chập chờn, máy in không kết nối hoặc máy tính nhân viên lỗi phần mềm làm gián đoạn công việc kinh doanh.",
+        task: "Xử lý nhanh chóng các sự cố kỹ thuật văn phòng với thái độ chủ động, tinh thần trách nhiệm cao, không nề hà công việc.",
+        action: "Em luôn sẵn sàng hỗ trợ vì mục tiêu chung là công ty vận hành trơn tru. Quy trình xử lý bài bản: (1) Cách ly và khoanh vùng sự cố (lỗi cục bộ 1 máy hay toàn hệ thống); (2) Kiểm tra kết nối vật lý (cáp mạng, switch, nguồn); (3) Kiểm tra tầng mạng (ping gateway, DNS 8.8.8.8, cấp phát IP DHCP); (4) Xử lý xung đột driver hoặc malware trên máy trạm.",
+        result: "Khắc phục nhanh sự cố giúp đồng đội tiếp tục làm việc, được đồng nghiệp và cấp trên tin tưởng về tính linh hoạt và tinh thần Ownership."
+      }
+    },
+    {
+      id: "database_optimization_perf",
+      keywords: ["tối ưu", "dưới 2 giây", "mongodb", "mysql", "indexing", "truy vấn", "query optimization"],
+      category: "Database & Performance Tuning",
+      q_vi: "Trong CV bạn có ghi tối ưu hóa truy vấn cơ sở dữ liệu, giảm thời gian tải trang xuống dưới 2 giây. Bạn đã áp dụng những kỹ thuật cụ thể nào?",
+      star_vi: {
+        situation: "Trang danh mục sản phẩm và tin tuyển dụng khi dữ liệu tăng thường bị nghẽn (bottleneck) ở các câu query JOIN hoặc lookup phức tạp.",
+        task: "Tối ưu hóa tầng truy vấn Database và giảm payload dữ liệu truyền tải về Client.",
+        action: "Đánh Compound Index trên các trường hay tìm kiếm kết hợp (category + status + createdAt); Chỉ SELECT/Project các trường cần thiết thay vì SELECT *; Sử dụng phân trang theo con trỏ (Cursor-based) hoặc limit/skip hợp lý; Tối ưu Aggregation Pipeline trong MongoDB và caching các danh mục tĩnh.",
+        result: "Thời gian phản hồi API trung bình từ 1.8s giảm xuống dưới 200ms, thời gian tải trang đạt chuẩn dưới 2 giây trên mọi thiết bị."
+      }
+    },
+    {
       id: "nextjs_router",
       keywords: ["next.js", "nextjs", "app router", "route handlers", "ssr", "server components"],
       category: "Next.js & Frontend Architecture",
@@ -152,7 +236,7 @@
           <!-- Navigation Tabs -->
           <div class="interview-nav-tabs">
             <button type="button" class="interview-tab-btn active" data-tab="pitch">🎙️ Giới thiệu 30s</button>
-            <button type="button" class="interview-tab-btn" data-tab="questions">🎯 5 Câu hỏi Kỹ thuật (STAR)</button>
+            <button type="button" class="interview-tab-btn" data-tab="questions">🎯 Câu hỏi Kỹ thuật (STAR)</button>
             <button type="button" class="interview-tab-btn" data-tab="reverse">❓ Hỏi lại Nhà tuyển dụng</button>
             <button type="button" class="interview-tab-btn" data-tab="notes">📝 Ghi chú Phỏng vấn</button>
           </div>
@@ -161,6 +245,35 @@
           <div class="interview-modal-body">
             <!-- TAB 1: PITCH -->
             <div class="interview-tab-pane active" id="interviewPane-pitch">
+              <!-- Đồng hồ bấm giờ luyện nói 60s -->
+              <div class="interview-timer-card">
+                <div class="interview-timer-header">
+                  <div class="interview-timer-title-wrap">
+                    <span class="interview-timer-icon">⏱️</span>
+                    <div>
+                      <div class="interview-timer-title">Bộ đếm giờ Luyện nói (Elevator Pitch Timer)</div>
+                      <div class="interview-timer-sub">Tập nói trôi chảy, căn đúng 60 giây không vấp</div>
+                    </div>
+                  </div>
+                  <div class="interview-timer-config">
+                    <button type="button" class="interview-timer-preset active" data-time="60">60s</button>
+                    <button type="button" class="interview-timer-preset" data-time="45">45s</button>
+                    <button type="button" class="interview-timer-preset" data-time="30">30s</button>
+                  </div>
+                </div>
+                <div class="interview-timer-body">
+                  <div class="interview-timer-time" id="interviewTimerTime">01:00</div>
+                  <div class="interview-timer-progress-wrap">
+                    <div class="interview-timer-progress" id="interviewTimerProgress" style="width: 100%;"></div>
+                  </div>
+                  <div class="interview-timer-btns">
+                    <button type="button" class="interview-timer-btn-primary" id="interviewTimerToggleBtn">▶️ Bắt đầu</button>
+                    <button type="button" class="interview-timer-btn-secondary" id="interviewTimerResetBtn" title="Đặt lại">🔄 Đặt lại</button>
+                  </div>
+                </div>
+                <div class="interview-timer-alert" id="interviewTimerAlert" style="display: none;"></div>
+              </div>
+
               <div class="interview-section-card">
                 <div class="interview-card-header">
                   <div class="interview-card-title">🇻🇳 Kịch bản mở đầu Tiếng Việt (Khuyên dùng khi bắt đầu)</div>
@@ -184,8 +297,13 @@
 
             <!-- TAB 2: QUESTIONS -->
             <div class="interview-tab-pane" id="interviewPane-questions">
-              <div class="interview-help-banner">
-                💡 <b>Mô hình STAR giúp câu trả lời chặt chẽ:</b> <b>S</b>ituation (Bối cảnh) &rarr; <b>T</b>ask (Nhiệm vụ) &rarr; <b>A</b>ction (Hành động bạn trực tiếp làm) &rarr; <b>R</b>esult (Kết quả đo lường được).
+              <div class="interview-questions-toolbar">
+                <div class="interview-help-banner" style="margin-bottom: 0; flex: 1;">
+                  💡 <b>Mô hình STAR giúp câu trả lời chặt chẽ:</b> <b>S</b>ituation &rarr; <b>T</b>ask &rarr; <b>A</b>ction &rarr; <b>R</b>esult.
+                </div>
+                <button type="button" class="interview-flashcard-btn" id="interviewFlashcardBtn" title="Ẩn câu trả lời để tự suy nghĩ phản xạ trước khi xem gợi ý">
+                  🗂️ Bật Flashcard (Tự luyện)
+                </button>
               </div>
               <div class="interview-questions-list" id="interviewQuestionsList">
                 <!-- Danh sách câu hỏi được đổ bởi JS -->
@@ -263,7 +381,33 @@
    * Sinh bài pitch 30s Tiếng Việt
    */
   function generatePitchVi(d, cvKey) {
-    const title = d.title || "Developer";
+    const meta = (window.cvData && window.cvData.meta) || {};
+    if (meta.pitchVi) {
+      return meta.pitchVi;
+    }
+
+    if (cvKey === "octosoft") {
+      return `Lời đầu tiên, em xin cảm ơn Anh/Chị và Quý công ty <b>Octo Software</b> đã dành thời gian xem hồ sơ của em ạ.
+
+Em tên là <b>Trương Đình Anh</b>, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Em định hướng phát triển chuyên sâu ở vai trò <b>Full-Stack Developer</b> với thế mạnh kết hợp cả <b>React, Next.js</b> ở Frontend và <b>Node.js, Express</b> cùng các hệ CSDL quan hệ lẫn NoSQL (<b>PostgreSQL, MongoDB, MySQL</b>) ở Backend.
+
+Đặc biệt, em rất ấn tượng với định hướng phát triển hệ thống <b>AI Agent (flowagentica.com)</b> của Octo Software. Bản thân em có tư duy <b>AI-First</b> và đã trực tiếp xây dựng nền tảng tự động hóa Serverless trên Cloudflare Workers tích hợp AI Agent qua Telegram Bot và các mô hình LLM API (Gemini/OpenAI), thiết lập pipeline CI/CD với GitHub Actions tự sinh mã nguồn. Ngoài ra, em từng thực tập 6 tháng tại TAMI Technology xây dựng và tối ưu hơn 25+ RESTful API endpoints và thiết kế CSDL Supabase PostgreSQL.
+
+Với nền tảng kỹ thuật sẵn có và tính kỷ luật trong quy trình Git, em tin rằng mình có thể nhanh chóng bắt nhịp và đóng góp hiệu quả vào các dự án của Octo Software ạ.`;
+    }
+
+    if (cvKey === "cgecom") {
+      return `Lời đầu tiên, em xin cảm ơn Anh/Chị và quý công ty đã dành thời gian sắp xếp buổi phỏng vấn ngày hôm nay cùng em ạ.
+
+Em tên là <b>Trương Đình Anh</b>, tốt nghiệp ngành Khoa học máy tính tại Trường Đại học Mở TP.HCM. Em định hướng phát triển chuyên sâu ở vị trí <b>Full-Stack Developer</b>, đặc biệt tập trung vào mảng Website. Em thấy định hướng của em và yêu cầu công việc của <b>CG ECOM</b> rất khớp nhau, nên em rất mong muốn có cơ hội được thử sức và đóng góp cho công ty.
+
+Thế mạnh của em là làm tốt cả <b>React, Next.js</b> ở frontend và <b>Node.js, Express</b> cùng các hệ CSDL <b>PostgreSQL, MongoDB</b> ở backend. Em từng có 6 tháng thực tập làm việc với API, database thực tế và đã tự tay phát triển một nền tảng <b>E-commerce</b> hoàn chỉnh từ giao diện, giỏ hàng cho tới xử lý đơn hàng ạ.
+
+Ngoài ra, em là người có tinh thần <b>chủ động và rất linh hoạt</b>: Em nắm bắt nghiệp vụ mới nhanh, biết ứng dụng AI để tối ưu tốc độ làm việc, và luôn sẵn sàng hỗ trợ cả các vấn đề IT, phần mềm hay máy tính nội bộ bất cứ khi nào team cần ạ.`;
+    }
+
+    const companyName = meta.company || "Quý công ty";
+    const title = meta.position || d.title || "Developer";
     const cleanTitle = title.replace(/\(.*?\)/g, "").trim();
 
     // Rút trích 3 kỹ năng nổi bật
@@ -275,20 +419,30 @@
       }
     }
 
+    const highlightSentence = meta.pitchHighlights 
+      ? `\n\nĐiểm mạnh nổi bật của em phù hợp với yêu cầu: <b>${meta.pitchHighlights}</b>.`
+      : "";
+
     return `Dạ chào Anh/Chị, em là <b>Trương Đình Anh</b>, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Định hướng của em là phát triển chuyên sâu ở vai trò <b>${cleanTitle}</b>.
 
 Trong quá trình học tập và làm việc, em đã tham gia phát triển dự án thực tế tại Công ty TNHH Công nghệ TAMI, nơi em trực tiếp xây dựng và tối ưu hơn 15 RESTful API endpoints với Next.js và thiết kế CSDL PostgreSQL trên nền tảng Supabase Cloud.
 
-Thế mạnh của em là nắm vững nền tảng <b>${topSkills}</b>, đồng thời chủ động ứng dụng sức mạnh của các công cụ AI (như Cursor, Claude) vào quy trình lập trình để tăng tốc độ phát triển sản phẩm mà vẫn làm chủ mã nguồn. 
+Thế mạnh của em là nắm vững nền tảng <b>${topSkills}</b>, đồng thời chủ động ứng dụng sức mạnh của các công cụ AI (như Cursor, Claude) vào quy trình lập trình để tăng tốc độ phát triển sản phẩm mà vẫn làm chủ mã nguồn.${highlightSentence}
 
-Em ứng tuyển vào công ty vì nhận thấy định hướng công nghệ và môi trường làm việc của Quý công ty rất tương đồng với thế mạnh của em. Em tự tin với tinh thần trách nhiệm và khả năng tự học nhanh, em có thể nhanh chóng bắt nhịp và đóng góp hiệu quả vào các dự án của team ngay khi nhận việc ạ.`;
+Em ứng tuyển vào <b>${companyName}</b> vì nhận thấy định hướng công nghệ và môi trường làm việc của Quý công ty rất tương đồng với thế mạnh của em. Em tự tin với tinh thần trách nhiệm và khả năng tự học nhanh, em có thể nhanh chóng bắt nhịp và đóng góp hiệu quả vào các dự án của team ngay khi nhận việc ạ.`;
   }
 
   /**
    * Sinh bài pitch 30s Tiếng Anh
    */
   function generatePitchEn(d, cvKey) {
-    const title = d.title || "Developer";
+    const meta = (window.cvData && window.cvData.meta) || {};
+    if (meta.pitchEn) {
+      return meta.pitchEn;
+    }
+
+    const companyName = meta.company || "your company";
+    const title = meta.position || d.title || "Developer";
     const cleanTitle = title.replace(/\(.*?\)/g, "").trim();
 
     let topSkills = "Next.js, Node.js, RESTful API, and PostgreSQL";
@@ -299,19 +453,61 @@ Em ứng tuyển vào công ty vì nhận thấy định hướng công nghệ v
       }
     }
 
+    const highlightSentence = meta.pitchHighlights 
+      ? `\n\nMy core value proposition for this role: <b>${meta.pitchHighlights}</b>.`
+      : "";
+
     return `Hello, my name is <b>Truong Dinh Anh</b>. I graduated with a degree in Computer Science from Ho Chi Minh City Open University, and I am focused on growing as a professional <b>${cleanTitle}</b>.
 
 During my hands-on internship at TAMI Technology, I was responsible for developing and optimizing 15+ RESTful API endpoints using Next.js and designing relational schemas with PostgreSQL on Supabase Cloud.
 
-My core strengths lie in <b>${topSkills}</b>. Additionally, I embrace an AI-first development mindset, utilizing tools like Claude and Cursor to boost productivity while strictly adhering to Clean Code and best security practices.
+My core strengths lie in <b>${topSkills}</b>. Additionally, I embrace an AI-first development mindset, utilizing tools like Claude and Cursor to boost productivity while strictly adhering to Clean Code and best security practices.${highlightSentence}
 
-I am very excited about this opportunity because my technical background and proactive attitude align strongly with your team's current goals. I am confident in my ability to onboard quickly and make meaningful contributions from day one.`;
+I am very excited about this opportunity at <b>${companyName}</b> because my technical background and proactive attitude align strongly with your team's current goals. I am confident in my ability to onboard quickly and make meaningful contributions from day one.`;
   }
 
   /**
-   * Chọn 5 câu hỏi phỏng vấn phù hợp nhất với bản CV hiện tại
+   * Chọn bộ câu hỏi phỏng vấn phù hợp nhất với bản CV hiện tại
    */
-  function pickRelevantQuestions(cvText) {
+  function pickRelevantQuestions(cvText, cvKey) {
+    const isOctoSoft = cvKey === "octosoft" || cvText.includes("octosoft") || cvText.includes("flowagentica") || cvText.includes("octo software");
+    if (isOctoSoft) {
+      const priorityIds = [
+        "ai_vibe_coding",
+        "rest_api_auth",
+        "sql_vs_nosql_ecommerce",
+        "nextjs_router",
+        "git_testing_deploy",
+        "database_optimization_perf",
+        "jwt_rbac_auth_security"
+      ];
+      const result = [];
+      priorityIds.forEach(id => {
+        const found = QUESTION_BANK.find(q => q.id === id);
+        if (found) result.push(found);
+      });
+      if (result.length > 0) return result;
+    }
+
+    const isCgEcom = cvKey === "cgecom" || cvText.includes("cgecom") || (cvText.includes("thương mại điện tử") && cvText.includes("cg ecom"));
+    if (isCgEcom) {
+      const priorityIds = [
+        "ecommerce_cart_order",
+        "sql_vs_nosql_ecommerce",
+        "nextjs_ssr_seo_ecommerce",
+        "jwt_rbac_auth_security",
+        "ecommerce_race_condition_bug",
+        "it_support_troubleshooting",
+        "database_optimization_perf"
+      ];
+      const result = [];
+      priorityIds.forEach(id => {
+        const found = QUESTION_BANK.find(q => q.id === id);
+        if (found) result.push(found);
+      });
+      if (result.length > 0) return result;
+    }
+
     const scoredQuestions = QUESTION_BANK.map(item => {
       let score = 0;
       item.keywords.forEach(kw => {
@@ -325,8 +521,95 @@ I am very excited about this opportunity because my technical background and pro
     // Sắp xếp theo độ phù hợp
     scoredQuestions.sort((a, b) => b.score - a.score);
 
-    // Lấy top 5 câu hỏi có điểm cao nhất
-    return scoredQuestions.slice(0, 5).map(sq => sq.item);
+    // Lấy top 7 câu hỏi có điểm cao nhất
+    return scoredQuestions.slice(0, 7).map(sq => sq.item);
+  }
+
+  // ===================================================================
+  // MOCK INTERVIEW CONTROLLERS: TIMER & FLASHCARD
+  // ===================================================================
+  let timerInterval = null;
+  let timerDuration = 60;
+  let timerSecondsLeft = 60;
+  let isTimerRunning = false;
+  let isFlashcardMode = false;
+
+  function updateTimerUI() {
+    const timeEl = document.getElementById("interviewTimerTime");
+    const progressEl = document.getElementById("interviewTimerProgress");
+    const toggleBtn = document.getElementById("interviewTimerToggleBtn");
+    const alertEl = document.getElementById("interviewTimerAlert");
+
+    if (!timeEl || !progressEl) return;
+
+    const mins = Math.floor(timerSecondsLeft / 60);
+    const secs = timerSecondsLeft % 60;
+    timeEl.textContent = `${String(mins).padStart(2, "0")}:${String(secs).padStart(2, "0")}`;
+
+    const percent = Math.max(0, (timerSecondsLeft / timerDuration) * 100);
+    progressEl.style.width = percent + "%";
+
+    // Đổi màu thanh tiến trình
+    if (percent > 30) {
+      progressEl.style.background = "linear-gradient(90deg, #10b981, #059669)";
+      timeEl.style.color = "#0f172a";
+    } else if (percent > 15) {
+      progressEl.style.background = "linear-gradient(90deg, #f59e0b, #d97706)";
+      timeEl.style.color = "#d97706";
+    } else {
+      progressEl.style.background = "linear-gradient(90deg, #ef4444, #dc2626)";
+      timeEl.style.color = "#dc2626";
+    }
+
+    if (toggleBtn) {
+      toggleBtn.textContent = isTimerRunning ? "⏸️ Tạm dừng" : "▶️ Bắt đầu";
+      if (isTimerRunning) {
+        toggleBtn.classList.add("running");
+      } else {
+        toggleBtn.classList.remove("running");
+      }
+    }
+
+    if (timerSecondsLeft === 0 && alertEl) {
+      alertEl.style.display = "block";
+      alertEl.innerHTML = "🎉 <b>Hết giờ!</b> Hãy tự đánh giá: Bạn đã giới thiệu trọn vẹn trong " + timerDuration + " giây chưa? (Tốc độ chuẩn: 120-150 từ/phút).";
+    } else if (alertEl) {
+      alertEl.style.display = "none";
+    }
+  }
+
+  function startTimer() {
+    if (isTimerRunning) {
+      pauseTimer();
+      return;
+    }
+    if (timerSecondsLeft === 0) {
+      timerSecondsLeft = timerDuration;
+    }
+    isTimerRunning = true;
+    updateTimerUI();
+
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timerSecondsLeft--;
+      if (timerSecondsLeft <= 0) {
+        timerSecondsLeft = 0;
+        pauseTimer();
+      }
+      updateTimerUI();
+    }, 1000);
+  }
+
+  function pauseTimer() {
+    isTimerRunning = false;
+    clearInterval(timerInterval);
+    updateTimerUI();
+  }
+
+  function resetTimer() {
+    pauseTimer();
+    timerSecondsLeft = timerDuration;
+    updateTimerUI();
   }
 
   /**
@@ -338,7 +621,19 @@ I am very excited about this opportunity because my technical background and pro
     const dataEn = (window.cvData && window.cvData.en) ? window.cvData.en : {};
     const currentData = (lang === "en") ? dataEn : dataVi;
 
-    const cvKey = window.cvVersion || "default";
+    const urlParams = new URLSearchParams(window.location.search);
+    let cvKey = window.cvVersion || urlParams.get("type") || (urlParams.get("draft") ? ("draft_" + urlParams.get("draft")) : "default");
+
+    // Tự động nhận diện bản cgecom hoặc octosoft nếu đang nạp dữ liệu tương ứng
+    const docTitle = (dataVi.docTitle || dataEn.docTitle || "").toLowerCase();
+    if (cvKey === "default") {
+      if (docTitle.includes("octosoft")) {
+        cvKey = "octosoft";
+      } else if (docTitle.includes("cgecom")) {
+        cvKey = "cgecom";
+      }
+    }
+
     const cvRole = currentData.title || "Developer";
 
     // Tags
@@ -353,20 +648,28 @@ I am very excited about this opportunity because my technical background and pro
     if (pitchViBox) pitchViBox.innerHTML = generatePitchVi(dataVi, cvKey);
     if (pitchEnBox) pitchEnBox.innerHTML = generatePitchEn(dataEn, cvKey);
 
+    // Reset Timer display
+    resetTimer();
+
     // Technical Questions
     const cvText = extractTechKeywords(currentData);
-    const questions = pickRelevantQuestions(cvText);
+    const questions = pickRelevantQuestions(cvText, cvKey);
     const qListContainer = document.getElementById("interviewQuestionsList");
 
     if (qListContainer) {
       qListContainer.innerHTML = questions.map((q, idx) => `
-        <div class="interview-q-card">
+        <div class="interview-q-card ${isFlashcardMode ? 'flashcard-active' : ''}" data-idx="${idx}">
           <div class="interview-q-header">
             <span class="interview-q-num">Câu ${idx + 1}</span>
             <span class="interview-q-tag">${q.category}</span>
           </div>
           <div class="interview-q-title">❓ ${q.q_vi}</div>
-          <div class="interview-star-box">
+          <div class="interview-flashcard-action" style="${isFlashcardMode ? 'display: block;' : 'display: none;'}">
+            <button type="button" class="interview-star-toggle-btn" data-target="star-${idx}">
+              👁️ Xem gợi ý STAR
+            </button>
+          </div>
+          <div class="interview-star-box ${isFlashcardMode ? 'hidden-star' : ''}" id="star-${idx}">
             <div class="interview-star-title">🎯 Dàn ý trả lời theo mô hình STAR:</div>
             <div class="interview-star-row">
               <span class="star-badge star-s">S (Bối cảnh)</span>
@@ -407,8 +710,27 @@ I am very excited about this opportunity because my technical background and pro
     // Personal Notes
     const notesArea = document.getElementById("interviewNotesTextarea");
     if (notesArea) {
-      const savedNotes = localStorage.getItem(`interview_notes_${cvKey}`) || "";
-      notesArea.value = savedNotes;
+      let savedNotes = localStorage.getItem(`interview_notes_${cvKey}`);
+      if (!savedNotes && cvKey === "cgecom") {
+        savedNotes = `🎯 CHIẾN LƯỢC TÁC CHIẾN PHỎNG VẤN CG ECOM (10H30 NGÀY 22/09/2026)
+📍 Địa điểm: 313/17/6A Phan Huy Ích, An Hội Tây, Gò Vấp, TP. HCM
+💼 Vị trí: Full Stack Developer (React / Node.js / E-Commerce)
+
+1. BA VŨ KHÍ CỐT LÕI CẦN THỂ HIỆN:
+- E-commerce thực chiến: Tự tin nói về dự án Nền tảng Thương mại Điện tử (xử lý giỏ hàng LocalStorage vs Database, Checkout, tối ưu truy vấn < 2s).
+- Năng lực Fullstack: Làm chủ cả Frontend (React/Tailwind CSS) và Backend (Node.js/Express, RESTful API, PostgreSQL/MongoDB/MySQL, Docker).
+- Tinh thần không ngại việc: Sẵn sàng hỗ trợ các vấn đề IT nội bộ (máy tính, mạng LAN, máy in) để vận hành công ty trơn tru.
+
+2. CÁCH TRẢ LỜI CÂU HỎI VỀ IT SUPPORT (ĂN ĐIỂM TUYỆT ĐỐI):
+"Xuất thân từ ngành Khoa học Máy tính, em nắm vững phần cứng, hệ điều hành và mạng máy tính. Với em, công việc chung của công ty vận hành trơn tru là quan trọng nhất, nên khi team cần, em luôn sẵn sàng xắn tay áo xử lý sự cố mạng, máy tính văn phòng nhanh chóng."
+
+3. BA CÂU HỎI HỎI LẠI SẾP CG ECOM CUỐI BUỔI:
+- "Dạ cho em hỏi hệ thống E-commerce hiện tại của CG ECOM đang phục vụ đối tượng khách hàng B2B hay B2C, và định hướng công nghệ sắp tới của team là gì ạ?"
+- "Quy trình phát triển và review code trong team Dev của công ty hiện diễn ra như thế nào ạ?"
+- "Nếu được nhận vào vị trí này, trong tháng đầu tiên em cần đạt được những cột mốc nào để được coi là hoàn thành xuất sắc nhiệm vụ ạ?"`;
+        localStorage.setItem(`interview_notes_${cvKey}`, savedNotes);
+      }
+      notesArea.value = savedNotes || "";
     }
   }
 
@@ -532,6 +854,87 @@ I am very excited about this opportunity because my technical background and pro
             saveStatus.style.color = "#10b981";
           }
         }, 600);
+      });
+    }
+
+    // ===================================================================
+    // EVENTS: TIMER LUYỆN NÓI
+    // ===================================================================
+    const timerToggleBtn = document.getElementById("interviewTimerToggleBtn");
+    const timerResetBtn = document.getElementById("interviewTimerResetBtn");
+    const timerPresets = document.querySelectorAll(".interview-timer-preset");
+
+    if (timerToggleBtn) {
+      timerToggleBtn.addEventListener("click", () => {
+        startTimer();
+      });
+    }
+
+    if (timerResetBtn) {
+      timerResetBtn.addEventListener("click", () => {
+        resetTimer();
+      });
+    }
+
+    timerPresets.forEach(btn => {
+      btn.addEventListener("click", () => {
+        timerPresets.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        timerDuration = parseInt(btn.getAttribute("data-time"), 10) || 60;
+        resetTimer();
+      });
+    });
+
+    // ===================================================================
+    // EVENTS: FLASHCARD STAR TOGGLE
+    // ===================================================================
+    const flashcardBtn = document.getElementById("interviewFlashcardBtn");
+    if (flashcardBtn) {
+      flashcardBtn.addEventListener("click", () => {
+        isFlashcardMode = !isFlashcardMode;
+        flashcardBtn.classList.toggle("active", isFlashcardMode);
+        flashcardBtn.textContent = isFlashcardMode ? "📖 Tắt Flashcard (Hiện tất cả)" : "🗂️ Bật Flashcard (Tự luyện)";
+
+        const qCards = document.querySelectorAll(".interview-q-card");
+        qCards.forEach(card => {
+          const actionBox = card.querySelector(".interview-flashcard-action");
+          const toggleBtn = card.querySelector(".interview-star-toggle-btn");
+          const starBox = card.querySelector(".interview-star-box");
+          if (isFlashcardMode) {
+            card.classList.add("flashcard-active");
+            if (actionBox) actionBox.style.display = "block";
+            if (toggleBtn) {
+              toggleBtn.textContent = "👁️ Xem gợi ý STAR";
+              toggleBtn.classList.remove("opened");
+            }
+            if (starBox) starBox.classList.add("hidden-star");
+          } else {
+            card.classList.remove("flashcard-active");
+            if (actionBox) actionBox.style.display = "none";
+            if (starBox) starBox.classList.remove("hidden-star");
+          }
+        });
+      });
+    }
+
+    // Ủy quyền click nút "Xem gợi ý STAR" cho từng câu hỏi
+    const qListContainer = document.getElementById("interviewQuestionsList");
+    if (qListContainer) {
+      qListContainer.addEventListener("click", (e) => {
+        const btn = e.target.closest(".interview-star-toggle-btn");
+        if (!btn) return;
+        const targetId = btn.getAttribute("data-target");
+        const starBox = document.getElementById(targetId);
+        if (!starBox) return;
+
+        const isHidden = starBox.classList.toggle("hidden-star");
+        if (isHidden) {
+          btn.textContent = "👁️ Xem gợi ý STAR";
+          btn.classList.remove("opened");
+        } else {
+          btn.textContent = "🙈 Ẩn gợi ý STAR";
+          btn.classList.add("opened");
+        }
       });
     }
   }

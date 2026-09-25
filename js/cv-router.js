@@ -89,7 +89,7 @@
         renderNavForDraft(key);
 
         // Nạp global data trước rồi nạp renderer
-        return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js'));
+        return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.3'));
       })
       .catch((err) => {
         console.warn('Lỗi tải bản nháp từ KV, chuyển về chế độ thông thường:', err);
@@ -98,10 +98,79 @@
       });
   }
 
+  function setupNavSearch() {
+    const searchInput = document.getElementById('versionSearchInput');
+    const container = document.getElementById('versionSwitch');
+    const list = document.getElementById('versionList') || container;
+    if (!searchInput || !list) return;
+
+    // Prevent duplicate event listeners
+    if (searchInput.dataset.initialized) return;
+    searchInput.dataset.initialized = 'true';
+
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      const items = list.querySelectorAll('.version-item');
+      let visibleCount = 0;
+      items.forEach((item) => {
+        const text = (item.textContent || '').toLowerCase();
+        const href = (item.getAttribute('href') || '').toLowerCase();
+        const matches = !q || text.includes(q) || href.includes(q);
+        item.style.display = matches ? 'block' : 'none';
+        if (matches) visibleCount++;
+      });
+
+      let emptyMsg = list.querySelector('.version-empty-msg');
+      if (visibleCount === 0) {
+        if (!emptyMsg) {
+          emptyMsg = document.createElement('div');
+          emptyMsg.className = 'version-empty-msg';
+          emptyMsg.textContent = 'Không có kết quả';
+          list.appendChild(emptyMsg);
+        }
+        emptyMsg.style.display = 'block';
+      } else if (emptyMsg) {
+        emptyMsg.style.display = 'none';
+      }
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.dispatchEvent(new Event('input'));
+        searchInput.blur();
+      } else if (e.key === 'Enter') {
+        const firstVisible = list.querySelector('.version-item:not([style*="display: none"])');
+        if (firstVisible) firstVisible.click();
+      }
+    });
+
+    setupNavToggle();
+  }
+
+  function setupNavToggle() {
+    const toggleBtn = document.getElementById('versionToggleBtn');
+    const container = document.getElementById('versionSwitch');
+    if (!toggleBtn || !container) return;
+    if (toggleBtn.dataset.initialized) return;
+    toggleBtn.dataset.initialized = 'true';
+
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const isCollapsed = container.classList.toggle('collapsed');
+      toggleBtn.textContent = isCollapsed ? '▼' : '▲';
+      toggleBtn.title = isCollapsed ? 'Mở rộng danh sách bản CV' : 'Thu gọn danh sách bản CV';
+    });
+  }
+
   function renderNavForDraft(key) {
     const manifest = window.CV_MANIFEST;
-    const nav = document.getElementById('versionSwitch');
+    const nav = document.getElementById('versionList') || document.getElementById('versionSwitch');
     if (!nav || !manifest) return;
+
+    const countEl = document.getElementById('versionCount');
+    if (countEl) countEl.textContent = manifest.length + 1;
 
     // Nut draft o dau menu
     const draftBtn = document.createElement('a');
@@ -120,6 +189,8 @@
       a.title = v.label;
       nav.appendChild(a);
     });
+
+    setupNavSearch();
   }
 
   function startNormalRouter() {
@@ -142,8 +213,12 @@
 
     // Render menu chọn phiên bản từ manifest (thay cho hardcode trong HTML)
     function renderNav() {
-      const nav = document.getElementById('versionSwitch');
+      const nav = document.getElementById('versionList') || document.getElementById('versionSwitch');
       if (!nav) return;
+
+      const countEl = document.getElementById('versionCount');
+      if (countEl) countEl.textContent = manifest.length;
+
       manifest.forEach((v) => {
         const a = document.createElement('a');
         a.className = 'version-item';
@@ -164,6 +239,8 @@
         a.title = ver.label;
         nav.insertBefore(a, nav.firstChild);
       }
+
+      setupNavSearch();
     }
 
     // Highlight nút phiên bản đang chọn sau khi DOM sẵn sàng
@@ -198,7 +275,7 @@
           return loadScript(def.file);
         })
       )
-      .then(() => loadScript('js/cv-renderer.js'))
+      .then(() => loadScript('js/cv-renderer.js?v=1.2.3'))
       .catch((error) => {
         console.error(error);
       });

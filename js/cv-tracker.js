@@ -22,6 +22,19 @@
   // Dữ liệu mẫu khởi đầu nếu chưa có gì
   const DEFAULT_SEED_DATA = [
     {
+      id: "job_octosoft_seed",
+      company: "OCTO SOFTWARE",
+      position: "Full Stack Developer",
+      cvType: "octosoft",
+      cvLabel: "🐙 Octo Software Fullstack",
+      appliedDate: "2026-09-23",
+      status: "applied",
+      contact: "tuyendung@octosoft.co",
+      notes: "343 Phạm Ngũ Lão, P. Bến Thành, Q.1. Fullstack web + API + CSDL (PostgreSQL, MongoDB). Tích hợp AI / AI Agent (flowagentica.com). Yêu cầu gửi CV + Bảng điểm.",
+      jobUrl: "https://flowagentica.com",
+      jdText: `OCTO SOFTWARE TUYỂN DỤNG\nFULL STACK DEVELOPER\nLàm việc tại: 343 Phạm Ngũ Lão, Phường Bến Thành, TP.HCM\nKinh nghiệm: Tối thiểu 02 năm\n\nMô tả công việc:\n• Tham gia phân tích yêu cầu, thiết kế và phát triển các tính năng cho hệ thống phần mềm của công ty.\n• Phát triển giao diện web, backend, cơ sở dữ liệu và API.\n• Tích hợp API bên thứ ba, các công cụ AI hoặc AI Agent vào sản phẩm khi có yêu cầu.\n• Kiểm tra, xử lý lỗi, tối ưu hiệu suất và đảm bảo các yêu cầu bảo mật cơ bản của hệ thống.\n• Quản lý mã nguồn bằng Git, tham gia code review và viết tài liệu kỹ thuật cần thiết.\n• Phối hợp với các bộ phận liên quan để đảm bảo tiến độ và chất lượng sản phẩm.\n\nYêu cầu công việc:\nMust have:\n• Tốt nghiệp Cao đẳng/Đại học chuyên ngành Công nghệ Thông tin, Kỹ thuật Phần mềm hoặc ngành liên quan.\n• Có kinh nghiệm tối thiểu từ 2 năm làm phát triển ứng dụng / website.\n• Có kinh nghiệm làm việc với MySQL, PostgreSQL hoặc MongoDB.\n• Sử dụng tốt Git; có khả năng đọc code, debug và xử lý lỗi.\n• Có hiểu biết hoặc kinh nghiệm ứng dụng AI/AI Agent trong quá trình phát triển phần mềm.\n\nNice to have:\n• Phân tích và ra quyết định.\n• Quản lý yêu cầu và ưu tiên yêu cầu.\n• Lập kế hoạch: Kế hoạch kinh doanh, triển khai, phát triển sản phẩm...\n• Yêu thích và định hướng lâu dài, làm việc gắn bó trong lĩnh vực phát triển sản phẩm công nghệ.\n\nQuyền lợi:\n• Mức thu nhập cạnh tranh, thỏa thuận theo năng lực. Xét tăng lương 2 lần mỗi năm.\n• Tham gia đầy đủ BHXH, BHYT, BHTN và các chế độ cho người lao động theo quy định.\n• Thưởng sinh nhật, các ngày lễ, lương T13 theo quy định của công ty.\n• Nghỉ lễ, Tết và nghỉ phép 12 ngày/năm theo chính sách của công ty.\n\nỨNG TUYỂN NGAY:\nGửi CV và bảng điểm: tuyendung@octosoft.co\nTiêu đề: [Full Stack Developer] - Họ và tên`
+    },
+    {
       id: "job_namphuong_seed",
       company: "NAM PHUONG TECHNOLOGY",
       position: "Thực tập sinh Backend",
@@ -41,7 +54,7 @@
       cvType: "cgecom",
       cvLabel: "🛒 CG Ecom Fullstack",
       appliedDate: "2026-09-17",
-      status: "applied",
+      status: "interviewing",
       contact: "Email tuyển dụng",
       notes: "Gò Vấp. Yêu cầu React/Node, E-commerce, Docker, CI/CD, IT Support nội bộ.",
       jobUrl: "",
@@ -325,19 +338,24 @@
     
     // Default values
     const cur = getCurrentCvInfo();
-    document.getElementById("jtInputCompany").value = "";
-    document.getElementById("jtInputPosition").value = "";
+    const meta = (window.cvData && window.cvData.meta) || {};
+    const viData = (window.cvData && window.cvData.vi) || {};
+
+    document.getElementById("jtInputCompany").value = meta.company || "";
+    document.getElementById("jtInputPosition").value = meta.position || viData.title || "";
     populateCvSelect(cur.type);
     document.getElementById("jtInputDate").value = getTodayString();
     document.getElementById("jtInputStatus").value = "applied";
-    document.getElementById("jtInputContact").value = "";
-    document.getElementById("jtInputNotes").value = "";
+    document.getElementById("jtInputContact").value = meta.email || meta.contact || "";
+    document.getElementById("jtInputNotes").value = meta.notes || "";
     const jdInput = document.getElementById("jtInputJd");
-    if (jdInput) jdInput.value = "";
+    if (jdInput) jdInput.value = meta.jdText || "";
 
     formPanel.style.display = "block";
     formPanel.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    document.getElementById("jtInputCompany").focus();
+    if (!meta.company) {
+      document.getElementById("jtInputCompany").focus();
+    }
   }
 
   function openEditForm(jobId) {
@@ -757,6 +775,29 @@
     const importBtn = document.getElementById("jtImportBtn");
     if (importBtn) importBtn.onclick = importData;
 
+    // Cloud Sync button & modal
+    const syncBtn = document.getElementById("jtSyncBtn");
+    if (syncBtn) syncBtn.onclick = openSyncModal;
+
+    const syncCloseTopBtn = document.getElementById("jtSyncCloseTopBtn");
+    if (syncCloseTopBtn) syncCloseTopBtn.onclick = closeSyncModal;
+
+    const syncCancelBtn = document.getElementById("jtSyncCancelBtn");
+    if (syncCancelBtn) syncCancelBtn.onclick = closeSyncModal;
+
+    const syncPushBtn = document.getElementById("jtSyncPushBtn");
+    if (syncPushBtn) syncPushBtn.onclick = pushToCloud;
+
+    const syncPullBtn = document.getElementById("jtSyncPullBtn");
+    if (syncPullBtn) syncPullBtn.onclick = pullFromCloud;
+
+    const syncOverlay = document.getElementById("jtSyncModalOverlay");
+    if (syncOverlay) {
+      syncOverlay.onclick = (e) => {
+        if (e.target === syncOverlay) closeSyncModal();
+      };
+    }
+
     // JD Viewer modal buttons
     const jdCloseBtn = document.getElementById("jtJdModalCloseBtn");
     if (jdCloseBtn) jdCloseBtn.onclick = closeJdModal;
@@ -781,10 +822,115 @@
     }
   }
 
+  // ----------------------------------------------------
+  // Cloudflare KV Sync Management
+  // ----------------------------------------------------
+  const SYNC_PIN_STORAGE_KEY = "cv_tracker_sync_pin";
+
+  function getWorkerBaseUrl() {
+    return (window.CV_WORKER_URL || localStorage.getItem('CV_WORKER_URL') || 'https://cv-telegram-bridge.tdinhanh-it.workers.dev').replace(/\/$/, '');
+  }
+
+  function openSyncModal() {
+    const overlay = document.getElementById("jtSyncModalOverlay");
+    const pinInput = document.getElementById("jtSyncPinInput");
+    const statusMsg = document.getElementById("jtSyncStatusMsg");
+    if (!overlay) return;
+
+    if (pinInput) {
+      pinInput.value = localStorage.getItem(SYNC_PIN_STORAGE_KEY) || "dinhanh2026";
+    }
+    if (statusMsg) {
+      statusMsg.style.display = "none";
+    }
+
+    overlay.style.display = "flex";
+  }
+
+  function closeSyncModal() {
+    const overlay = document.getElementById("jtSyncModalOverlay");
+    if (overlay) overlay.style.display = "none";
+  }
+
+  function showSyncStatus(msg, isError = false) {
+    const statusMsg = document.getElementById("jtSyncStatusMsg");
+    if (!statusMsg) return;
+    statusMsg.style.display = "block";
+    statusMsg.style.background = isError ? "#fef2f2" : "#f0fdf4";
+    statusMsg.style.color = isError ? "#b91c1c" : "#15803d";
+    statusMsg.style.border = "1px solid " + (isError ? "#fecaca" : "#bbf7d0");
+    statusMsg.innerHTML = msg;
+  }
+
+  function pushToCloud() {
+    const pinInput = document.getElementById("jtSyncPinInput");
+    const pin = (pinInput ? pinInput.value.trim() : "") || "dinhanh2026";
+    localStorage.setItem(SYNC_PIN_STORAGE_KEY, pin);
+
+    showSyncStatus("⏳ Đang tải lên Cloudflare KV...", false);
+
+    const baseUrl = getWorkerBaseUrl();
+    const endpoint = `${baseUrl}/api/tracker?pin=${encodeURIComponent(pin)}`;
+
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ jobs })
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(data => {
+        showSyncStatus(`🎉 <b>Đồng bộ thành công!</b> Đã lưu an toàn <b>${jobs.length}</b> đơn ứng tuyển lên Cloud.`, false);
+        setTimeout(closeSyncModal, 2500);
+      })
+      .catch(err => {
+        showSyncStatus(`✖ <b>Lỗi đồng bộ:</b> ${err.message}. Kiểm tra kết nối mạng hoặc Worker settings.`, true);
+      });
+  }
+
+  function pullFromCloud() {
+    const pinInput = document.getElementById("jtSyncPinInput");
+    const pin = (pinInput ? pinInput.value.trim() : "") || "dinhanh2026";
+    localStorage.setItem(SYNC_PIN_STORAGE_KEY, pin);
+
+    showSyncStatus("⏳ Đang tải dữ liệu từ Cloudflare KV...", false);
+
+    const baseUrl = getWorkerBaseUrl();
+    const endpoint = `${baseUrl}/api/tracker?pin=${encodeURIComponent(pin)}`;
+
+    fetch(endpoint)
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        return res.json();
+      })
+      .then(data => {
+        const cloudJobs = data.jobs || [];
+        if (!Array.isArray(cloudJobs) || cloudJobs.length === 0) {
+          showSyncStatus(`ℹ️ Chưa có dữ liệu nào trên Cloud cho mã PIN <b>${pin}</b>.`, false);
+          return;
+        }
+
+        if (confirm(`Tìm thấy ${cloudJobs.length} đơn ứng tuyển trên Cloud. Bạn có muốn tải về và ghi đè danh sách hiện tại (${jobs.length} mục)?`)) {
+          jobs = cloudJobs;
+          saveJobs();
+          renderStats();
+          renderJobList();
+          showSyncStatus(`✔ Đã cập nhật thành công <b>${jobs.length}</b> đơn ứng tuyển từ Cloud!`, false);
+          setTimeout(closeSyncModal, 2000);
+        }
+      })
+      .catch(err => {
+        showSyncStatus(`✖ <b>Lỗi tải dữ liệu:</b> ${err.message}`, true);
+      });
+  }
+
   // Public API
   window.cvTracker = {
     openModal,
     closeModal,
+    openSyncModal,
     openAddForm,
     openEditForm,
     closeForm,

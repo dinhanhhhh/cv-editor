@@ -22,6 +22,13 @@
 
   // Ánh xạ thông tin công ty và vị trí từ cvVersion
   const VERSION_MAP = {
+    octosoft: {
+      company: "CÔNG TY OCTO SOFTWARE",
+      position: "Full Stack Developer",
+      recipient: "Bộ phận Tuyển dụng Octo Software",
+      contact: "tuyendung@octosoft.co",
+      profileType: "ai_fullstack"
+    },
     cgecom: {
       company: "CÔNG TY TNHH CG ECOM",
       position: "Full Stack Developer",
@@ -113,8 +120,30 @@
     const jdLower = (jdText || "").toLowerCase();
     const isQa = profileType === "qa_tester" || jdLower.includes("qa") || jdLower.includes("tester") || jdLower.includes("test case");
 
+    const isAiFullstack = profileType === "ai_fullstack" || jdLower.includes("octo") || jdLower.includes("agent");
+
     if (lang === "vi") {
-      if (isQa) {
+      if (isAiFullstack) {
+        if (tone === "short") {
+          return [
+            "Kinh nghiệm Full-Stack: Thành thạo React, Next.js, Node.js/Express; làm chủ CSDL PostgreSQL (Supabase) và MongoDB, tối ưu hóa truy vấn và API.",
+            "Tích hợp AI & AI Agent: Tự phát triển nền tảng tự động hóa Serverless (Cloudflare Workers) kết nối Telegram Bot, LLM API (Gemini/OpenAI) và CI/CD GitHub Actions.",
+            "Tác phong kỹ thuật: Quản lý Git chặt chẽ, tư duy phân tích hệ thống độc lập, có thể nhận việc và bắt nhịp dự án ngay."
+          ];
+        } else if (tone === "warm") {
+          return [
+            "Kinh nghiệm Full-Stack thực chiến: Đã xây dựng và tối ưu 25+ RESTful API endpoints, quản trị CSDL PostgreSQL và phát triển các sản phẩm web responsive hoàn chỉnh.",
+            "Đam mê AI & Tự động hóa: Nhạy bén tích hợp AI Agent và LLM API vào quy trình phát triển thực tế, tối ưu năng suất làm việc gấp nhiều lần.",
+            "Tinh thần trách nhiệm & Đồng hành: Tác phong làm việc chủ động, kỷ luật mã nguồn cao và rất mong muốn được cống hiến lâu dài cùng Octo Software."
+          ];
+        } else {
+          return [
+            "Nền tảng Full-Stack & CSDL: Thành thạo React.js, Next.js, Node.js/Express; có kinh nghiệm thiết kế CSDL quan hệ PostgreSQL và NoSQL MongoDB, xây dựng hơn 25+ RESTful API endpoints tại Công nghệ TAMI.",
+            "Tích hợp AI & AI Agent Workflow: Tự phát triển hệ thống tự động hóa Serverless trên Cloudflare Workers kết nối Telegram Bot Bridge và LLM APIs (Gemini/OpenAI), tự động hóa pipeline CI/CD với GitHub Actions.",
+            "Kỷ luật mã nguồn & Git: Quản lý source code bài bản bằng Git, khả năng đọc hiểu/debug lỗi nhanh, tư duy giải pháp thực tế và sẵn sàng nhận việc ngay."
+          ];
+        }
+      } else if (isQa) {
         if (tone === "short") {
           return [
             "Manual & API Testing: Thiết kế test case, kiểm thử chức năng và test 15+ RESTful API endpoints bằng Postman tại Công nghệ TAMI.",
@@ -160,7 +189,13 @@
       }
     } else {
       // English
-      if (isQa) {
+      if (isAiFullstack) {
+        return [
+          "Full-Stack & Database Expertise: Proficient in React, Next.js, Node.js/Express; hands-on experience designing PostgreSQL (Supabase) & MongoDB schemas with 25+ RESTful APIs at TAMI Technology.",
+          "AI Agent & Workflow Integration: Built an autonomous agent workflow on Cloudflare Workers integrating LLM APIs (Gemini/OpenAI) and Telegram Bot with automated GitHub Actions CI/CD pipelines.",
+          "Technical Discipline & Git: Strong command of Git workflows, requirement breakdown, clean code practices, and ready to contribute to Octo Software immediately."
+        ];
+      } else if (isQa) {
         return [
           "Manual & API Testing: Proficient in writing test cases, test scenarios, and executing testing for 15+ RESTful API endpoints using Postman at TAMI Technology.",
           "Database Verification (SQL): Strong SQL skills on PostgreSQL and MongoDB to query and ensure data integrity.",
@@ -189,14 +224,16 @@
     const recName = recipient || (lang === "vi" ? `Bộ phận Tuyển dụng ${compName}` : `Hiring Team at ${compName}`);
 
     if (lang === "vi") {
-      const subject = `[Ứng tuyển] ${posTitle} - ${candidate.name}`;
+      const subject = (opts.profileType === "ai_fullstack" || (company && company.includes("OCTO")))
+        ? `[Full Stack Developer] - ${candidate.name}`
+        : `[Ứng tuyển] ${posTitle} - ${candidate.name}`;
       
       let intro = `Kính gửi ${recName},\n\nQua thông tin tuyển dụng vị trí ${posTitle} của Quý công ty, em nhận thấy yêu cầu công việc rất phù hợp với định hướng và nền tảng kỹ thuật của bản thân. Em xin phép được gửi hồ sơ ứng tuyển vào vị trí này.`;
 
       let pointsHeader = "Một số điểm nổi bật trong kinh nghiệm và kỹ năng của em:";
       let pointsText = highlights.map(h => `• ${h}`).join("\n");
 
-      let availability = "Em có thể sắp xếp thời gian làm việc linh hoạt (Full-time / Part-time) và sẵn sàng nhận việc ngay khi Quý công ty có yêu cầu.";
+      let availability = "Em có thể sắp xếp làm việc Full-time và sẵn sàng nhận việc ngay khi Quý công ty có yêu cầu.";
       let attachment = "Em xin gửi kèm CV chi tiết để Anh/Chị tiện tham khảo thêm về kinh nghiệm và các sản phẩm em đã thực hiện.";
 
       let closing = `Em rất mong có cơ hội được trao đổi trực tiếp cùng Anh/Chị trong buổi phỏng vấn sắp tới.\n\nKính chúc Anh/Chị một ngày làm việc hiệu quả và nhiều niềm vui!`;
@@ -283,8 +320,9 @@
     const overlay = document.getElementById("clModalOverlay");
     if (!overlay) return;
 
-    // Detect preset or current cv
+    // Detect preset, cvData.meta or current cv
     const cvKey = getCurrentCvKey();
+    const metaInfo = (window.cvData && window.cvData.meta) || {};
     const mapInfo = VERSION_MAP[cvKey] || {};
 
     // Check if tracker has job
@@ -293,11 +331,11 @@
       trackerJob = window.cvTracker.jobs.find(j => j.cvType === cvKey);
     }
 
-    const company = (preset && preset.company) || (trackerJob && trackerJob.company) || mapInfo.company || "";
-    const position = (preset && preset.position) || (trackerJob && trackerJob.position) || mapInfo.position || (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || "Developer";
-    const recipient = (preset && preset.recipient) || mapInfo.recipient || (currentLang === "vi" ? "Anh/Chị phụ trách tuyển dụng" : "Hiring Team");
-    const contact = (preset && preset.contact) || (trackerJob && trackerJob.contact) || mapInfo.contact || "";
-    const jdText = (preset && preset.jdText) || (trackerJob && trackerJob.jdText) || "";
+    const company = (preset && preset.company) || metaInfo.company || (trackerJob && trackerJob.company) || mapInfo.company || "";
+    const position = (preset && preset.position) || metaInfo.position || (trackerJob && trackerJob.position) || mapInfo.position || (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || "Developer";
+    const recipient = (preset && preset.recipient) || metaInfo.recipient || mapInfo.recipient || (currentLang === "vi" ? "Anh/Chị phụ trách tuyển dụng" : "Hiring Team");
+    const contact = (preset && preset.contact) || metaInfo.email || metaInfo.contact || (trackerJob && trackerJob.contact) || mapInfo.contact || "";
+    const jdText = (preset && preset.jdText) || metaInfo.jdText || (trackerJob && trackerJob.jdText) || "";
 
     // Fill inputs
     const compInput = document.getElementById("egInputCompany");

@@ -10,6 +10,12 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "octosoft",
+      file: "data/cv-data-octosoft.js",
+      emoji: "🐙",
+      label: "🐙 Octo Software Fullstack",
+    },
+    {
       key: "namphuong",
       file: "data/cv-data-namphuong.js",
       emoji: "⚡",

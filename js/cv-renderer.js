@@ -41,6 +41,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const cvVersion = (typeof window.cvVersion !== "undefined" && window.cvVersion)
   ? window.cvVersion
   : (urlParams.get("draft") ? ("draft_" + urlParams.get("draft")) : (urlParams.get("type") || "default"));
+window.cvVersion = cvVersion;
 
 let currentLang = "vi";
 let baseFontSize = 10.5;
@@ -101,6 +102,9 @@ function updateFontSize() {
     baseFontSize.toFixed(1) + "pt",
   );
   elements.fontSizeDisplay.textContent = baseFontSize.toFixed(1) + "pt";
+  if (typeof updateA4FitMeter === "function") {
+    requestAnimationFrame(updateA4FitMeter);
+  }
 }
 
 function initSpacingCustomizer() {
@@ -155,8 +159,9 @@ function initSpacingCustomizer() {
     </div>
   `;
 
-  // Insert after .font-customizer
-  fontCustomizer.parentNode.insertBefore(spacingCustomizer, fontCustomizer.nextSibling);
+  // Insert after .font-lang-row container (or fallback to .font-customizer)
+  const insertAnchor = fontCustomizer.closest(".font-lang-row") || fontCustomizer;
+  insertAnchor.parentNode.insertBefore(spacingCustomizer, insertAnchor.nextSibling);
 
   // Bind references to elements
   elements.sectionMarginSlider = document.getElementById("sectionMarginSlider");
@@ -169,6 +174,13 @@ function initSpacingCustomizer() {
     const val = parseInt(e.target.value);
     elements.sectionMarginVal.textContent = val + "px";
     elements.preview.style.setProperty("--cv-section-margin", val + "px");
+    if (!a4ModeActive) {
+      elements.preview.style.height = "auto";
+      elements.preview.style.overflow = "visible";
+    }
+    if (typeof updateA4FitMeter === "function") {
+      requestAnimationFrame(updateA4FitMeter);
+    }
     
     // Sync with settings data
     if (typeof cvData !== "undefined" && cvData[currentLang]) {
@@ -182,6 +194,13 @@ function initSpacingCustomizer() {
     const val = parseInt(e.target.value);
     elements.itemMarginVal.textContent = val + "px";
     elements.preview.style.setProperty("--cv-item-margin", val + "px");
+    if (!a4ModeActive) {
+      elements.preview.style.height = "auto";
+      elements.preview.style.overflow = "visible";
+    }
+    if (typeof updateA4FitMeter === "function") {
+      requestAnimationFrame(updateA4FitMeter);
+    }
     
     // Sync with settings data
     if (typeof cvData !== "undefined" && cvData[currentLang]) {
@@ -204,6 +223,9 @@ function resetLayoutStyles() {
 
   elements.preview.style.setProperty("--cv-section-margin", sectionVal);
   elements.preview.style.setProperty("--cv-item-margin", itemVal);
+  if (typeof updateA4FitMeter === "function") {
+    requestAnimationFrame(updateA4FitMeter);
+  }
 }
 
 function setA4Mode(enabled) {
@@ -368,6 +390,10 @@ function renderSkills(skills) {
 elements.fontIncreaseBtn.onclick = () => {
   if (baseFontSize < 14) {
     baseFontSize += 0.5;
+    if (!a4ModeActive) {
+      elements.preview.style.height = "auto";
+      elements.preview.style.overflow = "visible";
+    }
     updateFontSize();
   }
 };
@@ -375,15 +401,68 @@ elements.fontIncreaseBtn.onclick = () => {
 elements.fontDecreaseBtn.onclick = () => {
   if (baseFontSize > 7) {
     baseFontSize -= 0.5;
+    if (!a4ModeActive) {
+      elements.preview.style.height = "auto";
+      elements.preview.style.overflow = "visible";
+    }
     updateFontSize();
   }
 };
 
 // ===================================
+// A4 METRICS HELPERS (Đo đạc kích thước A4 & chiều cao nội dung thực tế)
+// ===================================
+let cachedA4TargetPx = 0;
+function getA4TargetHeight() {
+  if (cachedA4TargetPx > 0) return cachedA4TargetPx;
+  const probe = document.createElement("div");
+  probe.style.cssText = "height: 297mm; position: absolute; visibility: hidden; pointer-events: none; top: -9999px; left: -9999px;";
+  document.body.appendChild(probe);
+  const h = probe.getBoundingClientRect().height;
+  document.body.removeChild(probe);
+  cachedA4TargetPx = h > 0 ? h : 1122.5;
+  return cachedA4TargetPx;
+}
+
+function getActualContentHeight() {
+  const preview = elements.preview;
+  if (!preview) return 0;
+
+  const computedStyle = window.getComputedStyle(preview);
+  const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
+  const previewRect = preview.getBoundingClientRect();
+
+  // Lọc các khối nội dung hiển thị trực tiếp bên trong CV
+  const children = Array.from(preview.children).filter((el) => {
+    if (el.nodeType !== Node.ELEMENT_NODE) return false;
+    if (el.classList.contains("section-toolbar") || el.classList.contains("feedback-tooltip")) return false;
+    if (el.tagName === "SCRIPT" || el.tagName === "STYLE") return false;
+    if (el.offsetWidth === 0 && el.offsetHeight === 0 && el.style.display === "none") return false;
+    return true;
+  });
+
+  if (children.length === 0) {
+    return preview.scrollHeight;
+  }
+
+  // Tìm đáy của phần tử hiển thị sâu nhất
+  let maxBottom = previewRect.top;
+  for (const child of children) {
+    const r = child.getBoundingClientRect();
+    if (r.bottom > maxBottom) {
+      maxBottom = r.bottom;
+    }
+  }
+
+  // Tổng chiều cao nội dung = từ đỉnh trang tới đáy phần tử cuối cùng + khoảng cách lề dưới
+  return (maxBottom - previewRect.top) + paddingBottom;
+}
+
+// ===================================
 // MAGIC FIT
 // ===================================
 function magicFit() {
-  const targetHeight = 1120; // Hướng tới khung xấp xỉ 297mm
+  const targetHeight = getA4TargetHeight();
 
   elements.preview.style.height = "auto";
   elements.preview.style.overflow = "visible";
@@ -416,7 +495,7 @@ function magicFit() {
   }
 
   // Phase 1: Thu hẹp nếu tràn (Shrink phase)
-  while (elements.preview.offsetHeight > targetHeight && safety < maxIter) {
+  while (getActualContentHeight() > targetHeight && safety < maxIter) {
     let changed = false;
     if (sectionMargin > 8) {
       sectionMargin -= 2;
@@ -433,19 +512,19 @@ function magicFit() {
     } else if (baseFontSize > 9.5) {
       baseFontSize -= 0.1;
       changed = true;
-    } // Chỉ giảm font khi kẹt lắm
+    }
 
     applyStyles();
     safety++;
     if (!changed) break;
   }
 
-  const isOverflowing = elements.preview.offsetHeight > targetHeight;
+  const isOverflowing = getActualContentHeight() > targetHeight;
 
   safety = 0;
   // Phase 2: Giãn nở nếu quá ngắn (Expand phase)
   while (
-    elements.preview.offsetHeight < targetHeight - 50 &&
+    getActualContentHeight() < targetHeight - 50 &&
     safety < maxIter
   ) {
     let changed = false;
@@ -465,11 +544,16 @@ function magicFit() {
 
     applyStyles();
     safety++;
-    if (!changed || elements.preview.offsetHeight > targetHeight - 20) break;
+    if (!changed || getActualContentHeight() > targetHeight - 20) break;
   }
 
-  elements.preview.style.height = "297mm";
-  elements.preview.style.overflow = "hidden";
+  if (a4ModeActive) {
+    elements.preview.style.height = "297mm";
+    elements.preview.style.overflow = "hidden";
+  } else {
+    elements.preview.style.height = "auto";
+    elements.preview.style.overflow = "visible";
+  }
 
   if (isOverflowing) {
     elements.magicFitBtn.innerHTML = "Tràn nội dung! ⚠️";
@@ -486,9 +570,90 @@ function magicFit() {
       elements.magicFitBtn.innerHTML = "Magic Fit ✨";
     }, 2000);
   }
+  requestAnimationFrame(updateA4FitMeter);
 }
 
 elements.magicFitBtn.onclick = magicFit;
+
+// ===================================
+// A4 FIT METER (Thước đo độ tràn trang A4)
+// ===================================
+function updateA4FitMeter() {
+  const preview = elements.preview;
+  if (!preview) return;
+
+  const meter = document.getElementById("a4FitMeter");
+  const percentEl = document.getElementById("a4FitPercent");
+  const progressEl = document.getElementById("a4FitProgress");
+  const statusEl = document.getElementById("a4FitStatus");
+  if (!meter || !percentEl || !progressEl || !statusEl) return;
+
+  const targetPx = getA4TargetHeight();
+  const actualHeight = getActualContentHeight();
+
+  const ratio = (actualHeight / targetPx) * 100;
+  const percent = Math.round(ratio);
+
+  percentEl.textContent = `${percent}%`;
+  progressEl.style.width = `${Math.min(percent, 100)}%`;
+
+  meter.classList.remove("status-spacious", "status-perfect", "status-tight", "status-overflow");
+
+  if (percent <= 88) {
+    meter.classList.add("status-spacious");
+    statusEl.textContent = currentLang === "vi" ? "Rộng rãi ✨" : "Spacious ✨";
+  } else if (percent <= 98) {
+    meter.classList.add("status-perfect");
+    statusEl.textContent = currentLang === "vi" ? "Vừa vặn 1 trang ✓" : "Perfect 1 Page ✓";
+  } else if (percent <= 100) {
+    meter.classList.add("status-tight");
+    statusEl.textContent = currentLang === "vi" ? "Sát mép (99-100%)" : "Close to edge";
+  } else {
+    meter.classList.add("status-overflow");
+    const over = percent - 100;
+    statusEl.textContent = currentLang === "vi" ? `Tràn trang (+${over}%) ⚠️` : `Overflow (+${over}%) ⚠️`;
+  }
+}
+
+const a4FitMeterEl = document.getElementById("a4FitMeter");
+if (a4FitMeterEl) {
+  a4FitMeterEl.onclick = () => {
+    magicFit();
+  };
+}
+
+// Lắng nghe thay đổi kích thước DOM của Preview
+if (window.ResizeObserver && elements.preview) {
+  const a4ResizeObserver = new ResizeObserver(() => {
+    requestAnimationFrame(updateA4FitMeter);
+  });
+  a4ResizeObserver.observe(elements.preview);
+}
+
+// Lắng nghe chỉnh sửa nội dung trực tiếp (Live-editing, gõ phím, thêm bớt text)
+if (elements.preview) {
+  elements.preview.addEventListener("input", () => {
+    requestAnimationFrame(updateA4FitMeter);
+  });
+}
+
+// MutationObserver để bắt mọi thay đổi cấu trúc phần tử (thêm/xóa/đổi class/ẩn hiện section)
+if (window.MutationObserver && elements.preview) {
+  const a4MutationObserver = new MutationObserver(() => {
+    requestAnimationFrame(updateA4FitMeter);
+  });
+  a4MutationObserver.observe(elements.preview, {
+    childList: true,
+    subtree: true,
+    characterData: true,
+  });
+}
+
+// Cập nhật lại khi resize cửa sổ
+window.addEventListener("resize", () => {
+  cachedA4TargetPx = 0;
+  requestAnimationFrame(updateA4FitMeter);
+});
 
 // ===================================
 // RESET SETTINGS
@@ -2184,6 +2349,13 @@ function initSettingsDrawer() {
     const val = parseInt(e.target.value);
     sectionMarginVal.textContent = val + "px";
     elements.preview.style.setProperty("--cv-section-margin", val + "px");
+    if (!a4ModeActive) {
+      elements.preview.style.height = "auto";
+      elements.preview.style.overflow = "visible";
+    }
+    if (typeof updateA4FitMeter === "function") {
+      requestAnimationFrame(updateA4FitMeter);
+    }
     
     // Sync with main floating toolbar if exists
     if (elements.sectionMarginSlider) {
@@ -2199,6 +2371,13 @@ function initSettingsDrawer() {
     const val = parseInt(e.target.value);
     itemMarginVal.textContent = val + "px";
     elements.preview.style.setProperty("--cv-item-margin", val + "px");
+    if (!a4ModeActive) {
+      elements.preview.style.height = "auto";
+      elements.preview.style.overflow = "visible";
+    }
+    if (typeof updateA4FitMeter === "function") {
+      requestAnimationFrame(updateA4FitMeter);
+    }
 
     // Sync with main floating toolbar if exists
     if (elements.itemMarginSlider) {
