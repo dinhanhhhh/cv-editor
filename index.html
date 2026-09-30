@@ -694,7 +694,7 @@
     </div>
 
     <!-- JD Detail Viewer Modal -->
-    <div class="cl-modal-overlay jt-jd-modal-overlay" id="jtJdModalOverlay" aria-hidden="true" style="display: none;">
+    <div class="cl-modal-overlay jt-jd-modal-overlay" id="jtJdModalOverlay" aria-hidden="true" style="display: none; z-index: 3000; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);">
         <div class="cl-modal jt-jd-modal" role="dialog" aria-labelledby="jtJdModalTitle">
             <div class="cl-modal-header jt-jd-modal-header">
                 <div class="jt-header-left">
@@ -725,7 +725,7 @@
     </div>
 
     <!-- Cloud Sync Modal (Đồng bộ đám mây Cloudflare KV) -->
-    <div class="cl-modal-overlay" id="jtSyncModalOverlay" aria-hidden="true" style="display: none; z-index: 1250;">
+    <div class="cl-modal-overlay" id="jtSyncModalOverlay" aria-hidden="true" style="display: none; z-index: 3100; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);">
         <div class="cl-modal" style="max-width: 440px; padding: 22px; background: white; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
                 <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #1e293b;">☁️ Đồng bộ Cloudflare KV</h3>

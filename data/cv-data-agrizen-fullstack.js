@@ -4,14 +4,16 @@
 
 var cvData = {
   "vi": {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
+    btnText: "In / Tải PDF",
     "header": {
       "name": "TRƯƠNG ĐÌNH ANH",
       "title": "Full-Stack Developer Intern (Telegram Test)"
     }
   },
   "en": {
-        projectDisplayLimit: 2,
+    projectDisplayLimit: 2,
+    btnText: "Print / Save PDF",
     "header": {
       "name": "TRUONG DINH ANH",
       "title": "Full-Stack Developer Intern (Telegram Test)"

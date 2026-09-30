@@ -53,7 +53,7 @@ var cvData = {
         desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
         tasks: [
           "Thiết kế cấu trúc cơ sở dữ liệu và triển khai cơ sở dữ liệu PostgreSQL trên hạ tầng Supabase Cloud.",
-          "Xây dựng và tối ưu hơn 25+ RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất và xử lý dữ liệu chứng khoán thời gian thực.",
+          "Xây dựng và tối ưu các dịch vụ RESTful APIs sử dụng Next.js Route Handlers để truy xuất và xử lý dữ liệu chứng khoán thời gian thực.",
           "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
           "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp tối ưu hóa các luồng truy xuất dữ liệu.",
           "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel.",
@@ -63,10 +63,10 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT (AI AGENT & AUTOMATION PLATFORM)",
+        name: "HỆ THỐNG CV EDITOR & AI AUTOMATION",
         date: "01/2026 - Hiện tại",
         role: "Developer",
-        desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
+        desc: "Nền tảng tự động hóa quản lý và tối ưu hồ sơ CV kết hợp Serverless, AI và quy trình CI/CD.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
           "Xây dựng giao diện web tương tác thời gian thực bằng Vanilla JS/HTML5/CSS3 với hiệu năng cao, zero-dependency.",
@@ -173,7 +173,7 @@ var cvData = {
         desc: "Stock market financial data analysis system connected to Vnstock3 financial data library.",
         tasks: [
           "Designed relational database architecture and deployed PostgreSQL database on Supabase Cloud infrastructure.",
-          "Developed and optimized 25+ RESTful API endpoints using Next.js Route Handlers for real-time stock market data processing.",
+          "Developed and optimized robust RESTful APIs using Next.js Route Handlers for real-time stock market data processing.",
           "Integrated Google OAuth authentication flow using NextAuth (Google Provider).",
           "Conducted API performance testing using Postman, handled errors, and optimized data retrieval pipelines.",
           "Containerized and deployed the demo web application reliably on Vercel Cloud platform.",
@@ -183,10 +183,10 @@ var cvData = {
     ],
     projects: [
       {
-        name: "AI AGENT AUTOMATION PLATFORM",
+        name: "CV EDITOR & AI AUTOMATION SYSTEM",
         date: "01/2026 - Present",
         role: "Developer",
-        desc: "Workflow management and automation system powered by AI Agent architecture and serverless infrastructure.",
+        desc: "Automated CV management and optimization platform integrating Serverless, AI APIs, and CI/CD pipelines.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
           "Engineered high-performance, real-time interactive user interface using Vanilla JS/HTML5/CSS3 with zero external dependencies.",

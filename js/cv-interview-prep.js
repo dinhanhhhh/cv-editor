@@ -236,9 +236,10 @@
           <!-- Navigation Tabs -->
           <div class="interview-nav-tabs">
             <button type="button" class="interview-tab-btn active" data-tab="pitch">🎙️ Giới thiệu 30s</button>
-            <button type="button" class="interview-tab-btn" data-tab="questions">🎯 Câu hỏi Kỹ thuật (STAR)</button>
-            <button type="button" class="interview-tab-btn" data-tab="reverse">❓ Hỏi lại Nhà tuyển dụng</button>
-            <button type="button" class="interview-tab-btn" data-tab="notes">📝 Ghi chú Phỏng vấn</button>
+            <button type="button" class="interview-tab-btn" data-tab="questions">🎯 Phỏng vấn STAR</button>
+            <button type="button" class="interview-tab-btn" data-tab="techtest">💻 Ôn Test Chuyên Môn</button>
+            <button type="button" class="interview-tab-btn" data-tab="reverse">❓ Hỏi lại NTD</button>
+            <button type="button" class="interview-tab-btn" data-tab="notes">📝 Ghi chú</button>
           </div>
 
           <!-- Body Content -->
@@ -295,7 +296,7 @@
               </div>
             </div>
 
-            <!-- TAB 2: QUESTIONS -->
+            <!-- TAB 2: QUESTIONS (STAR) -->
             <div class="interview-tab-pane" id="interviewPane-questions">
               <div class="interview-questions-toolbar">
                 <div class="interview-help-banner" style="margin-bottom: 0; flex: 1;">
@@ -307,6 +308,234 @@
               </div>
               <div class="interview-questions-list" id="interviewQuestionsList">
                 <!-- Danh sách câu hỏi được đổ bởi JS -->
+              </div>
+            </div>
+
+            <!-- TAB 3: TECH TEST & CODING CHEAT SHEET -->
+            <div class="interview-tab-pane" id="interviewPane-techtest">
+              <div class="interview-help-banner">
+                ⚡ <b>Cẩm nang Ôn thi Test Chuyên Môn & Live Coding:</b> Tổng hợp 5 khối kiến thức trọng điểm cho bài test Fullstack (JavaScript Core, Database & SQL, REST API & Security, Live Coding Challenges, Git Workflow).
+              </div>
+
+              <!-- KHỐI 1: JAVASCRIPT CORE -->
+              <div class="interview-section-card" style="margin-bottom: 14px;">
+                <div class="interview-card-header">
+                  <div class="interview-card-title">🔥 1. JavaScript Core & Các Bẫy Kinh Điển (Trắc Nghiệm & Phỏng Vấn)</div>
+                </div>
+                <div class="interview-techtest-body">
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Q1. Event Loop: Thứ tự in ra màn hình của đoạn code sau là gì?</b></div>
+                    <pre class="quiz-code"><code>console.log('1');
+setTimeout(() => console.log('2'), 0);
+Promise.resolve().then(() => console.log('3'));
+console.log('4');</code></pre>
+                    <div class="quiz-ans">
+                      <b>👉 Đáp án:</b> <code>1 &rarr; 4 &rarr; 3 &rarr; 2</code><br>
+                      <b>💡 Giải thích:</b> <code>1</code> và <code>4</code> chạy đồng bộ (Call Stack). Khi Call Stack trống, Event Loop ưu tiên quét sạch hàng đợi <b>Microtask Queue</b> (Promise <code>.then</code> &rarr; in ra <code>3</code>) trước khi lấy tác vụ từ <b>Macrotask Queue</b> (<code>setTimeout</code> &rarr; in ra <code>2</code>).
+                    </div>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Q2. Bẫy Closure & Vòng lặp <code>var</code> vs <code>let</code>:</b></div>
+                    <pre class="quiz-code"><code>for (var i = 0; i < 3; i++) {
+  setTimeout(() => console.log(i), 100);
+}</code></pre>
+                    <div class="quiz-ans">
+                      <b>👉 Đáp án:</b> In ra <code>3, 3, 3</code> (chứ không phải 0, 1, 2).<br>
+                      <b>💡 Giải thích:</b> <code>var</code> có Function/Global Scope, biến <code>i</code> bị ghi đè sau mỗi vòng lặp. Khi <code>setTimeout</code> chạy sau 100ms, vòng lặp đã kết thúc và <code>i = 3</code>.<br>
+                      <b>🔧 Cách sửa:</b> Đổi <code>var i</code> thành <code>let i</code> (Block Scope - mỗi vòng lặp tạo một biến <code>i</code> độc lập).
+                    </div>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Q3. Phân biệt <code>==</code> (Loose) vs <code>===</code> (Strict) và các phép so sánh lạ:</b></div>
+                    <div class="quiz-ans">
+                      • <code>==</code> tự động ép kiểu (Type Coercion); <code>===</code> so sánh cả giá trị lẫn kiểu dữ liệu.<br>
+                      • <code>[] == false</code> &rarr; <b>true</b> (Mảng rỗng ép sang chuỗi <code>""</code>, rồi sang số <code>0</code>, <code>false</code> cũng thành <code>0</code>).<br>
+                      • <code>null == undefined</code> &rarr; <b>true</b>, nhưng <code>null === undefined</code> &rarr; <b>false</b>.<br>
+                      • <code>typeof NaN</code> &rarr; <b>'number'</b> (NaN là số không hợp lệ). Kiểm tra bằng <code>Number.isNaN(val)</code>.
+                    </div>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Q4. Shallow Copy vs Deep Copy trong JavaScript:</b></div>
+                    <div class="quiz-ans">
+                      • <b>Shallow Copy</b> (<code>{ ...obj }</code> hoặc <code>Object.assign({}, obj)</code>): Chỉ sao chép tầng ngoài cùng. Nếu object có lồng object/mảng bên trong, tham chiếu vẫn bị dùng chung!<br>
+                      • <b>Deep Copy</b>: Sao chép độc lập toàn bộ các tầng lồng nhau.<br>
+                      &nbsp;&nbsp;+ Chuẩn hiện đại: Dùng <code>structuredClone(obj)</code> (hỗ trợ Date, Map, Set, Regex).<br>
+                      &nbsp;&nbsp;+ Cách truyền thống: <code>JSON.parse(JSON.stringify(obj))</code> (bị mất Function, undefined, Date bị biến thành string).
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KHỐI 2: DATABASE & SQL -->
+              <div class="interview-section-card" style="margin-bottom: 14px;">
+                <div class="interview-card-header">
+                  <div class="interview-card-title">🗄️ 2. Database & SQL Queries Thường Gặp Trong Bài Test</div>
+                </div>
+                <div class="interview-techtest-body">
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>SQL 1. Tìm nhân viên có mức lương cao thứ nhì (Second Highest Salary):</b></div>
+                    <pre class="quiz-code"><code>-- Cách 1: Dùng LIMIT & OFFSET (nhanh nhất)
+SELECT DISTINCT salary FROM employees 
+ORDER BY salary DESC 
+LIMIT 1 OFFSET 1;
+
+-- Cách 2: Dùng Subquery (chuẩn ANSI SQL)
+SELECT MAX(salary) FROM employees 
+WHERE salary < (SELECT MAX(salary) FROM employees);</code></pre>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>SQL 2. Phân biệt INNER JOIN vs LEFT JOIN:</b></div>
+                    <div class="quiz-ans">
+                      • <b>INNER JOIN:</b> Chỉ trả về các dòng có khóa khớp ở <b>CẢ HAI BẢNG</b>.<br>
+                      • <b>LEFT JOIN:</b> Lấy <b>TOÀN BỘ</b> dòng từ bảng bên trái (Left), nếu bảng phải không có dòng khớp tương ứng thì các cột của bảng phải sẽ mang giá trị <code>NULL</code>.<br>
+                      <i>Ví dụ: Lấy danh sách tất cả User và số lượng đơn hàng (kể cả User chưa từng mua hàng): Dùng <code>LEFT JOIN orders ON users.id = orders.user_id</code>.</i>
+                    </div>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>SQL 3. Đếm số đơn hàng và tổng tiền của từng khách hàng có tổng chi tiêu > 5 triệu:</b></div>
+                    <pre class="quiz-code"><code>SELECT user_id, COUNT(id) AS total_orders, SUM(total_amount) AS total_spent
+FROM orders
+GROUP BY user_id
+HAVING SUM(total_amount) > 5000000;
+-- Lưu ý: WHERE lọc trước khi nhóm (từng dòng), HAVING lọc sau khi đã GROUP BY (trên kết quả gom nhóm).</code></pre>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>SQL 4. Cơ chế Indexing trong Database & Khi nào không nên dùng:</b></div>
+                    <div class="quiz-ans">
+                      • <b>Bản chất:</b> Index (thường cấu trúc B-Tree) hoạt động như mục lục cuốn sách, giúp tra cứu <code>O(log N)</code> thay vì quét toàn bộ bảng (Full Table Scan <code>O(N)</code>).<br>
+                      • <b>Nên đánh Index:</b> Các cột thường xuyên xuất hiện trong mệnh đề <code>WHERE</code>, <code>JOIN ... ON</code>, <code>ORDER BY</code>, hoặc các cột có độ phân tán giá trị cao (High Cardinality như email, user_id).<br>
+                      • <b>Không nên đánh Index:</b> Bảng dữ liệu quá nhỏ; hoặc bảng có tần suất <code>INSERT/UPDATE/DELETE</code> liên tục với khối lượng lớn (vì mỗi lần ghi dữ liệu, DB phải tính toán lại cây Index, làm chậm tốc độ ghi).
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KHỐI 3: REST API & SECURITY -->
+              <div class="interview-section-card" style="margin-bottom: 14px;">
+                <div class="interview-card-header">
+                  <div class="interview-card-title">🌐 3. REST API Status Codes & Web Security Cheat Sheet</div>
+                </div>
+                <div class="interview-techtest-body">
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Bảng tra cứu nhanh HTTP Status Codes chuẩn:</b></div>
+                    <div class="quiz-ans">
+                      • <code>200 OK</code>: Xử lý thành công (thường dùng cho GET, PUT, DELETE).<br>
+                      • <code>201 Created</code>: Tạo mới tài nguyên thành công (bắt buộc dùng cho POST tạo mới).<br>
+                      • <code>204 No Content</code>: Thành công nhưng không có nội dung trả về (thường dùng khi DELETE).<br>
+                      • <code>400 Bad Request</code>: Dữ liệu gửi lên sai định dạng hoặc vi phạm schema validation.<br>
+                      • <code>401 Unauthorized</code>: Chưa xác thực (Chưa gửi Token hoặc Token đã hết hạn/không hợp lệ).<br>
+                      • <code>403 Forbidden</code>: Đã xác thực danh tính nhưng <b>KHÔNG CÓ QUYỀN</b> truy cập tài nguyên (ví dụ User thường cố truy cập API của Admin).<br>
+                      • <code>404 Not Found</code>: Không tìm thấy tài nguyên (sai URL hoặc ID không tồn tại trong DB).<br>
+                      • <code>409 Conflict</code>: Xung đột tài nguyên (ví dụ đăng ký email đã tồn tại trong hệ thống).<br>
+                      • <code>500 Internal Server Error</code>: Lỗi sập code, ngoại lệ chưa bắt (Unhandled Exception) ở Backend.
+                    </div>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Phân biệt PUT vs PATCH và tính Idempotent:</b></div>
+                    <div class="quiz-ans">
+                      • <b>PUT (Idempotent):</b> Thay thế toàn bộ tài nguyên. Gửi 1 lần hay 100 lần kết quả trên DB vẫn như nhau.<br>
+                      • <b>PATCH (Không bắt buộc Idempotent):</b> Cập nhật cục bộ (từng trường riêng lẻ).<br>
+                      • <b>POST (Non-idempotent):</b> Mỗi lần gọi sẽ tạo ra một tài nguyên mới (gọi 5 lần tạo 5 bản ghi).
+                    </div>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Bảo mật Web cơ bản (XSS vs CSRF):</b></div>
+                    <div class="quiz-ans">
+                      • <b>XSS (Cross-Site Scripting):</b> Kẻ tấn công chèn mã JavaScript độc hại vào trang web. Phòng ngừa: Sanitize input/output, mã hóa HTML entities, <b>lưu JWT Token trong cookie <code>httpOnly</code></b> (JavaScript không thể đọc được <code>document.cookie</code>).<br>
+                      • <b>CSRF (Cross-Site Request Forgery):</b> Lừa trình duyệt của người dùng gửi request giả mạo kèm cookie có sẵn. Phòng ngừa: Cấu hình cờ <code>SameSite=Strict</code> hoặc <code>SameSite=Lax</code> trên Cookie, sử dụng CSRF Token cho các action nhạy cảm.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KHỐI 4: LIVE CODING CHALLENGES -->
+              <div class="interview-section-card" style="margin-bottom: 14px;">
+                <div class="interview-card-header">
+                  <div class="interview-card-title">💻 4. Live Coding Challenges (3 Bài Tập Code Kinh Điển)</div>
+                </div>
+                <div class="interview-techtest-body">
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Bài 1: Khử trùng lặp phần tử trong mảng (Unique Elements):</b></div>
+                    <pre class="quiz-code"><code>// Cách 1: Dùng Set (nhanh và chuẩn nhất - O(N))
+const removeDuplicates = arr => [...new Set(arr)];
+
+// Cách 2: Dùng filter + indexOf (nếu phỏng vấn cấm dùng Set)
+const removeDuplicatesFilter = arr => arr.filter((item, index) => arr.indexOf(item) === index);</code></pre>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Bài 2: Đếm tần suất xuất hiện của từng phần tử trong mảng:</b></div>
+                    <pre class="quiz-code"><code>function countFrequencies(arr) {
+  return arr.reduce((acc, curr) => {
+    acc[curr] = (acc[curr] || 0) + 1;
+    return acc;
+  }, {});
+}
+// Ví dụ: countFrequencies(['apple', 'banana', 'apple']) 
+// -> { apple: 2, banana: 1 }</code></pre>
+                  </div>
+
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Bài 3: Viết API Route phân trang (Pagination) chuẩn trong Node.js / Express:</b></div>
+                    <pre class="quiz-code"><code>app.get('/api/products', async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const [items, total] = await Promise.all([
+      Product.find().skip(skip).limit(limit).lean(),
+      Product.countDocuments()
+    ]);
+
+    return res.status(200).json({
+      success: true,
+      data: items,
+      pagination: {
+        page,
+        limit,
+        totalItems: total,
+        totalPages: Math.ceil(total / limit)
+      }
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});</code></pre>
+                  </div>
+                </div>
+              </div>
+
+              <!-- KHỐI 5: GIT COMMANDS -->
+              <div class="interview-section-card">
+                <div class="interview-card-header">
+                  <div class="interview-card-title">🌱 5. Git Commands & Quy Trình Teamwork Thường Hỏi</div>
+                </div>
+                <div class="interview-techtest-body">
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Phân biệt Git Merge vs Git Rebase:</b></div>
+                    <div class="quiz-ans">
+                      • <b>Git Merge:</b> Tạo ra một commit gộp (Merge Commit) nối hai nhánh lại với nhau. Giữ nguyên toàn bộ lịch sử commit theo đúng mốc thời gian thực tế.<br>
+                      • <b>Git Rebase:</b> Nhặt từng commit của nhánh hiện tại và "đặt lại gốc" lên đỉnh của nhánh đích. Lịch sử commit sẽ thành một đường thẳng tắp, sạch sẽ, không có merge commit rác.<br>
+                      • <i>Quy tắc vàng:</i> Không bao giờ rebase trên các nhánh công khai dùng chung (như <code>main</code> hoặc <code>develop</code>).
+                    </div>
+                  </div>
+                  <div class="interview-quiz-item">
+                    <div class="quiz-q"><b>Git Stash & Cherry-pick là gì?</b></div>
+                    <div class="quiz-ans">
+                      • <code>git stash</code>: Cất tạm những file đang sửa dở dang vào ngăn kéo để pull code mới hoặc chuyển branch khẩn cấp mà không cần commit rác. Dùng <code>git stash pop</code> để lôi ra làm tiếp.<br>
+                      • <code>git cherry-pick &lt;commit-hash&gt;</code>: Bốc chính xác một commit cụ thể từ nhánh khác và áp dụng vào nhánh hiện tại (rất hay dùng khi cần hotfix một bug từ dev sang production).
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -391,7 +620,7 @@
 
 Em tên là <b>Trương Đình Anh</b>, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Em định hướng phát triển chuyên sâu ở vai trò <b>Full-Stack Developer</b> với thế mạnh kết hợp cả <b>React, Next.js</b> ở Frontend và <b>Node.js, Express</b> cùng các hệ CSDL quan hệ lẫn NoSQL (<b>PostgreSQL, MongoDB, MySQL</b>) ở Backend.
 
-Đặc biệt, em rất ấn tượng với định hướng phát triển hệ thống <b>AI Agent (flowagentica.com)</b> của Octo Software. Bản thân em có tư duy <b>AI-First</b> và đã trực tiếp xây dựng nền tảng tự động hóa Serverless trên Cloudflare Workers tích hợp AI Agent qua Telegram Bot và các mô hình LLM API (Gemini/OpenAI), thiết lập pipeline CI/CD với GitHub Actions tự sinh mã nguồn. Ngoài ra, em từng thực tập 6 tháng tại TAMI Technology xây dựng và tối ưu hơn 25+ RESTful API endpoints và thiết kế CSDL Supabase PostgreSQL.
+Đặc biệt, em rất ấn tượng với định hướng phát triển hệ thống <b>AI Agent (flowagentica.com)</b> của Octo Software. Bản thân em có tư duy <b>AI-First</b> và đã trực tiếp xây dựng nền tảng tự động hóa Serverless trên Cloudflare Workers tích hợp AI Agent qua Telegram Bot và các mô hình LLM API (Gemini/OpenAI), thiết lập pipeline CI/CD với GitHub Actions tự sinh mã nguồn. Ngoài ra, em từng thực tập 6 tháng tại TAMI Technology xây dựng và tối ưu hệ thống RESTful APIs và thiết kế CSDL Supabase PostgreSQL.
 
 Với nền tảng kỹ thuật sẵn có và tính kỷ luật trong quy trình Git, em tin rằng mình có thể nhanh chóng bắt nhịp và đóng góp hiệu quả vào các dự án của Octo Software ạ.`;
     }
@@ -728,6 +957,22 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
 - "Dạ cho em hỏi hệ thống E-commerce hiện tại của CG ECOM đang phục vụ đối tượng khách hàng B2B hay B2C, và định hướng công nghệ sắp tới của team là gì ạ?"
 - "Quy trình phát triển và review code trong team Dev của công ty hiện diễn ra như thế nào ạ?"
 - "Nếu được nhận vào vị trí này, trong tháng đầu tiên em cần đạt được những cột mốc nào để được coi là hoàn thành xuất sắc nhiệm vụ ạ?"`;
+        localStorage.setItem(`interview_notes_${cvKey}`, savedNotes);
+      } else if (!savedNotes && cvKey === "octosoft") {
+        savedNotes = `🎯 CHIẾN LƯỢC TÁC CHIẾN TEST & PHỎNG VẤN OCTOSOFT (10H00 NGÀY 01/10/2026)
+📍 Địa điểm: Tầng 9 - Tòa nhà International Plaza, 343 Phạm Ngũ Lão, P. Bến Thành, Q.1
+💼 Vị trí: Full Stack Developer (Sản phẩm: FlowAgentica - AI Agent & Workflow Automation)
+📞 Liên hệ: Zalo 0867490600 (Linh Trần) / tuyendung@octosoft.co
+
+1. VŨ KHÍ CỐT LÕI ĐỂ GHI ĐIỂM CAO:
+- Về AI Agent & Serverless: Tự tin demo/giải thích dự án CV Editor & AI Automation (Cloudflare Workers + Telegram Bot + Gemini LLM API + GitHub Actions CI/CD). Đây là điểm khớp 100% với định hướng sản phẩm FlowAgentica của OctoSoft!
+- Về Backend & API: Trình bày kinh nghiệm thực tế tại Tami Technology (Next.js Route Handlers, Node.js, thiết kế CSDL quan hệ PostgreSQL trên Supabase Cloud).
+- Về Fullstack & Database: Luồng đặt hàng E-commerce, xử lý transaction chống race condition, JWT Dual Token an toàn (Access Token + httpOnly Refresh Token).
+
+2. CÁC ĐIỂM CẦN LƯU Ý KHI LÀM BÀI TEST CHUYÊN MÔN:
+- Đọc kỹ đề bài: Phân biệt rõ yêu cầu SQL vs NoSQL, mảng vs chuỗi.
+- Xem tab "💻 Ôn Test Chuyên Môn" để nhớ kỹ bảng HTTP Status Codes, Event Loop, Closure và các câu lệnh SQL JOIN/GROUP BY.
+- Nếu gặp live coding: Vừa code vừa giải thích tư duy (Think out loud), không im lặng làm một mình.`;
         localStorage.setItem(`interview_notes_${cvKey}`, savedNotes);
       }
       notesArea.value = savedNotes || "";

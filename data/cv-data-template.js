@@ -100,7 +100,7 @@ var cvData = {
         tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, REST API, Docker, Vercel",
       },
       {
-        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI (CV-EDITOR)",
+        name: "HỆ THỐNG CV EDITOR & AI AUTOMATION",
         date: "05/2026 - Hiện tại",
         role: "Developer",
         desc: "Hệ thống tự động hóa quản lý và tối ưu hóa CV tích hợp AI giúp may đo nội dung theo mô tả công việc (JD).",
@@ -241,7 +241,7 @@ var cvData = {
         tech: "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, REST API, Docker, Vercel",
       },
       {
-        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
+        name: "CV EDITOR & AI AUTOMATION SYSTEM",
         date: "05/2026 - Present",
         role: "Developer",
         desc: "An automated CV management and optimization tool powered by AI to tailor CV content matching Job Descriptions (JD).",

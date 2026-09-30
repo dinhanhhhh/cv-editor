@@ -10,6 +10,24 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "assolutions",
+      file: "data/cv-data-assolutions.js",
+      emoji: "🛡️",
+      label: "🛡️ AS Solutions Frontend Developer (React, TypeScript)",
+    },
+    {
+      key: "umbalabs",
+      file: "data/cv-data-umbalabs.js",
+      emoji: "🤖",
+      label: "🤖 Umbalabs Junior Fullstack Developer",
+    },
+    {
+      key: "tinovation",
+      file: "data/cv-data-tinovation.js",
+      emoji: "⚡",
+      label: "⚡ Tinovation Fresher NodeJS MERN Developer",
+    },
+    {
       key: "octosoft",
       file: "data/cv-data-octosoft.js",
       emoji: "🐙",

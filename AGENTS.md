@@ -49,6 +49,13 @@
 - **Thời gian thực tập chuẩn (Tami Technology):** Mốc thời gian làm việc tại CÔNG TY TNHH CÔNG NGHỆ TAMI / TAMI TECHNOLOGY CO., LTD **BẮT BUỘC LUÔN ĐỂ LÀ `"06/2025 - 12/2025"`** (6 tháng). Tuyệt đối không để là 03/2025 - 09/2025 hay 06/2025 - 09/2025.
 - **Tiêu đề mục kinh nghiệm chuẩn:** Trường `sections.experience` (nếu có khai báo) **BẮT BUỘC LUÔN ĐỂ LÀ `"KINH NGHIỆM LÀM VIỆC"`** (tiếng Việt) và **`"WORK EXPERIENCE"`** (tiếng Anh). Tuyệt đối không tự ý đổi thành "KINH NGHIỆM THỰC TẾ" hay "KINH NGHIỆM THỰC CHIẾN".
 - **Tiêu đề mục kỹ năng chuẩn:** Trường `sections.skills` (nếu có khai báo) **BẮT BUỘC LUÔN ĐỂ LÀ `"KỸ NĂNG CHUYÊN MÔN"`** (tiếng Việt) và **`"TECHNICAL SKILLS"`** (tiếng Anh). Tuyệt đối không tự ý đổi thành "KỸ NĂNG", "SKILLS" hay "KEY SKILLS".
+- **Cấu trúc danh mục kỹ năng chuẩn (`skills`):** Mỗi item trong mảng `skills` **BẮT BUỘC dùng thuộc tính `cat`** (`{ cat: "Tên danh mục", items: "..." }`). **TUYỆT ĐỐI KHÔNG DÙNG `name`** vì hàm render HTML đọc `skill.cat` (dùng `name` sẽ bị biến mất cột danh mục bên trái).
+- **Trường văn bản nút in (`btnText`):** Mọi nhánh ngôn ngữ **BẮT BUỘC PHẢI CÓ** trường `btnText`:
+  - Tiếng Việt: `btnText: "In / Tải PDF"`
+  - Tiếng Anh: `btnText: "Print / Save PDF"`
+  Tuyệt đối không được bỏ sót, tránh làm nút in hiển thị lỗi `undefined`.
+- **CẤM đếm số lượng API vụn vặt ("25+ API endpoints", "15+ APIs"):** **TUYỆT ĐỐI KHÔNG** dùng các cụm từ đếm số lượng như `"25+ API endpoints"`, `"15+ APIs"` trong toàn bộ nội dung CV (Tóm tắt, Kinh nghiệm, Dự án), Email ứng tuyển hay Kịch bản ôn phỏng vấn. Thay vào đó, tập trung diễn đạt chuyên môn kiến trúc hệ thống (vd: *"Thiết kế cơ sở dữ liệu, xây dựng và tối ưu hệ thống RESTful APIs phục vụ truy xuất dữ liệu thời gian thực"*, *"Xây dựng các dịch vụ RESTful APIs hoàn chỉnh..."*).
+- **Tiêu đề dự án ngắn gọn (Tránh rớt dòng ngày tháng):** Trường `name` của mỗi dự án trong `projects` **BẮT BUỘC NGẮN GỌN** (dưới 40 ký tự), ví dụ: `"HỆ THỐNG CV EDITOR & AI AUTOMATION"` (VI) / `"CV EDITOR & AI AUTOMATION SYSTEM"` (EN). **TUYỆT ĐỐI KHÔNG** nối thêm phụ đề song ngữ dài dòng trong ngoặc đơn (kiểu `"HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT & LLM (AI AGENT & CLOUD PLATFORM)"`) vì sẽ chiếm trọn chiều ngang, đẩy mốc ngày tháng rớt xuống dòng dưới làm xô lệch bố cục 1 trang A4.
 
 ---
 

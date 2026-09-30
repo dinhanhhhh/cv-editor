@@ -88,22 +88,30 @@
 
               <!-- Nhóm 2: Công cụ ứng tuyển -->
               <div class="hotkeys-group">
-                <div class="hotkeys-group-title">🎯 Bộ công cụ Ứng tuyển</div>
+                <div class="hotkeys-group-title">🎯 Bộ công cụ Ứng tuyển (Bấm lần nữa để Đóng)</div>
                 <div class="hotkey-item">
                   <div class="hotkey-keys"><kbd>E</kbd></div>
-                  <div class="hotkey-desc">Mở <b>Soạn Email & Thư giới thiệu</b> (Cover Letter)</div>
+                  <div class="hotkey-desc">Bật / Tắt <b>Soạn Email & Thư giới thiệu</b> (Cover Letter)</div>
                 </div>
                 <div class="hotkey-item">
                   <div class="hotkey-keys"><kbd>I</kbd></div>
-                  <div class="hotkey-desc">Mở <b>Cẩm nang Phỏng vấn 1-Click</b> (STAR Q&A)</div>
+                  <div class="hotkey-desc">Bật / Tắt <b>Cẩm nang Phỏng vấn 1-Click</b> (STAR Q&A)</div>
                 </div>
                 <div class="hotkey-item">
                   <div class="hotkey-keys"><kbd>T</kbd></div>
-                  <div class="hotkey-desc">Mở <b>Tiến độ ứng tuyển</b> (Job Tracker)</div>
+                  <div class="hotkey-desc">Bật / Tắt <b>Tiến độ ứng tuyển</b> (Job Tracker)</div>
+                </div>
+                <div class="hotkey-item">
+                  <div class="hotkey-keys"><kbd>J</kbd></div>
+                  <div class="hotkey-desc">Bật / Tắt <b>So khớp ATS & Chấm điểm JD</b></div>
+                </div>
+                <div class="hotkey-item">
+                  <div class="hotkey-keys"><kbd>D</kbd></div>
+                  <div class="hotkey-desc">Bật / Tắt <b>So sánh các bản CV</b> (Diff Viewer)</div>
                 </div>
                 <div class="hotkey-item">
                   <div class="hotkey-keys"><kbd>S</kbd></div>
-                  <div class="hotkey-desc">Mở ngăn kéo <b>Cấu hình bố cục & màu sắc</b></div>
+                  <div class="hotkey-desc">Bật / Tắt ngăn kéo <b>Cấu hình bố cục & màu sắc</b></div>
                 </div>
               </div>
 
@@ -153,6 +161,36 @@
     }
   }
 
+  function isElementVisible(el) {
+    if (!el) return false;
+    if (el.style.display === 'none' || el.classList.contains('hidden')) return false;
+    try {
+      return window.getComputedStyle(el).display !== 'none';
+    } catch (e) {
+      return el.style.display !== 'none';
+    }
+  }
+
+  function toggleModal(modalId, openBtnId, closeBtnId) {
+    const modal = document.getElementById(modalId);
+    if (isElementVisible(modal)) {
+      const closeBtn = (closeBtnId && document.getElementById(closeBtnId)) ||
+                       modal.querySelector('.cl-modal-close') ||
+                       modal.querySelector('.cl-btn-secondary') ||
+                       modal.querySelector('button[aria-label="Đóng"]');
+      if (closeBtn) {
+        closeBtn.click();
+      } else {
+        modal.style.display = 'none';
+      }
+    } else {
+      const openBtn = openBtnId ? document.getElementById(openBtnId) : null;
+      if (openBtn) {
+        openBtn.click();
+      }
+    }
+  }
+
   function toggleHotkeysModal() {
     injectHotkeysModal();
     const overlay = document.getElementById('hotkeysModalOverlay');
@@ -197,7 +235,7 @@
       const key = e.key;
 
       switch (key) {
-        // Phím ?: Mở danh sách phím tắt
+        // Phím ?: Mở / Đóng bảng phím tắt
         case '?':
           e.preventDefault();
           toggleHotkeysModal();
@@ -212,30 +250,51 @@
           break;
         }
 
-        // Phím E: Mở modal Email & Thư ứng tuyển
+        // Phím E: Mở / Đóng modal Email & Thư ứng tuyển
         case 'e':
         case 'E': {
           e.preventDefault();
-          const btn = document.getElementById('coverLetterBtn');
-          if (btn) btn.click();
+          toggleModal('clModalOverlay', 'coverLetterBtn', 'clModalCloseBtn');
           break;
         }
 
-        // Phím I: Mở Cẩm nang phỏng vấn
+        // Phím I: Mở / Đóng Cẩm nang phỏng vấn
         case 'i':
         case 'I': {
           e.preventDefault();
-          const btn = document.getElementById('interviewPrepBtn');
-          if (btn) btn.click();
+          toggleModal('interviewModalOverlay', 'interviewPrepBtn', 'interviewCloseBtn');
           break;
         }
 
-        // Phím T: Mở Tracker ứng tuyển
+        // Phím T: Mở / Đóng Tracker ứng tuyển
         case 't':
         case 'T': {
           e.preventDefault();
-          const btn = document.getElementById('jobTrackerBtn');
-          if (btn) btn.click();
+          toggleModal('jobTrackerModalOverlay', 'jobTrackerBtn', 'jobTrackerCloseBtn');
+          break;
+        }
+
+        // Phím S: Mở / Đóng Cấu hình CV Drawer
+        case 's':
+        case 'S': {
+          e.preventDefault();
+          toggleModal('settingsDrawerOverlay', 'settingsBtn', 'settingsCloseBtn');
+          break;
+        }
+
+        // Phím J: Mở / Đóng So khớp JD (ATS Matcher)
+        case 'j':
+        case 'J': {
+          e.preventDefault();
+          toggleModal('atsModalOverlay', 'atsMatchBtn', 'atsModalCloseBtn');
+          break;
+        }
+
+        // Phím D: Mở / Đóng So sánh phiên bản CV (Diff)
+        case 'd':
+        case 'D': {
+          e.preventDefault();
+          toggleModal('diffModalOverlay', 'diffBtn', 'diffModalCloseBtn');
           break;
         }
 
@@ -271,15 +330,6 @@
         case 'L': {
           e.preventDefault();
           const btn = document.getElementById('liveEditBtn');
-          if (btn) btn.click();
-          break;
-        }
-
-        // Phím S: Cấu hình CV
-        case 's':
-        case 'S': {
-          e.preventDefault();
-          const btn = document.getElementById('settingsBtn');
           if (btn) btn.click();
           break;
         }

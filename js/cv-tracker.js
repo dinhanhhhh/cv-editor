@@ -19,20 +19,59 @@
     rejected: { key: "rejected", label: "❌ Từ chối", badgeClass: "status-rejected", color: "#dc2626" },
   };
 
-  // Dữ liệu mẫu khởi đầu nếu chưa có gì
+  // Dữ liệu mẫu khởi đầu và tự động đồng bộ
   const DEFAULT_SEED_DATA = [
     {
       id: "job_octosoft_seed",
-      company: "OCTO SOFTWARE",
+      company: "CÔNG TY TNHH PHẦN MỀM OCTO",
       position: "Full Stack Developer",
       cvType: "octosoft",
       cvLabel: "🐙 Octo Software Fullstack",
       appliedDate: "2026-09-23",
-      status: "applied",
-      contact: "tuyendung@octosoft.co",
-      notes: "343 Phạm Ngũ Lão, P. Bến Thành, Q.1. Fullstack web + API + CSDL (PostgreSQL, MongoDB). Tích hợp AI / AI Agent (flowagentica.com). Yêu cầu gửi CV + Bảng điểm.",
+      status: "interviewing",
+      contact: "tuyendung@octosoft.co / Zalo: 0867490600 (Linh Trần)",
+      notes: "🎯 Lịch test & phỏng vấn: 10:00 Thứ Năm 01/10/2026 tại Tầng 9 International Plaza, 343 Phạm Ngũ Lão, P. Bến Thành, Q.1. Xác nhận trước 15:00 ngày 30/09.",
       jobUrl: "https://flowagentica.com",
       jdText: `OCTO SOFTWARE TUYỂN DỤNG\nFULL STACK DEVELOPER\nLàm việc tại: 343 Phạm Ngũ Lão, Phường Bến Thành, TP.HCM\nKinh nghiệm: Tối thiểu 02 năm\n\nMô tả công việc:\n• Tham gia phân tích yêu cầu, thiết kế và phát triển các tính năng cho hệ thống phần mềm của công ty.\n• Phát triển giao diện web, backend, cơ sở dữ liệu và API.\n• Tích hợp API bên thứ ba, các công cụ AI hoặc AI Agent vào sản phẩm khi có yêu cầu.\n• Kiểm tra, xử lý lỗi, tối ưu hiệu suất và đảm bảo các yêu cầu bảo mật cơ bản của hệ thống.\n• Quản lý mã nguồn bằng Git, tham gia code review và viết tài liệu kỹ thuật cần thiết.\n• Phối hợp với các bộ phận liên quan để đảm bảo tiến độ và chất lượng sản phẩm.\n\nYêu cầu công việc:\nMust have:\n• Tốt nghiệp Cao đẳng/Đại học chuyên ngành Công nghệ Thông tin, Kỹ thuật Phần mềm hoặc ngành liên quan.\n• Có kinh nghiệm tối thiểu từ 2 năm làm phát triển ứng dụng / website.\n• Có kinh nghiệm làm việc với MySQL, PostgreSQL hoặc MongoDB.\n• Sử dụng tốt Git; có khả năng đọc code, debug và xử lý lỗi.\n• Có hiểu biết hoặc kinh nghiệm ứng dụng AI/AI Agent trong quá trình phát triển phần mềm.\n\nNice to have:\n• Phân tích và ra quyết định.\n• Quản lý yêu cầu và ưu tiên yêu cầu.\n• Lập kế hoạch: Kế hoạch kinh doanh, triển khai, phát triển sản phẩm...\n• Yêu thích và định hướng lâu dài, làm việc gắn bó trong lĩnh vực phát triển sản phẩm công nghệ.\n\nQuyền lợi:\n• Mức thu nhập cạnh tranh, thỏa thuận theo năng lực. Xét tăng lương 2 lần mỗi năm.\n• Tham gia đầy đủ BHXH, BHYT, BHTN và các chế độ cho người lao động theo quy định.\n• Thưởng sinh nhật, các ngày lễ, lương T13 theo quy định của công ty.\n• Nghỉ lễ, Tết và nghỉ phép 12 ngày/năm theo chính sách của công ty.\n\nỨNG TUYỂN NGAY:\nGửi CV và bảng điểm: tuyendung@octosoft.co\nTiêu đề: [Full Stack Developer] - Họ và tên`
+    },
+    {
+      id: "job_assolutions_seed",
+      company: "CÔNG TY CỔ PHẦN AS SOLUTIONS",
+      position: "Frontend Developer (React, TypeScript)",
+      cvType: "assolutions",
+      cvLabel: "🛡️ AS Solutions Frontend Dev",
+      appliedDate: "2026-09-26",
+      status: "applied",
+      contact: "contact@assolutions.vn",
+      notes: "Làm việc tại: Phường Phú Nhuận, TP.HCM. T2-T6 (09:00 - 18:00). Lĩnh vực an toàn thông tin & công nghệ cao.",
+      jobUrl: "https://www.topcv.vn/viec-lam/frontend-developer-react-typescript/2311776.html",
+      jdText: `AS SOLUTIONS TUYỂN DỤNG FRONTEND DEVELOPER (REACT, TYPESCRIPT)\nĐịa chỉ: Phường Phú Nhuận, TP.HCM\nThời gian: T2-T6 (09:00 - 18:00)\n\nMÔ TẢ CÔNG VIỆC:\n- Phát triển và duy trì các ứng dụng web dựa trên UI/UX đã thiết kế.\n- Chuyển đổi bản thiết kế UI/UX (Figma, Sketch, Adobe XD) thành mã HTML, CSS, JavaScript, TypeScript chất lượng cao.\n- Tối ưu hóa hiệu suất ứng dụng web (Core Web Vitals) để đạt trải nghiệm người dùng tốt nhất.\n- Phối hợp chặt chẽ với UI/UX Designer và Backend Developer tích hợp RESTful API.\n\nYÊU CẦU:\n- Tốt nghiệp ĐH CNTT, Khoa học Máy tính hoặc liên quan.\n- Nắm vững HTML5, CSS3, JavaScript (ES6+), TypeScript.\n- ReactJS (ưu tiên), VueJS hoặc Angular. Responsive Design & Cross-browser Compatibility.\n- Git, tinh thần làm việc nhóm, có niềm đam mê với an toàn thông tin / công nghệ cao.`
+    },
+    {
+      id: "job_umbalabs_seed",
+      company: "CÔNG TY TNHH CÔNG NGHỆ UMBALABS",
+      position: "Junior Fullstack Developer",
+      cvType: "umbalabs",
+      cvLabel: "🤖 Umbalabs Junior Fullstack",
+      appliedDate: "2026-09-25",
+      status: "applied",
+      contact: "contact@umbalabs.com",
+      notes: "56 Đường Số 7, KDC Him Lam, P. Tân Hưng, Q.7, TP.HCM. T2-T6 (08:00 - 17:00).",
+      jobUrl: "https://www.topcv.vn/viec-lam/junior-fullstack-developer-dinh-huong-ai/2305336.html",
+      jdText: `UMBALABS TUYỂN DỤNG JUNIOR FULLSTACK DEVELOPER (ĐỊNH HƯỚNG AI)\nĐịa chỉ: 56 Đường Số 7, KDC Him Lam, P. Tân Hưng, Quận 7, TP.HCM\nThời gian: T2-T6 (08:00 - 17:00)\n\nMÔ TẢ CÔNG VIỆC:\n- Phát triển tính năng web bằng React/Next.js/TypeScript và API Node.js/NestJS.\n- Tích hợp AI API/service vào giao diện hoặc luồng xử lý; xử lý structured output, validation.\n- Xây dựng công cụ nội bộ, giao diện eval và tự động hóa quy trình.\n\nYÊU CẦU:\n- Nền tảng Fullstack tốt (React/Next.js, Node.js), TypeScript, RESTful API, PostgreSQL.\n- Có kiến thức AI/ML cơ bản hoặc kinh nghiệm tích hợp LLM APIs (Gemini, OpenAI).\n- Chủ động, tư duy giải quyết vấn đề tốt.`
+    },
+    {
+      id: "job_tinovation_seed",
+      company: "CÔNG TY TNHH TINOVATION",
+      position: "Fresher NodeJS MERN Developer",
+      cvType: "tinovation",
+      cvLabel: "⚡ Tinovation Fresher MERN",
+      appliedDate: "2026-09-25",
+      status: "applied",
+      contact: "hr@tinovation.vn",
+      notes: "Tòa nhà Waseco, 10 Phổ Quang, P.2, Tân Bình, TP.HCM. T2-T6 (08:30 - 17:30).",
+      jobUrl: "https://www.topcv.vn/viec-lam/fresher-nodejs-developer/2305336.html",
+      jdText: `TINOVATION TUYỂN DỤNG FRESHER NODEJS DEVELOPER\nĐịa chỉ: Tòa nhà Waseco, 10 Phổ Quang, P.2, Tân Bình, TP.HCM\nThời gian: T2-T6 (08:30 - 17:30)\n\nMÔ TẢ CÔNG VIỆC:\n- Tham gia phát triển hệ thống backend với Node.js, Express, MongoDB/PostgreSQL.\n- Xây dựng và tối ưu các RESTful APIs, xử lý dữ liệu và tích hợp frontend (ReactJS).\n- Tham gia code review, viết unit test và tài liệu API.\n\nYÊU CẦU:\n- Nắm vững JavaScript/TypeScript, Node.js, Express, MongoDB.\n- Hiểu biết về RESTful API, Git, Docker cơ bản.`
     },
     {
       id: "job_namphuong_seed",
@@ -89,36 +128,39 @@
       const raw = localStorage.getItem(STORAGE_KEY);
       if (raw) {
         jobs = JSON.parse(raw);
-        // Tự động bổ sung JD cho CG Ecom & Favolist5 nếu chưa có jdText
         let updated = false;
-        jobs.forEach(job => {
-          if (!job.jdText) {
-            const comp = (job.company || "").toLowerCase().trim();
-            const cvT = (job.cvType || "").toLowerCase().trim();
-            const notes = (job.notes || "").toLowerCase().trim();
 
-            const seed = DEFAULT_SEED_DATA.find(s => {
-              const sComp = s.company.toLowerCase().trim();
-              const sCvT = s.cvType.toLowerCase().trim();
-              const isCg = (comp.includes("cg") || cvT.includes("cgecom") || notes.includes("react/node") || notes.includes("e-commerce")) && sCvT === "cgecom";
-              const isFav = (comp.includes("favolist") || cvT.includes("favolist") || notes.includes("qa/qc") || notes.includes("tester")) && sCvT === "favolist5";
-              const matchesCompany = (comp && (sComp.includes(comp) || comp.includes(sComp)));
-              const matchesCvType = (cvT && (cvT === sCvT || cvT.includes(sCvT) || sCvT.includes(cvT)));
-              return isCg || isFav || matchesCompany || matchesCvType;
-            });
+        // Tự động bổ sung các job mẫu mới nhất nếu chưa có trong danh sách
+        DEFAULT_SEED_DATA.forEach(seed => {
+          const sComp = (seed.company || "").toLowerCase().trim();
+          const sCvT = (seed.cvType || "").toLowerCase().trim();
 
-            if (seed && seed.jdText) {
-              job.jdText = seed.jdText;
+          const existingIndex = jobs.findIndex(j => {
+            const jComp = (j.company || "").toLowerCase().trim();
+            const jCvT = (j.cvType || "").toLowerCase().trim();
+            return j.id === seed.id || (jCvT && jCvT === sCvT) || (jComp && sComp && (jComp.includes(sComp) || sComp.includes(jComp)));
+          });
+
+          if (existingIndex === -1) {
+            // Chưa có -> thêm vào đầu danh sách
+            jobs.unshift({ ...seed });
+            updated = true;
+          } else {
+            // Đã có -> bổ sung jdText nếu thiếu
+            const existing = jobs[existingIndex];
+            if (!existing.jdText && seed.jdText) {
+              existing.jdText = seed.jdText;
+              updated = true;
+            }
+            // Nếu là Octosoft, tự động cập nhật status sang interviewing và bổ sung lịch phỏng vấn nếu chưa có
+            if (seed.cvType === "octosoft" && existing.status !== "interviewing") {
+              existing.status = "interviewing";
+              existing.notes = seed.notes;
+              existing.contact = seed.contact;
               updated = true;
             }
           }
         });
-        // Tự động bổ sung job Nam Phương nếu chưa có trong danh sách
-        const hasNamPhuong = jobs.some(j => j.cvType === "namphuong" || (j.company && j.company.toLowerCase().includes("nam phuong")));
-        if (!hasNamPhuong) {
-          jobs.unshift(DEFAULT_SEED_DATA[0]);
-          updated = true;
-        }
 
         if (updated) saveJobs();
       } else {

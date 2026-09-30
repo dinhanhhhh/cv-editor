@@ -375,12 +375,12 @@ function renderProjects(projects, text, limit, pathPrefix) {
 }
 
 function renderSkills(skills) {
-  return skills
+  return (skills || [])
     .map(
       (skill, idx) => `
         <tr>
-          <td data-edit-key="skills.${idx}.cat" class="cv-skills-category">${esc(skill.cat)}</td>
-          <td data-edit-key="skills.${idx}.items" class="cv-skills-items">${esc(skill.items)}</td>
+          <td data-edit-key="skills.${idx}.cat" class="cv-skills-category">${esc(skill.cat || skill.name || "")}</td>
+          <td data-edit-key="skills.${idx}.items" class="cv-skills-items">${esc(skill.items || "")}</td>
         </tr>
     `,
     )
@@ -463,19 +463,17 @@ function getActualContentHeight() {
 // ===================================
 function magicFit() {
   const targetHeight = getA4TargetHeight();
+  const safeTargetHeight = targetHeight * 0.97; // Ngưỡng an toàn 97% không bao giờ chạm mép tràn
 
   elements.preview.style.height = "auto";
   elements.preview.style.overflow = "visible";
 
-  // Bắt đầu với các giá trị "rộng rãi" để lấp trang
-  baseFontSize = 11.5;
-  let currentLineHeight = 1.7;
+  // Lấy giá trị hiện tại hoặc khởi tạo ở mức cân đối
+  baseFontSize = Math.min(Math.max(baseFontSize, 10), 11);
+  let currentLineHeight = 1.35;
   let currentPaddingSide = 15;
-  let sectionMargin = 18;
-  let itemMargin = 12;
-
-  let safety = 0;
-  const maxIter = 100;
+  let sectionMargin = 12;
+  let itemMargin = 8;
 
   function applyStyles() {
     updateFontSize();
@@ -492,25 +490,33 @@ function magicFit() {
       elements.itemMarginSlider.value = itemMargin;
       elements.itemMarginVal.textContent = itemMargin + "px";
     }
+    // Ép trình duyệt tính toán lại layout (force reflow) để đo đạc chính xác
+    void elements.preview.offsetHeight;
   }
 
-  // Phase 1: Thu hẹp nếu tràn (Shrink phase)
-  while (getActualContentHeight() > targetHeight && safety < maxIter) {
+  // Áp dụng style ban đầu để đo đạc chuẩn xác
+  applyStyles();
+
+  let safety = 0;
+  const maxIter = 60;
+
+  // Phase 1: Nếu tràn vượt quá ngưỡng an toàn (> 97% A4) -> Thu nhỏ dần
+  while (getActualContentHeight() > safeTargetHeight && safety < maxIter) {
     let changed = false;
-    if (sectionMargin > 8) {
-      sectionMargin -= 2;
+    if (sectionMargin > 6) {
+      sectionMargin -= 1;
       changed = true;
     } else if (itemMargin > 4) {
-      itemMargin -= 2;
+      itemMargin -= 1;
       changed = true;
     } else if (currentLineHeight > 1.25) {
-      currentLineHeight -= 0.05;
+      currentLineHeight -= 0.03;
+      changed = true;
+    } else if (baseFontSize > 9.0) {
+      baseFontSize -= 0.2;
       changed = true;
     } else if (currentPaddingSide > 10) {
       currentPaddingSide -= 0.5;
-      changed = true;
-    } else if (baseFontSize > 9.5) {
-      baseFontSize -= 0.1;
       changed = true;
     }
 
@@ -519,33 +525,38 @@ function magicFit() {
     if (!changed) break;
   }
 
-  const isOverflowing = getActualContentHeight() > targetHeight;
-
   safety = 0;
-  // Phase 2: Giãn nở nếu quá ngắn (Expand phase)
-  while (
-    getActualContentHeight() < targetHeight - 50 &&
-    safety < maxIter
-  ) {
+  // Phase 2: Nếu quá ngắn (< 90% A4) -> Nới rộng nhẹ nhàng, dừng ngay khi đạt 94-96%
+  while (getActualContentHeight() < targetHeight * 0.91 && safety < maxIter) {
     let changed = false;
-    if (currentLineHeight < 1.75) {
+    if (sectionMargin < 16) {
+      sectionMargin += 1;
+      changed = true;
+    } else if (itemMargin < 10) {
+      itemMargin += 1;
+      changed = true;
+    } else if (currentLineHeight < 1.45) {
       currentLineHeight += 0.03;
       changed = true;
-    } else if (sectionMargin < 24) {
-      sectionMargin += 2;
-      changed = true;
-    } else if (itemMargin < 16) {
-      itemMargin += 2;
-      changed = true;
-    } else if (baseFontSize < 11.5) {
-      baseFontSize += 0.1;
+    } else if (baseFontSize < 11.0) {
+      baseFontSize += 0.2;
       changed = true;
     }
 
     applyStyles();
     safety++;
-    if (!changed || getActualContentHeight() > targetHeight - 20) break;
+    if (!changed || getActualContentHeight() >= safeTargetHeight) break;
   }
+
+  // Chốt chặn an toàn cuối cùng: nếu vẫn vô tình lố sang 100% -> lùi 1 nấc
+  if (getActualContentHeight() > targetHeight) {
+    if (sectionMargin > 6) sectionMargin -= 2;
+    if (itemMargin > 4) itemMargin -= 2;
+    if (baseFontSize > 9.5) baseFontSize -= 0.2;
+    applyStyles();
+  }
+
+  const finalOverflowing = getActualContentHeight() > targetHeight;
 
   if (a4ModeActive) {
     elements.preview.style.height = "297mm";
@@ -555,7 +566,7 @@ function magicFit() {
     elements.preview.style.overflow = "visible";
   }
 
-  if (isOverflowing) {
+  if (finalOverflowing) {
     elements.magicFitBtn.innerHTML = "Tràn nội dung! ⚠️";
     elements.magicFitBtn.style.backgroundColor = "#e05638";
     elements.magicFitBtn.style.color = "#ffffff";
@@ -1276,7 +1287,7 @@ function renderCV(lang) {
 
   updateProjectSelector(d, lang);
 
-  elements.downloadBtnText.innerText = d.btnText;
+  elements.downloadBtnText.innerText = d.btnText || (lang === "vi" ? "In / Tải PDF" : "Print / Save PDF");
   const cleanName = d.name
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")

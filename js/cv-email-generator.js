@@ -132,13 +132,13 @@
           ];
         } else if (tone === "warm") {
           return [
-            "Kinh nghiệm Full-Stack thực chiến: Đã xây dựng và tối ưu 25+ RESTful API endpoints, quản trị CSDL PostgreSQL và phát triển các sản phẩm web responsive hoàn chỉnh.",
+            "Kinh nghiệm Full-Stack thực chiến: Đã xây dựng và tối ưu hệ thống RESTful APIs, quản trị CSDL PostgreSQL và phát triển các sản phẩm web responsive hoàn chỉnh.",
             "Đam mê AI & Tự động hóa: Nhạy bén tích hợp AI Agent và LLM API vào quy trình phát triển thực tế, tối ưu năng suất làm việc gấp nhiều lần.",
             "Tinh thần trách nhiệm & Đồng hành: Tác phong làm việc chủ động, kỷ luật mã nguồn cao và rất mong muốn được cống hiến lâu dài cùng Octo Software."
           ];
         } else {
           return [
-            "Nền tảng Full-Stack & CSDL: Thành thạo React.js, Next.js, Node.js/Express; có kinh nghiệm thiết kế CSDL quan hệ PostgreSQL và NoSQL MongoDB, xây dựng hơn 25+ RESTful API endpoints tại Công nghệ TAMI.",
+            "Nền tảng Full-Stack & CSDL: Thành thạo React.js, Next.js, Node.js/Express; có kinh nghiệm thiết kế CSDL quan hệ PostgreSQL và NoSQL MongoDB, xây dựng và tối ưu hệ thống RESTful APIs tại Công nghệ TAMI.",
             "Tích hợp AI & AI Agent Workflow: Tự phát triển hệ thống tự động hóa Serverless trên Cloudflare Workers kết nối Telegram Bot Bridge và LLM APIs (Gemini/OpenAI), tự động hóa pipeline CI/CD với GitHub Actions.",
             "Kỷ luật mã nguồn & Git: Quản lý source code bài bản bằng Git, khả năng đọc hiểu/debug lỗi nhanh, tư duy giải pháp thực tế và sẵn sàng nhận việc ngay."
           ];
@@ -146,20 +146,20 @@
       } else if (isQa) {
         if (tone === "short") {
           return [
-            "Manual & API Testing: Thiết kế test case, kiểm thử chức năng và test 15+ RESTful API endpoints bằng Postman tại Công nghệ TAMI.",
+            "Manual & API Testing: Thiết kế test case, kiểm thử chức năng và kiểm thử hệ thống RESTful APIs bằng Postman tại Công nghệ TAMI.",
             "Database (SQL): Nắm vững truy vấn PostgreSQL, MongoDB để trực tiếp kiểm tra và đối soát tính toàn vẹn của dữ liệu.",
             "Ứng dụng AI & Tác phong: Dùng AI hỗ trợ sinh test data, rà soát edge cases; sẵn sàng làm việc linh hoạt (full-time/part-time >= 4 ngày/tuần)."
           ];
         } else if (tone === "warm") {
           return [
-            "Kinh nghiệm kiểm thử thực tế: Thiết kế test case chặt chẽ, kiểm thử luồng nghiệp vụ và hơn 15 API endpoints bằng Postman tại Công ty TNHH Công nghệ TAMI.",
+            "Kinh nghiệm kiểm thử thực tế: Thiết kế test case chặt chẽ, kiểm thử luồng nghiệp vụ và hệ thống RESTful APIs bằng Postman tại Công ty TNHH Công nghệ TAMI.",
             "Đối soát dữ liệu chuẩn xác: Thành thạo truy vấn SQL trên PostgreSQL và MongoDB, giúp phát hiện sớm các lỗi dữ liệu trước khi bàn giao.",
             "Tác phong cầu thị & Năng động: Nhạy bén áp dụng công cụ AI tăng tốc độ test, tinh thần trách nhiệm cao và sẵn sàng đồng hành lâu dài cùng Quý công ty."
           ];
         } else {
           // tech
           return [
-            "Manual & API Testing: Thành thạo thiết kế test scenario, boundary value analysis và kiểm thử chức năng cho 15+ RESTful API endpoints bằng Postman trong dự án thực tế tại Công nghệ TAMI.",
+            "Manual & API Testing: Thành thạo thiết kế test scenario, boundary value analysis và kiểm thử chức năng cho hệ thống RESTful APIs bằng Postman trong dự án thực tế tại Công nghệ TAMI.",
             "Truy vấn cơ sở dữ liệu (SQL): Nắm vững cú pháp SQL trên PostgreSQL và MongoDB để trực tiếp kiểm tra, đối soát tính toàn vẹn và nhất quán của dữ liệu.",
             "Ứng dụng AI nâng cao năng suất: Chủ động kết hợp ChatGPT và Gemini để sinh dữ liệu mẫu, rà soát edge cases và cải thiện độ bao phủ của bộ test."
           ];
@@ -168,20 +168,20 @@
         // Developer / Fullstack / Backend / Frontend
         if (tone === "short") {
           return [
-            "Kinh nghiệm thực tế: Xây dựng và triển khai 15+ RESTful API endpoints, thiết kế cơ sở dữ liệu PostgreSQL trên Supabase Cloud tại Cty TNHH Công nghệ TAMI.",
+            "Kinh nghiệm thực tế: Xây dựng và triển khai hệ thống RESTful APIs, thiết kế cơ sở dữ liệu PostgreSQL trên Supabase Cloud tại Cty TNHH Công nghệ TAMI.",
             "Dự án hoàn chỉnh: Tự phát triển nền tảng E-commerce với React/Tailwind CSS và Node.js/Express/MongoDB, đóng gói Docker, triển khai CI/CD tối ưu tải trang dưới 2s.",
             "Kỹ năng & Tác phong: Thành thạo Git, sẵn sàng hỗ trợ các tác vụ IT nội bộ và có thể nhận việc ngay khi có yêu cầu."
           ];
         } else if (tone === "warm") {
           return [
-            "Kinh nghiệm dự án thực tế: Đã tham gia phát triển hệ thống và xử lý hơn 15 API endpoints, tích hợp xác thực bảo mật Google OAuth tại Công ty TNHH Công nghệ TAMI.",
+            "Kinh nghiệm dự án thực tế: Đã tham gia phát triển hệ thống và xây dựng các dịch vụ RESTful APIs, tích hợp xác thực bảo mật Google OAuth tại Công ty TNHH Công nghệ TAMI.",
             "Năng lực tự học & Sản phẩm thực tế: Tự xây dựng trọn vẹn nền tảng web ứng dụng React và Node.js, luôn chú trọng trải nghiệm người dùng và hiệu năng mã nguồn.",
             "Tinh thần trách nhiệm & Cầu tiến: Luôn chủ động giải quyết bài toán kỹ thuật, sẵn sàng học hỏi công nghệ mới và đóng góp hết mình cho sự phát triển của công ty."
           ];
         } else {
           // tech
           return [
-            "Kinh nghiệm thực tế: Xây dựng và triển khai hơn 15 RESTful API endpoints, thiết kế database PostgreSQL trên Supabase Cloud, tích hợp xác thực Google (NextAuth) trong dự án thực tế tại Công ty TNHH Công nghệ TAMI.",
+            "Kinh nghiệm thực tế: Xây dựng và triển khai hệ thống RESTful APIs hoàn chỉnh, thiết kế database PostgreSQL trên Supabase Cloud, tích hợp xác thực Google (NextAuth) trong dự án thực tế tại Công ty TNHH Công nghệ TAMI.",
             "Dự án E-commerce / Web App: Tự phát triển hoàn chỉnh một nền tảng thương mại điện tử (danh mục sản phẩm, giỏ hàng, checkout) với React/Tailwind CSS ở frontend và Node.js/Express/MongoDB ở backend, đóng gói Docker và triển khai CI/CD.",
             "Nền tảng kỹ thuật & AI: Nắm vững JavaScript/TypeScript, RESTful API, Docker, chủ động ứng dụng AI nâng cao năng suất code và linh hoạt hỗ trợ kỹ thuật IT nội bộ."
           ];
@@ -191,19 +191,19 @@
       // English
       if (isAiFullstack) {
         return [
-          "Full-Stack & Database Expertise: Proficient in React, Next.js, Node.js/Express; hands-on experience designing PostgreSQL (Supabase) & MongoDB schemas with 25+ RESTful APIs at TAMI Technology.",
+          "Full-Stack & Database Expertise: Proficient in React, Next.js, Node.js/Express; hands-on experience designing PostgreSQL (Supabase) & MongoDB schemas and robust RESTful APIs at TAMI Technology.",
           "AI Agent & Workflow Integration: Built an autonomous agent workflow on Cloudflare Workers integrating LLM APIs (Gemini/OpenAI) and Telegram Bot with automated GitHub Actions CI/CD pipelines.",
           "Technical Discipline & Git: Strong command of Git workflows, requirement breakdown, clean code practices, and ready to contribute to Octo Software immediately."
         ];
       } else if (isQa) {
         return [
-          "Manual & API Testing: Proficient in writing test cases, test scenarios, and executing testing for 15+ RESTful API endpoints using Postman at TAMI Technology.",
+          "Manual & API Testing: Proficient in writing test cases, test scenarios, and executing testing for RESTful APIs using Postman at TAMI Technology.",
           "Database Verification (SQL): Strong SQL skills on PostgreSQL and MongoDB to query and ensure data integrity.",
           "AI-Assisted & Proactive: Leveraged AI tools (ChatGPT, Gemini) to generate mock data and edge case suites; ready for full-time/part-time employment immediately."
         ];
       } else {
         return [
-          "Hands-on Experience: Designed and deployed 15+ RESTful API endpoints, managed PostgreSQL on Supabase Cloud, and integrated Google OAuth at TAMI Technology.",
+          "Hands-on Experience: Designed and deployed robust RESTful APIs, managed PostgreSQL on Supabase Cloud, and integrated Google OAuth at TAMI Technology.",
           "Full-Stack E-commerce Project: Built an end-to-end e-commerce platform with React, Node.js, Express, MongoDB, containerized with Docker and deployed via CI/CD.",
           "Technical Foundation & Problem Solving: Strong command of modern JavaScript/TypeScript, Git workflow, AI coding assistants, and ready to adapt quickly to your tech stack."
         ];

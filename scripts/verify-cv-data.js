@@ -177,6 +177,13 @@ allDataFiles.forEach((file) => {
             `[${file}] [${lang}] Dự án #${idx + 1} ('${proj.name || "N/A"}') có role = "${proj.role}". QUY TẮC BẮT BUỘC: role phải luôn là "Developer"!`
           );
         }
+
+        // QUY TẮC: Tiêu đề dự án không được quá dài (> 55 ký tự) tránh rớt dòng ngày tháng
+        if (proj.name && proj.name.length > 55) {
+          logWarn(
+            `[${file}] [${lang}] Dự án #${idx + 1} có tiêu đề quá dài (${proj.name.length} ký tự): "${proj.name}". Nên rút gọn dưới 40 ký tự để không bị rớt dòng ngày tháng!`
+          );
+        }
       });
     }
 
@@ -218,6 +225,28 @@ allDataFiles.forEach((file) => {
           `[${file}] [${lang}] sections.skills = "${dataLang.sections.skills}". QUY TẮC BẮT BUỘC: phải luôn là "${expectedSkillsTitle}"!`
         );
       }
+    }
+
+    // QUY TẮC BẮT BUỘC: Kiểm tra cấu trúc mảng skills phải dùng 'cat'
+    if (Array.isArray(dataLang.skills)) {
+      dataLang.skills.forEach((skill, sIdx) => {
+        if (!skill.cat) {
+          logError(
+            `[${file}] [${lang}] skills[${sIdx}] thiếu thuộc tính 'cat'! (Bắt buộc dùng { cat: "...", items: "..." }, không dùng 'name')`
+          );
+        }
+      });
+    }
+
+    // QUY TẮC BẮT BUỘC: Trường btnText phải tồn tại để tránh lỗi nút in undefined
+    if (!dataLang.btnText) {
+      logError(`[${file}] [${lang}] Thiếu trường 'btnText'! (Bắt buộc: 'In / Tải PDF' cho vi, 'Print / Save PDF' cho en)`);
+    }
+
+    // QUY TẮC BẮT BUỘC: Cấm đếm số API vụn vặt (25+ API, 15+ API)
+    const rawLangText = JSON.stringify(dataLang);
+    if (/25\+\s*api/i.test(rawLangText) || /15\+\s*api/i.test(rawLangText)) {
+      logError(`[${file}] [${lang}] Phát hiện cụm từ đếm API vụn vặt (25+ API / 15+ API)! QUY TẮC BẮT BUỘC: Không được đếm số API vụn vặt.`);
     }
   });
 });

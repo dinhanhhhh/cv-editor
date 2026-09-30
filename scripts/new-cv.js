@@ -183,7 +183,7 @@ var cvData = {
       skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
-      "Lập trình viên tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM, có kinh nghiệm phát triển ứng dụng web với React, Next.js, Node.js, Express và các hệ cơ sở dữ liệu (PostgreSQL, MongoDB, MySQL). Có kinh nghiệm thực tập xây dựng và tối ưu 25+ RESTful API endpoints, tích hợp xác thực và ứng dụng AI Agent vào tự động hóa phần mềm. Sẵn sàng học hỏi và đóng góp lâu dài tại ${company}.",
+      "Lập trình viên tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM, có kinh nghiệm phát triển ứng dụng web với React, Next.js, Node.js, Express và các hệ cơ sở dữ liệu (PostgreSQL, MongoDB, MySQL). Có kinh nghiệm thực tập thiết kế cơ sở dữ liệu, xây dựng hệ thống RESTful APIs và ứng dụng AI Agent vào tự động hóa phần mềm. Sẵn sàng học hỏi và đóng góp lâu dài tại ${company}.",
     education: cvGlobalEdu.vi,
     experience: [
       {
@@ -193,7 +193,7 @@ var cvData = {
         desc: "Hệ thống phân tích dữ liệu thị trường tài chính (kết nối thư viện Vnstock3).",
         tasks: [
           "Thiết kế cấu trúc cơ sở dữ liệu và triển khai PostgreSQL trên nền tảng Supabase Cloud.",
-          "Xây dựng và tối ưu hơn 25+ RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu thời gian thực.",
+          "Xây dựng và tối ưu các dịch vụ RESTful APIs sử dụng Next.js Route Handlers để truy xuất dữ liệu thời gian thực.",
           "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
           "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp tối ưu hóa các luồng truy xuất dữ liệu.",
           "Đóng gói và triển khai ứng dụng demo ổn định lên môi trường Cloud Vercel.",
@@ -203,7 +203,7 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT (AI AGENT & AUTOMATION PLATFORM)",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA AI AGENT",
         date: "01/2026 - Hiện tại",
         role: "Developer",
         desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
@@ -231,22 +231,23 @@ var cvData = {
     ],
     skills: [
       {
-        name: "Ngôn ngữ & Frameworks",
+        cat: "Ngôn ngữ & Frameworks",
         items: "JavaScript (ES6+), TypeScript, React, Next.js, Node.js, Express",
       },
       {
-        name: "Cơ sở dữ liệu",
+        cat: "Cơ sở dữ liệu",
         items: "PostgreSQL, Supabase Cloud, MongoDB, MySQL",
       },
       {
-        name: "Công cụ & DevOps",
+        cat: "Công cụ & DevOps",
         items: "Git, GitHub Actions (CI/CD), Docker, Postman, Vercel, Cloudflare Workers",
       },
       {
-        name: "Kỹ năng khác",
+        cat: "Kỹ năng khác",
         items: "RESTful API Design, AI-Assisted Development, Phân tích yêu cầu, Đọc hiểu tài liệu tiếng Anh",
       },
     ],
+    btnText: "In / Tải PDF",
   },
   en: {
     projectDisplayLimit: 2,
@@ -274,7 +275,7 @@ var cvData = {
       skills: "TECHNICAL SKILLS",
     },
     objective:
-      "Software Developer with a Computer Science degree from Ho Chi Minh City Open University. Proven experience in web development with React, Next.js, Node.js, Express, and databases (PostgreSQL, MongoDB). Hands-on experience developing 25+ RESTful API endpoints, integrating OAuth authentication, and applying AI Agent automation. Eager to contribute and grow at ${company}.",
+      "Software Developer with a Computer Science degree from Ho Chi Minh City Open University. Proven experience in web development with React, Next.js, Node.js, Express, and databases (PostgreSQL, MongoDB). Hands-on experience architecting RESTful APIs, integrating OAuth authentication, and applying AI Agent automation. Eager to contribute and grow at ${company}.",
     education: cvGlobalEdu.en,
     experience: [
       {
@@ -284,7 +285,7 @@ var cvData = {
         desc: "Financial market data analysis system integrated with Vnstock3 financial data library.",
         tasks: [
           "Designed relational database schemas and deployed PostgreSQL on Supabase Cloud infrastructure.",
-          "Built and optimized 25+ RESTful API endpoints using Next.js Route Handlers for real-time market data retrieval.",
+          "Built and optimized robust RESTful APIs using Next.js Route Handlers for real-time market data retrieval.",
           "Integrated Google OAuth authentication flow with NextAuth (Google Provider).",
           "Conducted API testing using Postman, handled exceptions, and collaborated to optimize query latency.",
           "Containerized and deployed stable demo instances on Vercel Cloud.",
@@ -294,7 +295,7 @@ var cvData = {
     ],
     projects: [
       {
-        name: "AI AGENT & AUTOMATION PLATFORM",
+        name: "AI AGENT AUTOMATION PLATFORM",
         date: "01/2026 - Present",
         role: "Developer",
         desc: "Business process automation platform utilizing AI Agent architecture and Serverless computing.",
@@ -322,22 +323,23 @@ var cvData = {
     ],
     skills: [
       {
-        name: "Languages & Frameworks",
+        cat: "Languages & Frameworks",
         items: "JavaScript (ES6+), TypeScript, React, Next.js, Node.js, Express",
       },
       {
-        name: "Databases",
+        cat: "Databases",
         items: "PostgreSQL, Supabase Cloud, MongoDB, MySQL",
       },
       {
-        name: "Tools & DevOps",
+        cat: "Tools & DevOps",
         items: "Git, GitHub Actions (CI/CD), Docker, Postman, Vercel, Cloudflare Workers",
       },
       {
-        name: "Other Skills",
+        cat: "Other Skills",
         items: "RESTful API Design, AI-Assisted Development, Technical English Reading",
       },
     ],
+    btnText: "Print / Save PDF",
   },
 };
 
