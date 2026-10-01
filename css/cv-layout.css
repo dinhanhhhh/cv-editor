@@ -5675,4 +5675,514 @@ body.recruiter-view .cv-preview {
   }
 }
 
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE SYSTEM (<= 992px, tối ưu cho iPhone/Android)
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+  /* 1. Reset Body & Layout Container */
+  body {
+    background-color: #f1f5f9 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  /* 2. ẨN CÁC THANH ĐIỀU KHIỂN FLOATING CŨ ĐỂ KHÔNG ĐÈ LÊN NỘI DUNG */
+  .controls,
+  .left-controls,
+  .version-switch {
+    display: none !important;
+  }
+
+  /* 3. TỜ CV: Co vừa vặn 100% màn hình điện thoại, đọc siêu nét */
+  .cv-preview {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-height: auto !important;
+    margin: 54px auto 76px auto !important; /* Dành chỗ cho Mobile Top Bar & Bottom Bar */
+    padding: 18px 14px 28px 14px !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .cv-preview.a4-mode {
+    height: auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .cv-preview.a4-mode::after {
+    display: none !important;
+  }
+
+  /* Header CV trên mobile */
+  .cv-header {
+    padding-top: 4px !important;
+    margin-bottom: 12px !important;
+  }
+
+  .cv-name {
+    font-size: 20px !important;
+    letter-spacing: -0.2px !important;
+    line-height: 1.15 !important;
+  }
+
+  .cv-title {
+    font-size: 13px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .cv-contact {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 4px 10px !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  .cv-contact-item {
+    font-size: 11px !important;
+  }
+
+  .cv-section-title {
+    font-size: 13px !important;
+    margin-top: 10px !important;
+    margin-bottom: 6px !important;
+  }
+
+  /* Header dự án / công ty: tránh rớt dòng ngày tháng */
+  .cv-exp-header {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 2px !important;
+    margin-bottom: 4px !important;
+  }
+
+  .cv-exp-project {
+    font-size: 12.5px !important;
+  }
+
+  .cv-exp-date {
+    font-size: 11px !important;
+    color: #64748b !important;
+    margin-bottom: 2px !important;
+  }
+
+  /* Bảng kỹ năng */
+  .cv-skills-table {
+    display: block !important;
+    width: 100% !important;
+  }
+
+  .cv-skills-table tr {
+    display: flex !important;
+    flex-direction: column !important;
+    margin-bottom: 6px !important;
+    border-bottom: 1px dashed #e2e8f0;
+    padding-bottom: 4px;
+  }
+
+  .cv-skills-table td {
+    padding: 2px 0 !important;
+    font-size: 11.5px !important;
+  }
+
+  .cv-skills-cat {
+    font-weight: 700 !important;
+    color: #1e3a8a !important;
+  }
+
+  /* 4. GIAO DIỆN MOBILE CHUYÊN BIỆT: TOP BAR & BOTTOM BAR */
+  .mobile-top-bar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 48px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 0 12px !important;
+    z-index: 2100 !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05) !important;
+  }
+
+  .mobile-top-bar .mobile-version-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #1e293b;
+    cursor: pointer;
+    max-width: 180px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-top-bar .mobile-top-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-top-bar .mobile-lang-switch {
+    display: flex;
+    background: #f1f5f9;
+    padding: 3px;
+    border-radius: 20px;
+    border: 1px solid #cbd5e1;
+  }
+
+  .mobile-top-bar .mobile-lang-btn {
+    border: none;
+    background: transparent;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    cursor: pointer;
+    color: #64748b;
+  }
+
+  .mobile-top-bar .mobile-lang-btn.active {
+    background: #1b4332;
+    color: white;
+  }
+
+  .mobile-bottom-bar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 58px !important;
+    background: rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border-top: 1px solid #e2e8f0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    padding: 4px 6px env(safe-area-inset-bottom, 4px) 6px !important;
+    z-index: 2100 !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07) !important;
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 8px;
+    flex: 1;
+    color: #475569;
+    font-size: 9.5px;
+    font-weight: 600;
+    gap: 2px;
+    transition: all 0.15s ease;
+  }
+
+  .mobile-nav-item:active {
+    transform: scale(0.92);
+    background: #f1f5f9;
+  }
+
+  .mobile-nav-item .mobile-nav-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .mobile-nav-item.mobile-primary-btn {
+    color: #1b4332;
+    font-weight: 700;
+  }
+
+  .mobile-nav-item.mobile-primary-btn .mobile-nav-icon {
+    background: #1b4332;
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    margin-top: -10px;
+    box-shadow: 0 4px 10px rgba(27, 67, 50, 0.35);
+  }
+
+  /* 5. BOTTOM SHEET DRAWER (TIỆN ÍCH THÊM) */
+  .mobile-drawer-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+  }
+
+  .mobile-drawer-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-drawer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 14px 18px env(safe-area-inset-bottom, 20px) 18px;
+    z-index: 3001;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.15);
+    max-height: 82vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .mobile-drawer-overlay.open .mobile-drawer {
+    transform: translateY(0);
+  }
+
+  .mobile-drawer-handle {
+    width: 38px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 4px;
+    margin: 0 auto 12px auto;
+  }
+
+  .mobile-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .mobile-drawer-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+  }
+
+  .mobile-drawer-close {
+    background: #f1f5f9;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 16px;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-drawer-section {
+    margin-bottom: 14px;
+  }
+
+  .mobile-drawer-section-title {
+    font-size: 11px;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .mobile-font-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 8px 12px;
+  }
+
+  .mobile-font-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #1b4332;
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .mobile-font-display {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1e293b;
+  }
+
+  .mobile-tools-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .mobile-tool-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e293b;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.15s;
+  }
+
+  .mobile-tool-btn:active {
+    background: #e2e8f0;
+    transform: scale(0.97);
+  }
+
+  /* 6. MODAL CHỌN PHIÊN BẢN TRÊN MOBILE */
+  .mobile-versions-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    z-index: 3100;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.25s ease;
+  }
+
+  .mobile-versions-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-versions-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: white;
+    z-index: 3101;
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    box-sizing: border-box;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mobile-versions-overlay.open .mobile-versions-modal {
+    transform: translateY(0);
+  }
+
+  .mobile-versions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+
+  .mobile-versions-search {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 13px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+    outline: none;
+  }
+
+  .mobile-versions-search:focus {
+    border-color: #1b4332;
+  }
+
+  .mobile-versions-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-bottom: 20px;
+  }
+
+  .mobile-version-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #1e293b;
+    font-size: 12.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+
+  .mobile-version-item.active {
+    background: #1b4332;
+    color: white;
+    border-color: #1b4332;
+  }
+}
+
+/* Ẩn các phần tử mobile trên Desktop */
+@media screen and (min-width: 993px) {
+  .mobile-top-bar,
+  .mobile-bottom-bar,
+  .mobile-drawer-overlay,
+  .mobile-versions-overlay {
+    display: none !important;
+  }
+}
+
 

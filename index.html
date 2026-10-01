@@ -22,6 +22,19 @@
 
     <a class="skip-link" href="#cvContent">Bỏ qua phần điều khiển và đến nội dung CV</a>
 
+    <!-- THANH ĐIỀU HƯỚNG MOBILE TRÊN ĐỈNH (CHỈ HIỂN THỊ KHI MÀN HÌNH <= 992px) -->
+    <header class="mobile-top-bar" id="mobileTopBar" aria-label="Thanh điều khiển nhanh trên điện thoại">
+        <button type="button" class="mobile-version-btn" id="mobileVersionBtn" title="Chuyển bản CV khác">
+            <span id="mobileCurrentVersionText">📦 Chọn bản CV</span> ▾
+        </button>
+        <div class="mobile-top-right">
+            <div class="mobile-lang-switch">
+                <button type="button" class="mobile-lang-btn active" id="mobileLangVi">VI</button>
+                <button type="button" class="mobile-lang-btn" id="mobileLangEn">EN</button>
+            </div>
+        </div>
+    </header>
+
     <!-- MENU CHỌN PHIÊN BẢN (DỌC TRÊN ĐỈNH) — render động từ data/cv-manifest.js -->
     <nav class="version-switch" aria-label="Chọn phiên bản CV" id="versionSwitch">
         <div class="version-header-sticky">
@@ -748,6 +761,119 @@
         </div>
     </div>
 
+    <!-- THANH ĐIỀU HƯỚNG DƯỚI ĐÁY MOBILE (CHỈ HIỂN THỊ KHI MÀN HÌNH <= 992px) -->
+    <nav class="mobile-bottom-bar" id="mobileBottomBar" aria-label="Thanh công cụ nhanh trên điện thoại">
+        <button type="button" class="mobile-nav-item" id="mobileNavInterview" title="Ôn phỏng vấn & Câu hỏi chuyên môn">
+            <span class="mobile-nav-icon">🎙️</span>
+            <span>Phỏng vấn</span>
+        </button>
+        <button type="button" class="mobile-nav-item" id="mobileNavEmail" title="Soạn thư & Email ứng tuyển">
+            <span class="mobile-nav-icon">✉️</span>
+            <span>Email</span>
+        </button>
+        <button type="button" class="mobile-nav-item mobile-primary-btn" id="mobileNavPrint" title="In hoặc Tải file PDF">
+            <span class="mobile-nav-icon">🖨️</span>
+            <span>In PDF</span>
+        </button>
+        <button type="button" class="mobile-nav-item" id="mobileNavTracker" title="Theo dõi tiến độ nộp hồ sơ">
+            <span class="mobile-nav-icon">📋</span>
+            <span>Tiến độ</span>
+        </button>
+        <button type="button" class="mobile-nav-item" id="mobileNavTools" title="Tất cả tiện ích & Cấu hình">
+            <span class="mobile-nav-icon">⚙️</span>
+            <span>Tiện ích</span>
+        </button>
+    </nav>
+
+    <!-- MOBILE BOTTOM SHEET DRAWER (TIỆN ÍCH MỞ RỘNG) -->
+    <div class="mobile-drawer-overlay" id="mobileDrawerOverlay" aria-hidden="true">
+        <div class="mobile-drawer" id="mobileDrawer">
+            <div class="mobile-drawer-handle"></div>
+            <div class="mobile-drawer-header">
+                <h3 class="mobile-drawer-title">⚙️ Tiện Ích & Bố Cục CV</h3>
+                <button type="button" class="mobile-drawer-close" id="mobileDrawerCloseBtn" aria-label="Đóng">&times;</button>
+            </div>
+
+            <!-- Cỡ chữ & Tối ưu -->
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">Cỡ chữ & Bố cục</div>
+                <div class="mobile-font-box">
+                    <button type="button" class="mobile-font-btn" id="mobileFontDecrease" title="Giảm cỡ chữ">A-</button>
+                    <div class="mobile-font-display" id="mobileFontDisplay">10.5pt</div>
+                    <button type="button" class="mobile-font-btn" id="mobileFontIncrease" title="Tăng cỡ chữ">A+</button>
+                </div>
+            </div>
+
+            <!-- Công cụ A4 & Tự động -->
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">Tự động căn chỉnh A4</div>
+                <div class="mobile-tools-grid">
+                    <button type="button" class="mobile-tool-btn" id="mobileMagicFitBtn">
+                        <span>✨</span>
+                        <span>Magic Fit (Co 1 trang)</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileA4PreviewBtn">
+                        <span>📄</span>
+                        <span>Khung A4 Preview</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileResetBtn">
+                        <span>🔄</span>
+                        <span>Reset Layout</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileResetDataBtn">
+                        <span>🧹</span>
+                        <span>Reset Dữ liệu gốc</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Công cụ nâng cao -->
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">Công cụ tuyển dụng</div>
+                <div class="mobile-tools-grid">
+                    <button type="button" class="mobile-tool-btn" id="mobileAtsBtn">
+                        <span>🎯</span>
+                        <span>So khớp JD</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileHrViewBtn">
+                        <span>👁️</span>
+                        <span>Xem kiểu HR</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileLiveEditBtn">
+                        <span>✏️</span>
+                        <span>Sửa nhanh CV</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileDiffBtn">
+                        <span>⚖️</span>
+                        <span>So sánh bản CV</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileSettingsBtn">
+                        <span>⚙️</span>
+                        <span>Cấu hình màu sắc</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileHotkeysBtn">
+                        <span>⌨️</span>
+                        <span>Xem phím tắt</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CHỌN PHIÊN BẢN TRÊN MOBILE -->
+    <div class="mobile-versions-overlay" id="mobileVersionsOverlay" aria-hidden="true">
+        <div class="mobile-versions-modal" id="mobileVersionsModal">
+            <div class="mobile-versions-header">
+                <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #1e293b;">📦 Chọn Bản CV (<span id="mobileVersionCount">0</span>)</h3>
+                <button type="button" class="mobile-drawer-close" id="mobileVersionsCloseBtn" aria-label="Đóng">&times;</button>
+            </div>
+            <input type="text" id="mobileVersionsSearchInput" class="mobile-versions-search" placeholder="🔍 Tìm nhanh công ty hoặc vị trí..." autocomplete="off">
+            <div class="mobile-versions-list" id="mobileVersionsList">
+                <!-- Chèn danh sách phiên bản bằng JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Script Quản lý Tiến độ ứng tuyển -->
     <script defer src="js/cv-tracker.js?v=1.3.6"></script>
     <!-- Script Tạo Email Ứng Tuyển 1-Click -->
@@ -756,6 +882,8 @@
     <script defer src="js/cv-interview-prep.js?v=1.0.5"></script>
     <!-- Script Quản lý Phím tắt thao tác nhanh -->
     <script defer src="js/cv-hotkeys.js?v=1.0.0"></script>
+    <!-- Script Điều khiển Responsive Mobile -->
+    <script defer src="js/cv-mobile.js?v=1.0.0"></script>
 </body>
 
 </html>

@@ -147,6 +147,73 @@ Agile là một triết lý phát triển phần mềm linh hoạt, tập trung 
    * Đề xuất hướng giải quyết hiện tại để xin ý kiến phản hồi của họ.
 
 ---
+
+## 🚀 PHẦN 6: BÀI KIỂM TRA TUYỂN DỤNG FULL STACK DEVELOPER (OCTOSOFT - 14 CÂU THỰC CHIẾN)
+> 📄 **Xem tài liệu giải chi tiết đầy đủ 100% kèm code & giải thích tại:** [OCTOSOFT_TEST_SOLUTIONS.md](file:///c:/Users/Admin/Documents/CV_Truong%20Dinh%20Anh/Ph%E1%BB%8Fng%20v%E1%BA%A5n/cv-editor/OCTOSOFT_TEST_SOLUTIONS.md)
+
+### 📌 Tóm Tắt 14 Câu Hỏi & Khung Đáp Án Cốt Tử:
+
+#### 1. API Tạo Đơn Hàng (Validation, Authorization, Transaction, Idempotency)
+- **Request chính (Sync):** Authen/Author -> Validate payload -> Khóa tồn kho (`SELECT ... FOR UPDATE` hoặc Atomic update `stock = stock - qty WHERE stock >= qty`) -> Trừ lượt voucher -> Tạo đơn hàng status `PENDING_PAYMENT`. Phải bọc trong **Database Transaction**. Dùng **Idempotency-Key** trong header để chống duplicate.
+- **Queue/Worker (Async):** Gửi Email, render hóa đơn PDF, bắn log BI, lập lịch delayed job tự hủy đơn sau 15p nếu chưa thanh toán. *TẠI SAO:* Tác vụ I/O lâu (1-3s) làm nghẽn worker pool nếu để ở request chính; đẩy ra queue để có thể retry độc lập khi bên thứ ba chập chờn.
+
+#### 2. Query Triệu Bản Ghi Bị Chậm Dù CPU Không Cao
+- **Nguyên nhân CPU thấp nhưng API chậm:** Bị nghẽn I/O (chờ đọc đĩa) hoặc nghẽn hàng đợi kết nối (Connection Pool Exhaustion / Row Lock).
+- **Thứ tự điều tra:** `EXPLAIN (ANALYZE, BUFFERS)` (xem Seq Scan vs Index Scan) -> Composite Index (thứ tự: Equality -> Range -> Sort) -> Pagination (chuyển `OFFSET` sang Keyset/Cursor Pagination) -> N+1 Queries (Eager loading) -> Connection Pool size -> Cache Redis -> Tách Export Excel ra worker stream ghi S3.
+
+#### 3. Sự Cố JWT: 401, Multi-tab Logout, Mất Phiên Mobile
+- **Nhiều tab bị logout (Refresh Race):** Cơ chế Refresh Token Rotation (RTR) hủy token cũ ngay lập tức. Khi nhiều tab cùng refresh, tab 2 gửi token cũ vừa bị hủy -> Backend nghi ngờ bị Replay Attack -> Thu hồi toàn bộ session. *Khắc phục:* Frontend dùng Mutex/Promise queue (`BroadcastChannel`); Backend cấp **Grace Period 15-30s** cho phép token cũ còn giá trị ngắn hạn.
+- **Vừa login vẫn 401:** Do lệch đồng hồ (Clock Skew) giữa Auth server và API server. Cấu hình `clockTolerance: 30s`.
+
+#### 4. Refactor Backend Node.js/Python Phình To
+- **Strangler Fig Pattern:** Tách từng lát cắt (Vertical Slice). Tách Repository (gom query) -> Tách Service (business logic) -> Controller chỉ validate DTO và trả HTTP status.
+- **Chuẩn hóa:** Error format theo chuẩn RFC 7807; Logging có `traceId` (UUID) xuyên suốt request; DB Migration theo quy tắc **Expand & Contract** (thêm cột mới song song, dual write, switch read, xóa cột cũ sau 2 tuần).
+
+#### 5. React Race Condition Khi Đổi Filter Nhanh
+- **Nguyên nhân:** Request sau về trước request trước do network latency; unmount component nhưng promise resolve vẫn gọi `setState`.
+- **Khắc phục:** Dùng `AbortController` trong cleanup của `useEffect` để chủ động cancel request cũ; hoặc dùng **TanStack Query** có sẵn cơ chế auto-cancel, deduplication và `keepPreviousData` chống nhấp nháy loading.
+
+#### 6. State Form Đơn Hàng Phức Tạp & Single Source of Truth
+- **Phân chia state:** Local (React Hook Form nhập liệu), Server (TanStack Query nạp voucher/sản phẩm), Derived State (dùng `useMemo` tính subtotal, không tạo `useState` riêng).
+- **Frontend CHỈ HIỂN THỊ, KHÔNG LÀ NGUỒN SỰ THẬT:** Đơn giá, tiền giảm voucher, tổng bill, số lượng tồn kho. Frontend có thể bị sửa bằng DevTools; Backend DB mới là nguồn sự thật tuyệt đối.
+
+#### 7. Profiling & Tối Ưu React Khi Danh Sách Lớn
+- **Giả thuyết hàng đầu:** DOM Bloat (render hàng nghìn DOM node làm nghẽn RAM và Layout recalculation).
+- **Giải pháp:** **List Virtualization (`@tanstack/react-virtual`)** chỉ render 10-15 phần tử trong viewport; bọc `React.memo` + `useCallback` chống render thừa; lazy load ảnh. Đo bằng INP (< 50ms) và render commit (< 16ms).
+
+#### 8. RBAC, XSS/CSRF & Token Storage
+- **Frontend Guard chỉ để phục vụ UX:** Bảo mật thực sự 100% nằm ở Backend API Middleware.
+- **Lưu trữ:** Access token trong Memory, Refresh token trong **HttpOnly, Secure, SameSite=Lax Cookie** để miễn nhiễm cả XSS lẫn CSRF. Contract trả về `permissions: ['order:read', 'order:delete']` thay vì role name cố định.
+
+#### 9. Tiếp Quản Legacy Codebase 8 Tuần & AI Audit
+- **8 Tuần (Team 4 Dev):** T1-2 (Cài Sentry log, setup CI/CD pipeline tự động, bỏ deploy tay); T3-4 (Quy chuẩn PostgreSQL = giao dịch tài chính, MongoDB = log phi cấu trúc; viết E2E test cho Login/Checkout/Payment); T5-6 (Làm feature mới theo luật Hướng đạo sinh - chạm vào đâu refactor sạch sẽ chỗ đó); T7-8 (Tối ưu index DB).
+- **AI Audit:** Chia Agent Security, Agent Data Flow, Agent Dead Code. Context: Schema DB + .env.example. Bắt buộc kiểm chứng: Chạy reproducing test trước khi xác nhận bug vì AI dễ bị False Positive.
+
+#### 10. Điều Tra 3 Lỗi Prod Khó Tái Hiện & AI Agent
+- **3 Lỗi:** Tồn kho âm (Race condition `Read-Modify-Write`, sửa bằng `SELECT ... FOR UPDATE`); Bấm 1 ra 2 đơn (Thiếu debounce UI + thiếu Idempotency key API); Webhook thanh toán báo thành công nhưng đơn chưa cập nhật (Webhook đến trước khi DB commit tạo đơn, hoặc chữ ký bị lệch, hoặc timeout).
+- **Tránh AI kết luận vội / Đồng thuận sai:** Quy tắc "No Log, No Proof" (bắt buộc trích dẫn log/ID cụ thể); cô lập context từng agent; dùng 1 Agent chuyên đóng vai trò phản biện (Red Team).
+
+#### 11. Biến Feature Mơ Hồ Thành Kế Hoạch & Đội Ngũ AI Song Song
+- **Quy trình:** Làm rõ nghiệp vụ voucher/hoàn tồn kho -> OpenAPI Contract -> Acceptance Criteria (BDD Given-When-Then) -> Phân chia dependency (DB migration -> Service -> API -> Workers -> UI).
+- **AI song song:** Agent DB chạy trước (Sequential); sau khi có OpenAPI Contract thì Agent Frontend (UI React mock) và Agent Backend chạy song song; các Agent Worker (PDF, Email) chạy riêng. Mỗi agent một thư mục riêng biệt, nghiêm cấm sửa file shared chung để chống merge conflict.
+
+#### 12. Review Code Do AI Sinh & Chống "AI Đồng Thuận Sai"
+- **Checklist review:** AI hay viết code đẹp nhưng sót Transaction rollback, thiếu check quyền sở hữu (IDOR `userId = req.user.id`), không chặn số âm (`qty < 0`), rò rỉ connection pool.
+- **Vòng review độc lập:** Cho AI thứ 2 đóng vai trò **Hacker / Red Team** tìm ít nhất 3 lỗ hổng; giấu kín prompt gốc của dev; yêu cầu AI viết test phá hoại (Fuzzing tests). Quyền quyết định cuối cùng do Lead Dev đối chiếu.
+
+#### 13. Quy Trình AI-Assisted SDLC & Guardrails
+- **Ma trận 7 bước:** Requirement -> Planning -> Coding -> Testing -> Review -> Deploy -> Monitoring.
+- **Guardrails:** AI chỉ hoạt động trên feature branch qua Pull Request, không push trực tiếp nhánh chính; cấm AI đọc file secret/key qua `.aiignore`; dữ liệu log phải được sanitize che mờ PII trước khi đưa vào context; **TUYỆT ĐỐI CẤM AI TỰ DEPLOY LÊN PRODUCTION** (luôn cần Human-in-the-loop).
+
+#### 14. Triage Khủng Hoảng Khi Quá Tải Nhiều Việc
+1. **Ưu tiên 1 (Tối cao):** Production bug ảnh hưởng khách hàng -> Rollback/Hotfix ngay lập tức.
+2. **Ưu tiên 2:** Đánh giá độ nguy hiểm của lỗ hổng Security từ AI (Critical thì vá ngay, Low thì để sau).
+3. **Ưu tiên 3:** Báo cáo manager xin hoãn task gấp để ưu tiên cứu hỏa prod.
+4. **DỪNG NGAY:** Dừng ngay Agent đang refactor module lớn để tránh sinh merge conflict khổng lồ lúc hotfix.
+5. **Giao AI / Đồng đội:** Giao AI phân tích log lỗi prod và log CI/CD fail; nhờ đồng đội khác review hộ PR.
+
+---
+
 ### 🌟 LỜI KHUYÊN KHI PHỎNG VẤN:
 * Hãy nói **chậm rãi, rõ ràng**. Nếu chưa hiểu rõ câu hỏi, hãy lịch sự hỏi lại: *"Anh/chị có thể làm rõ hơn ý này được không ạ?"*
 * Nếu gặp câu hỏi chưa biết trả lời, **tuyệt đối không nói bừa**. Hãy trả lời: *"Hiện tại em chưa có cơ hội làm việc sâu với công nghệ/khái niệm này trong các dự án trước. Tuy nhiên, theo em hiểu sơ bộ thì nó là... Em sẽ tìm hiểu kỹ hơn ngay sau buổi hôm nay ạ."* (Nhà tuyển dụng cực kỳ đánh giá cao sự trung thực và tinh thần cầu tiến này).

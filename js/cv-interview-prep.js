@@ -25,6 +25,102 @@
       }
     },
     {
+      id: "octo_test_order_api",
+      keywords: ["tạo đơn hàng", "idempotent", "transaction", "queue", "worker", "octosoft", "order"],
+      category: "OctoSoft Test: Flow API Tạo Đơn Hàng & Xử Lý Async",
+      q_vi: "Thiết kế flow backend tạo đơn hàng đảm bảo validation, authorization, transaction, idempotent và phân chia Sync vs Async?",
+      star_vi: {
+        situation: "API tạo đơn hàng xử lý nhiều bước: khách hàng, tồn kho, voucher, thanh toán; cần chống race condition và duplicate submit.",
+        task: "Thiết kế kiến trúc flow API chuẩn ACID, chống overselling và tối ưu độ trễ bằng Message Queue.",
+        action: "1. Request chính (Sync): Nhận Idempotency-Key từ header (tra cứu Redis), Authen/Author, validate schema, mở DB Transaction khóa hàng (SELECT ... FOR UPDATE hoặc Atomic Update) -> trừ voucher -> tạo đơn hàng status PENDING_PAYMENT -> Commit DB. 2. Đưa sang Queue/Worker (Async): Gửi email/SMS, render hóa đơn PDF, bắn log BI, schedule delayed job hủy đơn sau 15p nếu chưa trả tiền. Lý do: Giữ ACID trong request chính để chống overselling; đẩy các I/O nặng sang worker để tránh nghẽn thread và retry độc lập khi bên thứ ba timeout.",
+        result: "Đảm bảo tính toàn vẹn 100% dữ liệu tài chính, giảm độ trễ API xuống dưới 200ms và loại bỏ hoàn toàn rủi ro bán âm tồn kho."
+      }
+    },
+    {
+      id: "octo_test_slow_query",
+      keywords: ["vài triệu records", "chậm", "cpu không cao", "query plan", "index", "pagination", "n+1", "connection pool", "octosoft"],
+      category: "OctoSoft Test: Tối Ưu API Hàng Triệu Records Khi CPU Thấp",
+      q_vi: "API đơn hàng vài triệu records bị chậm dù CPU không cao. Thứ tự điều tra thực tế và khi nào cần đổi DB?",
+      star_vi: {
+        situation: "API đơn hàng triệu bản ghi phản hồi chậm dù CPU server nhàn rỗi (dấu hiệu nghẽn I/O Disk hoặc chờ Connection Pool).",
+        task: "Xác định nguyên nhân nghẽn cổ chai và đưa ra lộ trình tối ưu truy vấn.",
+        action: "Thứ tự điều tra: (1) Chạy EXPLAIN (ANALYZE, BUFFERS) kiểm tra Seq Scan vs Index Scan; (2) Kiểm tra Composite Index theo quy tắc Equality -> Range -> Sort; (3) Sửa Pagination từ OFFSET lớn sang Keyset/Cursor Pagination; (4) Khắc phục N+1 queries bằng Eager loading; (5) Kiểm tra Connection Pool xem có bị thiếu connection gây hàng đợi chờ; (6) Cache Redis cho filter phổ biến; (7) Tách Export Excel sang Worker stream ghi S3. Cân nhắc đổi sang Elasticsearch khi cần tìm kiếm văn bản phức tạp, hoặc ClickHouse khi cần báo cáo phân tích tổng hợp (OLAP).",
+        result: "Tốc độ phản hồi API danh sách giảm từ 3-5 giây xuống dưới 150ms trên tập dữ liệu hàng triệu dòng."
+      }
+    },
+    {
+      id: "octo_test_jwt_refresh_race",
+      keywords: ["jwt", "refresh token", "401", "nhiều tab", "logout", "mobile", "clock skew", "race condition", "octosoft"],
+      category: "OctoSoft Test: Khắc Phục Sự Cố JWT (Multi-tab Logout & 401)",
+      q_vi: "Tại sao mở nhiều tab lại dễ bị logout khi dùng Refresh Token Rotation, và làm sao để thiết kế auth flow ổn định?",
+      star_vi: {
+        situation: "Hệ thống JWT áp dụng Refresh Token Rotation (RTR). Mở nhiều tab bị logout ngẫu nhiên, vừa login thỉnh thoảng bị 401.",
+        task: "Phân tích nguyên nhân và thiết kế Auth Flow an toàn chuẩn Production.",
+        action: "Nguyên nhân: Mở nhiều tab khi access token hết hạn đồng thời gọi refresh token cũ; tab 1 đổi thành công làm hủy token cũ, tab 2 gửi token cũ sau đó bị backend coi là Replay Attack -> thu hồi toàn bộ session. Vừa login bị 401 là do Clock Skew giữa Auth server và API server. Giải pháp: Frontend dùng Mutex/Promise queue (BroadcastChannel) để chỉ 1 request được refresh; Backend cấp Grace Period 15-30s cho refresh token cũ; cấu hình clockTolerance: 30s; Access Token lưu trong Memory, Refresh Token lưu trong HttpOnly Secure SameSite Cookie.",
+        result: "Triệt tiêu 100% tình trạng logout oan khi mở nhiều tab và khắc phục hoàn toàn lỗi 401 do lệch giờ server."
+      }
+    },
+    {
+      id: "octo_test_react_race_condition",
+      keywords: ["react", "filter", "nháy", "race condition", "unmount", "abortcontroller", "tanstack query", "octosoft"],
+      category: "OctoSoft Test: Xử Lý React Race Condition Khi Filter Nhanh",
+      q_vi: "Khi đổi filter nhanh, React bị nháy loading, data cũ đè data mới và warning unmount. Nguyên nhân và cách xử lý?",
+      star_vi: {
+        situation: "Component React gọi API theo filter bị lỗi Race Condition: Request gửi sau về trước, request gửi trước về sau ghi đè state mới.",
+        task: "Xử lý hủy request cũ, ngăn chặn stale state và khắc phục rò rỉ bộ nhớ khi component unmount.",
+        action: "Dùng AbortController trong cleanup của useEffect để tự động hủy request cũ khi filter đổi hoặc component unmount: controller.abort(). Chuẩn hóa production bằng TanStack Query (React Query): tự động deduplicate request, tự động cancel fetch cũ, hỗ trợ placeholderData: keepPreviousData giúp UI giữ nguyên dữ liệu cũ trong lúc tải mới, loại bỏ hoàn toàn nhấp nháy loading.",
+        result: "UI phản hồi mượt mà, không giật nháy, dữ liệu hiển thị luôn khớp 100% với bộ lọc đang chọn."
+      }
+    },
+    {
+      id: "octo_test_negative_stock_triage",
+      keywords: ["tồn kho âm", "hai đơn", "double submit", "webhook", "ai agent", "root cause", "octosoft"],
+      category: "OctoSoft Test: Điều Tra 3 Lỗi Prod Khó Tái Hiện & Tổ Chức AI Agent",
+      q_vi: "Quy trình điều tra 3 lỗi prod: tồn kho âm, tạo 2 đơn, payment webhook chậm; và cách tổ chức AI Agent tránh thiên kiến?",
+      star_vi: {
+        situation: "Hệ thống gặp 3 lỗi khó tái hiện: Tồn kho âm, bấm 1 lần ra 2 đơn, cổng thanh toán báo thành công nhưng đơn chưa cập nhật.",
+        task: "Xác định nguyên nhân gốc rễ và tổ chức đội ngũ AI Agent điều tra mà không bị kết luận vội.",
+        action: "1. Root Cause: Tồn kho âm do race condition Read-Modify-Write (sửa bằng SELECT ... FOR UPDATE hoặc Atomic Update); Tạo 2 đơn do thiếu debounce frontend + thiếu Idempotency-Key backend; Webhook chưa cập nhật do webhook đến trước khi DB commit tạo đơn, hoặc chữ ký sai. 2. Tổ chức AI Agent: Phân chia Agent FE (access log), Agent BE (app log), Agent DB (lock log), Agent Payment (webhook log). Chống thiên kiến: Ép quy tắc 'No Log, No Proof' (bắt buộc trích dẫn log ID cụ thể, không suy đoán) và dùng 1 Red-Team Agent chuyên phản biện các kết luận vội.",
+        result: "Khắc phục triệt để 3 lỗi hổng nghiêm trọng trên production và thiết lập quy trình điều tra sự cố bằng AI chuẩn xác."
+      }
+    },
+    {
+      id: "octo_test_review_ai_code",
+      keywords: ["review code", "ai sinh", "automated test pass", "idor", "concurrency", "ai đồng thuận sai", "octosoft"],
+      category: "OctoSoft Test: Review Code AI Sinh & Chống 'AI Đồng Thuận Sai'",
+      q_vi: "Developer dùng AI sinh toàn bộ feature, test pass hết. Bạn review thế nào và chống hiện tượng 'AI đồng thuận sai' ra sao?",
+      star_vi: {
+        situation: "PR do AI sinh nhìn rất sạch đẹp và automated test xanh 100%, nhưng tiềm ẩn nguy cơ lỗi logic sâu và bảo mật.",
+        task: "Thẩm định chất lượng thực tế và thiết lập quy trình review độc lập để chống AI đồng thuận sai.",
+        action: "1. Trọng tâm review: Kiểm tra Transaction Rollback khi lỗi, kiểm tra lỗ hổng IDOR (req.user.id), chặn số âm (qty < 0), kiểm tra Race condition và rò rỉ connection pool trong khối finally. 2. Chống 'AI đồng thuận sai': Cho AI thứ hai đóng vai trò Hacker / Red Team (prompt: 'Tìm ít nhất 3 lỗ hổng bảo mật và concurrency trong code sau'); giấu kín prompt gốc của dev; yêu cầu AI viết các test phá hoại (Fuzzing tests). Quyết định cuối cùng bắt buộc do Lead Developer đối chiếu thực tế.",
+        result: "Ngăn chặn 100% các lỗ hổng bảo mật và lỗi bất đồng bộ tiềm ẩn lọt lên môi trường Production."
+      }
+    },
+    {
+      id: "octo_test_ai_sdlc_guardrails",
+      keywords: ["ai-assisted", "sdlc", "guardrails", "human approval", "secret", "deploy", "octosoft"],
+      category: "OctoSoft Test: Quy Trình AI-Assisted SDLC & Guardrails An Toàn",
+      q_vi: "Thiết kế quy trình AI-assisted development từ Requirement đến Monitoring và các guardrails an toàn cốt tử?",
+      star_vi: {
+        situation: "Áp dụng AI vào toàn bộ vòng đời phát triển phần mềm (SDLC) nhưng cần đảm bảo an toàn dữ liệu và quyền kiểm soát của con người.",
+        task: "Xây dựng ma trận phân quyền AI qua 7 giai đoạn và thiết lập ranh giới bảo mật nghiêm ngặt.",
+        action: "Quy trình: Requirement (AI gợi ý edge cases -> PO duyệt) -> Planning (AI đề xuất OpenAPI Spec -> Lead duyệt) -> Coding (AI code theo scope thư mục) -> Testing (AI sinh test biên -> CI pass) -> Review (AI quét CVE/concurrency -> Senior duyệt) -> Deploy (CẤM AI, Human kích hoạt) -> Monitoring (AI phân tích alert log). Guardrails: AI chỉ làm trên feature branch qua PR; cấm đọc .env/secret qua .aiignore; sanitize che mờ PII trong log; NGHIÊM CẤM AI TỰ DEPLOY LÊN PRODUCTION.",
+        result: "Tăng năng suất toàn team lên gấp 2-3 lần nhưng vẫn bảo đảm an toàn tuyệt đối về bảo mật và sự ổn định hệ thống."
+      }
+    },
+    {
+      id: "octo_test_crisis_prioritization",
+      keywords: ["triage", "quá tải", "prod bug", "security", "refactor", "manager", "ưu tiên", "octosoft"],
+      category: "OctoSoft Test: Xử Lý Khủng Hoảng Khi Quá Tải Nhiều Việc Cùng Lúc",
+      q_vi: "Cùng lúc có bug prod, security hole, task sếp, PR review, agent refactor: Thứ tự ưu tiên và cách xử lý thế nào?",
+      star_vi: {
+        situation: "Đồng thời xuất hiện: Bug prod ảnh hưởng khách hàng, Agent báo lỗ hổng security, task sếp dí, feature đang làm 70%, Agent đang refactor lớn, CI fail.",
+        task: "Phân loại mức độ ưu tiên theo ma trận Eisenhower và điều phối nguồn lực người/AI chính xác.",
+        action: "1. Ưu tiên: Top 1 là Bug Prod (Rollback/Hotfix ngay) -> Top 2 là thẩm định Security (nếu Critical vá chung hotfix) -> Top 3 báo cáo Manager xin hoãn task gấp. 2. DỪNG NGAY: Dừng ngay Agent đang refactor module lớn để tránh sinh merge conflict khổng lồ lúc hotfix; Stash feature 70%. 3. Giao việc: Cho AI đọc log bug prod và log build CI fail; nhờ đồng đội khác review hộ PR. 4. Cập nhật Manager theo format 3T: Tình trạng sự cố -> Trở ngại cần hoãn task -> Thời gian dự kiến hoàn thành.",
+        result: "Xử lý êm đẹp khủng hoảng production trong thời gian ngắn nhất mà không làm xáo trộn tiến độ chung của dự án."
+      }
+    },
+    {
       id: "tami_architecture",
       keywords: ["kiến trúc", "chứng khoán", "stock", "tami", "hệ thống", "3-tier"],
       category: "Kiến Trúc Hệ Thống (TAMI - Stock Analysis)",
@@ -964,6 +1060,14 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
     const isOctoSoft = cvKey === "octosoft" || cvText.includes("octosoft") || cvText.includes("flowagentica") || cvText.includes("octo software");
     if (isOctoSoft) {
       const priorityIds = [
+        "octo_test_order_api",
+        "octo_test_slow_query",
+        "octo_test_jwt_refresh_race",
+        "octo_test_react_race_condition",
+        "octo_test_negative_stock_triage",
+        "octo_test_review_ai_code",
+        "octo_test_ai_sdlc_guardrails",
+        "octo_test_crisis_prioritization",
         "octosoft_exp_gap",
         "level1_null_vs_undefined",
         "level2_react_useeffect_rerender",
@@ -1246,15 +1350,26 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
 💼 Vị trí: Full Stack Developer (Sản phẩm: FlowAgentica - AI Agent & Workflow Automation)
 📞 Liên hệ: Zalo 0867490600 (Linh Trần) / tuyendung@octosoft.co
 
+🔥 BÀI KIỂM TRA TUYỂN DỤNG FULL STACK 14 CÂU (ĐÃ CÓ TRONG KHO CÂU HỎI & FILE OCTOSOFT_TEST_SOLUTIONS.md):
+- Câu 1: Flow API tạo đơn hàng (Sync vs Async Message Queue, Transaction, Idempotency-Key).
+- Câu 2: Query triệu dòng chậm dù CPU thấp (I/O Bottleneck, EXPLAIN ANALYZE, Keyset Pagination, Connection Pool).
+- Câu 3: JWT 401 & Multi-tab Logout (Refresh Token Rotation race condition, Grace period, Mutex Queue).
+- Câu 4: Refactor monolith Node.js/Python (Controller-Service-Repo, RFC 7807 Error, TraceId, Expand-Contract Migration).
+- Câu 5: React filter nháy & stale state (AbortController, TanStack Query keepPreviousData).
+- Câu 6: State Form phức tạp & Single source of truth (Derived state useMemo, giá & kho từ DB).
+- Câu 7: Profiling React list lớn (List Virtualization @tanstack/react-virtual, INP < 50ms).
+- Câu 8: RBAC Admin & Bảo mật (FE guard chỉ cho UX, Backend là bảo mật, HttpOnly Cookie).
+- Câu 9: Tiếp quản legacy 8 tuần (CI/CD trước, Sentry log, Postgres = ACID, Mongo = Log, AI audit).
+- Câu 10: Triage 3 lỗi prod (Tồn kho âm = SELECT FOR UPDATE; 2 đơn = Idempotency; AI rule 'No Log No Proof').
+- Câu 11: Feature mơ hồ (OpenAPI Contract trước, chia AI FE & BE song song theo thư mục riêng).
+- Câu 12: Review code AI sinh (Check Transaction rollback, IDOR, số âm, Red-Team AI phản biện).
+- Câu 13: Quy trình AI-Assisted SDLC (7 bước có Human Approval, cấm AI tự deploy, sanitize log).
+- Câu 14: Triage quá tải (Top 1 là Bug Prod, dừng ngay AI refactor module lớn, giao AI đọc log).
+
 1. VŨ KHÍ CỐT LÕI ĐỂ GHI ĐIỂM CAO:
 - Về AI Agent & Serverless: Tự tin demo/giải thích dự án CV Editor & AI Automation (Cloudflare Workers + Telegram Bot + Gemini LLM API + GitHub Actions CI/CD). Đây là điểm khớp 100% với định hướng sản phẩm FlowAgentica của OctoSoft!
 - Về Backend & API: Trình bày kinh nghiệm thực tế tại Tami Technology (Next.js Route Handlers, Node.js, thiết kế CSDL quan hệ PostgreSQL trên Supabase Cloud).
-- Về Fullstack & Database: Luồng đặt hàng E-commerce, xử lý transaction chống race condition, JWT Dual Token an toàn (Access Token + httpOnly Refresh Token).
-
-2. CÁC ĐIỂM CẦN LƯU Ý KHI LÀM BÀI TEST CHUYÊN MÔN:
-- Đọc kỹ đề bài: Phân biệt rõ yêu cầu SQL vs NoSQL, mảng vs chuỗi.
-- Xem tab "💻 Ôn Test Chuyên Môn" để nhớ kỹ bảng HTTP Status Codes, Event Loop, Closure và các câu lệnh SQL JOIN/GROUP BY.
-- Nếu gặp live coding: Vừa code vừa giải thích tư duy (Think out loud), không im lặng làm một mình.`;
+- Về Fullstack & Database: Luồng đặt hàng E-commerce, xử lý transaction chống race condition, JWT Dual Token an toàn (Access Token + httpOnly Refresh Token).`;
         localStorage.setItem(`interview_notes_${cvKey}`, savedNotes);
       }
       notesArea.value = savedNotes || "";
