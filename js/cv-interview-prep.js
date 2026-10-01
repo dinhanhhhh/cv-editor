@@ -13,6 +13,270 @@
   // Kho câu hỏi kỹ thuật chuyên sâu theo từng mảng công nghệ
   const QUESTION_BANK = [
     {
+      id: "octosoft_exp_gap",
+      keywords: ["kinh nghiệm", "2 năm", "6 tháng", "khoảng trống", "tami", "octosoft", "yêu cầu"],
+      category: "Kinh Nghiệm Thực Tế (6 Tháng vs 2 Năm)",
+      q_vi: "JD yêu cầu tối thiểu 2 năm kinh nghiệm, em chỉ có 6 tháng thì nghĩ mình đáp ứng yêu cầu công việc thế nào?",
+      star_vi: {
+        situation: "JD yêu cầu tối thiểu 2 năm kinh nghiệm thực tế, trong khi kinh nghiệm làm việc chính thức tại TAMI là 6 tháng.",
+        task: "Thuyết phục nhà tuyển dụng rằng năng lực thực chiến, chiều sâu giải quyết bài toán trọn vẹn (end-to-end) và tốc độ tự học đáp ứng hoàn toàn kỳ vọng công việc.",
+        action: "Em thẳng thắn thừa nhận: 'Dạ em có 6 tháng kinh nghiệm làm việc thực tế tại TAMI. Tuy nhiên, trong 6 tháng đó em không chỉ làm một phần nhỏ mà được trực tiếp tham gia trọn vẹn từ thiết kế CSDL PostgreSQL trên Supabase, xây dựng hệ thống RESTful API với Next.js/Node.js cho đến tích hợp Authentication. Ngoài giờ, em cũng tự xây dựng các dự án tự động hóa và AI chạy thực tế. Em có nền tảng tự học nhanh, thói quen đọc tài liệu kỹ thuật gốc, chủ động trao đổi và tiếp thu code review từ các anh chị đi trước.'",
+        result: "Thể hiện thái độ trung thực, cầu tiến và tự tin có thể bắt nhịp, làm việc độc lập trong dự án của công ty sau 1-2 tuần đầu tiên."
+      }
+    },
+    {
+      id: "tami_architecture",
+      keywords: ["kiến trúc", "chứng khoán", "stock", "tami", "hệ thống", "3-tier"],
+      category: "Kiến Trúc Hệ Thống (TAMI - Stock Analysis)",
+      q_vi: "Em hãy mô tả kiến trúc tổng thể hệ thống phân tích chứng khoán mà em từng xây dựng tại TAMI?",
+      star_vi: {
+        situation: "Hệ thống phân tích chứng khoán tại TAMI cần thu thập, lưu trữ và trực quan hóa dữ liệu chỉ số tài chính, biểu đồ nến kỹ thuật từ các nguồn dữ liệu chứng khoán Việt Nam.",
+        task: "Thiết kế kiến trúc phân tầng rõ ràng (3-tier architecture), phân tách mạch lạc giữa tầng hiển thị, tầng xử lý nghiệp vụ/API và tầng lưu trữ dữ liệu.",
+        action: "Phân chia hệ thống làm 3 tầng độc lập: (1) Frontend: Next.js (App Router) dựng giao diện bảng điện, biểu đồ nến, bộ lọc cổ phiếu; (2) Backend/API: Node.js/Next.js Route Handlers đóng vai trò API Gateway, xử lý authentication, validate input và gọi service trích xuất dữ liệu từ thư viện Vnstock3; (3) Database: Supabase PostgreSQL lưu trữ thông tin người dùng, watchlist cá nhân, lịch sử giá và các chỉ số tài chính đã tính toán sẵn.",
+        result: "Kiến trúc module hóa rõ ràng giúp hệ thống dễ bảo trì, thời gian phản hồi API trung bình dưới 300ms và dễ dàng mở rộng thêm các chỉ số phân tích mới mà không ảnh hưởng code cũ."
+      }
+    },
+    {
+      id: "tami_database_indexing",
+      keywords: ["supabase", "postgresql", "index", "b-tree", "composite index", "csdl", "bảng giá"],
+      category: "Database & Indexing (PostgreSQL / Supabase)",
+      q_vi: "Tại sao em chọn Supabase/PostgreSQL? Em thiết kế bảng thế nào và có đánh index để tối ưu truy vấn không?",
+      star_vi: {
+        situation: "Dữ liệu tài chính/chứng khoán đòi hỏi tính toàn vẹn (ACID), có quan hệ chặt chẽ giữa mã cổ phiếu, bảng giá theo ngày và danh mục theo dõi (watchlist) của người dùng.",
+        task: "Thiết kế cấu trúc CSDL quan hệ chuẩn hóa và tối ưu hiệu năng truy vấn khi lượng bản ghi lịch sử giá tăng cao.",
+        action: "Chọn PostgreSQL vì là CSDL quan hệ mạnh mẽ, hỗ trợ transaction chuẩn ACID; chọn Supabase vì cung cấp PostgreSQL hosted sẵn, tích hợp Auth, RLS (Row Level Security) và Dashboard trực quan. Thiết kế các bảng chính: users (id, email, role), watchlists (user_id, symbol, notes), stock_prices (symbol, date, open, high, low, close, volume). Đánh B-Tree Composite Index trên cặp (symbol, date DESC) trong bảng giá để tăng tốc tối đa các truy vấn lấy lịch sử nến gần nhất theo từng mã cổ phiếu.",
+        result: "Tốc độ truy vấn lịch sử giá giảm từ hàng trăm ms xuống dưới 20ms kể cả khi bảng có hàng chục nghìn bản ghi nến giá, bảo đảm biểu đồ hiển thị tức thì."
+      }
+    },
+    {
+      id: "tami_vnstock_perf",
+      keywords: ["vnstock", "vnstock3", "caching", "pagination", "chậm", "dữ liệu lớn", "hiệu năng"],
+      category: "Data Flow, Caching & Performance (Vnstock3)",
+      q_vi: "Hệ thống lấy dữ liệu qua Vnstock3 như thế nào? Khi dữ liệu lớn hoặc API bị chậm thì em xử lý ra sao?",
+      star_vi: {
+        situation: "Dữ liệu thị trường lấy qua Vnstock3 có thể bị nghẽn mạng, rate limit hoặc trả về độ trễ cao trong giờ giao dịch cao điểm.",
+        task: "Tối ưu luồng truy xuất dữ liệu, hạn chế gọi trực tiếp lặp lại và tránh giật lag giao diện người dùng.",
+        action: "Áp dụng 3 giải pháp đồng bộ: (1) Caching: Không gọi trực tiếp Vnstock3 mỗi khi người dùng tải trang; dữ liệu nến ngày chỉ cập nhật sau phiên, nên áp dụng In-Memory Cache (hoặc lưu bảng tạm PostgreSQL) với TTL 5-15 phút; (2) Phân trang / Giới hạn phạm vi: Với dữ liệu lịch sử nến nhiều năm, chỉ tải theo khoảng thời gian (from_date -> to_date), mặc định chỉ nạp 30-90 nến gần nhất; (3) Trải nghiệm tải: Ở Frontend hiển thị skeleton loader và áp dụng AbortController để hủy các request cũ khi người dùng bấm chuyển nhanh giữa các mã cổ phiếu.",
+        result: "Giảm hơn 70% số lượng request gọi ra bên ngoài, loại bỏ hoàn toàn hiện tượng treo API và mang lại trải nghiệm mượt mà cho người dùng."
+      }
+    },
+    {
+      id: "tami_auth_security",
+      keywords: ["nextauth", "google", "oauth", "bảo mật", "api security", "rls", "jwt", "validate"],
+      category: "Authentication & API Security (NextAuth & Google OAuth)",
+      q_vi: "Đăng nhập Google qua NextAuth hoạt động thế nào? Em bảo mật các API endpoints ra sao (phân quyền, validate input)?",
+      star_vi: {
+        situation: "Cần cung cấp trải nghiệm đăng nhập nhanh 1-click qua tài khoản Google nhưng vẫn phải kiểm soát chặt chẽ phiên đăng nhập và bảo vệ dữ liệu cá nhân của người dùng.",
+        task: "Tích hợp OAuth 2.0 chuẩn mực và thiết lập hàng rào bảo mật nhiều lớp cho toàn bộ các API endpoints nhạy cảm.",
+        action: "Luồng NextAuth: User click đăng nhập Google -> Chuyển hướng sang Google cấp quyền -> Google trả authorization code về NextAuth callback -> NextAuth đổi lấy access token/user profile từ Google và tạo session token (JWT mã hóa lưu trong httpOnly Cookie). Bảo mật API: Tạo middleware kiểm tra session/token ở mọi route /api/user/* hoặc /api/watchlist/*, từ chối ngay HTTP 401 nếu chưa đăng nhập; Validate chặt chẽ dữ liệu đầu vào (loại bỏ ký tự lạ, kiểm tra format mã cổ phiếu) để phòng ngừa SQL/XSS Injection; Bật Row Level Security (RLS) trên Supabase để user chỉ truy vấn được watchlist của chính mình.",
+        result: "Hệ thống xác thực mượt mà không cần quản lý mật khẩu thủ công, API được bảo vệ an toàn 100% trước truy cập trái phép."
+      }
+    },
+    {
+      id: "tami_hardest_bug",
+      keywords: ["bug khó nhất", "sự cố", "upsert", "duplicate", "trùng lặp", "nến giá", "debug"],
+      category: "Problem Solving & Hardest Bug (Duplicate Key & UPSERT)",
+      q_vi: "Bug kỹ thuật khó nhất mà em từng gặp trong dự án chứng khoán là gì và em đã debug, giải quyết nó như thế nào?",
+      star_vi: {
+        situation: "Khi đồng bộ dữ liệu nến giá lịch sử từ nguồn bên ngoài, xảy ra tình trạng bản ghi nến giá của cùng một ngày bị lặp đôi (duplicate records) hoặc bị lỗi khóa trùng lặp (duplicate key constraint violation) làm gián đoạn cả tiến trình đồng bộ.",
+        task: "Tìm ra nguyên nhân gốc (root cause) và xử lý dứt điểm để quá trình sync dữ liệu diễn ra idempotent (chạy bao nhiêu lần kết quả vẫn chuẩn xác).",
+        action: "Em debug bằng cách đặt log kiểm tra luồng sync: phát hiện nguồn dữ liệu trả về thời gian có chênh lệch múi giờ (UTC vs GMT+7) dẫn đến cùng 1 ngày giao dịch nhưng tạo ra 2 timestamp khác nhau khi lưu. Khắc phục: (1) Chuẩn hóa toàn bộ ngày tháng về định dạng chuẩn YYYY-MM-DD trước khi lưu; (2) Tạo Unique Constraint trên cặp (symbol, trade_date); (3) Thay thế lệnh INSERT thông thường bằng cú pháp UPSERT (INSERT ... ON CONFLICT (symbol, trade_date) DO UPDATE) trên PostgreSQL/Supabase.",
+        result: "Quá trình đồng bộ dữ liệu chạy trơn tru 100%, không còn bị crash tiến trình hay sai lệch số liệu biểu đồ kỹ thuật."
+      }
+    },
+    {
+      id: "level1_null_vs_undefined",
+      keywords: ["null", "undefined", "javascript", "kiểu dữ liệu", "js core"],
+      category: "Cấp độ 1: DỄ (JavaScript Core)",
+      q_vi: "Phân biệt null và undefined trong JavaScript? Khi làm việc thực tế với API và Database, trường hợp nào trả về null và khi nào là undefined?",
+      star_vi: {
+        situation: "Khi xử lý dữ liệu trả về từ API backend hoặc đọc thuộc tính từ các object lồng nhau (nested objects), rất dễ gặp lỗi crash: 'TypeError: Cannot read properties of undefined'.",
+        task: "Hiểu rõ bản chất kiểu dữ liệu để validate và gán giá trị mặc định chuẩn xác, an toàn.",
+        action: "• <b>undefined:</b> Biến đã khai báo nhưng chưa gán giá trị, hoặc thuộc tính không hề tồn tại trong object, hàm không return giá trị.<br>• <b>null:</b> Giá trị gán có chủ đích để chỉ 'rỗng' / 'không có dữ liệu' (ví dụ PostgreSQL trả về trường NULL khi cột không có dữ liệu).<br>• <b>Áp dụng thực tế:</b> Dùng Optional Chaining (<code>obj?.user?.name</code>) và Nullish Coalescing (<code>name ?? 'Khách'</code>) để fallback an toàn, không bị nhầm giá trị 0 hoặc chuỗi rỗng thành false như toán tử ||.",
+        result: "Triệt tiêu hoàn toàn lỗi crash runtime ở Frontend và đồng bộ nhất quán kiểu dữ liệu với Backend."
+      }
+    },
+    {
+      id: "level2_react_useeffect_rerender",
+      keywords: ["useeffect", "dependency", "re-render", "infinite loop", "react", "lifecycle"],
+      category: "Cấp độ 2: TRUNG BÌNH (React & Lifecycle)",
+      q_vi: "useEffect trong React chạy vào thời điểm nào? Cơ chế Dependency Array hoạt động ra sao và làm thế nào để tránh bẫy vòng lặp vô tận (infinite re-render)?",
+      star_vi: {
+        situation: "Khi component cần fetch dữ liệu từ API hoặc lắng nghe sự kiện (event listener), nếu quản lý effect không khéo sẽ gây re-render liên tục làm đơ trình duyệt.",
+        task: "Kiểm soát chính xác thời điểm kích hoạt side-effect và dọn dẹp (cleanup) tài nguyên đúng lúc.",
+        action: "• <b>Thời điểm chạy:</b> Chạy sau khi component đã render xong ra màn hình (sau commit phase).<br>• <b>Dependency Array:</b> <code>[]</code> rỗng chỉ chạy 1 lần khi mount; <code>[id]</code> chạy lại khi id thay đổi giá trị (so sánh Object.is); không truyền mảng sẽ chạy sau mỗi lần re-render.<br>• <b>Cách tránh bẫy vô tận:</b> Không cập nhật chính state đang nằm trong effect nếu không có điều kiện dừng; dùng functional update <code>setState(prev => prev + 1)</code>; luôn khai báo hàm cleanup <code>return () => { abortController.abort() }</code> khi unmount.",
+        result: "Tránh 100% rò rỉ bộ nhớ (memory leak), tối ưu số lần gọi API và giữ giao diện mượt mà 60 FPS."
+      }
+    },
+    {
+      id: "level3_rest_put_vs_patch",
+      keywords: ["put", "patch", "restful", "api", "idempotent", "update", "http method"],
+      category: "Cấp độ 3: TRUNG BÌNH KHÁ (RESTful API Design)",
+      q_vi: "Phân biệt phương thức PUT và PATCH trong thiết kế RESTful API? Khi cập nhật thông tin người dùng hoặc danh mục cổ phiếu, em ưu tiên dùng cái nào?",
+      star_vi: {
+        situation: "Hệ thống cần cung cấp API cập nhật thông tin người dùng, cài đặt tài khoản hoặc danh mục theo dõi cổ phiếu.",
+        task: "Thiết kế API đúng chuẩn RFC HTTP, tối ưu băng thông mạng và tránh ghi đè mất dữ liệu cũ của người dùng.",
+        action: "• <b>PUT:</b> Thay thế toàn bộ tài nguyên (Full Replacement) — Client bắt buộc phải gửi lên toàn bộ các trường, trường nào không gửi sẽ bị ghi đè thành null/mặc định (mang tính Idempotent).<br>• <b>PATCH:</b> Cập nhật một phần (Partial Update) — Client chỉ gửi lên đúng các trường cần sửa (ví dụ: chỉ gửi <code>{ notes: 'Ưu tiên mua' }</code>).<br>• <b>Lựa chọn thực tế:</b> Em ưu tiên sử dụng PATCH cho các chức năng chỉnh sửa form thực tế để tiết kiệm dung lượng payload mạng và an toàn, tránh vô tình làm mất các trường thông tin khác.",
+        result: "API thiết kế chuyên nghiệp, tiết kiệm băng thông và giúp Frontend tích hợp cực kỳ nhẹ nhàng."
+      }
+    },
+    {
+      id: "level4_db_btree_index_tradeoff",
+      keywords: ["index", "b-tree", "trade-off", "đánh đổi", "hiệu năng", "database", "sql"],
+      category: "Cấp độ 4: KHÓ (Database & Index Trade-off)",
+      q_vi: "Chỉ mục (Index) trong CSDL hoạt động theo cơ chế nào? Khi nào KHÔNG NÊN đánh Index vì sẽ phản tác dụng làm giảm hiệu năng hệ thống?",
+      star_vi: {
+        situation: "Bảng dữ liệu tăng trưởng nhanh, câu lệnh SELECT có điều kiện WHERE, ORDER BY bị chậm vì DB phải quét toàn bộ bảng (Full Table Scan).",
+        task: "Hiểu sâu cấu trúc dữ liệu Index để tối ưu truy vấn mà không làm tổn hại đến tốc độ ghi và dung lượng đĩa.",
+        action: "• <b>Cơ chế:</b> Mặc định dùng cấu trúc cây B-Tree tự cân bằng, lưu trữ các khóa đã sắp xếp kèm con trỏ tới dòng dữ liệu, giúp tìm kiếm đạt độ phức tạp O(log N) thay vì O(N).<br>• <b>Khi KHÔNG NÊN đánh Index:</b><br>&nbsp;&nbsp;1. Bảng có dung lượng quá nhỏ (vài chục đến vài trăm dòng) vì scan toàn bảng còn nhanh hơn duyệt cây index.<br>&nbsp;&nbsp;2. Cột có độ phân tán thấp (Low Cardinality) như gender (Nam/Nữ) hay status boolean (true/false).<br>&nbsp;&nbsp;3. Bảng có tần suất GHI liên tục (High Write/Insert/Update) như bảng log hoặc sensor — vì mỗi lệnh INSERT, DB phải cập nhật lại cấu trúc cây index trên đĩa, làm chậm tiến trình ghi và tốn RAM/Disk.",
+        result: "Cân bằng tối ưu giữa tốc độ Đọc (Read) và tốc độ Ghi (Write), giữ hệ thống vận hành ổn định dưới tải cao."
+      }
+    },
+    {
+      id: "level5_sql_injection_xss_defense",
+      keywords: ["sql injection", "xss", "security", "bảo mật", "httponly", "csrf", "sanitize"],
+      category: "Cấp độ 5: RẤT KHÓ (System Security & Defense in Depth)",
+      q_vi: "Làm thế nào để phòng chống tấn công SQL Injection và Cross-Site Scripting (XSS) trong một hệ thống Web Full Stack? Em đã áp dụng cụ thể ở những tầng nào?",
+      star_vi: {
+        situation: "Hệ thống web công khai luôn đứng trước nguy cơ bị tin tặc khai thác dữ liệu nhạy cảm qua các ô nhập liệu hoặc chèn mã script độc hại vào trình duyệt người dùng.",
+        task: "Thiết lập mô hình phòng thủ theo chiều sâu (Defense in Depth) trên cả tầng Frontend lẫn Backend.",
+        action: "• <b>Chống SQL Injection:</b> Tuyệt đối không cộng chuỗi SQL trực tiếp. Sử dụng Parameterized Queries (Truy vấn tham số hóa) hoặc Prepared Statements thông qua Supabase/PostgreSQL Client / ORM để DB phân tách rõ ranh giới giữa Lệnh thực thi và Dữ liệu; kết hợp validate kiểu dữ liệu đầu vào (Zod/Joi).<br>• <b>Chống XSS:</b><br>&nbsp;&nbsp;1. Ở Client: Tránh dùng dangerouslySetInnerHTML; các framework như React/Next.js mặc định escape dữ liệu trước khi render.<br>&nbsp;&nbsp;2. Ở Auth: Lưu trữ Token (Refresh Token / Session) trong Cookie có cờ <code>httpOnly, Secure, SameSite=Strict</code> — mã độc JS không thể truy cập document.cookie để đánh cắp phiên.<br>&nbsp;&nbsp;3. Ở Server: Cấu hình Content Security Policy (CSP) Headers để chặn nạp script từ domain lạ.",
+        result: "Bảo vệ hệ thống an toàn 100% trước hai lỗ hổng bảo mật phổ biến và nguy hiểm nhất trong danh sách OWASP Top 10."
+      }
+    },
+    {
+      id: "fullstack_rest_vs_graphql",
+      keywords: ["rest", "graphql", "api", "endpoint", "error handling", "status code"],
+      category: "Full Stack: REST API vs GraphQL & Error Handling",
+      q_vi: "REST API khác gì với GraphQL? Em quy ước đặt tên endpoint và chuẩn hóa xử lý lỗi (error handling) như thế nào?",
+      star_vi: {
+        situation: "Hệ thống cần cung cấp dữ liệu ổn định cho cả Web và Mobile client với cấu trúc dữ liệu đa dạng.",
+        task: "Phân tích ưu nhược điểm giữa REST và GraphQL; xây dựng chuẩn mực thiết kế REST API dễ tích hợp và bảo trì.",
+        action: "• <b>Khác biệt:</b> REST dùng nhiều endpoint tài nguyên riêng biệt (<code>/users</code>, <code>/watchlist</code>), dễ gặp Over-fetching (dữ liệu thừa) hoặc Under-fetching (phải gọi nhiều API); GraphQL chỉ dùng 1 endpoint (<code>/graphql</code>) cho phép client query đúng trường cần. Em ưu tiên REST vì đơn giản, cache HTTP tốt và bảo mật dễ dàng hơn.<br>• <b>Đặt tên Endpoint:</b> Dùng danh từ số nhiều, phân cấp rõ ràng (vd: <code>GET /api/v1/users/:id/watchlists</code>); dùng đúng HTTP verbs (GET, POST, PUT, PATCH, DELETE).<br>• <b>Xử lý lỗi chuẩn:</b> Luôn trả về đúng HTTP Status Code (400, 401, 403, 404, 500) kèm format JSON đồng bộ: <code>{ success: false, error: { code: 'INVALID_SYMBOL', message: 'Mã cổ phiếu không tồn tại' } }</code>.",
+        result: "Frontend dễ dàng bắt lỗi và hiển thị thông báo thân thiện; team dễ mở rộng API theo thời gian."
+      }
+    },
+    {
+      id: "fullstack_sql_vs_nosql_mongodb",
+      keywords: ["sql", "nosql", "mongodb", "postgresql", "mysql", "database", "acid"],
+      category: "Full Stack: SQL vs NoSQL & Học Nhanh MongoDB",
+      q_vi: "Khi nào nên dùng SQL và khi nào dùng NoSQL? Trong JD có nhắc tới MongoDB, nếu em chưa dùng nhiều thì em sẽ học và làm chủ nó thế nào?",
+      star_vi: {
+        situation: "Dự án cần lưu trữ cả dữ liệu quan hệ chặt chẽ (tài khoản, giao dịch tài chính) lẫn dữ liệu schema linh hoạt (logs, metadata cấu hình workflow AI).",
+        task: "Lựa chọn đúng loại CSDL và thể hiện sự trung thực, thái độ cầu tiến về kỹ năng công nghệ.",
+        action: "• <b>Khi nào dùng:</b> Chọn SQL (PostgreSQL, MySQL) khi dữ liệu có cấu trúc cố định, quan hệ nhiều bảng, cần chuẩn ACID tuyệt đối. Chọn NoSQL (MongoDB) khi schema thay đổi liên tục, dữ liệu dạng document JSON lồng nhau, cần mở rộng theo chiều ngang (horizontal scaling).<br>• <b>Thành thật về MongoDB:</b> Em xin chia sẻ thật là các dự án trước em làm sâu với PostgreSQL và MySQL. Tuy nhiên, em đã nắm vững tư duy Document-based và cấu trúc JSON. Với nền tảng Khoa học Máy tính sẵn có, em tự tin có thể nắm vững cú pháp MongoDB, ODM Mongoose và các toán tử Aggregation chỉ sau 3-5 ngày tự học và thực hành.",
+        result: "Nhà tuyển dụng đánh giá cao sự trung thực, thái độ cầu thị và tự tin vào tốc độ học công nghệ mới."
+      }
+    },
+    {
+      id: "fullstack_slow_query_optimization",
+      keywords: ["slow query", "explain analyze", "tối ưu query", "index", "bottleneck"],
+      category: "Full Stack: Tối Ưu Truy Vấn Chậm (Slow Query)",
+      q_vi: "Khi phát hiện một câu truy vấn Database bị chậm (slow query), em sẽ điều tra và tối ưu theo các bước cụ thể nào?",
+      star_vi: {
+        situation: "Khi lượng dữ liệu bảng giá hoặc danh mục người dùng tăng cao, API phản hồi bị kéo dài từ 200ms lên 3-5 giây.",
+        task: "Xác định chính xác nguyên nhân gốc (bottleneck) ở tầng CSDL và kéo thời gian thực thi xuống dưới 100ms.",
+        action: "• <b>Bước 1 - Định vị:</b> Chạy <code>EXPLAIN ANALYZE</code> trên PostgreSQL/MySQL để đọc Execution Plan (kiểm tra xem DB có bị Seq Scan/Full Table Scan hay Nested Loop nặng không).<br>• <b>Bước 2 - Tối ưu câu lệnh:</b> Bỏ <code>SELECT *</code> (chỉ lấy đúng các cột cần); tránh bọc hàm xử lý lên cột trong mệnh đề WHERE (vd: <code>WHERE DATE(created_at)</code> làm vô hiệu hóa index); giải quyết N+1 query bằng JOIN hoặc batching.<br>• <b>Bước 3 - Đánh Index:</b> Thêm Composite Index (B-Tree) trên các cột kết hợp tìm kiếm và sắp xếp (vd: <code>symbol + date DESC</code>).<br>• <b>Bước 4 - Phân trang & Cache:</b> Dùng Cursor-based Pagination thay cho OFFSET lớn; cache kết quả ít thay đổi trên bộ nhớ RAM.",
+        result: "Thời gian thực thi query giảm trên 90%, tải CPU của server CSDL giảm rõ rệt."
+      }
+    },
+    {
+      id: "fullstack_git_workflow_conflict",
+      keywords: ["git", "rebase", "merge", "conflict", "teamwork", "pull request"],
+      category: "Full Stack: Git Workflow, Rebase vs Merge & Conflict",
+      q_vi: "Phân biệt Git Rebase vs Git Merge? Quy trình làm việc nhóm bằng Git của em ra sao và em xử lý xung đột (conflict) thế nào?",
+      star_vi: {
+        situation: "Team gồm nhiều lập trình viên cùng phát triển các tính năng song song, thường xuyên gặp xung đột code khi hợp nhất nhánh.",
+        task: "Giữ lịch sử commit gọn gàng, minh bạch và giải quyết conflict an toàn, không làm mất code của đồng đội.",
+        action: "• <b>Rebase vs Merge:</b> Merge tạo một commit gộp (Merge Commit) lưu giữ mốc thời gian thực; Rebase tua lại từng commit đặt lên ngọn nhánh đích, giúp lịch sử thẳng tắp (Lưu ý: Không bao giờ rebase trên nhánh chung <code>main/develop</code>).<br>• <b>Quy trình nhóm:</b> Tạo nhánh từ <code>develop</code> theo chuẩn <code>feat/ten-feature</code>; commit theo Conventional Commits; trước khi tạo PR, pull code mới nhất từ <code>develop</code> và rebase ở local; chạy test pass mới mở PR.<br>• <b>Xử lý conflict:</b> Dùng VS Code so sánh Current vs Incoming Change, chủ động trao đổi trực tiếp với người viết đoạn code đó để thống nhất logic đúng trước khi Accept và commit.",
+        result: "Không bao giờ xảy ra lỗi ghi đè mất code của team, lịch sử Git sạch đẹp dễ truy vết bug."
+      }
+    },
+    {
+      id: "fullstack_web_security_basics",
+      keywords: ["bảo mật", "security", "sqli", "xss", "csrf", "jwt", "bcrypt", "password"],
+      category: "Full Stack: Bảo Mật Cơ Bản (SQLi, XSS, CSRF, Mật Khẩu, JWT)",
+      q_vi: "Em hãy nêu các nguyên tắc bảo mật cơ bản trong một ứng dụng Web (SQLi, XSS, CSRF, lưu mật khẩu và JWT)?",
+      star_vi: {
+        situation: "Ứng dụng web cần bảo vệ dữ liệu người dùng và hệ thống trước các kỹ thuật tấn công phổ biến trong OWASP Top 10.",
+        task: "Thiết lập cơ chế phòng vệ nhiều lớp (Defense in Depth) trên cả Frontend lẫn Backend.",
+        action: "• <b>SQL Injection:</b> Tuyệt đối không cộng chuỗi SQL; dùng Parameterized Queries / Prepared Statements thông qua Supabase/ORM.<br>• <b>XSS:</b> Không dùng <code>dangerouslySetInnerHTML</code>; sanitize input; lưu token trong <code>httpOnly Cookie</code> để JS độc hại không đọc được.<br>• <b>CSRF:</b> Cấu hình Cookie với <code>SameSite=Strict</code> hoặc <code>SameSite=Lax</code>, kết hợp Anti-CSRF Token.<br>• <b>Lưu mật khẩu:</b> Băm bằng thuật toán một chiều mạnh (Bcrypt hoặc Argon2) kèm Salt ngẫu nhiên, không bao giờ lưu plaintext.<br>• <b>JWT:</b> Sử dụng Dual Token: Access Token thời hạn ngắn (15-30 phút), Refresh Token thời hạn dài lưu trong httpOnly Cookie an toàn.",
+        result: "Hệ thống được bảo vệ vững chắc trước các rủi ro bảo mật phổ biến nhất trên môi trường Internet."
+      }
+    },
+    {
+      id: "ai_telegram_gemini_project",
+      keywords: ["telegram", "gemini", "prompt", "token", "chi phí", "hallucination", "bot"],
+      category: "AI Agent: Dự Án Telegram Bot Tích Hợp Gemini API",
+      q_vi: "Kể chi tiết về dự án Bot Telegram dùng Gemini? Prompt được thiết kế thế nào? Xử lý khi AI trả sai format/hallucination ra sao và em quản lý chi phí/token thế nào?",
+      star_vi: {
+        situation: "Cần công cụ tự động hóa nhận JD tuyển dụng, trích xuất yêu cầu công nghệ và tinh chỉnh nội dung hồ sơ theo thời gian thực qua tin nhắn Telegram.",
+        task: "Xây dựng hệ thống Serverless trên Cloudflare Workers kết nối Telegram Bot Webhook với Gemini LLM API, phản hồi nhanh, chính xác và định dạng chuẩn.",
+        action: "• <b>Thiết kế Prompt:</b> Áp dụng kỹ thuật Role Prompting + Few-Shot: Khai báo rõ vai trò chuyên gia tuyển dụng, cung cấp JSON schema mẫu và ra lệnh nghiêm ngặt: 'Chỉ trả về JSON hợp lệ, không giải thích'.<br>• <b>Xử lý sai format / Hallucination:</b> Bật cờ <code>response_mime_type: 'application/json'</code> của Gemini API; ở Backend dùng thư viện Zod parse và validate cấu trúc; nếu JSON lỗi, có hàm tự động retry 1 lần kèm prompt nhắc sửa lỗi cú pháp.<br>• <b>Quản lý chi phí & Token:</b> Sử dụng model Gemini 1.5 Flash (chi phí cực thấp, tốc độ cao); tiền xử lý cắt bỏ các đoạn văn bản thừa của JD; cache kết quả phân tích cho các JD trùng nhau.",
+        result: "Bot phản hồi mượt mà trong 2-3 giây, tỷ lệ trả về JSON chuẩn đạt 99%, vận hành 24/7 với chi phí gần như 0 đồng trên Cloudflare Workers."
+      }
+    },
+    {
+      id: "ai_agent_vs_chatbot_workflow",
+      keywords: ["ai agent", "chatbot", "workflow", "automation", "tools", "flowagentica"],
+      category: "AI Agent: AI Agent Khác Gì Chatbot & Cấu Trúc Workflow",
+      q_vi: "AI Agent khác gì một Chatbot thông thường? Một hệ thống Workflow tự động hóa (Automation Workflow) cần những thành phần cốt lõi nào?",
+      star_vi: {
+        situation: "Xu hướng AI đang chuyển dịch mạnh mẽ từ tương tác hỏi-đáp văn bản sang tự động hóa giải quyết bài toán phức tạp theo quy trình (như sản phẩm FlowAgentica của OctoSoft).",
+        task: "Hiểu sâu kiến trúc AI Agent và các khối thành phần xây dựng nền tảng Workflow Automation.",
+        action: "• <b>Khác biệt:</b> Chatbot chỉ phản hồi thụ động Text-in &rarr; Text-out trong 1 phiên hội thoại. AI Agent có tính chủ động (Autonomy): có Mục tiêu (Goal), Bộ nhớ (Memory), Khả năng lập kế hoạch (Planning loop ReAct: Reason + Act) và quan trọng nhất là có Công cụ (Tools / Function Calling) để gọi API, truy vấn DB và tương tác thế giới thực.<br>• <b>Thành phần Workflow tự động hóa:</b><br>&nbsp;&nbsp;1. <b>Trigger:</b> Điểm kích hoạt (Webhook, Timer/Cron, Event tin nhắn).<br>&nbsp;&nbsp;2. <b>Engine / Orchestrator:</b> Điều phối luồng thực thi dạng Node-based Graph.<br>&nbsp;&nbsp;3. <b>LLM Decision Node:</b> Phân tích ngữ cảnh và quyết định rẽ nhánh logic.<br>&nbsp;&nbsp;4. <b>Action / Connectors:</b> Các cổng tích hợp gọi API bên thứ ba (Database, Slack, Sheets, Email).<br>&nbsp;&nbsp;5. <b>State Management:</b> Lưu trạng thái checkpoint để retry khi mạng gián đoạn.",
+        result: "Chứng minh tư duy kiến trúc hệ thống hiện đại, trùng khớp 100% với định hướng sản phẩm của OctoSoft."
+      }
+    },
+    {
+      id: "behavior_unclear_requirements",
+      keywords: ["yêu cầu mơ hồ", "sếp", "thái độ", "làm rõ", "prioritize", "user story"],
+      category: "Thái Độ & Kỹ Năng Mềm: Xử Lý Yêu Cầu Mơ Hồ",
+      q_vi: "Nếu Sếp hoặc Tech Lead giao một yêu cầu nghiệp vụ mơ hồ, em sẽ xử lý như thế nào trước khi bắt tay vào code?",
+      star_vi: {
+        situation: "Trong môi trường phát triển sản phẩm nhanh, nhiều bài toán mới chỉ dừng ở ý tưởng sơ khởi hoặc mô tả ngắn gọn.",
+        task: "Làm rõ yêu cầu để tránh rủi ro hiểu sai bài toán, code xong phải đập đi xây lại làm mất thời gian của team.",
+        action: "• <b>Bước 1:</b> Tuyệt đối không tự đoán mò và không vội vàng code ngay.<br>• <b>Bước 2:</b> Phác thảo ra các câu hỏi cốt lõi: Mục tiêu kinh doanh là gì? Người dùng cuối là ai? Có những trường hợp biên (edge cases) nào?<br>• <b>Bước 3:</b> Chủ động hẹn 10-15 phút với Sếp/Lead, trình bày tóm tắt cách em hiểu bài toán kèm sơ đồ User Flow hoặc bản vẽ giao diện nháp để xác nhận.<br>• <b>Bước 4:</b> Chia nhỏ thành các mốc MVP làm trước, tính năng phụ làm sau và liên tục demo sớm để nhận phản hồi.",
+        result: "Tính năng bàn giao đúng 100% mong đợi, tiết kiệm nguồn lực và thể hiện tính chủ động, cẩn trọng cao."
+      }
+    },
+    {
+      id: "behavior_prioritizing_tasks",
+      keywords: ["nhiều task gấp", "ưu tiên", "quản lý thời gian", "eisenhower", "stress"],
+      category: "Thái Độ & Kỹ Năng Mềm: Ưu Tiên Công Việc Khi Nhiều Task Gấp",
+      q_vi: "Khi có nhiều yêu cầu công việc cùng được báo là 'rất gấp' trong cùng một ngày, em sắp xếp thứ tự ưu tiên như thế nào?",
+      star_vi: {
+        situation: "Môi trường công việc thực tế vừa có deadline sprint, vừa có sự cố phát sinh từ người dùng hoặc yêu cầu khẩn cấp từ các phòng ban.",
+        task: "Sắp xếp thứ tự ưu tiên khoa học, giữ vững tâm lý và giải quyết triệt để vấn đề quan trọng nhất.",
+        action: "• <b>Phân loại mức độ ảnh hưởng (Impact):</b><br>&nbsp;&nbsp;1. <b>Mức Khẩn cấp & Nghiêm trọng (P0):</b> Bug làm gián đoạn hệ thống, ảnh hưởng thanh toán hoặc dữ liệu người dùng &rarr; Tập trung xử lý ngay lập tức.<br>&nbsp;&nbsp;2. <b>Mức Blocker (P1):</b> Task đang làm nghẽn tiến độ của đồng đội khác trong team &rarr; Giải quyết tiếp theo.<br>&nbsp;&nbsp;3. <b>Mức Kế hoạch (P2):</b> Các tính năng theo roadmap sprint thông thường.<br>• <b>Chủ động trao đổi:</b> Nếu khối lượng vượt quá thời gian làm việc trong ngày, chủ động báo cáo Lead/PM kèm ước lượng thời gian để thống nhất hoãn việc ít ảnh hưởng hơn.",
+        result: "Các sự cố nghiêm trọng được dập tắt nhanh chóng, công việc vận hành trật tự, không bị quá tải hay stress."
+      }
+    },
+    {
+      id: "behavior_long_term_career",
+      keywords: ["gắn bó lâu dài", "sản phẩm", "product", "outsource", "kế hoạch 2 năm"],
+      category: "Định Hướng Nghề Nghiệp: Vì Sao Chọn Product & Kế Hoạch 1-2 Năm",
+      q_vi: "Em có định hướng gắn bó lâu dài không? Vì sao em chọn mảng sản phẩm (Product) thay vì gia công (Outsource)? Kế hoạch 1-2 năm tới của em là gì?",
+      star_vi: {
+        situation: "Nhà tuyển dụng tìm kiếm nhân sự có sự cam kết, đam mê gắn bó và có lộ trình phát triển rõ ràng cùng tổ chức.",
+        task: "Bày tỏ động lực cá nhân chân thành, phù hợp với văn hóa công ty công nghệ sản phẩm.",
+        action: "• <b>Vì sao chọn Product:</b> Em thích cảm giác cùng team xây dựng và nuôi dưỡng một sản phẩm, lắng nghe phản hồi của người dùng thực tế và liên tục tối ưu. Làm Product rèn cho em tư duy sâu về kiến trúc hệ thống và giá trị kinh doanh dài hạn.<br>• <b>Kế hoạch 1-2 năm tới:</b><br>&nbsp;&nbsp;• <i>Năm thứ 1:</i> Nắm vững codebase, hoàn thành xuất sắc các tính năng Fullstack và đóng góp tích cực vào các module AI Workflow Automation.<br>&nbsp;&nbsp;• <i>Năm thứ 2:</i> Nâng cao năng lực System Design, tối ưu hạ tầng Cloud và sẵn sàng hướng dẫn (mentor) cho các bạn mới vào team.",
+        result: "Gây ấn tượng sâu sắc về sự chín chắn, tính kỷ luật và cam kết đồng hành bền vững cùng công ty."
+      }
+    },
+    {
+      id: "practical_salary_and_start_date",
+      keywords: ["mức lương", "lương mong muốn", "khi nào đi làm", "deal lương", "thực tế"],
+      category: "Câu Hỏi Thực Tế: Mức Lương Mong Muốn & Thời Gian Đi Làm",
+      q_vi: "Mức lương mong muốn của em là bao nhiêu và khi nào em có thể bắt đầu đi làm tại OctoSoft?",
+      star_vi: {
+        situation: "Câu hỏi ở phần cuối buổi phỏng vấn khi công ty đánh giá mức độ phù hợp và chế độ đãi ngộ.",
+        task: "Đưa ra khoảng kỳ vọng hợp lý, khéo léo, thể hiện tinh thần cởi mở dựa trên năng lực và sẵn sàng gia nhập.",
+        action: "• <b>Về mức lương:</b> 'Dạ dựa trên yêu cầu công việc Full Stack Developer và những đóng góp thực tế em có thể mang lại ngay (REST API, PostgreSQL, AI Automation), em kỳ vọng mức lương khởi điểm trong khoảng <b>10 - 13 triệu VNĐ/tháng</b>. Tuy nhiên, với em cơ hội được làm việc trong môi trường chuyên nghiệp về AI Workflow tại OctoSoft là ưu tiên hàng đầu, nên em hoàn toàn cởi mở và linh hoạt theo đánh giá bài test và chính sách của Quý công ty ạ.'<br>• <b>Về thời gian nhận việc:</b> 'Dạ em hiện đã hoàn thành xong việc học và có thể sắp xếp bắt đầu đi làm ngay lập tức (hoặc sau 1 tuần) ạ.'",
+        result: "Tạo thiện cảm lớn: tự tin về giá trị bản thân nhưng rất cầu thị, linh hoạt và sẵn sàng cống hiến."
+      }
+    },
+    {
       id: "ecommerce_cart_order",
       keywords: ["ecommerce", "e-commerce", "thương mại điện tử", "giỏ hàng", "đơn hàng", "checkout", "cart"],
       category: "E-Commerce & System Architecture",
@@ -134,14 +398,14 @@
     },
     {
       id: "ai_vibe_coding",
-      keywords: ["ai", "cursor", "claude", "llm", "copilot", "prompt", "vibe coding", "automation"],
-      category: "AI-First & Productivity",
-      q_vi: "Bạn tự nhận có tư duy AI-first và tận dụng các công cụ như Cursor, Claude. Bạn sử dụng AI như thế nào để vừa tăng tốc độ code vừa đảm bảo chất lượng và tính bảo mật?",
+      keywords: ["ai", "cursor", "claude", "llm", "copilot", "prompt", "vibe coding", "automation", "bảo mật", "kiểm soát"],
+      category: "Tư Duy AI-First: Tăng Tốc Code, Kiểm Soát Chất Lượng & Bảo Mật",
+      q_vi: "Bạn tự nhận có tư duy AI-first và tận dụng Cursor, Claude. Bạn sử dụng AI như thế nào để vừa tăng tốc độ code vừa đảm bảo chất lượng và tính bảo mật?",
       star_vi: {
-        situation: "Công nghệ AI phát triển nhanh, nếu chỉ copy-paste mù quáng sẽ dễ tạo ra code rác, tiềm ẩn lỗi logic và rò rỉ bảo mật.",
-        task: "Tận dụng AI như một trợ lý lập trình cấp cao (pair programmer) để tăng năng suất gấp 2-3 lần nhưng vẫn làm chủ 100% mã nguồn.",
-        action: "Áp dụng quy trình: (1) Tự thiết kế kiến trúc và luồng dữ liệu trước; (2) Dùng AI để viết boilerplate, sinh mock data, viết unit test và kiểm tra edge cases; (3) Tự tay code review từng dòng code AI đề xuất, kiểm thử kỹ lưỡng và tuyệt đối không đưa secret keys lên prompt.",
-        result: "Rút ngắn thời gian phát triển tính năng từ nhiều ngày xuống vài giờ, đồng thời mã nguồn vẫn sạch và tuân thủ chuẩn Clean Code."
+        situation: "Nhà tuyển dụng muốn kiểm tra xem ứng viên thực sự làm chủ công cụ AI hay chỉ 'copy-paste mù quáng từ AI' và không nắm vững mã nguồn.",
+        task: "Khẳng định tư duy cốt lõi: 'Em coi AI như một đồng nghiệp junior làm việc rất nhanh nhưng luôn cần được code review cẩn trọng, chứ AI không phải là người đưa ra quyết định kiến trúc'.",
+        action: "• <b>1. Dùng AI vào việc gì:</b> Tăng tốc ở những việc lặp lại có khuôn mẫu (dựng boilerplate, viết API route, query SQL, viết test, giải thích code lạ, gợi ý hướng debug). Còn thiết kế cấu trúc bảng, luồng xác thực, phân quyền thì em tự quyết trước, rồi mới dùng AI để đối chiếu tìm điểm bỏ sót.<br>• <b>2. Kiểm soát chất lượng:</b> Tuyệt đối không merge code mình chưa hiểu; đọc kỹ từng đoạn, chạy thử, kiểm tra các trường hợp biên; yêu cầu AI làm từng phần nhỏ chứ không giao cả tính năng một lần vì phần nhỏ dễ review hơn; dùng Git diff để so sánh và rollback nếu AI sửa sai.<br>• <b>3. Kiểm soát bảo mật (3 nguyên tắc):</b> (1) Không đưa dữ liệu nhạy cảm (API key, token, user data thật) vào prompt; dùng biến môi trường; (2) Soi kỹ những chỗ AI hay viết chạy được nhưng thiếu lớp bảo vệ: validate input, chống SQL injection, phân quyền và xử lý lỗi; (3) Kiểm tra thư viện AI gợi ý có thật, còn được duy trì và an toàn không (tránh package hallucination).",
+        result: "• <b>Ví dụ thực tế:</b> Khi làm bot Telegram dùng Gemini chỉnh CV, em phải kiểm soát chính đầu ra của AI: ép định dạng JSON trả về, validate kết quả trước khi dùng, và chặn không để AI tự bịa thêm kinh nghiệm không có trong CV gốc &rarr; Giúp em hiểu rõ AI mạnh ở đâu và dễ sai ở đâu để làm chủ 100% mã nguồn."
       }
     },
     {
@@ -185,24 +449,24 @@
   // Danh sách câu hỏi ứng viên hỏi ngược nhà tuyển dụng (Reverse Interviewing)
   const REVERSE_QUESTIONS = [
     {
+      title: "Về sản phẩm FlowAgentica & Quy mô team",
+      q: "Dạ cho em hỏi sản phẩm FlowAgentica của OctoSoft hiện đang ở giai đoạn phát triển nào (MVP, Beta hay đã ra Production), và quy mô team kỹ thuật phụ trách hiện gồm mấy người ạ?",
+      why: "Ghi điểm cực lớn vì chứng tỏ bạn đã chủ động tìm hiểu sâu về sản phẩm chủ lực của công ty."
+    },
+    {
+      title: "Về kỳ vọng với Full Stack mới trong 3 tháng đầu",
+      q: "Đối với một Full Stack Developer mới gia nhập, trong 3 tháng đầu tiên team kỳ vọng em sẽ đảm nhiệm những tính năng hoặc bài toán cụ thể nào ạ?",
+      why: "Cho thấy bạn là người có tinh thần trách nhiệm, định hướng kết quả rõ ràng và muốn tạo ra giá trị ngay từ đầu."
+    },
+    {
       title: "Về quy trình kỹ thuật & Code Review",
-      q: "Dạ cho em hỏi quy trình phát triển và review code (code review, CI/CD pipeline) của đội ngũ kỹ thuật tại công ty hiện đang diễn ra như thế nào ạ?",
+      q: "Dạ cho em hỏi quy trình phát triển, code review và triển khai CI/CD của đội ngũ kỹ thuật tại công ty hiện đang diễn ra như thế nào ạ?",
       why: "Thể hiện bạn quan tâm đến chất lượng code, làm việc nhóm bài bản và quy trình chuyên nghiệp."
     },
     {
-      title: "Về mục tiêu và thử thách của team",
-      q: "Thử thách kỹ thuật hoặc bài toán lớn nhất mà team mình đang tập trung giải quyết trong quý tới là gì ạ?",
-      why: "Chứng minh bạn có tư duy hướng tới mục tiêu chung và sẵn sàng đối mặt với thử thách thực tế."
-    },
-    {
-      title: "Về kỳ vọng với nhân sự mới",
-      q: "Đối với một nhân sự mới ở vị trí này, tiêu chí quan trọng nhất để Anh/Chị đánh giá là hoàn thành xuất sắc nhiệm vụ trong 2-3 tháng đầu tiên là gì ạ?",
-      why: "Cho thấy bạn là người chủ động, có định hướng rõ ràng và muốn tạo ra giá trị ngay từ đầu."
-    },
-    {
-      title: "Về cơ hội học tập & Ứng dụng công nghệ mới",
-      q: "Đội ngũ kỹ thuật của công ty có lộ trình đào tạo, chia sẻ nội bộ (tech sharing) hoặc chính sách khuyến khích ứng dụng các công cụ mới (như AI, Cloud) như thế nào ạ?",
-      why: "Khẳng định tinh thần ham học hỏi và mong muốn gắn bó, phát triển lâu dài cùng tổ chức."
+      title: "Về định hướng mở rộng AI của team",
+      q: "Đội ngũ kỹ thuật của công ty có kế hoạch mở rộng các mô hình AI mã nguồn mở (như Llama, DeepSeek) chạy self-hosted hay chủ yếu tích hợp qua API của OpenAI/Gemini/Anthropic ạ?",
+      why: "Khẳng định tư duy kỹ thuật sâu về mảng AI/LLM mà OctoSoft đang tuyển dụng."
     }
   ];
 
@@ -616,13 +880,11 @@ const removeDuplicatesFilter = arr => arr.filter((item, index) => arr.indexOf(it
     }
 
     if (cvKey === "octosoft") {
-      return `Lời đầu tiên, em xin cảm ơn Anh/Chị và Quý công ty <b>Octo Software</b> đã dành thời gian xem hồ sơ của em ạ.
+      return `Dạ em chào Anh/Chị. Em là <b>Trương Đình Anh</b>, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM, và đang theo định hướng <b>Full-Stack Developer</b>.
 
-Em tên là <b>Trương Đình Anh</b>, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Em định hướng phát triển chuyên sâu ở vai trò <b>Full-Stack Developer</b> với thế mạnh kết hợp cả <b>React, Next.js</b> ở Frontend và <b>Node.js, Express</b> cùng các hệ CSDL quan hệ lẫn NoSQL (<b>PostgreSQL, MongoDB, MySQL</b>) ở Backend.
+Em từng có 6 tháng làm việc thực tế tại Công ty TAMI, nơi em trực tiếp xây dựng hệ thống phân tích dữ liệu chứng khoán: phát triển hệ thống RESTful API với Next.js/Node.js, thiết kế CSDL PostgreSQL trên Supabase và tích hợp xác thực người dùng Google.
 
-Đặc biệt, em rất ấn tượng với định hướng phát triển hệ thống <b>AI Agent (flowagentica.com)</b> của Octo Software. Bản thân em có tư duy <b>AI-First</b> và đã trực tiếp xây dựng nền tảng tự động hóa Serverless trên Cloudflare Workers tích hợp AI Agent qua Telegram Bot và các mô hình LLM API (Gemini/OpenAI), thiết lập pipeline CI/CD với GitHub Actions tự sinh mã nguồn. Ngoài ra, em từng thực tập 6 tháng tại TAMI Technology xây dựng và tối ưu hệ thống RESTful APIs và thiết kế CSDL Supabase PostgreSQL.
-
-Với nền tảng kỹ thuật sẵn có và tính kỷ luật trong quy trình Git, em tin rằng mình có thể nhanh chóng bắt nhịp và đóng góp hiệu quả vào các dự án của Octo Software ạ.`;
+Đặc biệt, em có định hướng chuyên sâu về mảng <b>AI Agent, Workflow Automation và Tích hợp API</b>. Em đã tự tay xây dựng hệ thống serverless trên Cloudflare Workers kết hợp Telegram Bot, tích hợp mô hình Gemini LLM API để tự động phân tích và xử lý dữ liệu theo thời gian thực. Em rất hào hứng với định hướng công nghệ của OctoSoft và tin rằng nền tảng Full Stack cùng tư duy AI-First sẽ giúp em nhanh chóng bắt nhịp và đóng góp hiệu quả vào các dự án của Quý công ty ạ.`;
     }
 
     if (cvKey === "cgecom") {
@@ -702,13 +964,29 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
     const isOctoSoft = cvKey === "octosoft" || cvText.includes("octosoft") || cvText.includes("flowagentica") || cvText.includes("octo software");
     if (isOctoSoft) {
       const priorityIds = [
+        "octosoft_exp_gap",
+        "level1_null_vs_undefined",
+        "level2_react_useeffect_rerender",
+        "level3_rest_put_vs_patch",
+        "fullstack_rest_vs_graphql",
+        "fullstack_sql_vs_nosql_mongodb",
+        "fullstack_slow_query_optimization",
+        "level4_db_btree_index_tradeoff",
+        "fullstack_web_security_basics",
+        "level5_sql_injection_xss_defense",
+        "fullstack_git_workflow_conflict",
+        "tami_architecture",
+        "tami_auth_security",
+        "tami_vnstock_perf",
+        "tami_database_indexing",
+        "tami_hardest_bug",
+        "ai_telegram_gemini_project",
+        "ai_agent_vs_chatbot_workflow",
         "ai_vibe_coding",
-        "rest_api_auth",
-        "sql_vs_nosql_ecommerce",
-        "nextjs_router",
-        "git_testing_deploy",
-        "database_optimization_perf",
-        "jwt_rbac_auth_security"
+        "behavior_unclear_requirements",
+        "behavior_prioritizing_tasks",
+        "behavior_long_term_career",
+        "practical_salary_and_start_date"
       ];
       const result = [];
       priorityIds.forEach(id => {
@@ -884,6 +1162,10 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
     const cvText = extractTechKeywords(currentData);
     const questions = pickRelevantQuestions(cvText, cvKey);
     const qListContainer = document.getElementById("interviewQuestionsList");
+    const formatStarText = (txt) => {
+      if (!txt) return "";
+      return String(txt).replace(/\n/g, "<br>");
+    };
 
     if (qListContainer) {
       qListContainer.innerHTML = questions.map((q, idx) => `
@@ -902,19 +1184,19 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
             <div class="interview-star-title">🎯 Dàn ý trả lời theo mô hình STAR:</div>
             <div class="interview-star-row">
               <span class="star-badge star-s">S (Bối cảnh)</span>
-              <span class="star-desc">${q.star_vi.situation}</span>
+              <span class="star-desc">${formatStarText(q.star_vi.situation)}</span>
             </div>
             <div class="interview-star-row">
               <span class="star-badge star-t">T (Nhiệm vụ)</span>
-              <span class="star-desc">${q.star_vi.task}</span>
+              <span class="star-desc">${formatStarText(q.star_vi.task)}</span>
             </div>
             <div class="interview-star-row">
               <span class="star-badge star-a">A (Hành động)</span>
-              <span class="star-desc">${q.star_vi.action}</span>
+              <span class="star-desc">${formatStarText(q.star_vi.action)}</span>
             </div>
             <div class="interview-star-row">
               <span class="star-badge star-r">R (Kết quả)</span>
-              <span class="star-desc">${q.star_vi.result}</span>
+              <span class="star-desc">${formatStarText(q.star_vi.result)}</span>
             </div>
           </div>
         </div>

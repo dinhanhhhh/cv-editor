@@ -5285,6 +5285,16 @@ body.recruiter-view .cv-preview {
 .star-desc {
   color: #334155;
   flex: 1;
+  line-height: 1.6;
+}
+
+.star-desc code {
+  background: #f1f5f9;
+  color: #0f172a;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.88em;
+  font-family: Consolas, Monaco, monospace;
 }
 
 .interview-reverse-list {
