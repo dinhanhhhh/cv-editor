@@ -85,7 +85,7 @@
       key: "default",
       file: "data/cv-data-fullstack.js",
       emoji: "💼",
-      label: "Chung",
+      label: "💼 Full-Stack Developer (Bản chung)",
     },
     {
       key: "ginstudio",

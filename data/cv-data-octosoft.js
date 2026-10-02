@@ -63,10 +63,10 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG CV EDITOR & AI AUTOMATION",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
         date: "01/2026 - Hiện tại",
         role: "Developer",
-        desc: "Nền tảng tự động hóa quản lý và tối ưu hồ sơ CV kết hợp Serverless, AI và quy trình CI/CD.",
+        desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
           "Xây dựng giao diện web tương tác thời gian thực bằng Vanilla JS/HTML5/CSS3 với hiệu năng cao, zero-dependency.",
@@ -183,15 +183,15 @@ var cvData = {
     ],
     projects: [
       {
-        name: "CV EDITOR & AI AUTOMATION SYSTEM",
+        name: "AI AGENT & AUTOMATION PLATFORM",
         date: "01/2026 - Present",
         role: "Developer",
-        desc: "Automated CV management and optimization platform integrating Serverless, AI APIs, and CI/CD pipelines.",
+        desc: "Enterprise automation and management platform leveraging AI Agent architecture and Serverless computing.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Engineered high-performance, real-time interactive user interface using Vanilla JS/HTML5/CSS3 with zero external dependencies.",
-          "Built serverless backend on Cloudflare Workers integrating Telegram Bot Bridge and LLM APIs (Gemini/OpenAI) for autonomous agent workflows.",
-          "Automated end-to-end CI/CD pipeline via GitHub Actions: Telegram command -> AI Agent analysis & code generation -> auto-commit & build in 40 seconds.",
+          "Engineered real-time interactive web interfaces using Vanilla JS/HTML5/CSS3 with high performance and zero external dependencies.",
+          "Designed a Serverless Backend on Cloudflare Workers bridging Telegram Bot and LLM APIs (Gemini/OpenAI) to automate AI Agent workflows.",
+          "Automated CI/CD pipelines with GitHub Actions: Processed commands via Telegram Bot -> AI Agent analyzed & generated code -> auto-committed & triggered production builds within 40s.",
         ],
         tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },

@@ -63,18 +63,17 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG CV EDITOR & AI AUTOMATION",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
         date: "01/2026 - Hiện tại",
         role: "Developer",
-        desc: "Nền tảng tự động hóa quản lý và tối ưu hồ sơ CV kết hợp Serverless, AI và quy trình CI/CD.",
+        desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Xây dựng kiến trúc Backend Serverless trên Cloudflare Workers kết nối Telegram Bot làm giao diện điều khiển 2 chiều.",
-          "Tích hợp LLM APIs (Google Gemini / OpenAI), xử lý structured JSON output, validation dữ liệu và điều phối các tác vụ AI.",
-          "Viết script Python hỗ trợ xử lý, chuẩn bị tập dữ liệu và tự động hóa quy trình kiểm tra đánh giá mô hình.",
-          "Thiết lập pipeline CI/CD tự động qua GitHub Actions phục vụ build, kiểm thử tự động và cập nhật hệ thống.",
+          "Xây dựng giao diện web tương tác thời gian thực bằng Vanilla JS/HTML5/CSS3 với hiệu năng cao, zero-dependency.",
+          "Thiết kế Serverless Backend trên Cloudflare Workers kết nối Telegram Bot Bridge và tích hợp LLM API (Gemini/OpenAI) để xử lý logic AI Agent tự động.",
+          "Tự động hóa pipeline CI/CD với GitHub Actions: Nhận lệnh từ Telegram bot -> AI Agent phân tích và sinh mã nguồn -> tự động commit và trigger build sản phẩm trong 40 giây.",
         ],
-        tech: "Cloudflare Workers, JavaScript/TypeScript, Python, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ",
@@ -156,18 +155,17 @@ var cvData = {
     ],
     projects: [
       {
-        name: "CV EDITOR & AI AUTOMATION SYSTEM",
+        name: "AI AGENT & AUTOMATION PLATFORM",
         date: "01/2026 - Present",
         role: "Developer",
-        desc: "Automated CV management and optimization platform integrating Serverless, AI APIs, and CI/CD pipelines.",
+        desc: "Enterprise automation and management platform leveraging AI Agent architecture and Serverless computing.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Engineered a serverless backend on Cloudflare Workers using Telegram Bot as a bi-directional control interface.",
-          "Integrated LLM APIs (Gemini/OpenAI), parsing structured JSON output, implementing schema validation and AI orchestration.",
-          "Wrote Python scripts for data preparation, dataset verification, and automated evaluation tasks.",
-          "Established automated GitHub Actions CI/CD pipelines for testing, verification, and deployment.",
+          "Engineered real-time interactive web interfaces using Vanilla JS/HTML5/CSS3 with high performance and zero external dependencies.",
+          "Designed a Serverless Backend on Cloudflare Workers bridging Telegram Bot and LLM APIs (Gemini/OpenAI) to automate AI Agent workflows.",
+          "Automated CI/CD pipelines with GitHub Actions: Processed commands via Telegram Bot -> AI Agent analyzed & generated code -> auto-committed & triggered production builds within 40s.",
         ],
-        tech: "Cloudflare Workers, JavaScript/TypeScript, Python, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "E-COMMERCE PLATFORM",

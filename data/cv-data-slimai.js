@@ -52,18 +52,17 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI",
-        date: "05/2026 - Hiện tại",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
+        date: "01/2026 - Hiện tại",
         role: "Developer",
-        desc: "Công cụ quản trị và tối ưu hóa CV tự động tích hợp AI giúp cá nhân hóa nội dung CV phù hợp với mô tả công việc (JD).",
+        desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Xây dựng Web App tĩnh bằng Vanilla HTML/CSS/JS thuần, tối ưu hóa tốc độ load, hỗ trợ live inline editing, quản lý local state và tính năng căn chỉnh trang A4 (Magic Fit).",
-          "Thiết kế serverless backend sử dụng Cloudflare Workers làm cổng kết nối Telegram Bot Bridge đến Gemini API và GitHub API.",
-          "Tự động hóa pipeline: Khi gửi JD qua Telegram Bot, AI phân tích nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF mới trong 40 giây.",
-          "Chăm chút kỹ lưỡng trải nghiệm người dùng (UX) với đầy đủ các trạng thái dữ liệu (Loading/Skeleton, Empty, Error) và micro-animations.",
+          "Xây dựng giao diện web tương tác thời gian thực bằng Vanilla JS/HTML5/CSS3 với hiệu năng cao, zero-dependency.",
+          "Thiết kế Serverless Backend trên Cloudflare Workers kết nối Telegram Bot Bridge và tích hợp LLM API (Gemini/OpenAI) để xử lý logic AI Agent tự động.",
+          "Tự động hóa pipeline CI/CD với GitHub Actions: Nhận lệnh từ Telegram bot -> AI Agent phân tích và sinh mã nguồn -> tự động commit và trigger build sản phẩm trong 40 giây.",
         ],
-        tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "JOB PORTAL PLATFORM",
@@ -203,18 +202,17 @@ GitHub: https://github.com/dinhanhhhh`
     ],
     projects: [
       {
-        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
-        date: "05/2026 - Present",
+        name: "AI AGENT & AUTOMATION PLATFORM",
+        date: "01/2026 - Present",
         role: "Developer",
-        desc: "An automated CV management and optimization tool powered by AI to customize CV contents based on Job Descriptions (JD).",
+        desc: "Enterprise automation and management platform leveraging AI Agent architecture and Serverless computing.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Developed a lightweight static web app using Vanilla HTML/CSS/JS supporting dynamic rendering via query params, live inline editing, and smart page-fitting (Magic Fit).",
-          "Designed a serverless backend with Cloudflare Workers acting as a Telegram Bot Bridge to connect Gemini API with the GitHub API.",
-          "Built an automated pipeline: User sends JD via Telegram -> Gemini AI refines CV content -> Bot commits code to GitHub repository -> GitHub Actions auto-builds updated PDF in 40s.",
-          "Polished user experience (UX) with responsive design, data state handlers (Loading/Skeleton, Empty, Error), and smooth transitions.",
+          "Engineered real-time interactive web interfaces using Vanilla JS/HTML5/CSS3 with high performance and zero external dependencies.",
+          "Designed a Serverless Backend on Cloudflare Workers bridging Telegram Bot and LLM APIs (Gemini/OpenAI) to automate AI Agent workflows.",
+          "Automated CI/CD pipelines with GitHub Actions: Processed commands via Telegram Bot -> AI Agent analyzed & generated code -> auto-committed & triggered production builds within 40s.",
         ],
-        tech: "Vanilla HTML5/CSS3/JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "JOB PORTAL PLATFORM",

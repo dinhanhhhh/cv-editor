@@ -36,17 +36,17 @@ var cvData = {
     education: cvGlobalEdu.vi,
     projects: [
       {
-        name: "HỆ THỐNG TỰ ĐỘNG HÓA CV TÍCH HỢP AI",
-        date: "05/2026 - Hiện tại",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
+        date: "01/2026 - Hiện tại",
         role: "Developer",
-        desc: "Hệ thống tự động hóa tối ưu và cá nhân hóa CV theo mô tả công việc (JD) tích hợp AI Agent và CI/CD Pipeline.",
+        desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Xây dựng Web App tĩnh (Vanilla HTML/CSS/JS), tối ưu tốc độ tải trang, hỗ trợ chỉnh sửa trực tiếp (live inline editing) và quản lý state cục bộ.",
-          "Thiết kế serverless backend trên Cloudflare Workers kết nối Telegram Bot Bridge với Gemini API và GitHub API.",
-          "Tối ưu luồng dữ liệu tự động hóa (Data Flow): Nhận JD qua Telegram -> AI phân tích nội dung -> tự động commit code lên GitHub -> kích hoạt GitHub Actions tự sinh file PDF.",
+          "Xây dựng giao diện web tương tác thời gian thực bằng Vanilla JS/HTML5/CSS3 với hiệu năng cao, zero-dependency.",
+          "Thiết kế Serverless Backend trên Cloudflare Workers kết nối Telegram Bot Bridge và tích hợp LLM API (Gemini/OpenAI) để xử lý logic AI Agent tự động.",
+          "Tự động hóa pipeline CI/CD với GitHub Actions: Nhận lệnh từ Telegram bot -> AI Agent phân tích và sinh mã nguồn -> tự động commit và trigger build sản phẩm trong 40 giây.",
         ],
-        tech: "Vanilla JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "HỆ THỐNG QUẢN LÝ DỮ LIỆU & PHÂN QUYỀN (JOB PORTAL PLATFORM)",
@@ -120,17 +120,17 @@ var cvData = {
     education: cvGlobalEdu.en,
     projects: [
       {
-        name: "AUTOMATED CV BUILDER & AI TAILOR (CV-EDITOR)",
-        date: "05/2026 - Present",
+        name: "AI AGENT & AUTOMATION PLATFORM",
+        date: "01/2026 - Present",
         role: "Developer",
-        desc: "An automated CV optimization system integrating AI Agents to tailor resume contents based on Job Descriptions (JDs).",
+        desc: "Enterprise automation and management platform leveraging AI Agent architecture and Serverless computing.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Developed a lightweight static Web App using Vanilla HTML/CSS/JS, optimizing page load speed with live inline editing and local state management.",
-          "Architected a serverless backend using Cloudflare Workers acting as a Telegram Bot Bridge to Gemini API and GitHub API.",
-          "Streamlined the automated Data Flow: Telegram JD input -> AI content tailoring -> automated GitHub code commit -> GitHub Actions PDF generation in 40 seconds.",
+          "Engineered real-time interactive web interfaces using Vanilla JS/HTML5/CSS3 with high performance and zero external dependencies.",
+          "Designed a Serverless Backend on Cloudflare Workers bridging Telegram Bot and LLM APIs (Gemini/OpenAI) to automate AI Agent workflows.",
+          "Automated CI/CD pipelines with GitHub Actions: Processed commands via Telegram Bot -> AI Agent analyzed & generated code -> auto-committed & triggered production builds within 40s.",
         ],
-        tech: "Vanilla JS, Cloudflare Workers, Telegram Bot API, Gemini API, GitHub API, GitHub Actions",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "DATA MANAGEMENT & AUTHORIZATION SYSTEM (JOB PORTAL)",

@@ -67,18 +67,17 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG CV EDITOR & AI AUTOMATION",
+        name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
         date: "01/2026 - Hiện tại",
         role: "Developer",
-        desc: "Công cụ biên tập và tối ưu hóa hồ sơ trực tuyến đạt chuẩn in ấn A4, tích hợp kiến trúc Serverless.",
+        desc: "Nền tảng quản trị và tự động hóa quy trình nghiệp vụ ứng dụng kiến trúc AI Agent và Serverless.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Phát triển giao diện Web tương tác cao bằng Vanilla JS/HTML5/CSS3 với hiệu năng tải tức thì (<100ms) và zero-dependency bên ngoài.",
-          "Xây dựng thuật toán Magic Fit tự động tính toán font-size và margin động đảm bảo layout luôn vừa vặn 1 trang A4 khi xuất in ấn / PDF.",
-          "Hiện thực hóa hệ thống phím tắt đa năng, bộ nhận diện Markdown trực tiếp trên trình duyệt và cơ chế đồng bộ dữ liệu thời gian thực.",
-          "Tích hợp luồng Serverless trên Cloudflare Workers kết nối Telegram Bot và LLM APIs hỗ trợ phân tích dữ liệu tự động.",
+          "Xây dựng giao diện web tương tác thời gian thực bằng Vanilla JS/HTML5/CSS3 với hiệu năng cao, zero-dependency.",
+          "Thiết kế Serverless Backend trên Cloudflare Workers kết nối Telegram Bot Bridge và tích hợp LLM API (Gemini/OpenAI) để xử lý logic AI Agent tự động.",
+          "Tự động hóa pipeline CI/CD với GitHub Actions: Nhận lệnh từ Telegram bot -> AI Agent phân tích và sinh mã nguồn -> tự động commit và trigger build sản phẩm trong 40 giây.",
         ],
-        tech: "Vanilla JS (ES6+), HTML5, CSS3 Grid/Flexbox, Cloudflare Workers, GitHub Actions CI/CD",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ",
@@ -165,18 +164,17 @@ var cvData = {
     ],
     projects: [
       {
-        name: "CV EDITOR & AI AUTOMATION SYSTEM",
+        name: "AI AGENT & AUTOMATION PLATFORM",
         date: "01/2026 - Present",
         role: "Developer",
-        desc: "High-performance CV builder and automation platform optimized for A4 print output with Serverless architecture.",
+        desc: "Enterprise automation and management platform leveraging AI Agent architecture and Serverless computing.",
         github: "https://github.com/dinhanhhhh/cv-editor",
         tasks: [
-          "Engineered a zero-dependency, ultra-fast (<100ms load) web application utilizing Vanilla JS/HTML5/CSS3.",
-          "Implemented the Magic Fit algorithm dynamically calculating font-sizes and line-heights to guarantee strict 1-page A4 print layout.",
-          "Developed rich browser hotkeys, live markdown parser, and real-time state synchronization.",
-          "Constructed serverless pipelines on Cloudflare Workers interfacing with Telegram Bot and LLM APIs for automated resume tailoring.",
+          "Engineered real-time interactive web interfaces using Vanilla JS/HTML5/CSS3 with high performance and zero external dependencies.",
+          "Designed a Serverless Backend on Cloudflare Workers bridging Telegram Bot and LLM APIs (Gemini/OpenAI) to automate AI Agent workflows.",
+          "Automated CI/CD pipelines with GitHub Actions: Processed commands via Telegram Bot -> AI Agent analyzed & generated code -> auto-committed & triggered production builds within 40s.",
         ],
-        tech: "Vanilla JS (ES6+), HTML5, CSS3 Grid/Flexbox, Cloudflare Workers, GitHub Actions CI/CD",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "E-COMMERCE PLATFORM",

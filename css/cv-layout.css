@@ -1712,6 +1712,11 @@ p.cv-exp-tech {
     print-color-adjust: exact;
   }
 
+  /* KIẾN TRÚC WHITELIST (IN ẤN PDF): Chỉ in duy nhất phần tử main (tờ CV) */
+  body > *:not(main):not(#cv-preview):not(script):not(style) {
+    display: none !important;
+  }
+
   .controls,
   .left-controls,
   .btn-wrapper,
@@ -1720,7 +1725,14 @@ p.cv-exp-tech {
   .version-switch,
   .cl-modal-overlay,
   .project-selector-panel,
-  .section-toolbar {
+  .section-toolbar,
+  .mobile-top-bar,
+  .mobile-bottom-bar,
+  .mobile-drawer-overlay,
+  .mobile-versions-overlay,
+  .mobile-drawer,
+  .mobile-versions-modal,
+  .hr-action-container {
     display: none !important;
   }
 
@@ -3421,24 +3433,60 @@ p.cv-exp-tech {
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
 }
 
-body.recruiter-view {
-  background-color: #e2e8f0;
+body.recruiter-view,
+html.recruiter-view {
+  background-color: #f1f5f9;
 }
 
+/* KIẾN TRÚC WHITELIST (HR VIEW): Chỉ cho phép duy nhất tờ CV (main) và nút thao tác của HR (#hrActionContainer) */
+body.recruiter-view > *:not(main):not(#cv-preview):not(#hrActionContainer):not(.hr-action-container):not(script):not(style),
+html.recruiter-view > body > *:not(main):not(#cv-preview):not(#hrActionContainer):not(.hr-action-container):not(script):not(style) {
+  display: none !important;
+}
+
+/* Các công cụ chỉnh sửa con bên trong main.cv-preview */
 body.recruiter-view .controls,
 body.recruiter-view .left-controls,
+body.recruiter-view .version-switch,
+body.recruiter-view #versionSwitch,
 body.recruiter-view .skip-link,
 body.recruiter-view .section-toolbar,
 body.recruiter-view #projectSelectorPanel,
-body.recruiter-view .project-selector-panel {
+body.recruiter-view .project-selector-panel,
+body.recruiter-view .mobile-top-bar,
+body.recruiter-view .mobile-bottom-bar,
+body.recruiter-view .mobile-drawer-overlay,
+body.recruiter-view .mobile-versions-overlay,
+body.recruiter-view .btn-add-section,
+body.recruiter-view .section-drag-handle,
+body.recruiter-view .section-drag-indicator,
+body.recruiter-view .editable-section-btn,
+body.recruiter-view .hotkey-help-modal,
+body.recruiter-view #hotkeyHelpModal,
+body.recruiter-view .magic-btn,
+body.recruiter-view .a4-fit-meter,
+body.recruiter-view .ats-toast {
   display: none !important;
 }
 
 body.recruiter-view .cv-preview {
-  margin: 28px auto 60px auto !important;
+  margin: 32px auto 80px auto !important;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.14) !important;
   border-radius: 4px;
   transition: all 0.3s ease;
+}
+
+@media screen and (max-width: 992px) {
+  body.recruiter-view .cv-preview {
+    margin: 16px auto 76px auto !important;
+    padding: 16px 14px 24px 14px !important;
+  }
+}
+
+body.recruiter-view [contenteditable] {
+  cursor: default !important;
+  outline: none !important;
+  user-select: text;
 }
 
 /* Container floating ở lề phải */
@@ -5670,7 +5718,220 @@ body.recruiter-view .cv-preview {
 
 @media print {
   .hotkeys-modal-overlay,
-  .hotkeys-btn {
+  .hotkeys-btn,
+  .mobile-top-bar,
+  .mobile-bottom-bar,
+  .mobile-drawer-overlay,
+  .mobile-versions-overlay,
+  .mobile-drawer,
+  .mobile-versions-modal {
+    display: none !important;
+  }
+}
+
+/* ==========================================================================
+   MEDIUM DESKTOP & ZOOM RESPONSIVE (993px - 1360px): TỰ ĐỘNG NÉ KHÔNG ĐÈ LÊN CV
+   ========================================================================== */
+@media screen and (min-width: 993px) and (max-width: 1360px) {
+  /* 1. Panel trên đỉnh: Tự động thu gọn thành mini-bar sát mép, hover/click bung flyout */
+  .project-selector-panel {
+    left: 10px !important;
+    width: 190px !important;
+    max-height: 42px !important;
+    overflow: hidden !important;
+    padding: 8px 10px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 1050 !important;
+  }
+  .project-selector-panel:hover,
+  .project-selector-panel:focus-within,
+  .project-selector-panel.flyout-open {
+    width: 260px !important;
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+  .project-selector-panel:not(:hover):not(:focus-within):not(.flyout-open) .proj-select-subtitle,
+  .project-selector-panel:not(:hover):not(:focus-within):not(.flyout-open) .proj-select-section-title,
+  .project-selector-panel:not(:hover):not(:focus-within):not(.flyout-open) .proj-select-order-list,
+  .project-selector-panel:not(:hover):not(:focus-within):not(.flyout-open) .proj-select-list,
+  .project-selector-panel:not(:hover):not(:focus-within):not(.flyout-open) .proj-select-reset-btn {
+    display: none !important;
+  }
+  .project-selector-panel:not(:hover):not(:focus-within):not(.flyout-open) .proj-select-header {
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  .version-switch {
+    right: 10px !important;
+    width: 190px !important;
+    max-height: 42px !important;
+    overflow: hidden !important;
+    padding: 6px 10px !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    z-index: 1050 !important;
+  }
+  .version-switch:hover,
+  .version-switch:focus-within,
+  .version-switch.flyout-open {
+    width: 260px !important;
+    max-height: calc(100vh - 120px) !important;
+    overflow-y: auto !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+  .version-switch:not(:hover):not(:focus-within):not(.flyout-open) .version-search-wrap,
+  .version-switch:not(:hover):not(:focus-within):not(.flyout-open) .version-list {
+    display: none !important;
+  }
+  .version-switch:not(:hover):not(:focus-within):not(.flyout-open) .version-header-sticky {
+    border-bottom: none !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* 2. Cụm điều khiển dưới đáy: Thu gọn thành icon dock 48px sát mép */
+  .left-controls {
+    left: 10px !important;
+    bottom: 12px !important;
+    width: 48px !important;
+    gap: 5px !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 6px 4px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid #e2e8f0 !important;
+    z-index: 995 !important;
+  }
+  .left-controls > button {
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+  }
+  .left-controls #jobTrackerBtn::before { content: "📊"; font-size: 16px; }
+  .left-controls #coverLetterBtn::before { content: "✉️"; font-size: 16px; }
+  .left-controls #interviewPrepBtn::before { content: "🎙️"; font-size: 16px; }
+  .left-controls #atsMatchBtn::before { content: "🎯"; font-size: 16px; }
+  .left-controls #hrViewBtn::before { content: "👁️"; font-size: 16px; }
+
+  .left-controls .left-tools-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    width: 38px !important;
+  }
+  .left-controls .left-tools-grid button {
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .left-controls #liveEditBtn::before { content: "✏️"; font-size: 15px; }
+  .left-controls #diffBtn::before { content: "⚖️"; font-size: 15px; }
+  .left-controls #settingsBtn::before { content: "⚙️"; font-size: 15px; }
+  .left-controls #hotkeysBtn::before { content: "⌨️"; font-size: 15px; }
+
+  /* Cột phải .controls co về icon dock 48px sát mép */
+  .controls {
+    right: 10px !important;
+    bottom: 12px !important;
+    width: 48px !important;
+    gap: 5px !important;
+    align-items: center !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    padding: 6px 4px !important;
+    border-radius: 24px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
+    border: 1px solid #e2e8f0 !important;
+    z-index: 995 !important;
+  }
+  .controls .controls-row {
+    flex-direction: column !important;
+    gap: 5px !important;
+    width: 100% !important;
+    align-items: center !important;
+  }
+  .controls .lang-switch {
+    width: 38px !important;
+    flex-direction: column !important;
+    padding: 2px !important;
+    border-radius: 19px !important;
+  }
+  .controls .lang-item {
+    padding: 3px 0 !important;
+    font-size: 9px !important;
+    width: 100% !important;
+    border-radius: 50% !important;
+  }
+  .controls .font-customizer {
+    display: none !important;
+  }
+  .controls .a4-fit-meter {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .controls .a4-fit-title,
+  .controls .a4-fit-track,
+  .controls .a4-fit-status {
+    display: none !important;
+  }
+  .controls .a4-fit-percent {
+    font-size: 8.5px !important;
+    font-weight: 800 !important;
+  }
+  .controls .magic-btn {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    font-size: 0 !important;
+    border-radius: 50% !important;
+  }
+  .controls .magic-btn::before { content: "✨"; font-size: 16px; }
+  .controls .magic-btn svg { display: none !important; }
+  .controls .a4-preview-btn,
+  .controls .reset-btn,
+  .controls .reset-data-btn {
+    display: none !important;
+  }
+  .controls .download-btn {
+    width: 38px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    font-size: 0 !important;
+    border-radius: 50% !important;
+  }
+  .controls .download-btn::before { content: "🖨️"; font-size: 16px; }
+  .controls .download-btn svg,
+  .controls .download-btn span {
     display: none !important;
   }
 }
@@ -5680,13 +5941,22 @@ body.recruiter-view .cv-preview {
    ========================================================================== */
 @media screen and (max-width: 992px) {
   /* 1. Reset Body & Layout Container */
+  html, body {
+    overflow-x: hidden !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+
   body {
     background-color: #f1f5f9 !important;
     padding: 0 !important;
     margin: 0 !important;
     display: block !important;
-    width: 100vw !important;
-    overflow-x: hidden !important;
+  }
+
+  /* Chống iOS Safari tự động phóng to (zoom-in) làm vỡ layout khi focus vào input */
+  input, select, textarea {
+    font-size: 16px !important;
   }
 
   /* 2. ẨN CÁC THANH ĐIỀU KHIỂN FLOATING CŨ ĐỂ KHÔNG ĐÈ LÊN NỘI DUNG */
@@ -5696,107 +5966,29 @@ body.recruiter-view .cv-preview {
     display: none !important;
   }
 
-  /* 3. TỜ CV: Co vừa vặn 100% màn hình điện thoại, đọc siêu nét */
+  /* 3. TỜ CV CHUẨN A4 KHỔ IN (KIẾN TRÚC CANVAS SCALE NHƯ TOPCV)
+     Giữ nguyên 100% tỉ lệ và font chữ A4 chuẩn desktop, thu nhỏ vừa khít màn hình mobile */
   .cv-preview {
-    width: 100% !important;
-    max-width: 100% !important;
-    min-height: auto !important;
-    margin: 54px auto 76px auto !important; /* Dành chỗ cho Mobile Top Bar & Bottom Bar */
-    padding: 18px 14px 28px 14px !important;
-    box-shadow: none !important;
-    border: none !important;
-    border-radius: 0 !important;
+    width: 210mm !important;
+    min-height: 297mm !important;
+    position: relative !important;
+    left: 50% !important;
+    margin: 56px 0 0 0 !important;
+    padding: 6mm 15mm 10mm 15mm !important;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.16) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    border-radius: 4px !important;
+    background: #ffffff !important;
+    transform: translateX(-50%) scale(var(--cv-mobile-scale, 0.43)) !important;
+    transform-origin: top center !important;
+    margin-bottom: var(--cv-mobile-margin-bottom, -600px) !important;
     box-sizing: border-box !important;
+    transition: transform 0.18s ease-out;
   }
 
   .cv-preview.a4-mode {
-    height: auto !important;
-    min-height: auto !important;
-    overflow: visible !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
-
-  .cv-preview.a4-mode::after {
-    display: none !important;
-  }
-
-  /* Header CV trên mobile */
-  .cv-header {
-    padding-top: 4px !important;
-    margin-bottom: 12px !important;
-  }
-
-  .cv-name {
-    font-size: 20px !important;
-    letter-spacing: -0.2px !important;
-    line-height: 1.15 !important;
-  }
-
-  .cv-title {
-    font-size: 13px !important;
-    margin-bottom: 6px !important;
-  }
-
-  .cv-contact {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    justify-content: center !important;
-    gap: 4px 10px !important;
-    font-size: 11px !important;
-    line-height: 1.4 !important;
-  }
-
-  .cv-contact-item {
-    font-size: 11px !important;
-  }
-
-  .cv-section-title {
-    font-size: 13px !important;
-    margin-top: 10px !important;
-    margin-bottom: 6px !important;
-  }
-
-  /* Header dự án / công ty: tránh rớt dòng ngày tháng */
-  .cv-exp-header {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 2px !important;
-    margin-bottom: 4px !important;
-  }
-
-  .cv-exp-project {
-    font-size: 12.5px !important;
-  }
-
-  .cv-exp-date {
-    font-size: 11px !important;
-    color: #64748b !important;
-    margin-bottom: 2px !important;
-  }
-
-  /* Bảng kỹ năng */
-  .cv-skills-table {
-    display: block !important;
-    width: 100% !important;
-  }
-
-  .cv-skills-table tr {
-    display: flex !important;
-    flex-direction: column !important;
-    margin-bottom: 6px !important;
-    border-bottom: 1px dashed #e2e8f0;
-    padding-bottom: 4px;
-  }
-
-  .cv-skills-table td {
-    padding: 2px 0 !important;
-    font-size: 11.5px !important;
-  }
-
-  .cv-skills-cat {
-    font-weight: 700 !important;
-    color: #1e3a8a !important;
+    border: 1px solid rgba(0, 0, 0, 0.12) !important;
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.16) !important;
   }
 
   /* 4. GIAO DIỆN MOBILE CHUYÊN BIỆT: TOP BAR & BOTTOM BAR */
@@ -5881,7 +6073,7 @@ body.recruiter-view .cv-preview {
     align-items: center !important;
     justify-content: space-around !important;
     padding: 4px 6px env(safe-area-inset-bottom, 4px) 6px !important;
-    z-index: 2100 !important;
+    z-index: 2300 !important;
     box-sizing: border-box !important;
     box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07) !important;
   }
@@ -5907,6 +6099,12 @@ body.recruiter-view .cv-preview {
   .mobile-nav-item:active {
     transform: scale(0.92);
     background: #f1f5f9;
+  }
+
+  .mobile-nav-item.active {
+    color: #1b4332 !important;
+    background: #e8f5e9 !important;
+    font-weight: 700 !important;
   }
 
   .mobile-nav-item .mobile-nav-icon {
@@ -6081,19 +6279,20 @@ body.recruiter-view .cv-preview {
     transform: scale(0.97);
   }
 
-  /* 6. MODAL CHỌN PHIÊN BẢN TRÊN MOBILE */
+  /* 6. MODAL CHỌN PHIÊN BẢN TRÊN MOBILE (CHUẨN BOTTOM SHEET NHƯ TOPCV) */
   .mobile-versions-overlay {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(2px);
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 3100;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.25s ease;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
   }
 
   .mobile-versions-overlay.open {
@@ -6103,18 +6302,37 @@ body.recruiter-view .cv-preview {
 
   .mobile-versions-modal {
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background: white;
+    top: auto;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    height: 72vh;
+    max-height: 72vh;
+    background: #ffffff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
     z-index: 3101;
     display: flex;
     flex-direction: column;
-    padding: 14px;
+    padding: 10px 14px env(safe-area-inset-bottom, 16px) 14px;
     box-sizing: border-box;
     transform: translateY(100%);
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .mobile-versions-modal::before {
+    content: "";
+    display: block;
+    width: 38px;
+    height: 4px;
+    background: #cbd5e1;
+    border-radius: 4px;
+    margin: 0 auto 8px auto;
+    flex-shrink: 0;
   }
 
   .mobile-versions-overlay.open .mobile-versions-modal {
@@ -6125,24 +6343,40 @@ body.recruiter-view .cv-preview {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    padding-bottom: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 6px;
     border-bottom: 1px solid #f1f5f9;
+  }
+
+  .mobile-versions-header h3 {
+    margin: 0 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #1e293b !important;
+  }
+
+  .mobile-versions-header .mobile-drawer-close {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 15px !important;
   }
 
   .mobile-versions-search {
     width: 100%;
-    padding: 10px 14px;
-    border: 1.5px solid #cbd5e1;
-    border-radius: 10px;
-    font-size: 13px;
+    height: 34px;
+    padding: 6px 10px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 13px !important;
     box-sizing: border-box;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
   .mobile-versions-search:focus {
     border-color: #1b4332;
+    box-shadow: 0 0 0 2px rgba(27, 67, 50, 0.1);
   }
 
   .mobile-versions-list {
@@ -6150,28 +6384,563 @@ body.recruiter-view .cv-preview {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    padding-bottom: 20px;
+    gap: 4px;
+    padding-bottom: 16px;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mobile-version-item {
     display: flex;
     align-items: center;
-    padding: 10px 12px;
-    border-radius: 8px;
+    padding: 5px 9px;
+    border-radius: 6px;
     border: 1px solid #e2e8f0;
     background: #f8fafc;
     color: #1e293b;
-    font-size: 12.5px;
+    font-size: 11.5px;
     font-weight: 600;
     text-decoration: none;
-    transition: all 0.15s;
+    transition: all 0.12s ease;
+  }
+
+  .mobile-version-item:active {
+    transform: scale(0.985);
   }
 
   .mobile-version-item.active {
     background: #1b4332;
     color: white;
     border-color: #1b4332;
+  }
+
+  /* ============================================================
+     7. TOÀN DIỆN CHO CÁC MODAL TRÊN MOBILE (<= 992px)
+     Khắc phục dứt điểm tràn ngang, vỡ chữ, kẹt nút, đè Bottom Bar
+     ============================================================ */
+  /* Ẩn mobile-top-bar khi modal đang mở */
+  body.modal-open .mobile-top-bar {
+    display: none !important;
+  }
+
+  .cl-modal-overlay,
+  .interview-modal-overlay,
+  .jt-modal-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 58px !important; /* Dành khoảng trống 58px cho Mobile Bottom Bar */
+    width: 100vw !important;
+    height: auto !important;
+    padding: env(safe-area-inset-top, 6px) 8px 8px 8px !important;
+    box-sizing: border-box !important;
+    align-items: flex-start !important;
+    justify-content: center !important;
+    z-index: 2200 !important; /* Cao hơn Top Bar (2100) để không bị header chắn, thấp hơn Bottom Bar (2300) */
+    background: rgba(15, 23, 42, 0.65) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    overflow-y: auto !important;
+  }
+
+  .cl-modal,
+  .cl-unified-modal,
+  .interview-modal,
+  .jt-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: calc(100vh - 74px) !important;
+    max-height: calc(100dvh - 74px) !important;
+    height: calc(100vh - 74px) !important;
+    height: calc(100dvh - 74px) !important;
+    margin: 0 auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.25) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    background: #ffffff !important;
+  }
+
+  /* --- A. CẨM NANG PHỎNG VẤN 1-CLICK (.interview-modal) --- */
+  .interview-modal-header {
+    position: relative !important;
+    padding: 12px 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    background: #0f172a !important;
+  }
+
+  .interview-modal-header .interview-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    width: 100% !important;
+    padding-right: 36px !important; /* Chừa chỗ cho nút X */
+    box-sizing: border-box !important;
+  }
+
+  .interview-modal-title {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    color: #ffffff !important;
+    white-space: normal !important;
+    margin: 0 !important;
+  }
+
+  .interview-modal-subtitle {
+    font-size: 11px !important;
+    color: #94a3b8 !important;
+    margin-top: 2px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+  }
+
+  .interview-header-actions {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .interview-btn-copy-all {
+    width: 100% !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    justify-content: center !important;
+    border-radius: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  .interview-modal-close {
+    position: absolute !important;
+    top: 10px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 22px !important;
+    color: #cbd5e1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+  }
+
+  .interview-nav-tabs {
+    display: flex !important;
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    padding: 8px 10px !important;
+    gap: 6px !important;
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+  .interview-nav-tabs::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  .interview-tab-btn {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+    padding: 6px 12px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+  }
+
+  .interview-modal-body {
+    padding: 12px !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .interview-timer-card {
+    padding: 12px !important;
+    margin-bottom: 12px !important;
+  }
+  .interview-timer-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+  .interview-timer-title-wrap {
+    gap: 8px !important;
+  }
+  .interview-timer-title {
+    font-size: 13px !important;
+  }
+  .interview-timer-config {
+    display: flex !important;
+    gap: 6px !important;
+    justify-content: flex-start !important;
+  }
+  .interview-timer-preset {
+    padding: 4px 12px !important;
+    font-size: 11.5px !important;
+  }
+  .interview-timer-time {
+    font-size: 32px !important;
+  }
+
+  .interview-card-header {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    padding: 10px 12px !important;
+  }
+  .interview-card-title {
+    font-size: 12.5px !important;
+    flex: 1 1 180px !important;
+  }
+  .interview-btn-copy-card {
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  .interview-modal-footer {
+    padding: 10px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+  }
+  .interview-modal-footer .interview-footer-tip {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    flex: 1 !important;
+    margin: 0 !important;
+  }
+  .interview-btn-footer-close {
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* --- B. THƯ & EMAIL ỨNG TUYỂN (.cl-modal) --- */
+  .cl-modal-header {
+    position: relative !important;
+    padding: 10px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .cl-modal-header .cl-header-left {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding-right: 90px !important; /* Chừa chỗ cho lang switch và nút X */
+    box-sizing: border-box !important;
+  }
+
+  .cl-modal-header h2#clModalTitle {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .cl-modal-header .cl-header-right {
+    position: absolute !important;
+    top: 10px !important;
+    right: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .cl-nav-tabs {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 4px !important;
+    padding: 3px !important;
+    box-sizing: border-box !important;
+  }
+
+  .cl-nav-tab {
+    text-align: center !important;
+    font-size: 11px !important;
+    padding: 7px 4px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    border-radius: 6px !important;
+  }
+
+  .cl-modal-subtitle {
+    display: none !important; /* Tiết kiệm diện tích màn hình */
+  }
+
+  /* TAB 1: Email gửi nhanh */
+  .eg-modal-body {
+    grid-template-columns: 1fr !important;
+    padding: 10px 12px !important;
+    gap: 12px !important;
+    overflow-y: auto !important;
+    flex: 1 !important;
+  }
+
+  .eg-body-textarea {
+    min-height: 180px !important;
+    font-size: 12px !important;
+  }
+
+  .eg-actions-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+  }
+
+  .eg-action-btn {
+    width: 100% !important;
+    justify-content: center !important;
+    padding: 8px 12px !important;
+    font-size: 12px !important;
+  }
+
+  /* TAB 2: Thư giới thiệu (Cover Letter) */
+  .cl-cover-topbar {
+    padding: 8px 12px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+  }
+
+  .cl-select-wrapper {
+    flex: 1 1 140px !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  .cl-template-select {
+    flex: 1 !important;
+    font-size: 11.5px !important;
+    padding: 5px 8px !important;
+    max-width: 100% !important;
+  }
+
+  /* Sửa dứt điểm lỗi 2 nút tròn to dị hợm ở Ảnh 2 */
+  .cl-cover-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-shrink: 0 !important;
+  }
+
+  .cl-cover-actions .cl-btn-secondary,
+  .cl-cover-actions .cl-btn-primary {
+    border-radius: 8px !important;
+    padding: 6px 12px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    height: 32px !important;
+    min-width: auto !important;
+    width: auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    line-height: 1 !important;
+  }
+
+  .cl-modal-body {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 10px 12px !important;
+    gap: 10px !important;
+    overflow-y: auto !important;
+    flex: 1 !important;
+  }
+
+  .cl-editor-pane,
+  .cl-preview-pane {
+    height: auto !important;
+    min-height: 160px !important;
+    overflow: visible !important;
+  }
+
+  .cl-textarea,
+  .cl-preview-container {
+    min-height: 160px !important;
+    height: 180px !important;
+    font-size: 11.5px !important;
+  }
+
+  .cl-modal-footer {
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+  }
+
+  .cl-modal-footer .eg-footer-hint {
+    display: none !important;
+  }
+
+  .cl-modal-footer .cl-btn-primary {
+    width: 100% !important;
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    text-align: center !important;
+  }
+
+  /* --- C. TIẾN ĐỘ ỨNG TUYỂN (.jt-modal) --- */
+  .jt-modal-header {
+    position: relative !important;
+    padding: 10px 12px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 8px !important;
+  }
+
+  .jt-modal-header .jt-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding-right: 36px !important; /* Chừa chỗ cho nút X */
+    box-sizing: border-box !important;
+  }
+
+  .jt-header-left > div {
+    flex: 1 !important;
+    min-width: 0 !important;
+  }
+
+  .jt-modal-title {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    color: #0f172a !important;
+    white-space: normal !important;
+    margin: 0 !important;
+  }
+
+  .jt-modal-subtitle {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+    color: #64748b !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 1 !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    margin-top: 2px !important;
+  }
+
+  .jt-header-actions .cl-modal-close {
+    position: absolute !important;
+    top: 8px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 22px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+  }
+
+  /* 4 nút hành động gọn gàng thành lưới 4 cột */
+  .jt-header-actions {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 5px !important;
+    width: 100% !important;
+    margin-top: 2px !important;
+  }
+
+  .jt-top-btn {
+    padding: 7px 2px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    justify-content: center !important;
+    border-radius: 6px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    box-sizing: border-box !important;
+  }
+
+  .jt-modal-body {
+    padding: 10px 12px !important;
+    flex: 1 !important;
+    overflow-y: auto !important;
+    gap: 10px !important;
+  }
+
+  .jt-card-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+  }
+
+  .jt-card-actions {
+    width: 100% !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .jt-btn-sm {
+    padding: 5px 4px !important;
+    font-size: 11px !important;
+    text-align: center !important;
+    justify-content: center !important;
+  }
+
+  .jt-modal-footer {
+    padding: 8px 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: #ffffff !important;
+    border-top: 1px solid #e2e8f0 !important;
+  }
+
+  .jt-modal-footer .jt-footer-hint {
+    display: none !important;
+  }
+
+  .jt-modal-footer .cl-btn-primary {
+    width: 100% !important;
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    border-radius: 8px !important;
+    text-align: center !important;
   }
 }
 

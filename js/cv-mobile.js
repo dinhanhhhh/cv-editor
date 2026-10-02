@@ -28,6 +28,15 @@
 
     // 6. Lắng nghe thay đổi cỡ chữ từ desktop để đồng bộ lên mobile
     syncFontSize();
+
+    // 7. Tự động đồng bộ trạng thái Bottom Bar khi người dùng tương tác
+    document.addEventListener("click", () => setTimeout(syncMobileNavActiveState, 80));
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") setTimeout(syncMobileNavActiveState, 80);
+    });
+
+    // 8. Tự động thu nhỏ tờ CV khổ A4 vừa khít màn hình mobile (Kiến trúc TopCV)
+    initCvCanvasScale();
   }
 
   /**
@@ -51,7 +60,83 @@
   }
 
   /**
-   * Gắn sự kiện cho các nút trên Mobile Bottom Bar
+   * Đóng tất cả modal / overlay của mobile trừ cái đang chọn
+   */
+  function closeAllMobileModals(except = "") {
+    if (except !== "drawer") {
+      const drawer = document.getElementById("mobileDrawerOverlay");
+      if (drawer) drawer.classList.remove("open");
+    }
+    if (except !== "version") {
+      const versionModal = document.getElementById("mobileVersionsOverlay");
+      if (versionModal) versionModal.classList.remove("open");
+    }
+    if (except !== "interview") {
+      const interviewOverlay = document.getElementById("interviewModalOverlay");
+      if (interviewOverlay) {
+        if (typeof window.closeInterviewPrepModal === "function") {
+          window.closeInterviewPrepModal();
+        } else {
+          interviewOverlay.style.display = "none";
+          document.body.style.overflow = "";
+        }
+      }
+    }
+    if (except !== "email") {
+      const emailOverlay = document.getElementById("clModalOverlay");
+      if (emailOverlay) {
+        if (window.cvEmailGen && typeof window.cvEmailGen.closeModal === "function") {
+          window.cvEmailGen.closeModal();
+        } else {
+          emailOverlay.style.display = "none";
+          emailOverlay.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+        }
+      }
+    }
+    if (except !== "tracker") {
+      const trackerOverlay = document.getElementById("jobTrackerModalOverlay");
+      if (trackerOverlay) {
+        if (window.cvTracker && typeof window.cvTracker.closeModal === "function") {
+          window.cvTracker.closeModal();
+        } else {
+          trackerOverlay.style.display = "none";
+          trackerOverlay.setAttribute("aria-hidden", "true");
+          document.body.classList.remove("modal-open");
+          document.body.style.overflow = "";
+        }
+      }
+    }
+    syncMobileNavActiveState();
+  }
+
+  /**
+   * Cập nhật trạng thái active (đang mở) cho các nút trên Mobile Bottom Bar
+   */
+  function syncMobileNavActiveState() {
+    const navInterview = document.getElementById("mobileNavInterview");
+    const navEmail = document.getElementById("mobileNavEmail");
+    const navTracker = document.getElementById("mobileNavTracker");
+    const navTools = document.getElementById("mobileNavTools");
+
+    const interviewOverlay = document.getElementById("interviewModalOverlay");
+    const emailOverlay = document.getElementById("clModalOverlay");
+    const trackerOverlay = document.getElementById("jobTrackerModalOverlay");
+    const drawerOverlay = document.getElementById("mobileDrawerOverlay");
+
+    const isInterviewOpen = !!(interviewOverlay && (interviewOverlay.style.display === "flex" || interviewOverlay.style.display === "block"));
+    const isEmailOpen = !!(emailOverlay && (emailOverlay.style.display === "flex" || emailOverlay.style.display === "block" || emailOverlay.getAttribute("aria-hidden") === "false"));
+    const isTrackerOpen = !!(trackerOverlay && (trackerOverlay.style.display === "flex" || trackerOverlay.style.display === "block" || trackerOverlay.getAttribute("aria-hidden") === "false"));
+    const isDrawerOpen = !!(drawerOverlay && drawerOverlay.classList.contains("open"));
+
+    if (navInterview) navInterview.classList.toggle("active", isInterviewOpen);
+    if (navEmail) navEmail.classList.toggle("active", isEmailOpen);
+    if (navTracker) navTracker.classList.toggle("active", isTrackerOpen);
+    if (navTools) navTools.classList.toggle("active", isDrawerOpen);
+  }
+
+  /**
+   * Gắn sự kiện cho các nút trên Mobile Bottom Bar (Hỗ trợ ấn lần nữa để tắt/mở)
    */
   function bindBottomBarActions() {
     const navInterview = document.getElementById("mobileNavInterview");
@@ -60,23 +145,51 @@
     const navTracker = document.getElementById("mobileNavTracker");
     const navTools = document.getElementById("mobileNavTools");
 
-    // Ôn phỏng vấn
+    // 1. Ôn phỏng vấn (Toggle: mở nếu đang đóng, đóng nếu đang mở)
     if (navInterview) {
       navInterview.addEventListener("click", () => {
-        const originBtn = document.getElementById("interviewPrepBtn");
-        if (originBtn) originBtn.click();
+        const overlay = document.getElementById("interviewModalOverlay");
+        const isOpen = overlay && (overlay.style.display === "flex" || overlay.style.display === "block");
+        if (isOpen) {
+          if (typeof window.closeInterviewPrepModal === "function") {
+            window.closeInterviewPrepModal();
+          } else {
+            overlay.style.display = "none";
+            document.body.style.overflow = "";
+          }
+        } else {
+          closeAllMobileModals("interview");
+          const originBtn = document.getElementById("interviewPrepBtn");
+          if (originBtn) originBtn.click();
+          else if (typeof window.openInterviewPrepModal === "function") window.openInterviewPrepModal();
+        }
+        setTimeout(syncMobileNavActiveState, 80);
       });
     }
 
-    // Soạn thư & Email
+    // 2. Soạn thư & Email (Toggle)
     if (navEmail) {
       navEmail.addEventListener("click", () => {
-        const originBtn = document.getElementById("coverLetterBtn");
-        if (originBtn) originBtn.click();
+        const overlay = document.getElementById("clModalOverlay");
+        const isOpen = overlay && (overlay.style.display === "flex" || overlay.style.display === "block" || overlay.getAttribute("aria-hidden") === "false");
+        if (isOpen) {
+          if (window.cvEmailGen && typeof window.cvEmailGen.closeModal === "function") {
+            window.cvEmailGen.closeModal();
+          } else {
+            overlay.style.display = "none";
+            overlay.setAttribute("aria-hidden", "true");
+            document.body.style.overflow = "";
+          }
+        } else {
+          closeAllMobileModals("email");
+          const originBtn = document.getElementById("coverLetterBtn");
+          if (originBtn) originBtn.click();
+        }
+        setTimeout(syncMobileNavActiveState, 80);
       });
     }
 
-    // In / Lưu PDF
+    // 3. In / Lưu PDF
     if (navPrint) {
       navPrint.addEventListener("click", () => {
         const originBtn = document.getElementById("downloadBtn");
@@ -85,17 +198,36 @@
       });
     }
 
-    // Tiến độ ứng tuyển
+    // 4. Tiến độ ứng tuyển (Toggle)
     if (navTracker) {
       navTracker.addEventListener("click", () => {
-        const originBtn = document.getElementById("jobTrackerBtn");
-        if (originBtn) originBtn.click();
+        const overlay = document.getElementById("jobTrackerModalOverlay");
+        const isOpen = overlay && (overlay.style.display === "flex" || overlay.style.display === "block" || overlay.getAttribute("aria-hidden") === "false");
+        if (isOpen) {
+          if (window.cvTracker && typeof window.cvTracker.closeModal === "function") {
+            window.cvTracker.closeModal();
+          } else if (overlay) {
+            overlay.style.display = "none";
+            overlay.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("modal-open");
+            document.body.style.overflow = "";
+          }
+        } else {
+          closeAllMobileModals("tracker");
+          const originBtn = document.getElementById("jobTrackerBtn");
+          if (originBtn) originBtn.click();
+        }
+        setTimeout(syncMobileNavActiveState, 80);
       });
     }
 
-    // Nút mở Drawer Tiện ích
+    // 5. Nút mở Drawer Tiện ích (Toggle)
     if (navTools) {
-      navTools.addEventListener("click", toggleMobileDrawer);
+      navTools.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileDrawer();
+        setTimeout(syncMobileNavActiveState, 80);
+      });
     }
   }
 
@@ -110,9 +242,11 @@
     if (isOpen) {
       overlay.classList.remove("open");
     } else {
+      closeAllMobileModals("drawer");
       overlay.classList.add("open");
       syncFontSize();
     }
+    syncMobileNavActiveState();
   }
 
   function bindDrawerActions() {
@@ -138,6 +272,7 @@
         const originBtn = document.getElementById("font-decrease");
         if (originBtn) originBtn.click();
         syncFontSize();
+        if (typeof window.updateCvScale === "function") setTimeout(window.updateCvScale, 60);
       });
     }
 
@@ -146,6 +281,7 @@
         const originBtn = document.getElementById("font-increase");
         if (originBtn) originBtn.click();
         syncFontSize();
+        if (typeof window.updateCvScale === "function") setTimeout(window.updateCvScale, 60);
       });
     }
 
@@ -170,6 +306,7 @@
       const desktopBtn = document.getElementById(desktopId);
       if (desktopBtn) desktopBtn.click();
       if (closeDrawerAfter) toggleMobileDrawer();
+      if (typeof window.updateCvScale === "function") setTimeout(window.updateCvScale, 100);
     });
   }
 
@@ -197,8 +334,13 @@
 
     if (!versionBtn || !modalOverlay) return;
 
-    // Mở modal
+    // Mở / Đóng modal khi bấm nút
     versionBtn.addEventListener("click", () => {
+      if (modalOverlay.classList.contains("open")) {
+        modalOverlay.classList.remove("open");
+        return;
+      }
+      closeAllMobileModals("version");
       renderMobileVersionList();
       modalOverlay.classList.add("open");
       if (searchInput) {
@@ -211,12 +353,14 @@
     if (closeBtn) {
       closeBtn.addEventListener("click", () => {
         modalOverlay.classList.remove("open");
+        syncMobileNavActiveState();
       });
     }
 
     modalOverlay.addEventListener("click", (e) => {
       if (e.target === modalOverlay) {
         modalOverlay.classList.remove("open");
+        syncMobileNavActiveState();
       }
     });
 
@@ -249,10 +393,10 @@
         a.href = `?type=${encodeURIComponent(item.key)}`;
         a.innerHTML = `
           <div style="flex: 1; min-width: 0;">
-            <div style="font-weight: 700; color: ${item.key === currentKey ? '#fff' : '#0f172a'}; font-size: 13px; line-height: 1.35;">${item.label || item.key}</div>
-            <div style="font-size: 11px; opacity: ${item.key === currentKey ? '0.85' : '0.6'}; margin-top: 3px; font-family: monospace;">type=${item.key}</div>
+            <div style="font-weight: 600; color: ${item.key === currentKey ? '#fff' : '#0f172a'}; font-size: 11.5px; line-height: 1.25;">${item.label || item.key}</div>
+            <div style="font-size: 9.5px; opacity: ${item.key === currentKey ? '0.85' : '0.6'}; margin-top: 1px; font-family: monospace;">type=${item.key}</div>
           </div>
-          ${item.key === currentKey ? '<span style="font-size: 16px; margin-left: 8px;">✓</span>' : ''}
+          ${item.key === currentKey ? '<span style="font-size: 12px; margin-left: 6px;">✓</span>' : ''}
         `;
         listContainer.appendChild(a);
       });
@@ -283,6 +427,51 @@
         if (viBtn) viBtn.classList.remove("active");
       });
     }
+  }
+
+  /**
+   * Tự động tính toán scale và bù trừ khoảng trống để tờ CV A4 hiển thị trọn vẹn như TopCV
+   */
+  function initCvCanvasScale() {
+    function updateScale() {
+      if (window.innerWidth > 992) {
+        document.documentElement.style.removeProperty("--cv-mobile-scale");
+        document.documentElement.style.removeProperty("--cv-mobile-margin-bottom");
+        return;
+      }
+
+      const cvEl = document.getElementById("cvContent");
+      if (!cvEl) return;
+
+      // Chiều rộng khả dụng trên mobile (trừ 16px lề hai bên)
+      const availWidth = window.innerWidth - 16;
+      // Khổ A4 chuẩn desktop 210mm (~794px ở 96 DPI)
+      const baseWidth = 794;
+      const scale = Math.min(1, Math.max(0.25, availWidth / baseWidth));
+      
+      document.documentElement.style.setProperty("--cv-mobile-scale", scale.toFixed(4));
+
+      // Tính khoảng bù margin-bottom do CSS transform scale tạo ra
+      const fullHeight = cvEl.scrollHeight || cvEl.offsetHeight || 1123;
+      const visualHeight = fullHeight * scale;
+      const excessGap = fullHeight - visualHeight;
+      // Dành 30px đệm dưới đáy trước khi chạm thanh mobile bottom bar (58px)
+      const mb = -excessGap + 30;
+      document.documentElement.style.setProperty("--cv-mobile-margin-bottom", `${Math.round(mb)}px`);
+    }
+
+    // Chạy khi khởi tạo và khi cửa sổ thay đổi kích thước
+    updateScale();
+    window.addEventListener("resize", updateScale);
+    window.addEventListener("orientationchange", () => setTimeout(updateScale, 150));
+
+    // Chạy lại sau khi DOM hoặc dữ liệu CV render xong
+    setTimeout(updateScale, 100);
+    setTimeout(updateScale, 300);
+    setTimeout(updateScale, 800);
+
+    // Xuất hàm để các controller khác gọi khi font-size đổi hoặc render lại
+    window.updateCvScale = updateScale;
   }
 
   // Khởi động khi DOM sẵn sàng

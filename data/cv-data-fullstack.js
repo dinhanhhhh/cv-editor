@@ -26,11 +26,12 @@ var cvData = {
     sections: {
       objective: "TÓM TẮT CHUYÊN MÔN",
       education: "HỌC VẤN",
+      experience: "KINH NGHIỆM LÀM VIỆC",
       projects: "DỰ ÁN TIÊU BIỂU",
       skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
-      "Lập trình viên Full-Stack với nền tảng React.js, Next.js, Node.js và TypeScript. Có kinh nghiệm xây dựng ứng dụng web full-stack, tích hợp RESTful API, làm việc với cơ sở dữ liệu và triển khai tính năng ở cả frontend lẫn backend. Quan tâm đến automation, scripting và xử lý dữ liệu; luôn ưu tiên viết code sạch, dễ bảo trì. Sẵn sàng làm việc full-time, học nhanh và thích nghi tốt với nhiều nhiệm vụ IT khác nhau.",
+      "Lập trình viên Full-Stack với nền tảng vững chắc về React.js, Next.js, Node.js và TypeScript. Có kinh nghiệm thiết kế kiến trúc web đa tầng, xây dựng RESTful APIs bảo mật, làm việc với PostgreSQL/MongoDB và triển khai ứng dụng lên Cloud. Chủ động ứng dụng tư duy AI-First, scripting tự động hóa để tăng tốc độ phát triển sản phẩm; luôn đề cao Clean Code và khả năng mở rộng. Sẵn sàng làm việc full-time và thích nghi nhanh với mục tiêu công nghệ của doanh nghiệp.",
     education: cvGlobalEdu.vi,
     experience: [
       {
@@ -39,9 +40,9 @@ var cvData = {
         role: "Developer",
         desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
         tasks: [
-          "Thiết kế cấu trúc cơ sở dữ liệu và triển khai cơ sở dữ liệu PostgreSQL trên hạ tầng Supabase Cloud.",
-          "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu chứng khoán.",
-          "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
+          "Thiết kế cấu trúc cơ sở dữ liệu quan hệ và triển khai PostgreSQL trên hạ tầng Supabase Cloud.",
+          "Xây dựng và tối ưu hệ thống RESTful APIs bằng Next.js Route Handlers phục vụ truy xuất dữ liệu chứng khoán thời gian thực.",
+          "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider) cho phiên làm việc người dùng.",
           "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
           "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel.",
         ],
@@ -56,10 +57,10 @@ var cvData = {
         desc: "Nền tảng tuyển dụng toàn diện giúp tối ưu hóa quá trình tuyển dụng cho cả nhà tuyển dụng và ứng viên.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
-          "Phát triển hơn 20 RESTful API endpoints cho quản lý việc làm và hồ sơ ứng tuyển bằng Node.js và Express.",
-          "Tích hợp frontend Next.js với backend, xử lý dữ liệu ổn định cho các luồng đăng nhập, ứng tuyển và quản lý người dùng.",
-          "Xây dựng cơ chế xác thực JWT với HttpOnly cookies, RBAC và refresh token flow.",
-          "Tối ưu truy vấn MongoDB, giúp thời gian phản hồi API dưới 300ms.",
+          "Thiết kế kiến trúc API theo dạng module hóa cho nghiệp vụ quản lý việc làm, hồ sơ và quy trình tuyển dụng ứng viên.",
+          "Tích hợp frontend Next.js với backend Node.js/Express, xử lý đồng bộ dữ liệu ổn định cho các luồng thao tác người dùng.",
+          "Xây dựng cơ chế xác thực JWT với HttpOnly cookies, phân quyền người dùng (RBAC) và refresh token flow an toàn.",
+          "Tối ưu truy vấn cơ sở dữ liệu MongoDB, giúp thời gian phản hồi API duy trì ổn định dưới 300ms.",
         ],
         tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS",
       },
@@ -73,7 +74,7 @@ var cvData = {
         tasks: [
           "Xây dựng backend theo cấu trúc mô-đun với Node.js và Express cho các nghiệp vụ quản lý sinh viên.",
           "Tích hợp Swagger để tài liệu hóa API và hỗ trợ kiểm thử, bàn giao nhanh hơn.",
-          "Triển khai access token và refresh token cho quá trình xác thực người dùng.",
+          "Triển khai cơ chế xác thực access token và refresh token cho quá trình phân quyền người dùng.",
           "Phát triển dashboard quản trị responsive với các thao tác CRUD và xử lý dữ liệu theo thời gian thực.",
         ],
         tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger",
@@ -82,27 +83,27 @@ var cvData = {
     skills: [
       {
         cat: "Frontend",
-        items: "React.js, Next.js, TypeScript, Tailwind CSS, Responsive Design",
+        items: "React.js, Next.js 15, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design",
       },
       {
         cat: "Backend",
-        items: "Node.js, Express.js, RESTful API, JWT, RBAC, Middleware",
+        items: "Node.js, Express.js, RESTful API, JWT, RBAC, Middleware, MVC Architecture",
       },
       {
-        cat: "Automation & Data",
+        cat: "AI & Automation",
         items:
-          "JavaScript/TypeScript scripting, API integration, Data processing, Swagger, Postman",
+          "Ứng dụng AI (Cursor, Claude), Tích hợp LLM API, Scripting tự động hóa (JS/TS), Swagger, Postman",
       },
       {
         cat: "Cơ sở dữ liệu",
         items:
-          "MySQL, SQL, MongoDB (Mongoose), PostgreSQL, Tối ưu hóa truy vấn",
+          "PostgreSQL, MongoDB (Mongoose), MySQL, Tối ưu hóa truy vấn, Supabase Cloud",
       },
-      { cat: "Công cụ", items: "Git/GitHub, Vercel, Render, Docker" },
+      { cat: "Công cụ", items: "Git/GitHub, CI/CD, Vercel, Render, Docker cơ bản" },
       {
         cat: "Ngoại ngữ",
         items:
-          "Tiếng Anh: Có thể đọc hiểu tài liệu kỹ thuật và giao tiếp công việc cơ bản",
+          "Tiếng Anh: Đọc hiểu tài liệu kỹ thuật chuyên ngành và giao tiếp công việc cơ bản",
       },
     ],
     btnText: "In / Tải PDF",
@@ -130,11 +131,12 @@ var cvData = {
     sections: {
       objective: "PROFESSIONAL SUMMARY",
       education: "EDUCATION",
+      experience: "WORK EXPERIENCE",
       projects: "FEATURED PROJECTS",
       skills: "TECHNICAL SKILLS",
     },
     objective:
-      "Full-Stack Developer with hands-on experience in React.js, Next.js, Node.js, and TypeScript. Experienced in building full-stack web applications, integrating RESTful APIs, working with databases, and delivering features across both frontend and backend. Interested in automation, scripting, and data-related tasks, with a strong focus on clean, maintainable code. Available full-time, eager to learn, and adaptable to various IT responsibilities.",
+      "Full-Stack Developer with solid expertise in React.js, Next.js, Node.js, and TypeScript. Experienced in designing multi-tier web architectures, building secure RESTful APIs, managing PostgreSQL/MongoDB, and cloud deployments. Proactively adopting an AI-First mindset and scripting automation to accelerate development lifecycle while adhering to Clean Code standards. Available full-time, fast learner, and highly adaptable to enterprise engineering goals.",
     education: cvGlobalEdu.en,
     experience: [
       {
@@ -143,11 +145,11 @@ var cvData = {
         role: "Developer",
         desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
         tasks: [
-          "Designed database schemas and successfully deployed the PostgreSQL database on the Supabase cloud infrastructure.",
-          "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
-          "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for user sessions.",
-          "Tested and optimized API performance using Postman, resolving critical bugs under a mentor's guidance.",
-          "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment.",
+          "Architected relational database schemas and successfully deployed PostgreSQL on the Supabase cloud infrastructure.",
+          "Developed and optimized RESTful APIs using Next.js Route Handlers for high-frequency stock market data querying.",
+          "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for secure user sessions.",
+          "Tested API performance and handled edge-case error logging using Postman under mentor guidance.",
+          "Packaged and deployed the demo application smoothly onto the Vercel cloud environment.",
         ],
         tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
       },
@@ -160,12 +162,12 @@ var cvData = {
         desc: "A recruitment platform streamlining the hiring process for employers and candidates.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
-          "Developed 20+ RESTful API endpoints for job and application management using Node.js and Express.",
-          "Integrated the Next.js frontend with backend services for authentication, applications, and user management flows.",
-          "Implemented JWT-based authentication with HttpOnly cookies, RBAC, and a token refresh flow.",
-          "Optimized MongoDB queries and reduced API response times to under 300ms.",
+          "Engineered modular RESTful APIs for end-to-end recruitment management, job postings, and candidate applications.",
+          "Integrated Next.js frontend with Node.js/Express backend for robust, synchronized data flows across user journeys.",
+          "Implemented JWT authentication with HttpOnly cookies, Role-Based Access Control (RBAC), and a secure refresh token flow.",
+          "Optimized MongoDB queries, ensuring consistent API response times under 300ms.",
         ],
-        tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind",
+        tech: "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS",
       },
       {
         name: "STUDENT MANAGEMENT SYSTEM",
@@ -175,37 +177,37 @@ var cvData = {
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         tasks: [
-          "Built a modular backend with Node.js and Express for student management workflows.",
-          "Integrated Swagger for API documentation, testing, and smoother handoff.",
-          "Implemented authentication with access and refresh tokens.",
+          "Built a modular backend architecture with Node.js and Express for academic and student record operations.",
+          "Integrated Swagger for interactive API documentation, rapid contract testing, and smooth developer handoff.",
+          "Implemented authentication flows with access and refresh tokens for role-based system access.",
           "Developed a responsive admin dashboard with CRUD flows and real-time data handling.",
         ],
-        tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind, Swagger",
+        tech: "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger",
       },
     ],
     skills: [
       {
         cat: "Frontend",
-        items: "React.js, Next.js, TypeScript, Tailwind CSS, Responsive Design",
+        items: "React.js, Next.js 15, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design",
       },
       {
         cat: "Backend",
-        items: "Node.js, Express.js, RESTful API, JWT, RBAC, Middleware",
+        items: "Node.js, Express.js, RESTful API, JWT, RBAC, Middleware, MVC Architecture",
       },
       {
-        cat: "Automation & Data",
+        cat: "AI & Automation",
         items:
-          "JavaScript/TypeScript scripting, API integration, Data processing, Swagger, Postman",
+          "AI-assisted development (Cursor, Claude), LLM API integration, Scripting (JS/TS), Swagger, Postman",
       },
       {
         cat: "Databases",
-        items: "MySQL, SQL, MongoDB (Mongoose), PostgreSQL, Query Optimization",
+        items: "PostgreSQL, MongoDB (Mongoose), MySQL, Query Optimization, Supabase Cloud",
       },
-      { cat: "Tools", items: "Git/GitHub, Vercel, Render, Docker" },
+      { cat: "Tools", items: "Git/GitHub, CI/CD, Vercel, Render, Basic Docker" },
       {
         cat: "English",
         items:
-          "Able to read technical documentation and communicate at a basic professional level",
+          "Able to read technical documentation and communicate effectively at a professional level",
       },
     ],
     btnText: "Print / Save PDF",

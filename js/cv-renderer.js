@@ -38,6 +38,10 @@ const icons = {
 // STATE
 // ===================================
 const urlParams = new URLSearchParams(window.location.search);
+const isHrModeInit = urlParams.get("view") === "hr" || urlParams.get("view") === "recruiter" || urlParams.get("mode") === "clean" || urlParams.get("hr") === "1";
+if (isHrModeInit) {
+  document.documentElement.classList.add("recruiter-view");
+}
 const cvVersion = (typeof window.cvVersion !== "undefined" && window.cvVersion)
   ? window.cvVersion
   : (urlParams.get("draft") ? ("draft_" + urlParams.get("draft")) : (urlParams.get("type") || "default"));
@@ -739,6 +743,10 @@ function normalizeProjId(proj, backupName) {
   if (!proj) return "";
   if (proj.id) return proj.id.trim().toLowerCase();
   
+  if (proj.github && proj.github.includes("cv-editor")) {
+    return "cv-editor-ai-automation";
+  }
+
   const name = (proj.name || backupName || "").trim().toUpperCase();
   if (!name) return "";
   
@@ -751,6 +759,9 @@ function normalizeProjId(proj, backupName) {
   }
   if (name.includes("STUDENT MANAGEMENT") || name.includes("QUẢN LÝ HỌC SINH") || name.includes("QUẢN LÝ SINH VIÊN")) {
     return "student-management-system";
+  }
+  if (name.includes("CV EDITOR") || name.includes("TỰ ĐỘNG HÓA CV") || name.includes("CV AUTOMATION") || name.includes("AI AGENT & AUTOMATION") || name.includes("TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT")) {
+    return "cv-editor-ai-automation";
   }
   
   // Fallback to name-based slug
@@ -1046,8 +1057,18 @@ function updateProjectSelector(d, lang) {
     header.onclick = (e) => {
       if (e.target.closest("#projSelectResetBtn")) return;
       isProjSelectorCollapsed = !isProjSelectorCollapsed;
+      panel.classList.toggle("flyout-open", !isProjSelectorCollapsed);
       updateProjectSelector(d, lang);
     };
+  }
+
+  if (!panel.dataset.outsideBound) {
+    panel.dataset.outsideBound = "true";
+    document.addEventListener("click", (e) => {
+      if (!panel.contains(e.target)) {
+        panel.classList.remove("flyout-open");
+      }
+    });
   }
 
   // Attach reset listener
@@ -3541,11 +3562,13 @@ function initRecruiterView() {
   function setHrMode(active) {
     if (active) {
       document.body.classList.add("recruiter-view");
+      document.documentElement.classList.add("recruiter-view");
       if (hrActionContainer) hrActionContainer.style.display = "flex";
       toggleMenu(false); // Mặc định thu gọn, chỉ hiện nút tròn
       syncHrLang();
     } else {
       document.body.classList.remove("recruiter-view");
+      document.documentElement.classList.remove("recruiter-view");
       if (hrActionContainer) {
         hrActionContainer.style.display = "none";
         toggleMenu(false);

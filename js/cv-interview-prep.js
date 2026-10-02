@@ -1590,7 +1590,20 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
     const overlay = document.getElementById("interviewModalOverlay");
     if (overlay) {
       overlay.style.display = "flex";
+      document.body.classList.add("modal-open");
       document.body.style.overflow = "hidden";
+    }
+  };
+
+  /**
+   * Đóng modal cẩm nang phỏng vấn
+   */
+  window.closeInterviewPrepModal = function () {
+    const overlay = document.getElementById("interviewModalOverlay");
+    if (overlay) {
+      overlay.style.display = "none";
+      document.body.classList.remove("modal-open");
+      document.body.style.overflow = "";
     }
   };
 
@@ -1599,7 +1612,12 @@ I am very excited about this opportunity at <b>${companyName}</b> because my tec
     const triggerBtn = document.getElementById("interviewPrepBtn");
     if (triggerBtn) {
       triggerBtn.addEventListener("click", () => {
-        window.openInterviewPrepModal();
+        const overlay = document.getElementById("interviewModalOverlay");
+        if (overlay && overlay.style.display === "flex") {
+          window.closeInterviewPrepModal();
+        } else {
+          window.openInterviewPrepModal();
+        }
       });
     }
   });

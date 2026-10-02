@@ -155,12 +155,32 @@
     if (toggleBtn.dataset.initialized) return;
     toggleBtn.dataset.initialized = 'true';
 
+    function toggleVersionMenu() {
+      const isCollapsed = container.classList.toggle('collapsed');
+      container.classList.toggle('flyout-open', !isCollapsed);
+      toggleBtn.textContent = isCollapsed ? '▼' : '▲';
+      toggleBtn.title = isCollapsed ? 'Mở rộng danh sách bản CV' : 'Thu gọn danh sách bản CV';
+    }
+
     toggleBtn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      const isCollapsed = container.classList.toggle('collapsed');
-      toggleBtn.textContent = isCollapsed ? '▼' : '▲';
-      toggleBtn.title = isCollapsed ? 'Mở rộng danh sách bản CV' : 'Thu gọn danh sách bản CV';
+      toggleVersionMenu();
+    });
+
+    const header = container.querySelector('.version-header-sticky');
+    if (header) {
+      header.addEventListener('click', (e) => {
+        if (e.target !== toggleBtn && !e.target.closest('input')) {
+          toggleVersionMenu();
+        }
+      });
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!container.contains(e.target)) {
+        container.classList.remove('flyout-open');
+      }
     });
   }
 

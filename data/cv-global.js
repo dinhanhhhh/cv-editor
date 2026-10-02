@@ -23,9 +23,9 @@ const cvGlobalExp = {
       role: "Developer",
       desc: "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
       tasks: [
-        "Thiết kế cấu trúc cơ sở dữ liệu và triển khai cơ sở dữ liệu PostgreSQL trên hạ tầng Supabase Cloud.",
-        "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu chứng khoán.",
-        "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
+        "Thiết kế cấu trúc cơ sở dữ liệu quan hệ và triển khai PostgreSQL trên hạ tầng Supabase Cloud.",
+        "Xây dựng và tối ưu hệ thống RESTful APIs bằng Next.js Route Handlers phục vụ truy xuất dữ liệu chứng khoán thời gian thực.",
+        "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider) cho phiên làm việc người dùng.",
         "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
         "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel."
       ],
@@ -39,11 +39,11 @@ const cvGlobalExp = {
       role: "Developer",
       desc: "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
       tasks: [
-        "Designed database schemas and successfully deployed the PostgreSQL database on the Supabase cloud infrastructure.",
-        "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
-        "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for user sessions.",
-        "Tested and optimized API performance using Postman, resolving critical bugs under a mentor's guidance.",
-        "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment."
+        "Architected relational database schemas and successfully deployed PostgreSQL on the Supabase cloud infrastructure.",
+        "Developed and optimized RESTful APIs using Next.js Route Handlers for high-frequency stock market data querying.",
+        "Integrated Google Authentication OAuth flow via NextAuth (Google Provider) for secure user sessions.",
+        "Tested API performance and handled edge-case error logging using Postman under mentor guidance.",
+        "Packaged and deployed the demo application smoothly onto the Vercel cloud environment."
       ],
       tech: "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
     }
