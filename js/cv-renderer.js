@@ -112,107 +112,16 @@ function updateFontSize() {
 }
 
 function initSpacingCustomizer() {
-  const fontCustomizer = document.querySelector(".font-customizer");
-  if (!fontCustomizer) return;
-
-  const sectionLabelText = currentLang === "vi" ? "↕️ Phần:" : "↕️ Section:";
-  const itemLabelText = currentLang === "vi" ? "↕️ Mục:" : "↕️ Item:";
-
-  const d = (typeof cvData !== "undefined" && cvData[currentLang]) ? cvData[currentLang] : {};
-  const currentSectionMargin = d.sectionMargin || DEFAULT_SECTION_MARGIN;
-  const currentItemMargin = d.itemMargin || DEFAULT_ITEM_MARGIN;
-  const secInt = parseInt(currentSectionMargin) || 10;
-  const itemInt = parseInt(currentItemMargin) || 8;
-
-  // Check if already created
-  if (document.getElementById("sectionMarginSlider")) {
-    const labels = document.querySelectorAll(".spacing-customizer .slider-label");
-    if (labels.length >= 2) {
-      labels[0].textContent = sectionLabelText;
-      labels[0].title = currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin';
-      labels[1].textContent = itemLabelText;
-      labels[1].title = currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin';
-    }
-    
-    // Sync slider values
-    if (elements.sectionMarginSlider) {
-      elements.sectionMarginSlider.value = secInt;
-      elements.sectionMarginVal.textContent = secInt + "px";
-    }
-    if (elements.itemMarginSlider) {
-      elements.itemMarginSlider.value = itemInt;
-      elements.itemMarginVal.textContent = itemInt + "px";
-    }
-    return;
+  // Đã gom cụm điều chỉnh khoảng cách (Phần & Mục) vào Modal 'Cấu hình CV' (phím S)
+  // Xóa phần tử thừa ở thanh điều khiển ngoài nếu có
+  const existing = document.querySelector(".spacing-customizer");
+  if (existing) {
+    existing.remove();
   }
-
-  const spacingCustomizer = document.createElement("div");
-  spacingCustomizer.className = "spacing-customizer";
-  spacingCustomizer.setAttribute("aria-label", currentLang === "vi" ? "Tùy chỉnh khoảng cách" : "Customize spacing");
-
-  spacingCustomizer.innerHTML = `
-    <div class="slider-wrapper">
-      <span class="slider-label" title="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">${sectionLabelText}</span>
-      <input type="range" id="sectionMarginSlider" min="4" max="35" value="${secInt}" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách phần' : 'Section margin'}">
-      <span class="slider-value" id="sectionMarginVal">${secInt}px</span>
-    </div>
-    <div class="slider-wrapper">
-      <span class="slider-label" title="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">${itemLabelText}</span>
-      <input type="range" id="itemMarginSlider" min="2" max="25" value="${itemInt}" class="margin-slider" aria-label="${currentLang === 'vi' ? 'Khoảng cách mục' : 'Item margin'}">
-      <span class="slider-value" id="itemMarginVal">${itemInt}px</span>
-    </div>
-  `;
-
-  // Insert after .font-lang-row container (or fallback to .font-customizer)
-  const insertAnchor = fontCustomizer.closest(".font-lang-row") || fontCustomizer;
-  insertAnchor.parentNode.insertBefore(spacingCustomizer, insertAnchor.nextSibling);
-
-  // Bind references to elements
-  elements.sectionMarginSlider = document.getElementById("sectionMarginSlider");
-  elements.sectionMarginVal = document.getElementById("sectionMarginVal");
-  elements.itemMarginSlider = document.getElementById("itemMarginSlider");
-  elements.itemMarginVal = document.getElementById("itemMarginVal");
-
-  // Add event listeners
-  elements.sectionMarginSlider.oninput = (e) => {
-    const val = parseInt(e.target.value);
-    elements.sectionMarginVal.textContent = val + "px";
-    elements.preview.style.setProperty("--cv-section-margin", val + "px");
-    if (!a4ModeActive) {
-      elements.preview.style.height = "auto";
-      elements.preview.style.overflow = "visible";
-    }
-    if (typeof updateA4FitMeter === "function") {
-      requestAnimationFrame(updateA4FitMeter);
-    }
-    
-    // Sync with settings data
-    if (typeof cvData !== "undefined" && cvData[currentLang]) {
-      cvData[currentLang].sectionMargin = val + "px";
-      const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
-      localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
-    }
-  };
-
-  elements.itemMarginSlider.oninput = (e) => {
-    const val = parseInt(e.target.value);
-    elements.itemMarginVal.textContent = val + "px";
-    elements.preview.style.setProperty("--cv-item-margin", val + "px");
-    if (!a4ModeActive) {
-      elements.preview.style.height = "auto";
-      elements.preview.style.overflow = "visible";
-    }
-    if (typeof updateA4FitMeter === "function") {
-      requestAnimationFrame(updateA4FitMeter);
-    }
-    
-    // Sync with settings data
-    if (typeof cvData !== "undefined" && cvData[currentLang]) {
-      cvData[currentLang].itemMargin = val + "px";
-      const cachedKey = `cv_data_${cvVersion}_${currentLang}`;
-      localStorage.setItem(cachedKey, JSON.stringify(cvData[currentLang]));
-    }
-  };
+  elements.sectionMarginSlider = null;
+  elements.sectionMarginVal = null;
+  elements.itemMarginSlider = null;
+  elements.itemMarginVal = null;
 }
 
 function resetLayoutStyles() {
@@ -222,11 +131,25 @@ function resetLayoutStyles() {
   elements.preview.style.padding = DEFAULT_PADDING;
 
   const d = (typeof cvData !== "undefined" && cvData[currentLang]) ? cvData[currentLang] : {};
-  const sectionVal = d.sectionMargin || (elements.sectionMarginSlider ? elements.sectionMarginSlider.value + "px" : DEFAULT_SECTION_MARGIN);
-  const itemVal = d.itemMargin || (elements.itemMarginSlider ? elements.itemMarginSlider.value + "px" : DEFAULT_ITEM_MARGIN);
+  const sectionVal = d.sectionMargin || DEFAULT_SECTION_MARGIN;
+  const itemVal = d.itemMargin || DEFAULT_ITEM_MARGIN;
 
   elements.preview.style.setProperty("--cv-section-margin", sectionVal);
   elements.preview.style.setProperty("--cv-item-margin", itemVal);
+
+  const drawerSec = document.getElementById("drawerSectionMarginSlider");
+  const drawerSecVal = document.getElementById("drawerSectionMarginVal");
+  if (drawerSec) {
+    drawerSec.value = parseInt(sectionVal) || 10;
+    if (drawerSecVal) drawerSecVal.textContent = drawerSec.value + "px";
+  }
+  const drawerItem = document.getElementById("drawerItemMarginSlider");
+  const drawerItemVal = document.getElementById("drawerItemMarginVal");
+  if (drawerItem) {
+    drawerItem.value = parseInt(itemVal) || 8;
+    if (drawerItemVal) drawerItemVal.textContent = drawerItem.value + "px";
+  }
+
   if (typeof updateA4FitMeter === "function") {
     requestAnimationFrame(updateA4FitMeter);
   }
@@ -490,10 +413,19 @@ function magicFit() {
       elements.sectionMarginSlider.value = sectionMargin;
       elements.sectionMarginVal.textContent = sectionMargin + "px";
     }
+    const drawerSec = document.getElementById("drawerSectionMarginSlider");
+    const drawerSecVal = document.getElementById("drawerSectionMarginVal");
+    if (drawerSec) drawerSec.value = sectionMargin;
+    if (drawerSecVal) drawerSecVal.textContent = sectionMargin + "px";
+
     if (elements.itemMarginSlider) {
       elements.itemMarginSlider.value = itemMargin;
       elements.itemMarginVal.textContent = itemMargin + "px";
     }
+    const drawerItem = document.getElementById("drawerItemMarginSlider");
+    const drawerItemVal = document.getElementById("drawerItemMarginVal");
+    if (drawerItem) drawerItem.value = itemMargin;
+    if (drawerItemVal) drawerItemVal.textContent = itemMargin + "px";
     // Ép trình duyệt tính toán lại layout (force reflow) để đo đạc chính xác
     void elements.preview.offsetHeight;
   }
@@ -608,6 +540,7 @@ function updateA4FitMeter() {
 
   const ratio = (actualHeight / targetPx) * 100;
   const percent = Math.round(ratio);
+  window.currentA4FitPercent = percent;
 
   percentEl.textContent = `${percent}%`;
   progressEl.style.width = `${Math.min(percent, 100)}%`;

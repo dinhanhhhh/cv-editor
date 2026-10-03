@@ -98,6 +98,60 @@
       });
   }
 
+  // Hàm loại bỏ dấu tiếng Việt chuẩn
+  function removeVietnameseDiacritics(str) {
+    if (!str) return '';
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D');
+  }
+
+  // Từ điển từ đồng nghĩa công nghệ & vai trò
+  const SEARCH_SYNONYMS = {
+    'fe': 'frontend front-end web client react vue angular typescript js html css ui',
+    'frontend': 'fe web react client ui',
+    'be': 'backend back-end server node express api nest database sql',
+    'backend': 'be server api database',
+    'fs': 'fullstack full-stack web dev developer mern',
+    'fullstack': 'fs full-stack web all',
+    'node': 'nodejs node.js backend be express mern server',
+    'react': 'reactjs react.js frontend fe mern web nextjs next',
+    'next': 'nextjs next.js react reactjs frontend',
+    'ts': 'typescript js javascript',
+    'js': 'javascript ts typescript',
+    'ai': 'artificial intelligence agent llm automation bot genai chatgpt gpt model',
+    'qa': 'tester qc test kiem thu quality assurance manual automation',
+    'qc': 'tester qa test kiem thu quality control manual automation',
+    'intern': 'thuc tap internship inter trainee fresher junior',
+    'thuc tap': 'intern internship trainee',
+    'fresher': 'junior moi tot nghiep entry intern',
+    'junior': 'fresher intern entry',
+    'wp': 'wordpress cms web theme plugin',
+    'wordpress': 'wp cms blog web',
+    'sb': 'san bay airport lien khuong flight aviation',
+    'cntt': 'it cong nghe thong tin engineer helpdesk support ky su',
+    'ecom': 'ecommerce e-commerce thuong mai dien tu shop ban hang cg cart store',
+    'remote': 'us tu xa lam tu xa wfh'
+  };
+
+  function getSearchableKeywords(key, label) {
+    const raw = `${key || ''} ${label || ''}`.toLowerCase();
+    const noDiacritics = removeVietnameseDiacritics(raw);
+    
+    // Gộp các từ đồng nghĩa nếu từ khóa xuất hiện trong raw hoặc noDiacritics
+    let extra = [];
+    for (const [abbr, expansion] of Object.entries(SEARCH_SYNONYMS)) {
+      const regex = new RegExp(`(^|[^a-z0-9])${abbr}([^a-z0-9]|$)`, 'i');
+      if (regex.test(raw) || regex.test(noDiacritics)) {
+        extra.push(expansion);
+      }
+    }
+    
+    return `${raw} ${noDiacritics} ${extra.join(' ')}`.replace(/\s+/g, ' ').trim();
+  }
+
   function setupNavSearch() {
     const searchInput = document.getElementById('versionSearchInput');
     const container = document.getElementById('versionSwitch');
@@ -109,25 +163,67 @@
     searchInput.dataset.initialized = 'true';
 
     searchInput.addEventListener('input', (e) => {
-      const q = e.target.value.trim().toLowerCase();
+      const rawQ = e.target.value.trim().toLowerCase();
+      const cleanQ = removeVietnameseDiacritics(rawQ);
+      const tokens = cleanQ.split(/\s+/).filter(Boolean);
       const items = list.querySelectorAll('.version-item');
       let visibleCount = 0;
+      const totalCount = items.length;
+
       items.forEach((item) => {
-        const text = (item.textContent || '').toLowerCase();
-        const href = (item.getAttribute('href') || '').toLowerCase();
-        const matches = !q || text.includes(q) || href.includes(q);
-        item.style.display = matches ? 'block' : 'none';
+        if (tokens.length === 0) {
+          item.style.display = '';
+          visibleCount++;
+          return;
+        }
+
+        const keywords = item.dataset.searchKeywords || 
+          getSearchableKeywords(item.dataset.key || '', item.textContent || '');
+        
+        // Mọi token gõ vào đều phải khớp (AND logic)
+        const matches = tokens.every(token => {
+          if (keywords.includes(token)) return true;
+          const syn = SEARCH_SYNONYMS[token];
+          if (syn) {
+            return syn.split(' ').some(w => keywords.includes(w));
+          }
+          return false;
+        });
+
+        item.style.display = matches ? '' : 'none';
         if (matches) visibleCount++;
       });
+
+      // Ẩn/hiện tiêu đề nhóm theo trạng thái các item bên dưới
+      const groupHeaders = list.querySelectorAll('.version-group-header');
+      groupHeaders.forEach((gh) => {
+        let sibling = gh.nextElementSibling;
+        let hasItemVisible = false;
+        while (sibling && !sibling.classList.contains('version-group-header')) {
+          if (sibling.classList.contains('version-item') && sibling.style.display !== 'none') {
+            hasItemVisible = true;
+            break;
+          }
+          sibling = sibling.nextElementSibling;
+        }
+        gh.style.display = hasItemVisible ? '' : 'none';
+      });
+
+      // Cập nhật số lượng trên tiêu đề: Bản CV (5/43)
+      const countEl = document.getElementById('versionCount');
+      if (countEl) {
+        countEl.textContent = tokens.length === 0 ? totalCount : `${visibleCount}/${totalCount}`;
+      }
 
       let emptyMsg = list.querySelector('.version-empty-msg');
       if (visibleCount === 0) {
         if (!emptyMsg) {
           emptyMsg = document.createElement('div');
           emptyMsg.className = 'version-empty-msg';
-          emptyMsg.textContent = 'Không có kết quả';
+          emptyMsg.style.cssText = 'padding: 14px 10px; font-size: 11.5px; color: #94a3b8; text-align: center; font-style: italic;';
           list.appendChild(emptyMsg);
         }
+        emptyMsg.textContent = `🔍 Không tìm thấy bản CV nào khớp với "${e.target.value.trim()}"`;
         emptyMsg.style.display = 'block';
       } else if (emptyMsg) {
         emptyMsg.style.display = 'none';
@@ -142,6 +238,24 @@
       } else if (e.key === 'Enter') {
         const firstVisible = list.querySelector('.version-item:not([style*="display: none"])');
         if (firstVisible) firstVisible.click();
+      }
+    });
+
+    // Phím tắt toàn cục Ctrl+K hoặc Cmd+K mở thanh Bản CV và focus vào ô tìm kiếm
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (container && searchInput) {
+          container.classList.remove('collapsed');
+          container.classList.add('flyout-open');
+          const toggleBtn = document.getElementById('versionToggleBtn');
+          if (toggleBtn) {
+            toggleBtn.textContent = '▲';
+            toggleBtn.title = 'Thu gọn danh sách bản CV';
+          }
+          searchInput.focus();
+          searchInput.select();
+        }
       }
     });
 
@@ -175,7 +289,19 @@
           toggleVersionMenu();
         }
       });
+      header.addEventListener('wheel', (e) => {
+        const listEl = document.getElementById('versionList');
+        if (listEl) {
+          listEl.scrollTop += e.deltaY;
+        }
+      }, { passive: true });
     }
+
+    container.addEventListener('scroll', () => {
+      if (container.scrollTop !== 0) {
+        container.scrollTop = 0;
+      }
+    });
 
     document.addEventListener('click', (e) => {
       if (!container.contains(e.target)) {
@@ -198,6 +324,8 @@
     draftBtn.href = window.location.href;
     draftBtn.textContent = `📝 #${key.toUpperCase()} (DRAFT)`;
     draftBtn.title = `Bản nháp ${key}`;
+    draftBtn.dataset.key = key;
+    draftBtn.dataset.searchKeywords = getSearchableKeywords(key, draftBtn.textContent);
     nav.appendChild(draftBtn);
 
     manifest.forEach((v) => {
@@ -207,6 +335,8 @@
       a.href = v.key === 'default' ? 'index.html' : 'index.html?type=' + encodeURIComponent(v.key);
       a.textContent = v.label;
       a.title = v.label;
+      a.dataset.key = v.key;
+      a.dataset.searchKeywords = getSearchableKeywords(v.key, v.label);
       nav.appendChild(a);
     });
 
@@ -231,32 +361,157 @@
           }
         : manifest.byKey('default'));
 
-    // Render menu chọn phiên bản từ manifest (thay cho hardcode trong HTML)
+    // Lưu trữ Ghim & Gần đây trong localStorage có try/catch (A5)
+    function getPinnedKeys() {
+      try {
+        const raw = localStorage.getItem('CV_PINNED_VERSIONS');
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function togglePinnedKey(key) {
+      try {
+        let keys = getPinnedKeys();
+        const idx = keys.indexOf(key);
+        if (idx >= 0) {
+          keys.splice(idx, 1);
+        } else {
+          keys.push(key);
+        }
+        localStorage.setItem('CV_PINNED_VERSIONS', JSON.stringify(keys));
+        return keys;
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function getRecentKeys() {
+      try {
+        const raw = localStorage.getItem('CV_RECENT_VERSIONS');
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function recordRecentKey(key) {
+      if (!key) return;
+      try {
+        let keys = getRecentKeys().filter((k) => k !== key);
+        keys.unshift(key);
+        if (keys.length > 5) keys = keys.slice(0, 5);
+        localStorage.setItem('CV_RECENT_VERSIONS', JSON.stringify(keys));
+      } catch (e) {}
+    }
+
+    window.cvVersionStorage = {
+      getPinnedKeys,
+      togglePinnedKey,
+      getRecentKeys,
+      recordRecentKey
+    };
+
+    function createVersionItemEl(v, isPinned, uniqueIdSuffix = '') {
+      const a = document.createElement('a');
+      a.className = 'version-item' + (v.key === ver.key ? ' active' : '');
+      if (uniqueIdSuffix) {
+        a.id = `${manifest.navId(v.key)}-${uniqueIdSuffix}`;
+      } else {
+        a.id = manifest.navId(v.key);
+      }
+      a.href = v.key === 'default' ? 'index.html' : 'index.html?type=' + encodeURIComponent(v.key);
+      a.title = v.label;
+      a.dataset.key = v.key;
+      a.dataset.searchKeywords = getSearchableKeywords(v.key, v.label);
+
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'version-item-title';
+      titleSpan.textContent = v.label;
+      a.appendChild(titleSpan);
+
+      const pinBtn = document.createElement('button');
+      pinBtn.type = 'button';
+      pinBtn.className = 'version-pin-btn' + (isPinned ? ' pinned' : '');
+      pinBtn.title = isPinned ? 'Bỏ ghim bản CV này' : 'Ghim bản CV này lên đầu';
+      pinBtn.setAttribute('aria-label', pinBtn.title);
+      pinBtn.textContent = isPinned ? '📌' : '☆';
+      pinBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        togglePinnedKey(v.key);
+        renderNav();
+        highlightActive(false);
+      });
+      a.appendChild(pinBtn);
+
+      return a;
+    }
+
+    // Render menu chọn phiên bản từ manifest chia nhóm Ghim, Gần đây, Tất cả (A5)
     function renderNav() {
       const nav = document.getElementById('versionList') || document.getElementById('versionSwitch');
       if (!nav) return;
 
+      recordRecentKey(ver.key);
+      nav.innerHTML = '';
+
+      const pinnedKeys = getPinnedKeys();
+      const recentKeys = getRecentKeys().filter((k) => !pinnedKeys.includes(k));
+
+      // 1. Nhóm Ghim (nếu có)
+      if (pinnedKeys.length > 0) {
+        const gh = document.createElement('div');
+        gh.className = 'version-group-header';
+        gh.textContent = `📌 ĐÃ GHIM (${pinnedKeys.length})`;
+        nav.appendChild(gh);
+
+        pinnedKeys.forEach((key) => {
+          const v = manifest.byKey(key);
+          if (v) {
+            nav.appendChild(createVersionItemEl(v, true));
+          }
+        });
+      }
+
+      // 2. Nhóm Gần đây (nếu có)
+      if (recentKeys.length > 0) {
+        const gh = document.createElement('div');
+        gh.className = 'version-group-header';
+        gh.textContent = `🕒 GẦN ĐÂY (${recentKeys.length})`;
+        nav.appendChild(gh);
+
+        recentKeys.forEach((key) => {
+          const v = manifest.byKey(key);
+          if (v) {
+            nav.appendChild(createVersionItemEl(v, false));
+          }
+        });
+      }
+
+      // 3. Nhóm các bản CV còn lại (loại trừ các bản đã ghim / gần đây để không bị trùng lặp)
+      const otherVersions = manifest.filter((v) => !pinnedKeys.includes(v.key) && !recentKeys.includes(v.key));
+      if (otherVersions.length > 0) {
+        const ghAll = document.createElement('div');
+        ghAll.className = 'version-group-header';
+        ghAll.textContent = (pinnedKeys.length > 0 || recentKeys.length > 0)
+          ? `📂 CÁC BẢN KHÁC (${otherVersions.length})`
+          : `📂 TẤT CẢ BẢN CV (${manifest.length})`;
+        nav.appendChild(ghAll);
+
+        otherVersions.forEach((v) => {
+          nav.appendChild(createVersionItemEl(v, false));
+        });
+      }
+
       const countEl = document.getElementById('versionCount');
       if (countEl) countEl.textContent = manifest.length;
 
-      manifest.forEach((v) => {
-        const a = document.createElement('a');
-        a.className = 'version-item';
-        a.id = manifest.navId(v.key);
-        a.href = v.key === 'default' ? 'index.html' : 'index.html?type=' + encodeURIComponent(v.key);
-        a.textContent = v.label;
-        a.title = v.label;
-        nav.appendChild(a);
-      });
-
       // Neu type dang xem chua co trong manifest, them tam 1 nut active vao dau menu
       if (mode && !manifest.byKey(mode)) {
-        const a = document.createElement('a');
-        a.className = 'version-item active';
-        a.id = manifest.navId(ver.key);
-        a.href = 'index.html?type=' + encodeURIComponent(ver.key);
-        a.textContent = ver.label;
-        a.title = ver.label;
+        const a = createVersionItemEl(ver, false, 'custom-preview');
+        a.classList.add('active');
         nav.insertBefore(a, nav.firstChild);
       }
 
@@ -264,20 +519,21 @@
     }
 
     // Highlight nút phiên bản đang chọn sau khi DOM sẵn sàng
-    function highlightActive() {
+    function highlightActive(shouldScroll = true) {
       renderNav();
-      const btn = document.getElementById(manifest.navId(ver.key));
-      if (btn) {
-        btn.classList.add('active');
+      const btns = document.querySelectorAll(`.version-item[data-key="${ver.key}"]`);
+      btns.forEach((btn) => btn.classList.add('active'));
+      const primaryBtn = document.getElementById(manifest.navId(ver.key));
+      if (primaryBtn && shouldScroll) {
         setTimeout(() => {
-          btn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          primaryBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }, 100);
       }
     }
     if (document.readyState === 'loading') {
-      window.addEventListener('DOMContentLoaded', highlightActive);
+      window.addEventListener('DOMContentLoaded', () => highlightActive(true));
     } else {
-      highlightActive();
+      highlightActive(true);
     }
 
     // Cập nhật Favicon theo emoji của phiên bản

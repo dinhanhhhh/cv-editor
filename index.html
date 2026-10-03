@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>CV Editor - Trương Đình Anh</title>
 
     <!-- Fonts & Styles -->
@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/cv-layout.css?v=1.4.7">
+    <link rel="stylesheet" href="css/cv-layout.css?v=1.4.8">
     <!-- Manifest (nguồn danh sách phiên bản duy nhất) phải nạp trước router -->
     <script src="data/cv-manifest.js?v=1.2.1"></script>
     <!-- Router Logic (Xử lý nạp dữ liệu ngay lập tức) -->
@@ -28,6 +28,7 @@
             <span id="mobileCurrentVersionText">📦 Chọn bản CV</span> ▾
         </button>
         <div class="mobile-top-right">
+            <button type="button" class="mobile-reader-toggle" id="mobileReaderModeBtn" title="Bật/Tắt chế độ đọc 1 cột dễ nhìn trên điện thoại">📖 Đọc</button>
             <div class="mobile-lang-switch">
                 <button type="button" class="mobile-lang-btn active" id="mobileLangVi">VI</button>
                 <button type="button" class="mobile-lang-btn" id="mobileLangEn">EN</button>
@@ -43,7 +44,7 @@
                 <button type="button" class="version-toggle-btn" id="versionToggleBtn" title="Thu gọn danh sách bản CV" aria-label="Thu gọn hoặc mở rộng danh sách">▲</button>
             </div>
             <div class="version-search-wrap">
-                <input type="text" id="versionSearchInput" class="version-search-input" placeholder="🔍 Lọc bản..." aria-label="Tìm nhanh bản CV" autocomplete="off" />
+                <input type="text" id="versionSearchInput" class="version-search-input" placeholder="🔍 Tìm công ty, vị trí, tech... [Ctrl+K]" aria-label="Tìm nhanh bản CV" autocomplete="off" />
             </div>
         </div>
         <div class="version-list" id="versionList">
@@ -78,7 +79,7 @@
             <div class="a4-fit-status" id="a4FitStatus">Đang tính...</div>
         </div>
 
-        <!-- HÀNG 2: MAGIC FIT & A4 PREVIEW -->
+        <!-- HÀNG 2: MAGIC FIT & TIỆN ÍCH -->
         <div class="controls-row controls-row-buttons">
             <button class="magic-btn" id="magicFitBtn" type="button" title="Tự động căn chỉnh vừa 1 trang A4 [M]"
                 aria-label="Tự động căn chỉnh CV vừa một trang A4">
@@ -89,19 +90,19 @@
                 </svg>
                 Magic Fit ✨
             </button>
-            <button class="a4-preview-btn" id="a4PreviewBtn" type="button" title="Bật hoặc tắt xem khung A4 cố định"
-                aria-pressed="false" aria-label="Bật hoặc tắt chế độ xem trước A4">📄 A4 Preview</button>
+            <div class="desktop-utility-wrapper">
+                <button class="utility-toggle-btn" id="desktopUtilityBtn" type="button" title="Mở danh sách tiện ích mở rộng"
+                    aria-expanded="false" aria-haspopup="true">⚙️ Tiện ích ▾</button>
+                <div class="utility-dropdown-menu" id="desktopUtilityDropdown" role="menu">
+                    <button class="utility-menu-item" id="a4PreviewBtn" type="button" role="menuitem">📄 A4 Preview</button>
+                    <button class="utility-menu-item" id="layoutSwitcherBtn" type="button" role="menuitem">📑 Bố cục 2 cột</button>
+                    <button class="utility-menu-item" id="resetBtn" type="button" role="menuitem">🔄 Reset Layout</button>
+                    <button class="export-cv-btn utility-menu-item" id="exportCvBtn" type="button" role="menuitem" style="display: none;">💾 Xuất file JS</button>
+                    <div class="utility-divider"></div>
+                    <button class="utility-menu-item item-danger" id="resetDataBtn" type="button" role="menuitem">🧹 Khôi phục bản gốc</button>
+                </div>
+            </div>
         </div>
-
-        <!-- HÀNG 3: RESET LAYOUT & RESET DATA -->
-        <div class="controls-row controls-row-buttons">
-            <button class="reset-btn" id="resetBtn" type="button" title="Đặt lại về mặc định"
-                aria-label="Đặt lại bố cục CV về mặc định">Reset Layout 🔄</button>
-            <button class="reset-data-btn" id="resetDataBtn" type="button" title="Khôi phục toàn bộ nội dung gốc"
-                aria-label="Khôi phục toàn bộ nội dung CV gốc">Reset Data 🧹</button>
-        </div>
-        <button class="export-cv-btn" id="exportCvBtn" type="button" title="Xuất dữ liệu CV đã chỉnh sửa"
-            aria-label="Xuất dữ liệu CV" style="display: none;">💾 Xuất file JS</button>
 
         <div class="btn-wrapper">
             <div class="print-tooltip" id="printTooltip" role="tooltip">
@@ -137,26 +138,31 @@
         <button class="interview-prep-btn" id="interviewPrepBtn" type="button"
             title="Cẩm nang Phỏng vấn 1-Click: STAR Q&A [I]" aria-label="Cẩm nang Phỏng vấn">🎙️ Ôn phỏng vấn</button>
 
-        <!-- Lưới 2 cột cho các công cụ bổ trợ (Giảm 50% chiều cao) -->
-        <div class="left-tools-grid">
-            <button class="ats-match-btn" id="atsMatchBtn" type="button"
-                title="So khớp CV với JD & Chấm điểm ATS" aria-label="So khớp CV với JD">🎯 So khớp JD</button>
-            <button class="hr-view-btn" id="hrViewBtn" type="button"
-                title="Chuyển sang chế độ xem sạch cho Nhà tuyển dụng" aria-label="Xem kiểu Nhà tuyển dụng">👁️ HR View</button>
-            <button class="live-edit-btn" id="liveEditBtn" type="button"
-                title="Bật hoặc tắt chế độ chỉnh sửa trực tiếp nội dung CV [L]" aria-pressed="false"
-                aria-label="Bật chế độ chỉnh sửa trực tiếp">✏️ Sửa nhanh</button>
-            <button class="diff-btn" id="diffBtn" type="button"
-                title="So sánh các phiên bản CV" aria-label="So sánh các phiên bản CV">⚖️ So sánh</button>
-            <button class="settings-btn" id="settingsBtn" type="button"
-                title="Cấu hình Bố cục & Giao diện [S]" aria-label="Cấu hình Bố cục & Giao diện">⚙️ Cấu hình</button>
-            <button class="hotkeys-btn" id="hotkeysBtn" type="button"
-                title="Bảng phím tắt thao tác nhanh [?]" aria-label="Bảng phím tắt">⌨️ Phím tắt</button>
+        <!-- Menu Công cụ mở rộng -->
+        <div class="left-tools-wrapper">
+            <button class="left-more-tools-btn" id="leftMoreToolsBtn" type="button"
+                title="Mở thêm công cụ chuyên nghiệp" aria-expanded="false" aria-haspopup="true">
+                ✨ Công cụ mở rộng ▾
+            </button>
+            <div class="left-tools-dropdown" id="leftToolsDropdown" role="menu">
+                <button class="tool-dropdown-item cv-health-btn" id="cvHealthBtn" type="button" role="menuitem">📊 Điểm CV ATS</button>
+                <button class="tool-dropdown-item ats-match-btn" id="atsMatchBtn" type="button" role="menuitem">🎯 So khớp JD</button>
+                <button class="tool-dropdown-item export-center-btn" id="exportCenterBtn" type="button" role="menuitem">💾 Xuất CV</button>
+                <button class="tool-dropdown-item hr-view-btn" id="hrViewBtn" type="button" role="menuitem">👁️ HR View</button>
+                <button class="tool-dropdown-item live-edit-btn" id="liveEditBtn" type="button" role="menuitem">✏️ Sửa nhanh [L]</button>
+                <button class="tool-dropdown-item diff-btn" id="diffBtn" type="button" role="menuitem">⚖️ So sánh bản</button>
+                <button class="tool-dropdown-item settings-btn" id="settingsBtn" type="button" role="menuitem">⚙️ Cấu hình [S]</button>
+                <button class="tool-dropdown-item hotkeys-btn" id="hotkeysBtn" type="button" role="menuitem">⌨️ Phím tắt [?]</button>
+            </div>
         </div>
     </div>
 
-    <main class="cv-preview" id="cvContent" tabindex="-1">
-        <!-- Nội dung đổ bởi cv-renderer.js -->
+    <main class="cv-viewport-wrapper" id="cvViewportWrapper">
+        <div class="cv-paper-container" id="cvPaperContainer">
+            <div class="cv-preview" id="cvContent" tabindex="-1">
+                <!-- Nội dung đổ bởi cv-renderer.js -->
+            </div>
+        </div>
     </main>
 
     <!-- Recruiter View Floating Action Bar (Chỉ hiển thị ở chế độ ?view=hr) -->
@@ -794,6 +800,21 @@
                 <button type="button" class="mobile-drawer-close" id="mobileDrawerCloseBtn" aria-label="Đóng">&times;</button>
             </div>
 
+            <!-- Bản CV & Chế độ đọc (B5) -->
+            <div class="mobile-drawer-section">
+                <div class="mobile-drawer-section-title">Phiên bản & Hiển thị</div>
+                <div class="mobile-tools-grid" style="grid-template-columns: 1fr 1fr;">
+                    <button type="button" class="mobile-tool-btn" id="mobileDrawerVersionBtn">
+                        <span>📦</span>
+                        <span>Đổi Bản CV</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileDrawerReaderBtn">
+                        <span>📖</span>
+                        <span>Chế độ đọc</span>
+                    </button>
+                </div>
+            </div>
+
             <!-- Cỡ chữ & Tối ưu -->
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-section-title">Cỡ chữ & Bố cục</div>
@@ -831,6 +852,18 @@
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-section-title">Công cụ tuyển dụng</div>
                 <div class="mobile-tools-grid">
+                    <button type="button" class="mobile-tool-btn" id="mobileCvHealthBtn">
+                        <span>📊</span>
+                        <span>Điểm CV ATS</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileToggleLayoutBtn">
+                        <span>📑</span>
+                        <span>Đổi Bố cục 2 Cột</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileExportCenterBtn">
+                        <span>💾</span>
+                        <span>Xuất dữ liệu CV</span>
+                    </button>
                     <button type="button" class="mobile-tool-btn" id="mobileAtsBtn">
                         <span>🎯</span>
                         <span>So khớp JD</span>
@@ -884,6 +917,8 @@
     <script defer src="js/cv-hotkeys.js?v=1.0.0"></script>
     <!-- Script Điều khiển Responsive Mobile -->
     <script defer src="js/cv-mobile.js?v=1.0.0"></script>
+    <!-- Script Bộ Công Cụ Nâng Cao CV Pro Tools (Command Palette, Layout 2 Cột, ATS Health, Export) -->
+    <script defer src="js/cv-pro-tools.js?v=1.0.0"></script>
 </body>
 
 </html>

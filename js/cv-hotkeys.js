@@ -18,6 +18,9 @@
   // Danh sách các modal có thể đóng bằng phím ESC
   function closeTopModal() {
     const modals = [
+      document.getElementById('cmdPaletteOverlay'),
+      document.getElementById('cvHealthModalOverlay'),
+      document.getElementById('exportCenterModalOverlay'),
       document.getElementById('hotkeysModalOverlay'),
       document.getElementById('jtJdModalOverlay'),
       document.getElementById('jobTrackerModalOverlay'),
@@ -68,6 +71,10 @@
               <!-- Nhóm 1: Thao tác trang CV -->
               <div class="hotkeys-group">
                 <div class="hotkeys-group-title">📄 Thao tác Trang & In ấn</div>
+                <div class="hotkey-item">
+                  <div class="hotkey-keys"><kbd>Ctrl</kbd> + <kbd>K</kbd></div>
+                  <div class="hotkey-desc"><b>Command Palette</b> (Tìm nhanh 43 bản CV & Lệnh)</div>
+                </div>
                 <div class="hotkey-item">
                   <div class="hotkey-keys"><kbd>Ctrl</kbd> + <kbd>P</kbd> hoặc <kbd>P</kbd></div>
                   <div class="hotkey-desc">Xuất file PDF / Mở hộp thoại In</div>

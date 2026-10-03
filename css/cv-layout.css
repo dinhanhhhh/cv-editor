@@ -2,6 +2,44 @@
    CV Styles (Web + Print)
    =================================== */
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: clip;
+  max-width: 100vw;
+}
+
+:root {
+  /* 3 Cấp bậc màu nút chuẩn hóa (A3) */
+  --btn-primary-bg: #1b4332;
+  --btn-primary-hover: #2d6a4f;
+  --btn-primary-text: #ffffff;
+  --btn-primary-shadow: 0 4px 14px rgba(27, 67, 50, 0.25);
+
+  --btn-secondary-bg: #f8fafc;
+  --btn-secondary-hover: #f1f5f9;
+  --btn-secondary-text: #1e293b;
+  --btn-secondary-border: #cbd5e1;
+
+  --btn-outline-bg: #ffffff;
+  --btn-outline-hover: #f8fafc;
+  --btn-outline-text: #334155;
+  --btn-outline-border: #cbd5e1;
+
+  --btn-danger-bg: #fef2f2;
+  --btn-danger-hover: #fee2e2;
+  --btn-danger-text: #dc2626;
+  --btn-danger-border: #fca5a5;
+
+  /* Màu chữ đạt độ tương phản chuẩn WCAG AA >= 4.5:1 (A6) */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #475569;
+  --text-placeholder: #64748b;
+}
+
 body {
   background-color: #f0f2f5;
   margin: 0;
@@ -29,19 +67,42 @@ body {
   top: 16px;
 }
 
-/* ===== CV CONTAINER ===== */
+/* ===== CV CONTAINER & VIEWPORT WRAPPER ===== */
+.cv-viewport-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100vh;
+  padding: 10px 16px 80px 16px;
+  box-sizing: border-box;
+}
+
+.cv-paper-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  background: #ffffff;
+  flex-shrink: 0;
+  transition: width 0.15s ease, height 0.15s ease;
+}
+
 .cv-preview {
   background: white;
   width: 210mm;
   min-height: 297mm;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 10px auto;
+  box-shadow: none;
+  margin: 0;
   padding: 6mm 15mm 10mm 15mm !important;
   --cv-color: #1e3a8a;
   --cv-base-font-size: 10.5pt;
   line-height: 1.3;
   font-size: var(--cv-base-font-size);
   font-family: "Be Vietnam Pro", Arial, Helvetica, sans-serif;
+  transform-origin: top left;
+  box-sizing: border-box;
 }
 
 /* ===== HEADER ===== */
@@ -362,18 +423,149 @@ p.cv-exp-tech {
   box-sizing: border-box;
 }
 
-.controls-row-buttons button {
+.controls-row-buttons .magic-btn {
   flex: 1;
-  width: 50% !important;
-  min-width: 0 !important;
+  min-width: 0;
   box-sizing: border-box;
-  padding: 6.5px 8px !important;
-  font-size: 10.5px !important;
+  padding: 7px 10px !important;
+  font-size: 11px !important;
+  font-weight: 700;
   margin: 0 !important;
   white-space: nowrap;
   justify-content: center !important;
   text-align: center !important;
   border-radius: 50px !important;
+  background: var(--btn-secondary-bg, #f8fafc) !important;
+  color: var(--btn-secondary-text, #1e293b) !important;
+  border: 1px solid var(--btn-secondary-border, #cbd5e1) !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.controls-row-buttons .magic-btn:hover {
+  background: var(--btn-secondary-hover, #f1f5f9) !important;
+}
+
+/* DROPDOWN TIỆN ÍCH DESKTOP (A2) */
+.desktop-utility-wrapper,
+.left-tools-wrapper {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.desktop-utility-wrapper {
+  flex: 1;
+}
+
+.utility-toggle-btn,
+.left-more-tools-btn {
+  width: 100% !important;
+  background: var(--btn-secondary-bg, #f8fafc) !important;
+  color: var(--btn-secondary-text, #1e293b) !important;
+  border: 1px solid var(--btn-secondary-border, #cbd5e1) !important;
+  border-radius: 50px !important;
+  padding: 7px 10px !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.utility-toggle-btn:hover,
+.left-more-tools-btn:hover {
+  background: var(--btn-secondary-hover, #f1f5f9) !important;
+  border-color: #94a3b8 !important;
+}
+
+.utility-dropdown-menu,
+.left-tools-dropdown {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.14);
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 1200;
+  box-sizing: border-box;
+  max-height: min(340px, calc(100vh - 120px));
+  max-height: min(340px, calc(100dvh - 120px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  animation: dropdownFadeIn 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.utility-dropdown-menu {
+  right: 0;
+  width: 200px;
+}
+
+.left-tools-dropdown {
+  left: 0;
+  width: 220px;
+}
+
+.utility-dropdown-menu.open,
+.left-tools-dropdown.open {
+  display: flex !important;
+}
+
+@keyframes dropdownFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.utility-menu-item,
+.tool-dropdown-item {
+  width: 100% !important;
+  background: transparent !important;
+  color: #1e293b !important;
+  border: none !important;
+  border-radius: 6px !important;
+  padding: 7px 10px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  text-align: left !important;
+  justify-content: flex-start !important;
+  cursor: pointer;
+  display: flex !important;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  transition: all 0.12s ease;
+  box-sizing: border-box;
+}
+
+.utility-menu-item:hover,
+.tool-dropdown-item:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+.utility-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 3px 0;
+}
+
+.utility-menu-item.item-danger {
+  color: #dc2626 !important;
+}
+
+.utility-menu-item.item-danger:hover {
+  background: #fef2f2 !important;
 }
 
 .left-controls {
@@ -383,74 +575,62 @@ p.cv-exp-tech {
   width: 236px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
   z-index: 1000;
   padding-bottom: 0;
   box-sizing: border-box;
 }
 
-.left-controls > button {
+.left-controls > button,
+.left-controls > .left-tools-wrapper > button {
   width: 100% !important;
   min-width: 0 !important;
   box-sizing: border-box;
   justify-content: flex-start;
   white-space: nowrap;
-  padding: 6.5px 12px !important;
+  padding: 7px 12px !important;
   font-size: 11px;
+  font-weight: 600;
   border-radius: 50px !important;
+  background: var(--btn-secondary-bg, #f8fafc) !important;
+  color: var(--btn-secondary-text, #1e293b) !important;
+  border: 1px solid var(--btn-secondary-border, #cbd5e1) !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: all 0.15s ease;
 }
 
-.left-tools-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.left-tools-grid button {
-  width: 100% !important;
-  min-width: 0 !important;
-  box-sizing: border-box;
-  padding: 5.5px 6px !important;
-  font-size: 10px !important;
-  border-radius: 50px !important;
-  justify-content: center !important;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.btn-wrapper {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
+.left-controls > button:hover,
+.left-controls > .left-tools-wrapper > button:hover {
+  background: var(--btn-secondary-hover, #f1f5f9) !important;
+  border-color: #94a3b8 !important;
 }
 
 .download-btn {
   width: 100% !important;
   box-sizing: border-box;
   justify-content: center !important;
-  padding: 10px 20px;
-  background: #1b4332;
-  color: white;
-  border: none;
-  border-radius: 50px;
-  font-weight: 700;
+  padding: 10px 18px !important;
+  background: var(--btn-primary-bg, #1b4332) !important;
+  color: var(--btn-primary-text, #ffffff) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(27, 67, 50, 0.3);
-  display: flex;
+  box-shadow: var(--btn-primary-shadow, 0 4px 14px rgba(27, 67, 50, 0.25)) !important;
+  display: flex !important;
   align-items: center;
   gap: 8px;
-  transition: 0.2s;
+  transition: all 0.2s ease;
   font-size: 12px;
   margin-top: 2px;
 }
 
 .download-btn:hover {
-  background: #2d6a4f;
+  background: var(--btn-primary-hover, #2d6a4f) !important;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(27, 67, 50, 0.4);
+  box-shadow: 0 6px 18px rgba(27, 67, 50, 0.35) !important;
 }
 
 /* ===== PRINT TOOLTIP (Mở sang bên trái nút In, không che nút trên) ===== */
@@ -777,20 +957,17 @@ p.cv-exp-tech {
   position: fixed;
   top: 16px;
   right: 20px;
-  width: 236px;
+  width: 248px;
   display: flex;
   flex-direction: column;
   background: white;
-  padding: 6px 8px;
+  padding: 8px 8px 6px 8px;
   border-radius: 14px;
-  gap: 3px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   border: 1px solid #e2e8f0;
   box-sizing: border-box;
   max-height: calc(100vh - 360px);
-  overflow-y: auto;
-  scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
+  overflow: hidden !important;
   flex-shrink: 1;
   min-height: 42px;
   z-index: 990;
@@ -812,12 +989,11 @@ p.cv-exp-tech {
   display: none !important;
 }
 .version-header-sticky {
-  position: sticky;
-  top: -5px;
+  flex-shrink: 0;
   background: white;
   z-index: 5;
-  margin: -5px -5px 4px -5px;
-  padding: 5px 5px 5px 5px;
+  margin: 0;
+  padding: 0 0 6px 0;
   border-bottom: 1px solid #f1f5f9;
 }
 .version-header-top {
@@ -829,26 +1005,33 @@ p.cv-exp-tech {
 .version-label {
   font-size: 9px;
   font-weight: 800;
-  color: #888;
+  color: #475569;
   text-align: left;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 .version-toggle-btn {
-  background: transparent;
-  border: none;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
   cursor: pointer;
-  font-size: 11px;
-  color: #64748b;
+  font-size: 10px;
+  font-weight: 700;
+  color: #334155;
   padding: 2px 6px;
-  border-radius: 4px;
-  transition: all 0.2s;
+  border-radius: 6px;
+  transition: all 0.2s ease;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
 }
 .version-toggle-btn:hover {
-  background: #f1f5f9;
+  background: #e2e8f0;
   color: #0f172a;
+  border-color: #94a3b8;
 }
 .version-search-wrap {
   width: 100%;
@@ -856,11 +1039,11 @@ p.cv-exp-tech {
 .version-search-input {
   width: 100%;
   box-sizing: border-box;
-  font-size: 9.5px;
+  font-size: 11px;
   font-family: inherit;
   font-weight: 500;
-  padding: 4px 6px;
-  border: 1px solid #e2e8f0;
+  padding: 5px 8px;
+  border: 1px solid #cbd5e1;
   border-radius: 8px;
   outline: none;
   background: #f8fafc;
@@ -873,12 +1056,31 @@ p.cv-exp-tech {
   box-shadow: 0 0 0 2px rgba(27, 67, 50, 0.12);
 }
 .version-search-input::placeholder {
-  color: #94a3b8;
+  color: #64748b;
 }
 .version-list {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: 3px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+  -webkit-overflow-scrolling: touch;
+  padding-top: 4px;
+  padding-right: 2px;
+}
+.version-list::-webkit-scrollbar {
+  width: 4px;
+}
+.version-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.version-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 .version-empty-msg {
   font-size: 9px;
@@ -975,26 +1177,82 @@ p.cv-exp-tech {
   0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
   50% { box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2); }
 }
+.version-group-header {
+  font-size: 11px;
+  font-weight: 800;
+  color: #475569;
+  padding: 6px 6px 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 4px;
+  user-select: none;
+}
+.version-group-header:first-child {
+  border-top: none;
+  margin-top: 0;
+  padding-top: 2px;
+}
 .version-item {
-  padding: 6px 5px;
-  font-size: 10px;
-  font-weight: 700;
-  text-align: center;
-  border-radius: 10px;
-  transition: 0.3s;
+  padding: 6px 8px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  border-radius: 8px;
+  transition: 0.2s;
   text-decoration: none;
-  color: #666;
-  line-height: 1.3;
+  color: #334155;
+  line-height: 1.35;
   cursor: pointer;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  box-sizing: border-box;
+}
+.version-item-title {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+.version-pin-btn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  line-height: 1;
+  flex-shrink: 0;
+  color: inherit;
+  opacity: 0.45;
+  transition: opacity 0.15s, transform 0.15s;
+}
+.version-item:hover .version-pin-btn,
+.version-pin-btn:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+.version-pin-btn.pinned {
+  opacity: 1;
 }
 .version-item:hover {
-  background: #f0f2f5;
+  background: #f1f5f9;
   color: #1b4332;
 }
 .version-item.active {
   background: #1b4332;
   color: white !important;
+  font-weight: 700;
+}
+.version-item.active .version-pin-btn {
+  opacity: 0.85;
+}
+.version-item.active .version-pin-btn:hover {
+  opacity: 1;
 }
 
 .download-btn:focus-visible,
@@ -1741,15 +1999,39 @@ p.cv-exp-tech {
     box-shadow: none !important;
   }
 
+  .cv-viewport-wrapper {
+    display: block !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .cv-paper-container {
+    display: block !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: transparent !important;
+  }
+
   .cv-preview,
   .cv-preview.a4-mode {
     width: 210mm !important;
     min-height: 297mm !important;
     height: 297mm !important;
-    margin: 0 !important;
+    margin: 0 auto !important;
     box-shadow: none !important;
     border: none !important;
     overflow: hidden !important;
+    transform: none !important;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
   }
 
   .cv-preview.a4-mode::after {
@@ -1760,16 +2042,38 @@ p.cv-exp-tech {
     padding-top: 10px !important;
   }
 
-  .cv-section {
-    break-inside: avoid;
-    page-break-inside: avoid;
-  }
-
+  .cv-section,
   .cv-exp-item,
   .cv-edu-item,
+  .cv-project-item,
   .cv-skills-table tr {
-    break-inside: avoid;
-    page-break-inside: avoid;
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* Miễn nhiễm Chế độ đọc khi In PDF (B2): luôn in đúng chuẩn A4 */
+  body.cv-reader-mode .cv-viewport-wrapper,
+  body.cv-reader-mode .cv-paper-container,
+  body.cv-reader-mode .cv-preview {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    height: 297mm !important;
+    margin: 0 auto !important;
+    padding: 6mm 15mm 10mm 15mm !important;
+    font-size: 10.5pt !important;
+    line-height: inherit !important;
+    box-shadow: none !important;
+    border: none !important;
+    transform: none !important;
+    position: static !important;
+  }
+  body.cv-reader-mode .cv-header {
+    flex-direction: row !important;
+  }
+  body.cv-reader-mode .job-header,
+  body.cv-reader-mode .project-header {
+    flex-direction: row !important;
+    justify-content: space-between !important;
   }
 }
 
@@ -5730,6 +6034,29 @@ body.recruiter-view [contenteditable] {
 }
 
 /* ==========================================================================
+   A7. BẢO VỆ MÀN HÌNH THẤP (Chiều cao <= 820px như 1366x768, 1280x720)
+   Không để widget nào chồng đè nhau theo chiều dọc
+   ========================================================================== */
+@media screen and (min-width: 993px) and (max-height: 820px) {
+  .project-selector-panel {
+    max-height: calc(48dvh - 20px) !important;
+    max-height: calc(48vh - 20px) !important;
+    overflow-y: auto !important;
+  }
+  .left-controls {
+    overflow: visible !important;
+  }
+  .version-switch {
+    max-height: calc(48dvh - 20px) !important;
+    max-height: calc(48vh - 20px) !important;
+    overflow: hidden !important;
+  }
+  .controls {
+    overflow: visible !important;
+  }
+}
+
+/* ==========================================================================
    MEDIUM DESKTOP & ZOOM RESPONSIVE (993px - 1360px): TỰ ĐỘNG NÉ KHÔNG ĐÈ LÊN CV
    ========================================================================== */
 @media screen and (min-width: 993px) and (max-width: 1360px) {
@@ -5783,7 +6110,7 @@ body.recruiter-view [contenteditable] {
   .version-switch.flyout-open {
     width: 260px !important;
     max-height: calc(100vh - 120px) !important;
-    overflow-y: auto !important;
+    overflow: hidden !important;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px #cbd5e1 !important;
     background: #ffffff !important;
   }
@@ -5797,60 +6124,84 @@ body.recruiter-view [contenteditable] {
     padding-bottom: 0 !important;
   }
 
-  /* 2. Cụm điều khiển dưới đáy: Thu gọn thành icon dock 48px sát mép */
+  /* 2. Cụm điều khiển dưới đáy: Thu gọn thành icon dock 44px sát mép */
   .left-controls {
     left: 10px !important;
     bottom: 12px !important;
-    width: 48px !important;
-    gap: 5px !important;
+    width: 44px !important;
+    gap: 4px !important;
     align-items: center !important;
-    background: rgba(255, 255, 255, 0.92) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
     backdrop-filter: blur(10px) !important;
     -webkit-backdrop-filter: blur(10px) !important;
-    padding: 6px 4px !important;
-    border-radius: 24px !important;
+    padding: 6px 3px !important;
+    border-radius: 22px !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
     border: 1px solid #e2e8f0 !important;
     z-index: 995 !important;
+    overflow: visible !important;
   }
   .left-controls > button {
-    width: 38px !important;
-    height: 38px !important;
-    min-height: 38px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
     padding: 0 !important;
     font-size: 0 !important;
     border-radius: 50% !important;
+    display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     position: relative !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08) !important;
+    flex-shrink: 0 !important;
   }
-  .left-controls #jobTrackerBtn::before { content: "📊"; font-size: 16px; }
-  .left-controls #coverLetterBtn::before { content: "✉️"; font-size: 16px; }
-  .left-controls #interviewPrepBtn::before { content: "🎙️"; font-size: 16px; }
-  .left-controls #atsMatchBtn::before { content: "🎯"; font-size: 16px; }
-  .left-controls #hrViewBtn::before { content: "👁️"; font-size: 16px; }
+  .left-controls #jobTrackerBtn::before { content: "📋" !important; font-size: 15px !important; }
+  .left-controls #jobTrackerBtn .tracker-badge {
+    position: absolute !important;
+    top: -3px !important;
+    right: -3px !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    padding: 1px 4px !important;
+    min-width: 14px !important;
+    line-height: 12px !important;
+    text-align: center !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+    border: 1.5px solid #ffffff !important;
+    margin: 0 !important;
+    z-index: 10 !important;
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    display: block !important;
+  }
+  .left-controls #coverLetterBtn::before { content: "✉️"; font-size: 15px; }
+  .left-controls #interviewPrepBtn::before { content: "🎙️"; font-size: 15px; }
+  .left-controls #atsMatchBtn::before { content: "🎯"; font-size: 15px; }
+  .left-controls #hrViewBtn::before { content: "👁️"; font-size: 15px; }
 
-  .left-controls .left-tools-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 5px !important;
-    width: 38px !important;
+  .left-controls .left-tools-wrapper {
+    width: 36px !important;
   }
-  .left-controls .left-tools-grid button {
-    width: 38px !important;
-    height: 38px !important;
-    min-height: 38px !important;
+  .left-controls .left-more-tools-btn {
+    width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
     padding: 0 !important;
     font-size: 0 !important;
     border-radius: 50% !important;
+    display: flex !important;
     justify-content: center !important;
     align-items: center !important;
   }
-  .left-controls #liveEditBtn::before { content: "✏️"; font-size: 15px; }
-  .left-controls #diffBtn::before { content: "⚖️"; font-size: 15px; }
-  .left-controls #settingsBtn::before { content: "⚙️"; font-size: 15px; }
-  .left-controls #hotkeysBtn::before { content: "⌨️"; font-size: 15px; }
+  .left-controls .left-more-tools-btn::before {
+    content: "✨" !important;
+    font-size: 15px !important;
+  }
+  .left-controls .left-tools-dropdown {
+    left: 48px !important;
+    bottom: 0 !important;
+  }
 
   /* Cột phải .controls co về icon dock 48px sát mép */
   .controls {
@@ -5867,6 +6218,7 @@ body.recruiter-view [contenteditable] {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12) !important;
     border: 1px solid #e2e8f0 !important;
     z-index: 995 !important;
+    overflow: visible !important;
   }
   .controls .controls-row {
     flex-direction: column !important;
@@ -5916,10 +6268,24 @@ body.recruiter-view [contenteditable] {
   }
   .controls .magic-btn::before { content: "✨"; font-size: 16px; }
   .controls .magic-btn svg { display: none !important; }
-  .controls .a4-preview-btn,
-  .controls .reset-btn,
-  .controls .reset-data-btn {
-    display: none !important;
+  .controls .desktop-utility-wrapper {
+    width: 38px !important;
+  }
+  .controls .utility-toggle-btn {
+    width: 38px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    padding: 0 !important;
+    font-size: 0 !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  .controls .utility-toggle-btn::before { content: "⚙️"; font-size: 16px; }
+  .controls .utility-dropdown-menu {
+    right: 48px !important;
+    bottom: 0 !important;
   }
   .controls .download-btn {
     width: 38px !important;
@@ -5966,29 +6332,48 @@ body.recruiter-view [contenteditable] {
     display: none !important;
   }
 
-  /* 3. TỜ CV CHUẨN A4 KHỔ IN (KIẾN TRÚC CANVAS SCALE NHƯ TOPCV)
-     Giữ nguyên 100% tỉ lệ và font chữ A4 chuẩn desktop, thu nhỏ vừa khít màn hình mobile */
-  .cv-preview {
-    width: 210mm !important;
-    min-height: 297mm !important;
+  /* 3. TỜ CV CHUẨN A4 TRONG WRAPPER CÂN ĐỐI TUYỆT ĐỐI (KHÔNG LỆCH PHẢI) */
+  .cv-viewport-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 56px 8px calc(76px + env(safe-area-inset-bottom, 10px)) 8px !important;
+    box-sizing: border-box !important;
+    overflow-x: hidden !important;
+  }
+
+  .cv-paper-container {
     position: relative !important;
-    left: 50% !important;
-    margin: 56px 0 0 0 !important;
-    padding: 6mm 15mm 10mm 15mm !important;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.16) !important;
+    display: block !important;
+    margin: 0 auto !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.14) !important;
     border: 1px solid rgba(0, 0, 0, 0.08) !important;
     border-radius: 4px !important;
     background: #ffffff !important;
-    transform: translateX(-50%) scale(var(--cv-mobile-scale, 0.43)) !important;
-    transform-origin: top center !important;
-    margin-bottom: var(--cv-mobile-margin-bottom, -600px) !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+  }
+
+  .cv-preview {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    margin: 0 !important;
+    padding: 6mm 15mm 10mm 15mm !important;
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    transform-origin: top left !important;
     box-sizing: border-box !important;
-    transition: transform 0.18s ease-out;
   }
 
   .cv-preview.a4-mode {
-    border: 1px solid rgba(0, 0, 0, 0.12) !important;
-    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.16) !important;
+    border: none !important;
+    box-shadow: none !important;
   }
 
   /* 4. GIAO DIỆN MOBILE CHUYÊN BIỆT: TOP BAR & BOTTOM BAR */
@@ -6014,31 +6399,62 @@ body.recruiter-view [contenteditable] {
   .mobile-top-bar .mobile-version-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: #f1f5f9;
     border: 1px solid #cbd5e1;
-    padding: 6px 12px;
+    padding: 5px 10px;
     border-radius: 20px;
     font-size: 11.5px;
     font-weight: 700;
     color: #1e293b;
     cursor: pointer;
-    max-width: 180px;
+    max-width: 130px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-height: 32px;
+    box-sizing: border-box;
   }
 
   .mobile-top-bar .mobile-top-right {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .mobile-reader-toggle {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #1e293b;
+    padding: 5px 10px;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s ease;
+    min-height: 32px;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+
+  .mobile-reader-toggle:hover {
+    background: #e2e8f0;
+  }
+
+  .mobile-reader-toggle.active {
+    background: #1b4332;
+    color: #ffffff;
+    border-color: #1b4332;
   }
 
   .mobile-top-bar .mobile-lang-switch {
     display: flex;
     background: #f1f5f9;
-    padding: 3px;
+    padding: 2px;
     border-radius: 20px;
     border: 1px solid #cbd5e1;
   }
@@ -6048,7 +6464,7 @@ body.recruiter-view [contenteditable] {
     background: transparent;
     font-size: 11px;
     font-weight: 700;
-    padding: 3px 8px;
+    padding: 3px 7px;
     border-radius: 12px;
     cursor: pointer;
     color: #64748b;
@@ -6065,6 +6481,7 @@ body.recruiter-view [contenteditable] {
     left: 0 !important;
     right: 0 !important;
     height: 58px !important;
+    height: calc(58px + env(safe-area-inset-bottom, 0px)) !important;
     background: rgba(255, 255, 255, 0.96) !important;
     backdrop-filter: blur(12px) !important;
     -webkit-backdrop-filter: blur(12px) !important;
@@ -6072,7 +6489,7 @@ body.recruiter-view [contenteditable] {
     display: flex !important;
     align-items: center !important;
     justify-content: space-around !important;
-    padding: 4px 6px env(safe-area-inset-bottom, 4px) 6px !important;
+    padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)) 4px !important;
     z-index: 2300 !important;
     box-sizing: border-box !important;
     box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.07) !important;
@@ -6086,14 +6503,24 @@ body.recruiter-view [contenteditable] {
     background: transparent;
     border: none;
     cursor: pointer;
-    padding: 4px 6px;
+    padding: 4px 2px;
     border-radius: 8px;
     flex: 1;
+    min-width: 0;
     color: #475569;
-    font-size: 9.5px;
+    font-size: 9px;
     font-weight: 600;
     gap: 2px;
     transition: all 0.15s ease;
+  }
+
+  .mobile-nav-item span:last-child {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    display: block;
+    line-height: 1.1;
   }
 
   .mobile-nav-item:active {
@@ -6307,10 +6734,12 @@ body.recruiter-view [contenteditable] {
     right: 0;
     top: auto;
     width: 100%;
-    max-width: 480px;
+    max-width: min(480px, 100vw);
     margin: 0 auto;
-    height: 72vh;
-    max-height: 72vh;
+    height: 75vh;
+    height: 75dvh;
+    max-height: 75vh;
+    max-height: 75dvh;
     background: #ffffff;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -6318,10 +6747,11 @@ body.recruiter-view [contenteditable] {
     z-index: 3101;
     display: flex;
     flex-direction: column;
-    padding: 10px 14px env(safe-area-inset-bottom, 16px) 14px;
+    padding: 12px 14px max(16px, env(safe-area-inset-bottom, 16px)) 14px;
     box-sizing: border-box;
     transform: translateY(100%);
     transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    overscroll-behavior: contain;
   }
 
   .mobile-versions-modal::before {
@@ -6344,8 +6774,11 @@ body.recruiter-view [contenteditable] {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-    padding-bottom: 6px;
+    padding-bottom: 8px;
     border-bottom: 1px solid #f1f5f9;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
   }
 
   .mobile-versions-header h3 {
@@ -6356,21 +6789,39 @@ body.recruiter-view [contenteditable] {
   }
 
   .mobile-versions-header .mobile-drawer-close {
-    width: 26px !important;
-    height: 26px !important;
-    font-size: 15px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 22px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 50% !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
   }
 
   .mobile-versions-search {
     width: 100%;
-    height: 34px;
-    padding: 6px 10px;
+    height: 40px;
+    padding: 8px 12px;
     border: 1px solid #cbd5e1;
-    border-radius: 6px;
-    font-size: 13px !important;
+    border-radius: 8px;
+    font-size: 16px !important;
     box-sizing: border-box;
     margin-bottom: 8px;
     outline: none;
+    background: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    flex-shrink: 0;
     transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
 
@@ -6382,25 +6833,30 @@ body.recruiter-view [contenteditable] {
   .mobile-versions-list {
     flex: 1;
     overflow-y: auto;
+    overscroll-behavior: contain;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
+    padding-top: 6px;
     padding-bottom: 16px;
     -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
   }
 
   .mobile-version-item {
     display: flex;
     align-items: center;
-    padding: 5px 9px;
-    border-radius: 6px;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 8px;
     border: 1px solid #e2e8f0;
     background: #f8fafc;
     color: #1e293b;
-    font-size: 11.5px;
+    font-size: 12px;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.12s ease;
+    box-sizing: border-box;
   }
 
   .mobile-version-item:active {
@@ -6411,6 +6867,183 @@ body.recruiter-view [contenteditable] {
     background: #1b4332;
     color: white;
     border-color: #1b4332;
+  }
+
+  .mobile-version-group-header {
+    font-size: 11px;
+    font-weight: 800;
+    color: #475569;
+    padding: 8px 6px 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-top: 1px solid #f1f5f9;
+    margin-top: 6px;
+    user-select: none;
+  }
+
+  .mobile-version-group-header:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 2px;
+  }
+
+  /* ============================================================
+     CHẾ ĐỘ ĐỌC CHO MOBILE (B2: REFLOW CV 1 CỘT, CHỮ 14-16PX)
+     ============================================================ */
+  body.cv-reader-mode {
+    background-color: #f8fafc !important;
+  }
+
+  body.cv-reader-mode .cv-viewport-wrapper {
+    display: block !important;
+    padding: 56px 12px calc(80px + env(safe-area-inset-bottom, 12px)) 12px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
+
+  body.cv-reader-mode .cv-paper-container {
+    width: 100% !important;
+    max-width: 680px !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    transform: none !important;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 8px !important;
+    overflow: visible !important;
+  }
+
+  body.cv-reader-mode .cv-preview {
+    width: 100% !important;
+    min-height: auto !important;
+    transform: none !important;
+    position: static !important;
+    padding: 20px 16px !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+    box-sizing: border-box !important;
+  }
+
+  body.cv-reader-mode .cv-preview.a4-mode::after {
+    display: none !important;
+  }
+
+  body.cv-reader-mode .cv-header {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 2px solid #e2e8f0 !important;
+  }
+
+  body.cv-reader-mode .cv-header-left {
+    width: 100% !important;
+  }
+
+  body.cv-reader-mode .cv-name {
+    font-size: 22px !important;
+    line-height: 1.25 !important;
+    margin-bottom: 4px !important;
+  }
+
+  body.cv-reader-mode .cv-role {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #1b4332 !important;
+  }
+
+  body.cv-reader-mode .cv-contact {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 8px 14px !important;
+    font-size: 13.5px !important;
+    margin-top: 8px !important;
+  }
+
+  body.cv-reader-mode .cv-contact-item {
+    font-size: 13.5px !important;
+  }
+
+  body.cv-reader-mode .section-title {
+    font-size: 16px !important;
+    margin-top: 18px !important;
+    margin-bottom: 10px !important;
+    padding-bottom: 4px !important;
+    border-bottom: 1.5px solid #1b4332 !important;
+    color: #1b4332 !important;
+  }
+
+  body.cv-reader-mode .job-item,
+  body.cv-reader-mode .project-item {
+    margin-bottom: 16px !important;
+  }
+
+  body.cv-reader-mode .job-header,
+  body.cv-reader-mode .project-header {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+    margin-bottom: 6px !important;
+  }
+
+  body.cv-reader-mode .job-title,
+  body.cv-reader-mode .project-title {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: #0f172a !important;
+  }
+
+  body.cv-reader-mode .job-company,
+  body.cv-reader-mode .project-tech {
+    font-size: 13.5px !important;
+    color: #334155 !important;
+  }
+
+  body.cv-reader-mode .job-meta,
+  body.cv-reader-mode .project-meta {
+    font-size: 13px !important;
+    color: #475569 !important;
+  }
+
+  body.cv-reader-mode .job-desc,
+  body.cv-reader-mode .project-desc,
+  body.cv-reader-mode .cv-preview li,
+  body.cv-reader-mode .cv-summary {
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: #1e293b !important;
+  }
+
+  body.cv-reader-mode .skills-grid,
+  body.cv-reader-mode .skills-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+
+  body.cv-reader-mode .skill-item {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+    font-size: 14px !important;
+    padding: 6px 10px !important;
+    background: #f8fafc !important;
+    border-radius: 6px !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+
+  body.cv-reader-mode .skill-cat {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    color: #1b4332 !important;
+  }
+
+  body.cv-reader-mode .skill-items,
+  body.cv-reader-mode .skill-desc {
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
   }
 
   /* ============================================================
@@ -6854,6 +7487,7 @@ body.recruiter-view [contenteditable] {
     color: #64748b !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 1 !important;
+    line-clamp: 1 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     margin-top: 2px !important;
@@ -6952,6 +7586,561 @@ body.recruiter-view [contenteditable] {
   .mobile-versions-overlay {
     display: none !important;
   }
+}
+
+/* ==========================================================================
+   8. CV PRO TOOLS - NÂNG CẤP TÍNH NĂNG CHUYÊN NGHIỆP CHO CV EDITOR
+   ========================================================================== */
+
+/* A. BỐ CỤC 2 CỘT EXECUTIVE SIDEBAR */
+.cv-preview.layout-sidebar .cv-sidebar-body {
+  display: flex !important;
+  gap: 16px !important;
+  align-items: flex-start !important;
+}
+
+.cv-preview.layout-sidebar .cv-col-sidebar {
+  width: 34% !important;
+  flex-shrink: 0 !important;
+  border-right: 1.5px solid #e2e8f0;
+  padding-right: 14px;
+  box-sizing: border-box;
+}
+
+.cv-preview.layout-sidebar .cv-col-main {
+  width: 66% !important;
+  flex: 1 !important;
+  min-width: 0 !important;
+  box-sizing: border-box;
+}
+
+.cv-preview.layout-sidebar .cv-col-sidebar .cv-section-title {
+  font-size: calc(var(--cv-base-font-size) + 0.5pt) !important;
+}
+
+.cv-preview.layout-sidebar .cv-skills-table td {
+  display: block !important;
+  width: 100% !important;
+  padding: 2px 0 !important;
+  border: none !important;
+}
+
+.cv-preview.layout-sidebar .cv-skills-category {
+  font-weight: 700;
+  color: var(--cv-color, #1e3a8a);
+  margin-top: 4px;
+}
+
+/* B. COMMAND PALETTE (Ctrl+K / Cmd+K) - SPOTLIGHT QUICK ACTIONS */
+.cmd-palette-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 5000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 10vh;
+  padding-left: 12px;
+  padding-right: 12px;
+  box-sizing: border-box;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cmd-palette-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.cmd-palette-modal {
+  width: 100%;
+  max-width: 620px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.96) translateY(-10px);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cmd-palette-overlay.open .cmd-palette-modal {
+  transform: scale(1) translateY(0);
+}
+
+.cmd-palette-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  gap: 12px;
+  background: #ffffff;
+}
+
+.cmd-palette-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.cmd-palette-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  color: #0f172a;
+  font-family: inherit;
+  background: transparent;
+  padding: 4px 0;
+}
+
+.cmd-palette-kbd {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  padding: 2px 7px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.cmd-palette-results {
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cmd-group-title {
+  font-size: 10.5px;
+  font-weight: 800;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 12px 4px 12px;
+}
+
+.cmd-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.cmd-item:hover, .cmd-item.active {
+  background: #f1f5f9;
+}
+
+.cmd-item.active {
+  background: #e2e8f0;
+}
+
+.cmd-item-icon {
+  font-size: 16px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cmd-color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  display: inline-block;
+}
+
+.cmd-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cmd-item-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cmd-item-desc {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.cmd-item-enter {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.05);
+}
+
+.cmd-palette-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 18px;
+  background: #f8fafc;
+  border-top: 1px solid #f1f5f9;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.cmd-footer-hints {
+  display: flex;
+  gap: 12px;
+}
+
+.cmd-footer-hints kbd {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  padding: 1px 5px;
+  font-size: 9.5px;
+  font-family: monospace;
+}
+
+.cmd-empty-state {
+  padding: 30px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.cmd-empty-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+
+/* C. CV HEALTH & ATS QUALITY AUDIT */
+.cv-health-modal {
+  max-width: 580px !important;
+}
+
+.cv-health-body {
+  padding: 16px 20px;
+  max-height: 68vh;
+  overflow-y: auto;
+}
+
+.cv-health-scorecard {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: linear-gradient(135deg, #f8fafc, #edf2f7);
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+}
+
+.cv-health-circle {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 4px solid #10b981;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  flex-shrink: 0;
+}
+
+.cv-health-number {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.cv-health-denom {
+  font-size: 10px;
+  font-weight: 700;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.cv-health-meta {
+  flex: 1;
+}
+
+.cv-health-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.cv-health-summary {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.45;
+}
+
+.cv-health-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cv-audit-item {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  transition: border-color 0.15s;
+}
+
+.cv-audit-item:hover {
+  border-color: #cbd5e1;
+}
+
+.cv-audit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.cv-audit-name {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.cv-audit-score {
+  font-size: 11px;
+  font-weight: 800;
+  color: #1b4332;
+  background: #e8f5e9;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+
+.cv-audit-desc {
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* D. EXPORT CENTER (JSON RESUME & MARKDOWN) */
+.export-center-modal {
+  max-width: 650px !important;
+}
+
+.export-center-tabs {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 10px;
+  margin: 12px 18px 0 18px;
+  gap: 4px;
+}
+
+.export-tab {
+  flex: 1;
+  padding: 7px 12px;
+  border: none;
+  background: transparent;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.export-tab.active {
+  background: #ffffff;
+  color: #1b4332;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.export-center-body {
+  padding: 14px 18px;
+}
+
+.export-textarea {
+  width: 100%;
+  height: 280px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: Consolas, Monaco, monospace;
+  font-size: 11.5px;
+  line-height: 1.45;
+  box-sizing: border-box;
+  background: #f8fafc;
+  color: #0f172a;
+  outline: none;
+  resize: none;
+}
+
+.export-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* E. TOAST NOTIFICATION */
+.cv-pro-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 24px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.cv-pro-toast.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* F. PRINT & HR VIEW WHITELIST SAFEGUARDS */
+@media print {
+  .cmd-palette-overlay,
+  .cv-health-overlay,
+  .export-center-overlay,
+  .cv-pro-toast {
+    display: none !important;
+  }
+}
+
+body.recruiter-view .cmd-palette-overlay,
+body.recruiter-view .cv-health-overlay,
+body.recruiter-view .export-center-overlay,
+body.recruiter-view .cv-pro-toast {
+  display: none !important;
+}
+
+/* G. CÁC NÚT ĐIỀU KHIỂN PRO TRÊN DESKTOP */
+.cmd-palette-trigger-btn {
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%) !important;
+  color: #ffffff !important;
+  border: 1.5px solid #52b788 !important;
+  border-radius: 50px !important;
+  box-shadow: 0 3px 10px rgba(27, 67, 50, 0.25);
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px !important;
+  cursor: pointer;
+  font-size: 11.5px;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cmd-palette-trigger-btn:hover {
+  background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(27, 67, 50, 0.35);
+}
+
+.cv-health-btn {
+  background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #34d399 !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px !important;
+  transition: all 0.2s ease;
+}
+
+.cv-health-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.35);
+}
+
+.export-center-btn {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #818cf8 !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 10px !important;
+  transition: all 0.2s ease;
+}
+
+.export-center-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35);
+}
+
+.layout-switch-btn {
+  background: #f8fafc;
+  color: #1e293b;
+  border: 1px solid #cbd5e1;
+  padding: 7px 12px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.layout-switch-btn:hover {
+  background: #1b4332;
+  color: #ffffff;
+  border-color: #1b4332;
+  transform: translateY(-2px);
 }
 
 

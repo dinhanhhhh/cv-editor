@@ -1,0 +1,242 @@
+[
+  {
+    "name": "Mobile 320x568",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (62x38)', '.mobile-nav-item (62x38)', '.mobile-nav-item (62x38)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 360x740",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (70x38)', '.mobile-nav-item (70x38)', '.mobile-nav-item (70x38)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 360x800 (Galaxy A55)",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (70x38)', '.mobile-nav-item (70x38)', '.mobile-nav-item (70x38)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 390x844 (iPhone 14)",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (76x38)', '.mobile-nav-item (76x38)', '.mobile-nav-item (76x38)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 430x932 (iPhone Pro Max)",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (84x38)', '.mobile-nav-item (84x38)', '.mobile-nav-item (84x38)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile ngang 844x390",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=25px, R=25px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (167x38)', '.mobile-nav-item (167x38)', '.mobile-nav-item (167x38)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Tablet 768x1024",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=16px, R=16px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Tablet 1024x768",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=115px, R=115px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS (desktop)",
+      "bottom_nav": "PASS (desktop)",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Desktop 1280x720",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=243px, R=243px, diff=0px)",
+      "no_widget_collision": "PASS",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS (desktop)",
+      "bottom_nav": "PASS (desktop)",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Desktop 1366x768",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=286px, R=286px, diff=0px)",
+      "no_widget_collision": "PASS",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS (desktop)",
+      "bottom_nav": "PASS (desktop)",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Desktop 1440x900",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=323px, R=323px, diff=0px)",
+      "no_widget_collision": "PASS",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS (desktop)",
+      "bottom_nav": "PASS (desktop)",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Desktop 1920x1080",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=563px, R=563px, diff=0px)",
+      "no_widget_collision": "PASS",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS (desktop)",
+      "bottom_nav": "PASS (desktop)",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Desktop 2560x1440",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=883px, R=883px, diff=0px)",
+      "no_widget_collision": "PASS",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS (desktop)",
+      "bottom_nav": "PASS (desktop)",
+      "touch_targets": "PASS"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 320x568 (WebKit)",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (62x37)', '.mobile-nav-item (62x37)', '.mobile-nav-item (62x37)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 360x800 (WebKit)",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (70x37)', '.mobile-nav-item (70x37)', '.mobile-nav-item (70x37)'])"
+    },
+    "failures": []
+  },
+  {
+    "name": "Mobile 390x844 (WebKit)",
+    "status": "PASS",
+    "details": {
+      "no_horizontal_scroll": "PASS",
+      "no_element_overflow": "PASS",
+      "cv_symmetry": "PASS (gap: L=8px, R=8px, diff=0px)",
+      "no_widget_collision": "PASS (N/A mobile/tablet)",
+      "date_visible": "PASS",
+      "mobile_sheet": "PASS",
+      "bottom_nav": "PASS",
+      "touch_targets": "PASS (minor: ['.mobile-nav-item (76x37)', '.mobile-nav-item (76x37)', '.mobile-nav-item (76x37)'])"
+    },
+    "failures": []
+  }
+]

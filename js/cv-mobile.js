@@ -26,21 +26,24 @@
     // 5. Đồng bộ nút đổi ngôn ngữ VI/EN trên Mobile Top Bar
     bindLangSwitchActions();
 
-    // 6. Lắng nghe thay đổi cỡ chữ từ desktop để đồng bộ lên mobile
+    // 6. Gắn sự kiện Chế độ đọc (Reader Mode)
+    bindReaderModeActions();
+
+    // 7. Lắng nghe thay đổi cỡ chữ từ desktop để đồng bộ lên mobile
     syncFontSize();
 
-    // 7. Tự động đồng bộ trạng thái Bottom Bar khi người dùng tương tác
+    // 8. Tự động đồng bộ trạng thái Bottom Bar khi người dùng tương tác
     document.addEventListener("click", () => setTimeout(syncMobileNavActiveState, 80));
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") setTimeout(syncMobileNavActiveState, 80);
     });
 
-    // 8. Tự động thu nhỏ tờ CV khổ A4 vừa khít màn hình mobile (Kiến trúc TopCV)
+    // 9. Tự động thu nhỏ tờ CV khổ A4 vừa khít màn hình mobile (Kiến trúc TopCV)
     initCvCanvasScale();
   }
 
   /**
-   * Cập nhật tên bản CV hiện tại lên Mobile Top Bar
+   * Cập nhật tên bản CV hiện tại lên Mobile Top Bar (B3: Nhãn ngắn gọn + tooltip đầy đủ)
    */
   function updateCurrentVersionTitle() {
     const titleEl = document.getElementById("mobileCurrentVersionText");
@@ -52,11 +55,44 @@
     if (window.CV_MANIFEST && Array.isArray(window.CV_MANIFEST)) {
       const found = window.CV_MANIFEST.find(item => item.key === currentKey);
       if (found) {
-        titleEl.textContent = found.label || `📦 ${found.key}`;
+        const emoji = found.emoji || "📦";
+        const shortName = found.key === "default" ? "BẢN CHUẨN" : found.key.toUpperCase();
+        titleEl.textContent = `${emoji} ${shortName}`;
+        titleEl.title = found.label || found.key;
         return;
       }
     }
-    titleEl.textContent = "📦 Chọn bản CV";
+    titleEl.textContent = "📦 CHỌN BẢN CV";
+    titleEl.title = "Bấm để chọn bản CV";
+  }
+
+  /**
+   * Bật/Tắt Chế độ đọc 1 cột reflow thân thiện trên điện thoại (B2)
+   */
+  function toggleReaderMode() {
+    const isReader = document.body.classList.toggle("cv-reader-mode");
+    const topBtn = document.getElementById("mobileReaderModeBtn");
+    const drawerBtn = document.getElementById("mobileDrawerReaderBtn");
+
+    if (topBtn) {
+      topBtn.textContent = isReader ? "📄 A4" : "📖 Đọc";
+      topBtn.classList.toggle("active", isReader);
+    }
+    if (drawerBtn) {
+      const label = drawerBtn.querySelector("span:last-child");
+      if (label) label.textContent = isReader ? "Chế độ A4" : "Chế độ đọc";
+    }
+
+    if (typeof window.updateCvScale === "function") {
+      window.updateCvScale();
+    }
+  }
+
+  function bindReaderModeActions() {
+    const topBtn = document.getElementById("mobileReaderModeBtn");
+    if (topBtn) {
+      topBtn.addEventListener("click", toggleReaderMode);
+    }
   }
 
   /**
@@ -189,9 +225,22 @@
       });
     }
 
-    // 3. In / Lưu PDF
+    // 3. In / Lưu PDF (Kiểm tra tràn trang theo B6)
     if (navPrint) {
       navPrint.addEventListener("click", () => {
+        // Cảnh báo nếu dung lượng vượt 100% trang A4 (B6)
+        if (window.currentA4FitPercent && window.currentA4FitPercent > 100) {
+          const over = window.currentA4FitPercent - 100;
+          const proceed = confirm(
+            `⚠️ CẢNH BÁO TRÀN TRANG A4 (+${over}%):\n\n` +
+            `Dung lượng nội dung CV hiện tại đang vượt quá 1 trang A4 (${window.currentA4FitPercent}%).\n` +
+            `Khi in sang PDF có thể bị rớt một vài dòng sang trang 2.\n\n` +
+            `👉 Bấm OK để tiếp tục In.\n` +
+            `👉 Bấm Hủy (Cancel) để dùng Magic Fit tự động co vừa khít 1 trang.`
+          );
+          if (!proceed) return;
+        }
+
         const originBtn = document.getElementById("downloadBtn");
         if (originBtn) originBtn.click();
         else window.print();
@@ -263,6 +312,24 @@
       });
     }
 
+    // Đổi bản CV từ Drawer (B5)
+    const drawerVersionBtn = document.getElementById("mobileDrawerVersionBtn");
+    if (drawerVersionBtn) {
+      drawerVersionBtn.addEventListener("click", () => {
+        toggleMobileDrawer();
+        const topVersionBtn = document.getElementById("mobileVersionBtn");
+        if (topVersionBtn) topVersionBtn.click();
+      });
+    }
+
+    // Đổi Chế độ đọc từ Drawer (B2)
+    const drawerReaderBtn = document.getElementById("mobileDrawerReaderBtn");
+    if (drawerReaderBtn) {
+      drawerReaderBtn.addEventListener("click", () => {
+        toggleReaderMode();
+      });
+    }
+
     // Đổi cỡ chữ A- / A+
     const btnDec = document.getElementById("mobileFontDecrease");
     const btnInc = document.getElementById("mobileFontIncrease");
@@ -286,6 +353,9 @@
     }
 
     // Các nút chức năng trong Drawer -> Trigger nút gốc tương ứng
+    bindTriggerAction("mobileCvHealthBtn", "cvHealthBtn", true);
+    bindTriggerAction("mobileToggleLayoutBtn", "layoutSwitcherBtn", true);
+    bindTriggerAction("mobileExportCenterBtn", "exportCenterBtn", true);
     bindTriggerAction("mobileMagicFitBtn", "magicFitBtn", true);
     bindTriggerAction("mobileA4PreviewBtn", "a4PreviewBtn", true);
     bindTriggerAction("mobileResetBtn", "resetBtn", true);
@@ -374,6 +444,21 @@
           const match = !q || text.includes(q);
           item.style.display = match ? "flex" : "none";
         });
+
+        // Ẩn tiêu đề nhóm nếu các item bên dưới đều ẩn
+        const headers = listContainer.querySelectorAll(".mobile-version-group-header");
+        headers.forEach(h => {
+          let sib = h.nextElementSibling;
+          let hasVisible = false;
+          while (sib && !sib.classList.contains("mobile-version-group-header")) {
+            if (sib.classList.contains("mobile-version-item") && sib.style.display !== "none") {
+              hasVisible = true;
+              break;
+            }
+            sib = sib.nextElementSibling;
+          }
+          h.style.display = hasVisible ? "" : "none";
+        });
       });
     }
 
@@ -387,19 +472,69 @@
       const urlParams = new URLSearchParams(window.location.search);
       const currentKey = urlParams.get("type") || "default";
 
-      manifest.forEach(item => {
+      const storage = window.cvVersionStorage || {
+        getPinnedKeys: () => [],
+        getRecentKeys: () => []
+      };
+
+      const pinnedKeys = storage.getPinnedKeys();
+      const recentKeys = storage.getRecentKeys().filter(k => !pinnedKeys.includes(k));
+
+      function createMobileItem(item, isPinned = false) {
         const a = document.createElement("a");
         a.className = "mobile-version-item" + (item.key === currentKey ? " active" : "");
         a.href = `?type=${encodeURIComponent(item.key)}`;
+        a.dataset.key = item.key;
         a.innerHTML = `
           <div style="flex: 1; min-width: 0;">
-            <div style="font-weight: 600; color: ${item.key === currentKey ? '#fff' : '#0f172a'}; font-size: 11.5px; line-height: 1.25;">${item.label || item.key}</div>
-            <div style="font-size: 9.5px; opacity: ${item.key === currentKey ? '0.85' : '0.6'}; margin-top: 1px; font-family: monospace;">type=${item.key}</div>
+            <div style="font-weight: 600; color: ${item.key === currentKey ? '#fff' : '#0f172a'}; font-size: 13px; line-height: 1.3;">${item.label || item.key}</div>
+            <div style="font-size: 10.5px; opacity: ${item.key === currentKey ? '0.85' : '0.65'}; margin-top: 2px; font-family: monospace;">type=${item.key}</div>
           </div>
-          ${item.key === currentKey ? '<span style="font-size: 12px; margin-left: 6px;">✓</span>' : ''}
+          ${item.key === currentKey ? '<span style="font-size: 14px; margin-left: 6px; font-weight: bold;">✓</span>' : (isPinned ? '<span style="font-size: 13px; margin-left: 6px;">📌</span>' : '')}
         `;
-        listContainer.appendChild(a);
-      });
+        return a;
+      }
+
+      // 1. Nhóm Ghim (nếu có)
+      if (pinnedKeys.length > 0) {
+        const h = document.createElement("div");
+        h.className = "mobile-version-group-header";
+        h.textContent = `📌 ĐÃ GHIM (${pinnedKeys.length})`;
+        listContainer.appendChild(h);
+
+        pinnedKeys.forEach(k => {
+          const item = manifest.find(m => m.key === k);
+          if (item) listContainer.appendChild(createMobileItem(item, true));
+        });
+      }
+
+      // 2. Nhóm Gần đây (nếu có)
+      if (recentKeys.length > 0) {
+        const h = document.createElement("div");
+        h.className = "mobile-version-group-header";
+        h.textContent = `🕒 GẦN ĐÂY (${recentKeys.length})`;
+        listContainer.appendChild(h);
+
+        recentKeys.forEach(k => {
+          const item = manifest.find(m => m.key === k);
+          if (item) listContainer.appendChild(createMobileItem(item, false));
+        });
+      }
+
+      // 3. Nhóm các bản CV còn lại (loại trừ các bản đã ghim / gần đây để không bị trùng lặp)
+      const otherVersions = manifest.filter(item => !pinnedKeys.includes(item.key) && !recentKeys.includes(item.key));
+      if (otherVersions.length > 0) {
+        const hAll = document.createElement("div");
+        hAll.className = "mobile-version-group-header";
+        hAll.textContent = (pinnedKeys.length > 0 || recentKeys.length > 0)
+          ? `📂 CÁC BẢN KHÁC (${otherVersions.length})`
+          : `📂 TẤT CẢ BẢN CV (${manifest.length})`;
+        listContainer.appendChild(hAll);
+
+        otherVersions.forEach(item => {
+          listContainer.appendChild(createMobileItem(item, false));
+        });
+      }
     }
   }
 
@@ -430,37 +565,152 @@
   }
 
   /**
-   * Tự động tính toán scale và bù trừ khoảng trống để tờ CV A4 hiển thị trọn vẹn như TopCV
+   * Tự động tính toán scale và kích thước wrapper để tờ CV A4 hiển thị cân đối hoàn hảo
+   * Bọc trong wrapper (cvPaperContainer) có width/height đúng bằng kích thước sau scale
+   * Căn giữa bằng flex, transform-origin: top left, không bị lệch phải
    */
   function initCvCanvasScale() {
-    function updateScale() {
-      if (window.innerWidth > 992) {
-        document.documentElement.style.removeProperty("--cv-mobile-scale");
-        document.documentElement.style.removeProperty("--cv-mobile-margin-bottom");
-        return;
+    let manualScale = null;
+
+    function updateScale(forceFit = false) {
+      if (forceFit) {
+        manualScale = null;
       }
 
       const cvEl = document.getElementById("cvContent");
-      if (!cvEl) return;
+      const wrapper = document.getElementById("cvPaperContainer");
+      const viewport = document.getElementById("cvViewportWrapper") || document.body;
+      if (!cvEl || !wrapper) return;
 
-      // Chiều rộng khả dụng trên mobile (trừ 16px lề hai bên)
-      const availWidth = window.innerWidth - 16;
-      // Khổ A4 chuẩn desktop 210mm (~794px ở 96 DPI)
-      const baseWidth = 794;
-      const scale = Math.min(1, Math.max(0.25, availWidth / baseWidth));
-      
-      document.documentElement.style.setProperty("--cv-mobile-scale", scale.toFixed(4));
+      // Nếu đang ở Chế độ đọc (Reader Mode), để layout tự nhiên 1 cột
+      if (document.body.classList.contains("cv-reader-mode")) {
+        wrapper.style.width = "";
+        wrapper.style.height = "";
+        cvEl.style.width = "";
+        cvEl.style.transform = "";
+        cvEl.style.position = "";
+        return;
+      }
 
-      // Tính khoảng bù margin-bottom do CSS transform scale tạo ra
+      const baseWidth = 794; // Khổ A4 chuẩn 210mm ở 96 DPI
       const fullHeight = cvEl.scrollHeight || cvEl.offsetHeight || 1123;
-      const visualHeight = fullHeight * scale;
-      const excessGap = fullHeight - visualHeight;
-      // Dành 30px đệm dưới đáy trước khi chạm thanh mobile bottom bar (58px)
-      const mb = -excessGap + 30;
-      document.documentElement.style.setProperty("--cv-mobile-margin-bottom", `${Math.round(mb)}px`);
+      const w = window.innerWidth;
+      let availWidth;
+
+      if (w <= 600) {
+        // Mobile: trừ 16px padding 2 bên (8px mỗi bên)
+        availWidth = Math.max(100, viewport.clientWidth - 16);
+      } else if (w <= 1024) {
+        // Tablet: trừ 32px padding 2 bên
+        availWidth = Math.max(100, viewport.clientWidth - 32);
+      } else if (w < 1360) {
+        // Desktop nhỏ hoặc Zoom: trừ không gian an toàn cho 2 dock 2 bên (140px)
+        availWidth = Math.max(100, viewport.clientWidth - 140);
+      } else {
+        // Desktop rộng
+        availWidth = Math.max(100, viewport.clientWidth - 260);
+      }
+
+      let scale = availWidth < baseWidth ? availWidth / baseWidth : 1;
+      if (manualScale !== null && !forceFit) {
+        scale = manualScale;
+      }
+      scale = Math.min(2.0, Math.max(0.2, scale));
+
+      const scaledWidth = Math.round(baseWidth * scale);
+      const scaledHeight = Math.round(fullHeight * scale);
+
+      wrapper.style.width = `${scaledWidth}px`;
+      wrapper.style.height = `${scaledHeight}px`;
+
+      cvEl.style.width = `${baseWidth}px`;
+      cvEl.style.transformOrigin = "top left";
+      cvEl.style.transform = `scale(${scale.toFixed(4)})`;
+
+      if (w <= 992) {
+        cvEl.style.position = "absolute";
+        cvEl.style.top = "0";
+        cvEl.style.left = "0";
+        document.documentElement.style.setProperty("--cv-mobile-scale", scale.toFixed(4));
+        document.documentElement.style.removeProperty("--cv-desktop-scale");
+      } else {
+        if (scale < 1 || manualScale !== null) {
+          cvEl.style.position = "absolute";
+          cvEl.style.top = "0";
+          cvEl.style.left = "0";
+          document.documentElement.style.setProperty("--cv-desktop-scale", scale.toFixed(4));
+        } else {
+          cvEl.style.position = "static";
+          cvEl.style.transform = "none";
+          wrapper.style.width = `${baseWidth}px`;
+          wrapper.style.height = `${fullHeight}px`;
+          document.documentElement.style.removeProperty("--cv-desktop-scale");
+        }
+        document.documentElement.style.removeProperty("--cv-mobile-scale");
+      }
     }
 
-    // Chạy khi khởi tạo và khi cửa sổ thay đổi kích thước
+    // Double-tap zoom & Pinch-to-zoom trên mobile (B2)
+    const wrapper = document.getElementById("cvPaperContainer");
+    if (wrapper) {
+      let lastTap = 0;
+      let isZoomed = false;
+      let pinchStartDist = 0;
+      let initialScale = 1;
+
+      wrapper.addEventListener("touchstart", (e) => {
+        if (document.body.classList.contains("cv-reader-mode")) return;
+        if (e.touches.length === 2) {
+          pinchStartDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          initialScale = manualScale || 1;
+        }
+      }, { passive: true });
+
+      wrapper.addEventListener("touchmove", (e) => {
+        if (document.body.classList.contains("cv-reader-mode")) return;
+        if (e.touches.length === 2 && pinchStartDist > 0) {
+          const currentDist = Math.hypot(
+            e.touches[0].clientX - e.touches[1].clientX,
+            e.touches[0].clientY - e.touches[1].clientY
+          );
+          const factor = currentDist / pinchStartDist;
+          manualScale = Math.min(2.5, Math.max(0.35, initialScale * factor));
+          updateScale();
+        }
+      }, { passive: true });
+
+      wrapper.addEventListener("touchend", (e) => {
+        if (document.body.classList.contains("cv-reader-mode")) return;
+        if (e.touches.length < 2) {
+          pinchStartDist = 0;
+        }
+        if (e.changedTouches.length === 1 && e.touches.length === 0) {
+          const now = Date.now();
+          if (now - lastTap < 320) {
+            e.preventDefault();
+            isZoomed = !isZoomed;
+            manualScale = isZoomed ? 1.15 : null;
+            updateScale();
+          }
+          lastTap = now;
+        }
+      });
+    }
+
+    // ResizeObserver tự động tính lại khi layout container thay đổi
+    if (window.ResizeObserver && document.body) {
+      const ro = new ResizeObserver(() => {
+        updateScale();
+      });
+      ro.observe(document.body);
+      const viewport = document.getElementById("cvViewportWrapper");
+      if (viewport) ro.observe(viewport);
+    }
+
+    // Chạy khi khởi tạo và khi cửa sổ thay đổi kích thước hoặc xoay màn hình
     updateScale();
     window.addEventListener("resize", updateScale);
     window.addEventListener("orientationchange", () => setTimeout(updateScale, 150));
@@ -470,8 +720,13 @@
     setTimeout(updateScale, 300);
     setTimeout(updateScale, 800);
 
-    // Xuất hàm để các controller khác gọi khi font-size đổi hoặc render lại
+    // Xuất hàm toàn cục để các controller khác gọi
     window.updateCvScale = updateScale;
+    window.fitCvToScreen = () => updateScale(true);
+    window.setManualCvScale = (s) => {
+      manualScale = s;
+      updateScale();
+    };
   }
 
   // Khởi động khi DOM sẵn sàng
