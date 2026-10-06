@@ -231,20 +231,24 @@ var cvData = {
     ],
     skills: [
       {
-        cat: "Ngôn ngữ & Frameworks",
-        items: "JavaScript (ES6+), TypeScript, React, Next.js, Node.js, Express",
+        cat: "Frontend",
+        items: "React.js, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design",
       },
       {
-        cat: "Cơ sở dữ liệu",
-        items: "PostgreSQL, Supabase Cloud, MongoDB, MySQL",
+        cat: "Backend",
+        items: "Node.js, Express.js, RESTful API, JWT, RBAC",
       },
       {
-        cat: "Công cụ & DevOps",
-        items: "Git, GitHub Actions (CI/CD), Docker, Postman, Vercel, Cloudflare Workers",
+        cat: "Databases",
+        items: "PostgreSQL, MongoDB, MySQL, 3NF, Indexing",
       },
       {
-        cat: "Kỹ năng khác",
-        items: "RESTful API Design, AI-Assisted Development, Phân tích yêu cầu, Đọc hiểu tài liệu tiếng Anh",
+        cat: "Tools & DevOps",
+        items: "Git, GitHub Actions (CI/CD), Docker, Postman, Vercel",
+      },
+      {
+        cat: "English",
+        items: "Đọc hiểu tài liệu kỹ thuật",
       },
     ],
     btnText: "In / Tải PDF",
@@ -323,20 +327,24 @@ var cvData = {
     ],
     skills: [
       {
-        cat: "Languages & Frameworks",
-        items: "JavaScript (ES6+), TypeScript, React, Next.js, Node.js, Express",
+        cat: "Frontend",
+        items: "React.js, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design",
+      },
+      {
+        cat: "Backend",
+        items: "Node.js, Express.js, RESTful API, JWT, RBAC",
       },
       {
         cat: "Databases",
-        items: "PostgreSQL, Supabase Cloud, MongoDB, MySQL",
+        items: "PostgreSQL, MongoDB, MySQL, 3NF, Indexing",
       },
       {
         cat: "Tools & DevOps",
-        items: "Git, GitHub Actions (CI/CD), Docker, Postman, Vercel, Cloudflare Workers",
+        items: "Git, GitHub Actions (CI/CD), Docker, Postman, Vercel",
       },
       {
-        cat: "Other Skills",
-        items: "RESTful API Design, AI-Assisted Development, Technical English Reading",
+        cat: "English",
+        items: "Technical documentation reading",
       },
     ],
     btnText: "Print / Save PDF",
@@ -377,6 +385,24 @@ if (typeof module !== "undefined" && module.exports) {
 
   fs.writeFileSync(MANIFEST_PATH, updatedManifestRaw, "utf8");
   console.log(`${C_GREEN}✔ Đã cập nhật cv-manifest.js (đặt ở đầu danh sách).${C_RESET}`);
+
+  // Tự động đồng bộ vào DEFAULT_SEED_DATA của cv-tracker.js
+  const TRACKER_PATH = path.join(ROOT_DIR, "js", "cv-tracker.js");
+  if (fs.existsSync(TRACKER_PATH)) {
+    try {
+      const trackerRaw = fs.readFileSync(TRACKER_PATH, "utf8");
+      const trackerPattern = /const\s+DEFAULT_SEED_DATA\s*=\s*\[/;
+      if (trackerPattern.test(trackerRaw)) {
+        const todayStr = new Date().toISOString().split("T")[0];
+        const newSeedEntry = `    {\n      id: "job_${key}_seed",\n      company: ${JSON.stringify(company)},\n      position: ${JSON.stringify(title)},\n      cvType: ${JSON.stringify(key)},\n      cvLabel: ${JSON.stringify((emoji ? emoji + " " : "") + company + " " + title)},\n      appliedDate: "${todayStr}",\n      status: "applied",\n      contact: ${JSON.stringify(email)},\n      notes: "Vị trí: " + ${JSON.stringify(title)} + " tại " + ${JSON.stringify(company)},\n      jobUrl: "",\n      jdText: ""\n    },\n`;
+        const updatedTrackerRaw = trackerRaw.replace(trackerPattern, `const DEFAULT_SEED_DATA = [\n${newSeedEntry}`);
+        fs.writeFileSync(TRACKER_PATH, updatedTrackerRaw, "utf8");
+        console.log(`${C_GREEN}✔ Đã cập nhật cv-tracker.js (thêm vào DEFAULT_SEED_DATA).${C_RESET}`);
+      }
+    } catch (e) {
+      console.warn(`▲ Cảnh báo: Không thể cập nhật cv-tracker.js:`, e.message);
+    }
+  }
 
   // Tự động kiểm tra tính hợp lệ bằng verify-cv-data.js
   console.log(`\n⏳ Đang tự động kiểm định tính hợp lệ theo AGENTS.md...`);

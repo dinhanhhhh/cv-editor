@@ -56,7 +56,24 @@
   Tuyệt đối không được bỏ sót, tránh làm nút in hiển thị lỗi `undefined`.
 - **CẤM đếm số lượng API vụn vặt ("25+ API endpoints", "15+ APIs"):** **TUYỆT ĐỐI KHÔNG** dùng các cụm từ đếm số lượng như `"25+ API endpoints"`, `"15+ APIs"` trong toàn bộ nội dung CV (Tóm tắt, Kinh nghiệm, Dự án), Email ứng tuyển hay Kịch bản ôn phỏng vấn. Thay vào đó, tập trung diễn đạt chuyên môn kiến trúc hệ thống (vd: *"Thiết kế cơ sở dữ liệu, xây dựng và tối ưu hệ thống RESTful APIs phục vụ truy xuất dữ liệu thời gian thực"*, *"Xây dựng các dịch vụ RESTful APIs hoàn chỉnh..."*).
 - **Tiêu đề dự án ngắn gọn (Tránh rớt dòng ngày tháng):** Trường `name` của mỗi dự án trong `projects` **BẮT BUỘC NGẮN GỌN** (dưới 40 ký tự), ví dụ: `"HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT"` (VI) / `"AI AGENT & AUTOMATION PLATFORM"` (EN) hoặc `"HỆ THỐNG CV EDITOR & AI AUTOMATION"`. **TUYỆT ĐỐI KHÔNG** nối thêm phụ đề song ngữ dài dòng trong ngoặc đơn (kiểu `"HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT (AI AGENT & AUTOMATION PLATFORM)"`) vì sẽ chiếm trọn chiều ngang, đẩy mốc ngày tháng rớt xuống dòng dưới làm xô lệch bố cục 1 trang A4.
-
+- **Chuẩn viết mục Kỹ năng (Skills ATS-friendly):**
+  - Nhãn `cat` chỉ dùng nhóm chuẩn: `Backend`, `Frontend`, `Databases`, `Tools & DevOps`, `English`. Cấm ghép kiểu "Languages & Backend", "Frontend & Web", và cấm nhóm chung chung như "Core Competencies", "Năng lực chuyên môn".
+  - Thứ tự nhóm: nhóm khớp JD nhất đặt lên đầu.
+  - `items` chỉ ghi công nghệ/khái niệm cụ thể (JWT, RBAC, 3NF, Indexing). Bỏ từ chung chung (Clean Code, Basic SEO) và kỹ năng quá cơ bản (HTML5, CSS3).
+  - Cấm chú thích làm yếu kỹ năng: "basics", "overview", "foundational", "cơ bản", "nền tảng", "(thành thạo)". Kỹ năng còn yếu thì bỏ hẳn.
+  - Viết đúng tên chuẩn: Node.js, Express.js, Next.js, React.js, PostgreSQL, TypeScript.
+  - Không tự thêm kỹ năng ứng viên chưa có. Keyword JD còn thiếu thì liệt kê riêng để ứng viên tự quyết.
+  - Dòng `tech` của dự án phải khớp đúng stack thật trong repo GitHub. Tuyệt đối không bịa thêm công nghệ chỉ để làm đẹp CV/khớp JD.
+- **Chuẩn viết mục Tóm tắt chuyên môn (ATS-friendly):**
+  - Độ dài: Một đoạn văn thuần 3-4 câu, khoảng 50-70 từ, không gạch đầu dòng, không markdown. Giọng kỹ sư, súc tích, đọc tự nhiên như người viết.
+  - Các ý cần có mặt (thứ tự linh hoạt chọn sao cho khớp JD nhất, mở đầu bằng điểm mạnh liên quan nhất tới JD):
+    - Học vấn: Cử nhân Khoa học Máy tính, Trường Đại học Mở TP.HCM.
+    - 3-5 công nghệ khớp JD nhất, CHỈ lấy từ CV hiện tại.
+    - Kinh nghiệm thực tế tại TAMI, chọn khía cạnh liên quan nhất với JD.
+    - Một câu về công ty chỉ khi có điểm cụ thể từ JD để nói. Nếu không có thì bỏ.
+  - Cấm cụm từ sáo rỗng: "tiếp thu nhanh", "năng động", "đam mê học hỏi", "tư duy chuẩn mực", hoặc "gắn bó lâu dài" nếu không kèm lý do cụ thể.
+  - Trung thực tuyệt đối: Không bịa số liệu, công nghệ hay kinh nghiệm. Thiếu số liệu định lượng thì để placeholder `[điền số liệu]`. Thứ JD yêu cầu mà ứng viên chưa có thì liệt kê riêng bên ngoài đoạn tóm tắt.
+  
 ### ⚠️ Quy tắc kiến trúc giao diện (HR View & In ấn A4):
 - **Kiến trúc Whitelist cho HR View (`?view=hr`):** Khi chế độ `body.recruiter-view` kích hoạt, **CHỈ DUY NHẤT 2 THÀNH PHẦN** được phép xuất hiện: Tờ CV (`main#cv-preview`) và Nút thao tác của HR (`#hrActionContainer`). Mọi công cụ chỉnh sửa, thanh menu, danh sách bản CV, thanh mobile, hay modal mới thêm vào trang **BẮT BUỘC** phải tuân theo cơ chế Whitelist: `body.recruiter-view > *:not(main):not(#cv-preview):not(#hrActionContainer):not(.hr-action-container):not(script):not(style) { display: none !important; }`. Tuyệt đối không ẩn kiểu Blacklist liệt kê từng class thủ công tránh sót component mới.
 - **Kiến trúc Whitelist cho In ấn PDF (`@media print`):** Tương tự, khi xuất in / PDF, chỉ có `main#cv-preview` được phép in: `body > *:not(main):not(#cv-preview):not(script):not(style) { display: none !important; }`. Mọi thanh công cụ khác không bao giờ được phép lọt vào bản in.

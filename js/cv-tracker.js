@@ -22,6 +22,118 @@
   // Dữ liệu mẫu khởi đầu và tự động đồng bộ
   const DEFAULT_SEED_DATA = [
     {
+      id: "job_thuduc_it_seed",
+      company: "Văn phòng IT (190 Võ Văn Ngân, Thủ Đức)",
+      position: "Thực Tập Sinh IT (Fullstack & AI)",
+      cvType: "thuduc-it",
+      cvLabel: "📍 IT Thủ Đức Thực Tập Sinh IT (Fullstack & AI)",
+      appliedDate: "2026-10-06",
+      status: "applied",
+      contact: "190 Võ Văn Ngân, Bình Thọ, TP. Thủ Đức",
+      notes: "Địa chỉ làm việc: 190 Võ Văn Ngân, Bình Thọ, Thủ Đức. T2-T7. Hỗ trợ phát triển & bảo trì phần mềm, CSDL/SQL, gỡ lỗi, Git. Ưu tiên Fullstack & AI.",
+      jobUrl: "https://vn.joboko.com/tim-viec-lam-tai-ho-chi-minh",
+      jdText: `THỰC TẬP SINH IT TẠI THỦ ĐỨC
+Địa điểm làm việc: 190 Võ Văn Ngân, Phường Bình Thọ, TP. Thủ Đức, TP.HCM
+Thời gian làm việc: Từ Thứ 2 đến Thứ 7
+Mức lương: Thỏa thuận
+
+MÔ TẢ CÔNG VIỆC:
+- Hỗ trợ phát triển và bảo trì các ứng dụng phần mềm theo yêu cầu của dự án.
+- Tham gia vào các cuộc họp nhóm để thảo luận về tiến độ công việc và giải quyết các vấn đề kỹ thuật.
+- Thực hiện kiểm thử và gỡ lỗi các sản phẩm phần mềm để đảm bảo chất lượng trước khi phát hành.
+- Hỗ trợ quản lý cơ sở dữ liệu, thực hiện các thao tác nhập liệu và tối ưu hóa hiệu suất.
+- Nghiên cứu và cập nhật các công nghệ mới, xu hướng trong lĩnh vực IT để áp dụng vào công việc.
+
+YÊU CẦU CÔNG VIỆC:
+- Sinh viên năm 3, năm 4 học Công nghệ Thông tin hoặc lĩnh vực liên quan.
+- Ưu tiên các bạn Fullstack, AI.
+- Kiến thức cơ bản về lập trình, ưu tiên các ngôn ngữ như Java, C#, hoặc Python.
+- Hiểu biết về cơ sở dữ liệu và SQL, có khả năng thực hiện các truy vấn cơ bản.
+- Kỹ năng giải quyết vấn đề tốt và khả năng làm việc độc lập cũng như theo nhóm.
+- Có kinh nghiệm với các công cụ phát triển phần mềm như Git hoặc Visual Studio là một lợi thế.
+- Sẵn sàng học hỏi và cập nhật công nghệ mới, có tinh thần cầu tiến trong công việc.
+
+QUYỀN LỢI:
+- Hỗ trợ hình thức làm việc, được hướng dẫn và học thực tế từ các dự án thật.
+- Làm việc trong môi trường năng động, hỗ trợ dấu mộc thực tập.
+- Có cơ hội trở thành nhân viên chính thức sau khi hoàn thành chương trình thực tập xuất sắc.`
+    },
+    {
+      id: "job_longchau_seed",
+      company: "Công ty Cổ phần Dược phẩm FPT Long Châu",
+      position: "Thực Tập Sinh Kỹ Thuật (AI-Agents Team)",
+      cvType: "longchau",
+      cvLabel: "💊 FPT Long Châu Thực Tập Sinh Kỹ Thuật (AI-Agents Team)",
+      appliedDate: "2026-10-06",
+      status: "applied",
+      contact: "Ban Tuyển dụng FPT Long Châu (AI-Agents Team)",
+      notes: "FPT Long Châu - AI-Agents Team. Hướng chuyên môn: Frontend Portal (React 18, TypeScript, Vite). Điểm cộng: AI tools (Claude Code, Cursor, Codex), gọi LLM APIs làm product thật, Docker, Git.",
+      jobUrl: "https://vn.joboko.com/tim-viec-lam-tai-ho-chi-minh",
+      jdText: `FPT LONG CHÂU - THỰC TẬP SINH KỸ THUẬT (AI-AGENTS TEAM)
+Địa điểm làm việc: TP. Hồ Chí Minh
+Kinh nghiệm: Dưới 1 năm kinh nghiệm / Sinh viên năm cuối
+Mức lương: Thỏa thuận (Ứng tuyển sớm để được ưu tiên)
+
+KHI THAM GIA VÀO TEAM, BẠN CHỌN 1 TRONG 4 HƯỚNG CHUYÊN MÔN:
+1. Frontend Portal (Hướng đã chọn):
+- Phát triển giao diện quản trị & vận hành: theo dõi tiến độ từng phase pipeline, hiển thị lỗi validation trước khi confirm, cấu hình lịch ingest, quản lý chuỗi nghiệp vụ.
+- Tech stack: React 18, TypeScript, Vite, Vitest.
+
+2. Backend & AI Platform:
+- Lập trình MCP tools và orchestrator điều khiển pipeline hệ thống (đọc flow YAML, gọi tool, quản lý session status, chặn publish tài liệu chưa đạt chuẩn).
+- Xây dựng nền tảng hạ tầng cho các AI Agent nghiệp vụ.
+- Tech stack: Python, FastAPI, MCP, PostgreSQL, Pydantic.
+
+3. Data & Retrieval:
+- Xây dựng pipeline ingest dữ liệu từ Jira/Confluence/GitLab vào Milvus.
+- Thực hiện chunking, embedding, đồng bộ tăng dần, đo lường chất lượng truy hồi context và xử lý sự kiện qua Kafka.
+- Tech stack: Milvus, Kafka, Redis, tree-sitter, networkx.
+
+4. QA & Automation:
+- Viết property-based test và regression test cho các luồng quan trọng.
+- Dựng kịch bản kiểm thử Quality Gate, tham gia build Docker image và deploy lên Kubernetes.
+
+YÊU CẦU CHUNG:
+- Tư duy logic tốt, khả năng tự học công nghệ mới nhanh.
+- Đam mê AI/AI Agent, thành thạo công cụ hỗ trợ lập trình (Claude Code, Cursor, Codex).
+- Nắm vững Git, hiểu biết về Docker và tư duy hệ thống.`
+    },
+    {
+      id: "job_greenbio_seed",
+      company: "CÔNG TY TNHH CÔNG NGHỆ SẠCH GREEN BIO",
+      position: "Web Developer Intern",
+      cvType: "greenbio",
+      cvLabel: "🌱 Green Bio Web Developer Intern",
+      appliedDate: "2026-10-06",
+      status: "applied",
+      contact: "85 Phạm Huy Thông, Phường 17 (Gò Vấp), TP.HCM",
+      notes: "Địa chỉ: 85 Phạm Huy Thông, Gò Vấp. Hệ thống nội bộ: Bán hàng, kho vận, nhân sự, website. Stack: Python (FastAPI/Django), React, PostgreSQL/MySQL, REST API, Docker.",
+      jobUrl: "https://vn.joboko.com/tim-viec-lam-tai-ho-chi-minh",
+      jdText: `GREEN BIO - TUYỂN DỤNG WEB DEVELOPER INTERN
+Địa chỉ làm việc: 85 Phạm Huy Thông, Phường 17, Gò Vấp, TP.HCM
+Mức phụ cấp: 2 - 5 triệu/tháng
+Hạn nộp: 04/11/2026
+
+MÔ TẢ CÔNG VIỆC:
+- Phát triển và bảo trì các ứng dụng web và mobile cho hệ thống nội bộ của công ty: quản lý bán hàng, nhân sự, kho vận và website.
+- Viết clean code, hiệu quả và dễ bảo trì.
+- Thiết kế và xây dựng REST API, tích hợp dữ liệu giữa các hệ thống.
+- Viết truy vấn, xử lý dữ liệu và xây dựng báo cáo trên PostgreSQL/MySQL.
+- Cập nhật giao diện và nội dung website, đảm bảo hiển thị tốt trên các thiết bị.
+
+YÊU CẦU CÔNG VIỆC:
+- Sinh viên năm cuối / mới tốt nghiệp Đại học chuyên ngành CNTT, KHMT hoặc liên quan.
+- Có kiến thức Python (Django/Flask/FastAPI) và biết ít nhất 1 framework frontend (React.js, Next.js).
+- Có kiến thức SQL và thiết kế cơ sở dữ liệu quan hệ (3NF, Indexing).
+- Có kiến thức về kiến trúc phần mềm, REST API, Git, Docker.
+
+QUYỀN LỢI:
+- Phụ cấp thực tập: 2 - 5 triệu/tháng.
+- Hỗ trợ mộc thực tập.
+- Hiểu trọn quy trình vận hành doanh nghiệp thực tế: Bán hàng, kho, nhân sự...
+- Cơ hội trở thành nhân viên chính thức sau kỳ thực tập.`
+    },
+    {
       id: "job_octosoft_seed",
       company: "CÔNG TY TNHH PHẦN MỀM OCTO",
       position: "Full Stack Developer",
@@ -131,28 +243,38 @@
         let updated = false;
 
         // Tự động bổ sung các job mẫu mới nhất nếu chưa có trong danh sách
+        const missingSeeds = DEFAULT_SEED_DATA.filter(seed => {
+          const sComp = (seed.company || "").toLowerCase().trim();
+          const sCvT = (seed.cvType || "").toLowerCase().trim();
+
+          return !jobs.some(j => {
+            const jComp = (j.company || "").toLowerCase().trim();
+            const jCvT = (j.cvType || "").toLowerCase().trim();
+            return j.id === seed.id || (jCvT && jCvT === sCvT) || (jComp && sComp && (jComp.includes(sComp) || sComp.includes(jComp)));
+          });
+        });
+
+        if (missingSeeds.length > 0) {
+          jobs = [...missingSeeds, ...jobs];
+          updated = true;
+        }
+
+        // Bổ sung jdText nếu thiếu cho các job đã có
         DEFAULT_SEED_DATA.forEach(seed => {
           const sComp = (seed.company || "").toLowerCase().trim();
           const sCvT = (seed.cvType || "").toLowerCase().trim();
 
-          const existingIndex = jobs.findIndex(j => {
+          const existing = jobs.find(j => {
             const jComp = (j.company || "").toLowerCase().trim();
             const jCvT = (j.cvType || "").toLowerCase().trim();
             return j.id === seed.id || (jCvT && jCvT === sCvT) || (jComp && sComp && (jComp.includes(sComp) || sComp.includes(jComp)));
           });
 
-          if (existingIndex === -1) {
-            // Chưa có -> thêm vào đầu danh sách
-            jobs.unshift({ ...seed });
-            updated = true;
-          } else {
-            // Đã có -> bổ sung jdText nếu thiếu
-            const existing = jobs[existingIndex];
+          if (existing) {
             if (!existing.jdText && seed.jdText) {
               existing.jdText = seed.jdText;
               updated = true;
             }
-            // Nếu là Octosoft, tự động cập nhật status sang interviewing và bổ sung lịch phỏng vấn nếu chưa có
             if (seed.cvType === "octosoft" && existing.status !== "interviewing") {
               existing.status = "interviewing";
               existing.notes = seed.notes;
@@ -170,6 +292,45 @@
     } catch (e) {
       console.warn("[JobTracker] Lỗi đọc localStorage:", e);
       jobs = [...DEFAULT_SEED_DATA];
+    }
+    updateBadge();
+  }
+
+  function checkAndSyncCurrentCv() {
+    try {
+      if (typeof window !== "undefined" && window.cvData && window.cvData.meta) {
+        const meta = window.cvData.meta;
+        const cur = getCurrentCvInfo();
+        if (!meta.company || cur.type === "default") return;
+
+        const sComp = (meta.company || "").toLowerCase().trim();
+        const sCvT = (cur.type || "").toLowerCase().trim();
+
+        const exists = jobs.some(j => {
+          const jComp = (j.company || "").toLowerCase().trim();
+          const jCvT = (j.cvType || "").toLowerCase().trim();
+          return (jCvT && jCvT === sCvT) || (jComp && sComp && (jComp.includes(sComp) || sComp.includes(jComp)));
+        });
+
+        if (!exists) {
+          jobs.unshift({
+            id: `job_${cur.type}_auto_${Date.now()}`,
+            company: meta.company,
+            position: meta.position || (window.cvData.vi && window.cvData.vi.title) || "Developer",
+            cvType: cur.type,
+            cvLabel: cur.label,
+            appliedDate: getTodayString(),
+            status: "applied",
+            contact: meta.email || meta.contact || "",
+            notes: meta.notes || "",
+            jobUrl: meta.jobUrl || "",
+            jdText: meta.notes || ""
+          });
+          saveJobs();
+        }
+      }
+    } catch (e) {
+      console.warn("[JobTracker] Lỗi tự động nhận diện CV hiện tại:", e);
     }
     updateBadge();
   }
@@ -736,6 +897,7 @@
     if (!overlay) return;
 
     loadJobs();
+    checkAndSyncCurrentCv();
     closeForm();
     renderStats();
     renderJobList();

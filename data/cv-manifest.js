@@ -10,6 +10,24 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "thuduc-it",
+      file: "data/cv-data-thuduc-it.js",
+      emoji: "📍",
+      label: "📍 IT Thủ Đức Thực Tập Sinh IT (Fullstack & AI)",
+    },
+    {
+      key: "longchau",
+      file: "data/cv-data-longchau.js",
+      emoji: "💊",
+      label: "💊 FPT Long Châu Thực Tập Sinh Kỹ Thuật (AI-Agents Team)",
+    },
+    {
+      key: "greenbio",
+      file: "data/cv-data-greenbio.js",
+      emoji: "🌱",
+      label: "🌱 Green Bio Web Developer Intern",
+    },
+    {
       key: "assolutions",
       file: "data/cv-data-assolutions.js",
       emoji: "🛡️",

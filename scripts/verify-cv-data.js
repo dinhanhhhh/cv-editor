@@ -235,6 +235,13 @@ allDataFiles.forEach((file) => {
             `[${file}] [${lang}] skills[${sIdx}] thiếu thuộc tính 'cat'! (Bắt buộc dùng { cat: "...", items: "..." }, không dùng 'name')`
           );
         }
+
+        // CẢNH BÁO: Kiểm tra chú thích làm yếu kỹ năng theo chuẩn ATS
+        if (/\((cơ bản|nền tảng|thành thạo|basics?|overview|foundational)\)/i.test(skill.items || "")) {
+          logWarn(
+            `[${file}] [${lang}] skills[${sIdx}] chứa từ làm yếu/chú thích kỹ năng ("${skill.items}"). Nên lược bỏ theo chuẩn ATS!`
+          );
+        }
       });
     }
 
