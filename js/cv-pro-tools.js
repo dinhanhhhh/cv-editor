@@ -764,18 +764,33 @@
 
     let lengthScore = 0;
     let lengthMsg = "";
+    let lengthTip = "";
     if (wordCount >= 340 && wordCount <= 560) {
       lengthScore = 20;
-      lengthMsg = "Rất lý tưởng cho 1 trang A4 chuẩn quốc tế.";
+      lengthMsg = lang === "vi" ? "Rất lý tưởng cho 1 trang A4 chuẩn quốc tế." : "Ideal for 1-page international A4 standard.";
+      lengthTip = lang === "vi" 
+        ? "✅ Độ dài hoàn hảo (340 - 560 từ): Đạt tiêu chuẩn tối ưu cho 1 trang A4."
+        : "✅ Perfect length (340 - 560 words): Optimized for a standard 1-page A4 format.";
     } else if (wordCount >= 250 && wordCount < 340) {
       lengthScore = 15;
-      lengthMsg = "Hơi ngắn, có thể bổ sung thêm thành tựu dự án.";
+      lengthMsg = lang === "vi" ? "Hơi ngắn, có thể bổ sung thêm thành tựu dự án." : "A bit short, consider adding project achievements.";
+      const needed = 340 - wordCount;
+      lengthTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Bổ sung thêm ~${needed} từ vào phần giải pháp kỹ thuật và kết quả đạt được của dự án.`
+        : `💡 <b>Recommendation:</b> Add ~${needed} more words elaborating on technical solutions and project results.`;
     } else if (wordCount > 560 && wordCount <= 700) {
       lengthScore = 14;
-      lengthMsg = "Hơi dài, chú ý co ngắn lại để tránh tràn trang A4.";
+      lengthMsg = lang === "vi" ? "Hơi dài, chú ý co ngắn lại để tránh tràn trang A4." : "A bit long, condense to avoid page overflow.";
+      const excess = wordCount - 560;
+      lengthTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Nên cô đọng bớt ~${excess} từ ở các câu mô tả dài dòng để đảm bảo không bị rớt trang khi in PDF.`
+        : `💡 <b>Recommendation:</b> Condense ~${excess} words to avoid page overflow when printing to PDF.`;
     } else {
       lengthScore = 8;
-      lengthMsg = "Quá ngắn hoặc quá dài, cần tối ưu lại dung lượng.";
+      lengthMsg = lang === "vi" ? "Quá ngắn hoặc quá dài, cần tối ưu lại dung lượng." : "Too short or too long, optimize word count.";
+      lengthTip = lang === "vi"
+        ? "💡 <b>Đề xuất:</b> Cân chỉnh lại toàn bộ nội dung trong khoảng 340 - 560 từ để đảm bảo chuẩn 1 trang A4."
+        : "💡 <b>Recommendation:</b> Adjust overall content to 340 - 560 words for a balanced 1-page CV.";
     }
 
     // 2. Thông tin liên hệ đầy đủ
@@ -784,38 +799,159 @@
     const hasPhone = contacts.some(c => c.icon === "phone" || /\d{8,}/.test(c.text || ""));
     const hasEmail = contacts.some(c => c.icon === "email" || /@/.test(c.text || ""));
     const hasGithub = contacts.some(c => c.icon === "github" || /github/i.test(c.text || ""));
-    const hasAddress = contacts.some(c => c.icon === "address" || c.icon === "location" || /Thủ Đức|Hồ Chí Minh|Hà Nội|TP/i.test(c.text || ""));
+    const hasAddress = contacts.some(c => c.icon === "address" || c.icon === "location" || /Thủ Đức|Hồ Chí Minh|Hà Nội|TP|Vietnam|District/i.test(c.text || ""));
 
     if (hasPhone) contactScore += 5;
     if (hasEmail) contactScore += 5;
     if (hasGithub) contactScore += 5;
     if (hasAddress) contactScore += 5;
 
+    const missingContacts = [];
+    if (!hasPhone) missingContacts.push(lang === "vi" ? "Số điện thoại" : "Phone number");
+    if (!hasEmail) missingContacts.push("Email");
+    if (!hasGithub) missingContacts.push("GitHub link");
+    if (!hasAddress) missingContacts.push(lang === "vi" ? "Địa chỉ làm việc" : "Location/Address");
+
+    let contactTip = "";
+    if (missingContacts.length === 0) {
+      contactTip = lang === "vi"
+        ? "✅ Đầy đủ 4/4 kênh liên hệ chuẩn mực (Điện thoại, Email, GitHub, Địa chỉ)."
+        : "✅ Full 4/4 contact channels present (Phone, Email, GitHub, Address).";
+    } else {
+      contactTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Bổ sung thêm <b>${missingContacts.join(", ")}</b> để nhà tuyển dụng dễ dàng liên lạc phỏng vấn.`
+        : `💡 <b>Recommendation:</b> Add <b>${missingContacts.join(", ")}</b> so recruiters can easily reach you.`;
+    }
+
     // 3. Action Verbs (Động từ hành động)
     const verbList = lang === "vi" ? ACTION_VERBS_VI : ACTION_VERBS_EN;
     const lowerText = fullText.toLowerCase();
     const matchedVerbs = verbList.filter(v => lowerText.includes(v.toLowerCase()));
     let verbScore = 0;
-    if (matchedVerbs.length >= 8) verbScore = 25;
-    else if (matchedVerbs.length >= 5) verbScore = 19;
-    else if (matchedVerbs.length >= 3) verbScore = 13;
-    else verbScore = 6;
+    let verbTip = "";
+    if (matchedVerbs.length >= 8) {
+      verbScore = 25;
+      verbTip = lang === "vi"
+        ? `✅ Rất phong phú (${matchedVerbs.length} động từ hành động). Thể hiện vai trò chủ động và năng lực cao.`
+        : `✅ Excellent (${matchedVerbs.length} action verbs). Demonstrates proactive execution and leadership.`;
+    } else if (matchedVerbs.length >= 5) {
+      verbScore = 19;
+      const needed = 8 - matchedVerbs.length;
+      const suggestions = lang === "vi"
+        ? ["Kiến trúc", "Tối ưu hóa", "Tái cấu trúc", "Triển khai", "Đóng gói"]
+        : ["Architect", "Optimize", "Refactor", "Deploy", "Automate"];
+      const missingExamples = suggestions.filter(s => !matchedVerbs.some(v => v.toLowerCase() === s.toLowerCase())).slice(0, 3);
+      verbTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Thêm ít nhất ${needed} động từ mạnh nữa để đạt 25/25đ. Gợi ý thay bằng: <i>${missingExamples.join(", ")}</i> ở đầu các gạch đầu dòng.`
+        : `💡 <b>Recommendation:</b> Add at least ${needed} more action verbs for 25/25. Suggested: <i>${missingExamples.join(", ")}</i>.`;
+    } else if (matchedVerbs.length >= 3) {
+      verbScore = 13;
+      const needed = 8 - matchedVerbs.length;
+      verbTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Thêm ít nhất ${needed} động từ hành động mạnh vào đầu mỗi nhiệm vụ để tăng tính thuyết phục.`
+        : `💡 <b>Recommendation:</b> Add at least ${needed} strong action verbs to start your bullet points.`;
+    } else {
+      verbScore = 6;
+      verbTip = lang === "vi"
+        ? "💡 <b>Đề xuất:</b> Quá ít động từ hành động! Hãy viết lại các nhiệm vụ bắt đầu bằng: Xây dựng, Thiết kế, Tối ưu, Tích hợp..."
+        : "💡 <b>Recommendation:</b> Too few action verbs! Start bullet points with: Built, Designed, Optimized, Integrated...";
+    }
 
     // 4. Số liệu định lượng (Measurable Metrics)
     const metricMatches = fullText.match(/\b\d+([.,]\d+)?\s*(%|giây|phút|giờ|tháng|người|lần|ms|s|requests?|users?|txs?)\b/gi) || [];
     let metricScore = 0;
-    if (metricMatches.length >= 4) metricScore = 20;
-    else if (metricMatches.length >= 2) metricScore = 14;
-    else if (metricMatches.length === 1) metricScore = 8;
-    else metricScore = 4;
+    let metricTip = "";
+    if (metricMatches.length >= 4) {
+      metricScore = 20;
+      metricTip = lang === "vi"
+        ? `✅ Bằng chứng định lượng xuất sắc (${metricMatches.length} số liệu). Tăng độ tin cậy tối đa với nhà tuyển dụng.`
+        : `✅ Outstanding quantitative proof (${metricMatches.length} metrics). Highly credible to recruiters.`;
+    } else if (metricMatches.length >= 2) {
+      metricScore = 14;
+      const needed = 4 - metricMatches.length;
+      metricTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Cần thêm ít nhất <b>${needed} số liệu định lượng</b> nữa để đạt 20/20đ. <i>Ví dụ: tối ưu 30% tốc độ truy vấn, giảm độ trễ từ 400ms xuống 150ms, phục vụ hơn 1,000 users...</i>`
+        : `💡 <b>Recommendation:</b> Add at least <b>${needed} more measurable metrics</b> for full 20/20. <i>E.g., 30% speed boost, reduced latency to 150ms, handled 1,000+ users...</i>`;
+    } else if (metricMatches.length === 1) {
+      metricScore = 8;
+      metricTip = lang === "vi"
+        ? "💡 <b>Đề xuất:</b> Mới có 1 số liệu. Hãy bổ sung thêm 3 số liệu phần trăm (%), thời gian (giây/ms), hoặc số lượng người dùng/request."
+        : "💡 <b>Recommendation:</b> Only 1 metric found. Add 3 more metrics (%, ms, users, requests) to showcase impact.";
+    } else {
+      metricScore = 4;
+      metricTip = lang === "vi"
+        ? "💡 <b>Đề xuất:</b> Thiếu số liệu định lượng! Nhà tuyển dụng rất coi trọng kết quả đo lường được (%, ms, quy mô dự án)."
+        : "💡 <b>Recommendation:</b> Missing metrics! Recruiters prioritize measurable impact (%, ms latency, scale).";
+    }
 
     // 5. Cấu trúc các mục chuẩn ATS
-    let sectionScore = 0;
-    if (data.objective) sectionScore += 3;
-    if (data.education && data.education.length > 0) sectionScore += 3;
-    if (data.experience && data.experience.length > 0) sectionScore += 3;
-    if (data.projects && data.projects.length > 0) sectionScore += 3;
-    if (data.skills && data.skills.length > 0) sectionScore += 3;
+    const hasEducation = !!data.education && (Array.isArray(data.education) ? data.education.length > 0 : !!data.education.school);
+    const hasExperience = Array.isArray(data.experience) && data.experience.length > 0;
+    const hasProjects = Array.isArray(data.projects) && data.projects.length > 0;
+    const hasSkills = Array.isArray(data.skills) && data.skills.length > 0;
+    const hasObjective = !!data.objective;
+
+    const sectionsStatus = [
+      { name: lang === "vi" ? "Tóm tắt chuyên môn" : "Professional Summary", present: hasObjective },
+      { name: lang === "vi" ? "Học vấn" : "Education", present: hasEducation },
+      { name: lang === "vi" ? "Kinh nghiệm làm việc" : "Work Experience", present: hasExperience },
+      { name: lang === "vi" ? "Dự án tiêu biểu" : "Featured Projects", present: hasProjects },
+      { name: lang === "vi" ? "Kỹ năng chuyên môn" : "Technical Skills", present: hasSkills }
+    ];
+
+    const presentSections = sectionsStatus.filter(s => s.present);
+    const missingSections = sectionsStatus.filter(s => !s.present);
+    const sectionScore = presentSections.length * 3;
+
+    let sectionTip = "";
+    if (missingSections.length === 0) {
+      sectionTip = lang === "vi"
+        ? "✅ Đầy đủ 5/5 cấu trúc cốt lõi chuẩn ATS quốc tế (Tóm tắt, Học vấn, Kinh nghiệm, Kỹ năng, Dự án)."
+        : "✅ Full 5/5 core ATS sections present (Summary, Education, Experience, Skills, Projects).";
+    } else {
+      const missingNames = missingSections.map(s => s.name).join(", ");
+      sectionTip = lang === "vi"
+        ? `💡 <b>Đề xuất:</b> Đang thiếu mục: <b>${missingNames}</b>. Hãy bổ sung để hoàn thiện cấu trúc 5 phần chuẩn ATS.`
+        : `💡 <b>Recommendation:</b> Missing sections: <b>${missingNames}</b>. Add them to complete the standard 5-part ATS structure.`;
+    }
+
+    // Tổng hợp Danh sách Đề xuất Hành động (Master Recommendations List)
+    const masterRecs = [];
+    if (metricScore < 20) {
+      masterRecs.push({
+        icon: "📈",
+        title: lang === "vi" ? "Bổ sung chỉ số định lượng & Tác động (Metrics)" : "Add Measurable Metrics",
+        detail: metricTip.replace(/<[^>]*>/g, "")
+      });
+    }
+    if (sectionScore < 15) {
+      masterRecs.push({
+        icon: "📑",
+        title: lang === "vi" ? "Bổ sung cấu trúc mục CV còn thiếu" : "Add Missing Sections",
+        detail: sectionTip.replace(/<[^>]*>/g, "")
+      });
+    }
+    if (verbScore < 25) {
+      masterRecs.push({
+        icon: "🚀",
+        title: lang === "vi" ? "Gia tăng động từ hành động mạnh" : "Increase Action Verbs",
+        detail: verbTip.replace(/<[^>]*>/g, "")
+      });
+    }
+    if (contactScore < 20) {
+      masterRecs.push({
+        icon: "📞",
+        title: lang === "vi" ? "Bổ sung thông tin liên hệ" : "Add Contact Info",
+        detail: contactTip.replace(/<[^>]*>/g, "")
+      });
+    }
+    if (lengthScore < 20) {
+      masterRecs.push({
+        icon: "📄",
+        title: lang === "vi" ? "Cân chỉnh dung lượng bài viết" : "Optimize Length",
+        detail: lengthTip.replace(/<[^>]*>/g, "")
+      });
+    }
 
     // Tổng điểm
     const totalScore = lengthScore + contactScore + verbScore + metricScore + sectionScore;
@@ -824,15 +960,15 @@
     let tierColor = "#10b981";
     let tierBadge = "🌟";
     if (totalScore < 60) {
-      tierLabel = "Cần cải thiện";
+      tierLabel = lang === "vi" ? "Cần cải thiện" : "Needs Improvement";
       tierColor = "#ef4444";
       tierBadge = "⚠️";
     } else if (totalScore < 75) {
-      tierLabel = "Khá";
+      tierLabel = lang === "vi" ? "Khá" : "Good";
       tierColor = "#f59e0b";
       tierBadge = "⚡";
     } else if (totalScore < 90) {
-      tierLabel = "Tốt (ATS Friendly)";
+      tierLabel = lang === "vi" ? "Tốt (ATS Friendly)" : "Very Good (ATS Friendly)";
       tierColor = "#3b82f6";
       tierBadge = "✅";
     }
@@ -848,7 +984,9 @@
             ${tierBadge} ${tierLabel}
           </div>
           <div class="cv-health-summary">
-            CV hiện tại đạt <b>${totalScore}/100 điểm</b> theo tiêu chuẩn sàng lọc tự động (ATS) và bộ chỉ số thẩm định hồ sơ kỹ sư phần mềm.
+            ${lang === "vi"
+              ? `CV hiện tại đạt <b>${totalScore}/100 điểm</b> theo tiêu chuẩn sàng lọc tự động (ATS) và bộ chỉ số thẩm định hồ sơ kỹ sư phần mềm.`
+              : `Current CV scores <b>${totalScore}/100 points</b> according to Automated Tracking Systems (ATS) and software engineer vetting rubrics.`}
           </div>
         </div>
       </div>
@@ -857,16 +995,17 @@
         <!-- Tiêu chí 1 -->
         <div class="cv-audit-item">
           <div class="cv-audit-header">
-            <span class="cv-audit-name">📄 Dung lượng & Độ dài (${wordCount} từ)</span>
+            <span class="cv-audit-name">📄 ${lang === "vi" ? `Dung lượng & Độ dài (${wordCount} từ)` : `Length & Word Count (${wordCount} words)`}</span>
             <span class="cv-audit-score">${lengthScore}/20 đ</span>
           </div>
           <div class="cv-audit-desc">${lengthMsg}</div>
+          <div class="cv-audit-tip ${lengthScore === 20 ? 'tip-success' : 'tip-warning'}">${lengthTip}</div>
         </div>
 
         <!-- Tiêu chí 2 -->
         <div class="cv-audit-item">
           <div class="cv-audit-header">
-            <span class="cv-audit-name">📞 Thông tin liên hệ (${contactScore / 5}/4 kênh)</span>
+            <span class="cv-audit-name">📞 ${lang === "vi" ? `Thông tin liên hệ (${contactScore / 5}/4 kênh)` : `Contact Channels (${contactScore / 5}/4 channels)`}</span>
             <span class="cv-audit-score">${contactScore}/20 đ</span>
           </div>
           <div class="cv-audit-desc">
@@ -875,41 +1014,72 @@
             ${hasGithub ? "✅ GitHub link" : "❌ Thiếu GitHub"} • 
             ${hasAddress ? "✅ Địa chỉ làm việc" : "❌ Thiếu địa chỉ"}
           </div>
+          <div class="cv-audit-tip ${contactScore === 20 ? 'tip-success' : 'tip-warning'}">${contactTip}</div>
         </div>
 
         <!-- Tiêu chí 3 -->
         <div class="cv-audit-item">
           <div class="cv-audit-header">
-            <span class="cv-audit-name">🚀 Động từ hành động mạnh (${matchedVerbs.length} từ)</span>
+            <span class="cv-audit-name">🚀 ${lang === "vi" ? `Động từ hành động mạnh (${matchedVerbs.length} từ)` : `Strong Action Verbs (${matchedVerbs.length} verbs)`}</span>
             <span class="cv-audit-score">${verbScore}/25 đ</span>
           </div>
           <div class="cv-audit-desc">
-            ${matchedVerbs.length > 0 ? `Đã dùng: <b>${matchedVerbs.slice(0, 5).join(", ")}${matchedVerbs.length > 5 ? "..." : ""}</b>` : "Cần bổ sung các động từ hành động: Xây dựng, Tối ưu, Triển khai..."}
+            ${matchedVerbs.length > 0 ? `Đã dùng: <b>${matchedVerbs.slice(0, 6).join(", ")}${matchedVerbs.length > 6 ? "..." : ""}</b>` : "Cần bổ sung các động từ hành động: Xây dựng, Tối ưu, Triển khai..."}
           </div>
+          <div class="cv-audit-tip ${verbScore === 25 ? 'tip-success' : 'tip-warning'}">${verbTip}</div>
         </div>
 
         <!-- Tiêu chí 4 -->
         <div class="cv-audit-item">
           <div class="cv-audit-header">
-            <span class="cv-audit-name">📈 Chỉ số định lượng & Tác động (${metricMatches.length} số liệu)</span>
+            <span class="cv-audit-name">📈 ${lang === "vi" ? `Chỉ số định lượng & Tác động (${metricMatches.length} số liệu)` : `Measurable Metrics & Impact (${metricMatches.length} metrics)`}</span>
             <span class="cv-audit-score">${metricScore}/20 đ</span>
           </div>
           <div class="cv-audit-desc">
             ${metricMatches.length > 0 ? `Số liệu nhận diện: <b>${metricMatches.slice(0, 4).join(", ")}</b>` : "Cần bổ sung số liệu minh chứng kết quả (ví dụ: tối ưu 40%, xử lý 100+ requests, rút ngắn 50%)."}
           </div>
+          <div class="cv-audit-tip ${metricScore === 20 ? 'tip-success' : 'tip-warning'}">${metricTip}</div>
         </div>
 
         <!-- Tiêu chí 5 -->
         <div class="cv-audit-item">
           <div class="cv-audit-header">
-            <span class="cv-audit-name">📑 Cấu trúc các mục chuẩn ATS (${sectionScore / 3}/5 mục)</span>
+            <span class="cv-audit-name">📑 ${lang === "vi" ? `Cấu trúc các mục chuẩn ATS (${presentSections.length}/5 mục)` : `Standard ATS Sections (${presentSections.length}/5 sections)`}</span>
             <span class="cv-audit-score">${sectionScore}/15 đ</span>
           </div>
           <div class="cv-audit-desc">
-            Bao gồm đầy đủ: Tóm tắt, Học vấn, Kinh nghiệm, Kỹ năng và Dự án thực tế.
+            ${sectionsStatus.map(s => `${s.present ? "✅" : "❌"} ${s.name}`).join(" • ")}
           </div>
+          <div class="cv-audit-tip ${sectionScore === 15 ? 'tip-success' : 'tip-warning'}">${sectionTip}</div>
         </div>
       </div>
+
+      <!-- Khối Đề xuất cải thiện đạt 100/100 điểm -->
+      ${masterRecs.length > 0 ? `
+        <div class="cv-health-recs-box">
+          <div class="cv-health-recs-title">
+            🎯 ${lang === "vi" ? "CÁC ĐỀ XUẤT CẦN THÊM ĐỂ ĐẠT 100/100 ĐIỂM:" : "ACTIONABLE STEPS TO REACH 100/100:"}
+          </div>
+          <div class="cv-health-recs-list">
+            ${masterRecs.map(rec => `
+              <div class="cv-health-rec-item priority-high">
+                <span class="cv-health-rec-icon">${rec.icon}</span>
+                <div class="cv-health-rec-content">
+                  <b>${rec.title}:</b> ${rec.detail}
+                </div>
+              </div>
+            `).join("")}
+          </div>
+        </div>
+      ` : `
+        <div class="cv-health-perfect-box">
+          <span style="font-size: 20px;">🏆</span>
+          <div>
+            <b>${lang === "vi" ? "Chúc mừng! CV đã đạt chuẩn hoàn hảo 100/100 điểm ATS!" : "Congratulations! Perfect 100/100 ATS Score!"}</b><br>
+            <span style="font-size: 11.5px; opacity: 0.9;">${lang === "vi" ? "Toàn bộ cấu trúc mục, từ khóa hành động, số liệu định lượng và thông tin liên hệ đều đạt tiêu chuẩn thẩm định cao nhất của các tập đoàn công nghệ." : "All sections, action verbs, measurable metrics, and contact channels meet top-tier industry recruitment standards."}</span>
+          </div>
+        </div>
+      `}
     `;
   }
 

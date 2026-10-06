@@ -56,9 +56,9 @@ Chuyển đổi giữa các phiên bản CV bằng query string `?type=`:
 │   ├── cv-router.js            # Đọc query param, nạp đúng file data
 │   └── cv-renderer.js          # Render CV từ dữ liệu đã nạp
 ├── cloudflare-worker.js        # Telegram Bot Bridge (AI Tailor & Auto deploy)
-├── index.html                  # Entry chính
-├── INTERVIEW_PREP.md           # Tài liệu ôn tập phỏng vấn
-├── truong-dinh-anh-*.html      # Các file HTML legacy
+├── index.html                  # Entry chính của toàn bộ ứng dụng
+├── interview/                  # Tài liệu ôn tập phỏng vấn (INTERVIEW_PREP, OCTOSOFT, Yody)
+├── archive_legacy/             # Lưu trữ các file HTML legacy đối chiếu
 └── README.md
 ```
 
@@ -111,7 +111,7 @@ Dự án tích hợp một Telegram Bot chạy trên **Cloudflare Workers** (`cl
 
 ## Notes
 - `index.html` là luồng chạy chính hiện tại.
-- Các file HTML legacy (`truong-dinh-anh-*.html`) vẫn được giữ lại để tham chiếu lịch sử.
+- Các file HTML legacy (`truong-dinh-anh-*.html`) đã được gom vào `archive_legacy/` để lưu trữ đối chiếu.
 - Thông tin học vấn chung được quản lý tập trung trong `data/cv-global.js` — chỉ cần sửa một nơi là đồng bộ toàn bộ CV.
 - Nếu muốn phát triển tiếp, các hướng hợp lý là chuyển `cvData` sang schema chặt hơn, thêm editor nhập liệu, hoặc sinh PDF ổn định hơn bằng pipeline riêng.
 
