@@ -99,7 +99,7 @@ var cvData = {
       },
       {
         cat: "Frontend",
-        items: "React.js, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design",
+        items: "React.js, Next.js, TypeScript, JavaScript, Tailwind CSS, Responsive Design",
       },
       {
         cat: "Databases",
@@ -255,7 +255,7 @@ GitHub: https://github.com/dinhanhhhh`
       },
       {
         cat: "Frontend",
-        items: "React.js, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design",
+        items: "React.js, Next.js, TypeScript, JavaScript, Tailwind CSS, Responsive Design",
       },
       {
         cat: "Databases",

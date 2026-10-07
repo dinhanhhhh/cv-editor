@@ -22,6 +22,48 @@
   // Dữ liệu mẫu khởi đầu và tự động đồng bộ
   const DEFAULT_SEED_DATA = [
     {
+      id: "job_phatkiengia_seed",
+      company: "Công ty TNHH Phát Kiến Gia",
+      position: "Thực Tập Sinh AI & Data Analytics",
+      cvType: "phatkiengia",
+      cvLabel: "📊 Phát Kiến Gia TTS AI & Data Analytics",
+      appliedDate: "2026-10-07",
+      status: "applied",
+      contact: "Ban Tuyển dụng Phát Kiến Gia (FMCG / Thực phẩm)",
+      notes: "Công ty TNHH Phát Kiến Gia (FMCG/Nhập khẩu thực phẩm: Tulip, Monini, Harvey Fresh...). TTS AI & Data Analytics: Python, SQL, LLM APIs (Gemini/OpenAI), Workflow Automation, tự động hóa báo cáo và xử lý dữ liệu Kho vận/Bán hàng.",
+      jobUrl: "https://vn.joboko.com/tim-viec-lam-tai-ho-chi-minh",
+      jdText: `CÔNG TY TNHH PHÁT KIẾN GIA
+TUYỂN DỤNG THỰC TẬP SINH AI & DATA ANALYTICS FULL-TIME / PART-TIME 2026
+Địa điểm: TP. Hồ Chí Minh
+Lĩnh vực: Bán lẻ, Hàng tiêu dùng FMCG, E-commerce (Thực phẩm nhập khẩu: Tulip, Monini, Harvey Fresh...)
+Mức hỗ trợ: 1 - 4 triệu VNĐ / Tháng (Part-time tối thiểu 20h/tuần, linh hoạt 2-3 buổi tại văn phòng)
+Hạn nộp hồ sơ: 15/10/2026
+
+MÔ TẢ CÔNG VIỆC:
+- Có kiến thức và biết sử dụng thành thạo các công cụ AI (ChatGPT, Claude, Gemini, Perplexity...), Excel, phân tích dữ liệu, Data Science, Power BI để ứng dụng vào thực tế doanh nghiệp.
+- Dưới sự hướng dẫn của quản lý, nghiên cứu, đề xuất và triển khai ứng dụng AI (chatbot, tự động hóa quy trình, xử lý dữ liệu...) phục vụ các phòng ban: Kinh doanh, Marketing, Nhân sự, Kho vận - Logistics, Xuất nhập khẩu.
+- Hỗ trợ xây dựng, huấn luyện và tối ưu các mô hình/công cụ AI (LLM, automation, phân tích dữ liệu) theo nhu cầu thực tế của doanh nghiệp.
+- Viết script, xây dựng công cụ nội bộ giúp số hóa và tự động hóa các quy trình thủ công (báo cáo, tổng hợp dữ liệu, tra cứu thông tin...).
+- Phối hợp với các phòng ban để khảo sát nhu cầu, thử nghiệm và triển khai giải pháp AI vào công việc thực tế.
+- Tài liệu hóa quy trình, hướng dẫn sử dụng công cụ AI cho nhân sự các phòng ban liên quan.
+- Theo dõi, cập nhật các công nghệ, công cụ AI mới để đề xuất cải tiến phù hợp với yêu cầu, quy mô Công ty.
+
+YÊU CẦU ỨNG VIÊN:
+- Sinh viên năm 3, 4 các chuyên ngành Khoa học máy tính, Công nghệ thông tin, Trí tuệ nhân tạo, Khoa học dữ liệu hoặc liên quan.
+- Có kiến thức nền tảng về AI/Machine Learning và lập trình Python.
+- Có kiến thức cơ bản về SQL và xử lý dữ liệu.
+- Có khả năng sử dụng các công cụ AI/LLM như ChatGPT, Claude, Gemini...
+- Tư duy logic tốt, có khả năng research/self-learning.
+
+ƯU TIÊN:
+- Đã từng sử dụng OpenAI/Anthropic/Google AI API.
+- Có kinh nghiệm với RAG, chatbot hoặc workflow automation.
+- Có kinh nghiệm sử dụng Excel, Power BI hoặc các công cụ trực quan hóa dữ liệu.
+- Có Git/GitHub, portfolio/dự án AI cá nhân.
+- Đọc hiểu tài liệu tiếng Anh chuyên ngành.`
+    },
+
+    {
       id: "job_thuduc_it_seed",
       company: "Văn phòng IT (190 Võ Văn Ngân, Thủ Đức)",
       position: "Thực Tập Sinh IT (Fullstack & AI)",

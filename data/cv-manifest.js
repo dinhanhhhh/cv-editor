@@ -10,6 +10,12 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "phatkiengia",
+      file: "data/cv-data-phatkiengia.js",
+      emoji: "📊",
+      label: "📊 Phát Kiến Gia TTS AI & Data Analytics",
+    },
+    {
       key: "thuduc-it",
       file: "data/cv-data-thuduc-it.js",
       emoji: "📍",

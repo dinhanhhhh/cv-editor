@@ -97,7 +97,7 @@ var cvData = {
     skills: [
       {
         cat: "Frontend",
-        items: "React 18, TypeScript, Vite, Next.js, JavaScript (ES6+), Tailwind CSS, Responsive Design",
+        items: "React 18, TypeScript, Vite, Next.js, JavaScript, Tailwind CSS, Responsive Design",
       },
       {
         cat: "Backend",
@@ -255,7 +255,7 @@ GitHub: https://github.com/dinhanhhhh`
     skills: [
       {
         cat: "Frontend",
-        items: "React 18, TypeScript, Vite, Next.js, JavaScript (ES6+), Tailwind CSS, Responsive Design",
+        items: "React 18, TypeScript, Vite, Next.js, JavaScript, Tailwind CSS, Responsive Design",
       },
       {
         cat: "Backend",
