@@ -120,30 +120,37 @@
         banner.className = 'cv-draft-banner loading no-print';
         banner.innerHTML = `
           <div class="draft-content">
-            <span class="draft-badge">⏳ ĐANG TẢI BẢN NHÁP</span>
-            <span class="draft-desc">Đang kéo dữ liệu #${upper} từ Cloudflare KV...</span>
+            <span class="draft-badge">⏳ ĐANG TẢI</span>
+            <span class="draft-title">#${upper}</span>
           </div>
         `;
       } else if (status === 'ready') {
         banner.className = 'cv-draft-banner ready no-print';
         banner.innerHTML = `
           <div class="draft-content">
-            <span class="draft-badge">📝 BẢN NHÁP (DRAFT)</span>
+            <span class="draft-badge">📝 BẢN NHÁP</span>
             <span class="draft-title">#${upper}</span>
-            <span class="draft-desc">Lưu tạm trên Cloudflare KV (Git sạch 100%).</span>
+            <span class="draft-desc">Lưu tạm KV (Git sạch 100%)</span>
           </div>
-          <div class="draft-actions">
-            <span class="draft-hint">Chốt bản này? Gõ trên Telegram: <code>/publish #${key.toLowerCase()}</code></span>
-          </div>
+          <button type="button" class="draft-close-btn" id="draftCloseBtn" title="Đóng thông báo bản nháp" aria-label="Đóng">&times;</button>
         `;
+        const closeBtn = banner.querySelector('#draftCloseBtn');
+        if (closeBtn) {
+          closeBtn.onclick = () => banner.remove();
+        }
       } else if (status === 'error') {
         banner.className = 'cv-draft-banner error no-print';
         banner.innerHTML = `
           <div class="draft-content">
-            <span class="draft-badge">⚠️ LỖI BẢN NHÁP</span>
+            <span class="draft-badge">⚠️ LỖI</span>
             <span class="draft-desc">${errorMsg || 'Không thể tải bản nháp.'}</span>
           </div>
+          <button type="button" class="draft-close-btn" id="draftCloseBtn" title="Đóng" aria-label="Đóng">&times;</button>
         `;
+        const closeBtn = banner.querySelector('#draftCloseBtn');
+        if (closeBtn) {
+          closeBtn.onclick = () => banner.remove();
+        }
         setTimeout(() => banner && banner.remove(), 7000);
       }
     };
