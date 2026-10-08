@@ -2,6 +2,13 @@
 .codex/
 node_modules/
 .DS_Store
+Thumbs.db
 .env
 converted.json
 test-*.js
+*.log
+
+# Build & test outputs
+test_results.json
+scratch/
+archive_legacy/

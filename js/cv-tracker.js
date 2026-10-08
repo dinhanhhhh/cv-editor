@@ -1069,12 +1069,25 @@ QUYỀN LỢI:
   }
 
   // ----------------------------------------------------
-  // Cloudflare KV Sync Management
+  // Cloudflare KV Sync Management (Secure Header-based Auth)
   // ----------------------------------------------------
   const SYNC_PIN_STORAGE_KEY = "cv_tracker_sync_pin";
+  const OFFICIAL_WORKER_URL = "https://cv-telegram-bridge.tdinhanh-it.workers.dev";
 
   function getWorkerBaseUrl() {
-    return (window.CV_WORKER_URL || localStorage.getItem('CV_WORKER_URL') || 'https://cv-telegram-bridge.tdinhanh-it.workers.dev').replace(/\/$/, '');
+    try {
+      if (localStorage.getItem("CV_WORKER_URL")) {
+        localStorage.removeItem("CV_WORKER_URL");
+      }
+    } catch (e) {}
+
+    if (typeof window !== "undefined" && window.CV_WORKER_URL && typeof window.CV_WORKER_URL === "string") {
+      const customUrl = window.CV_WORKER_URL.trim().replace(/\/$/, "");
+      if (customUrl === "http://localhost:8787" || customUrl === OFFICIAL_WORKER_URL) {
+        return customUrl;
+      }
+    }
+    return OFFICIAL_WORKER_URL;
   }
 
   function openSyncModal() {
@@ -1084,7 +1097,10 @@ QUYỀN LỢI:
     if (!overlay) return;
 
     if (pinInput) {
-      pinInput.value = localStorage.getItem(SYNC_PIN_STORAGE_KEY) || "dinhanh2026";
+      // Chỉ lấy mã PIN người dùng đã lưu trên máy, không hardcode PIN mặc định
+      const savedPin = localStorage.getItem(SYNC_PIN_STORAGE_KEY) || "";
+      pinInput.value = savedPin;
+      pinInput.placeholder = "Nhập mã PIN cá nhân (tối thiểu 4 ký tự)...";
     }
     if (statusMsg) {
       statusMsg.style.display = "none";
@@ -1110,17 +1126,25 @@ QUYỀN LỢI:
 
   function pushToCloud() {
     const pinInput = document.getElementById("jtSyncPinInput");
-    const pin = (pinInput ? pinInput.value.trim() : "") || "dinhanh2026";
+    const pin = (pinInput ? pinInput.value.trim() : "");
+    if (!pin || pin.length < 4) {
+      showSyncStatus("⚠️ Vui lòng nhập mã PIN bảo mật (ít nhất 4 ký tự) để đồng bộ!", true);
+      if (pinInput) pinInput.focus();
+      return;
+    }
     localStorage.setItem(SYNC_PIN_STORAGE_KEY, pin);
 
     showSyncStatus("⏳ Đang tải lên Cloudflare KV...", false);
 
     const baseUrl = getWorkerBaseUrl();
-    const endpoint = `${baseUrl}/api/tracker?pin=${encodeURIComponent(pin)}`;
+    const endpoint = `${baseUrl}/api/tracker`;
 
     fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Tracker-Pin": pin
+      },
       body: JSON.stringify({ jobs })
     })
       .then(res => {
@@ -1132,21 +1156,31 @@ QUYỀN LỢI:
         setTimeout(closeSyncModal, 2500);
       })
       .catch(err => {
-        showSyncStatus(`✖ <b>Lỗi đồng bộ:</b> ${err.message}. Kiểm tra kết nối mạng hoặc Worker settings.`, true);
+        showSyncStatus(`✖ <b>Lỗi đồng bộ:</b> ${escapeHtml(err.message)}. Kiểm tra kết nối mạng hoặc Worker settings.`, true);
       });
   }
 
   function pullFromCloud() {
     const pinInput = document.getElementById("jtSyncPinInput");
-    const pin = (pinInput ? pinInput.value.trim() : "") || "dinhanh2026";
+    const pin = (pinInput ? pinInput.value.trim() : "");
+    if (!pin || pin.length < 4) {
+      showSyncStatus("⚠️ Vui lòng nhập mã PIN bảo mật (ít nhất 4 ký tự) để tải dữ liệu!", true);
+      if (pinInput) pinInput.focus();
+      return;
+    }
     localStorage.setItem(SYNC_PIN_STORAGE_KEY, pin);
 
     showSyncStatus("⏳ Đang tải dữ liệu từ Cloudflare KV...", false);
 
     const baseUrl = getWorkerBaseUrl();
-    const endpoint = `${baseUrl}/api/tracker?pin=${encodeURIComponent(pin)}`;
+    const endpoint = `${baseUrl}/api/tracker`;
 
-    fetch(endpoint)
+    fetch(endpoint, {
+      method: "GET",
+      headers: {
+        "X-Tracker-Pin": pin
+      }
+    })
       .then(res => {
         if (!res.ok) throw new Error("HTTP error " + res.status);
         return res.json();
@@ -1154,7 +1188,7 @@ QUYỀN LỢI:
       .then(data => {
         const cloudJobs = data.jobs || [];
         if (!Array.isArray(cloudJobs) || cloudJobs.length === 0) {
-          showSyncStatus(`ℹ️ Chưa có dữ liệu nào trên Cloud cho mã PIN <b>${pin}</b>.`, false);
+          showSyncStatus(`ℹ️ Chưa có dữ liệu nào trên Cloud cho mã PIN <b>${escapeHtml(pin)}</b>.`, false);
           return;
         }
 
@@ -1168,7 +1202,7 @@ QUYỀN LỢI:
         }
       })
       .catch(err => {
-        showSyncStatus(`✖ <b>Lỗi tải dữ liệu:</b> ${err.message}`, true);
+        showSyncStatus(`✖ <b>Lỗi tải dữ liệu:</b> ${escapeHtml(err.message)}`, true);
       });
   }
 

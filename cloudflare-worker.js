@@ -6,11 +6,11 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Headers CORS cho phep Web App fetch du lieu ban nhap
+    // Headers CORS cho phep Web App fetch du lieu ban nhap va dong bo Tracker
     const corsHeaders = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
+      "Access-Control-Allow-Headers": "Content-Type, X-Tracker-Pin",
     };
 
     if (request.method === "OPTIONS") {
@@ -73,7 +73,19 @@ export default {
         );
       }
 
-      const pin = (url.searchParams.get("pin") || "default").trim().toLowerCase();
+      // Doc PIN tu Request Header X-Tracker-Pin (uu tien bao mat cao nhat), fallback query param neu can
+      const pin = (
+        request.headers.get("X-Tracker-Pin") ||
+        url.searchParams.get("pin") ||
+        ""
+      ).trim().toLowerCase();
+
+      if (!pin || pin.length < 4) {
+        return new Response(
+          JSON.stringify({ error: "Yêu cầu mã PIN bảo mật tối thiểu 4 ký tự qua header X-Tracker-Pin." }),
+          { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
 
       if (request.method === "GET") {
         const trackerData = await env.CV_KV.get("tracker:" + pin);

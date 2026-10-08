@@ -700,8 +700,8 @@
           </div>
 
           <div class="cl-modal-footer">
-            <div style="font-size: 11.5px; color: #64748b;">
-              💡 <b>Mục tiêu vàng:</b> Đạt từ <b>85 điểm trở lên</b> để đảm bảo vượt qua 95% bộ lọc ATS và gây ấn tượng mạnh với HR.
+            <div style="font-size: 11px; color: #64748b; line-height: 1.4;">
+              💡 <b>Nguyên tắc vàng:</b> Đạt từ <b>85 điểm trở lên</b> bằng số liệu thật và kinh nghiệm thực chiến. Tuyệt đối không tự bịa số liệu chỉ để làm đẹp điểm số.
             </div>
             <button type="button" class="cl-btn-primary" id="cvHealthCloseBtn">Đóng ✓</button>
           </div>
@@ -1039,6 +1039,9 @@
             ${metricMatches.length > 0 ? `Số liệu nhận diện: <b>${metricMatches.slice(0, 4).join(", ")}</b>` : "Cần bổ sung số liệu minh chứng kết quả (ví dụ: tối ưu 40%, xử lý 100+ requests, rút ngắn 50%)."}
           </div>
           <div class="cv-audit-tip ${metricScore === 20 ? 'tip-success' : 'tip-warning'}">${metricTip}</div>
+          <div style="margin-top: 6px; padding: 6px 10px; background: #fffbeb; border: 1px solid #fef3c7; border-left: 3px solid #f59e0b; border-radius: 4px; font-size: 11px; color: #92400e; line-height: 1.4;">
+            ⚠️ <b>${lang === "vi" ? "Nguyên tắc trung thực:" : "Honesty principle:"}</b> ${lang === "vi" ? "Chỉ điền số liệu khi bạn có kết quả đo lường thực tế từ dự án (benchmark, latency, users, tests). Tuyệt đối không tự bịa số liệu chỉ để tối ưu điểm Health." : "Only add metrics when verified by real project data (benchmarks, latency, traffic). Never invent metrics solely to boost audit scores."}
+          </div>
         </div>
 
         <!-- Tiêu chí 5 -->

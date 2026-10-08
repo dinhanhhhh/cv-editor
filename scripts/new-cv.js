@@ -139,12 +139,9 @@ async function main() {
   // 2. Thời gian TAMI luôn là "06/2025 - 12/2025"
   // 3. Tiêu đề mục: "KINH NGHIỆM LÀM VIỆC", "KỸ NĂNG CHUYÊN MÔN"
   const cvFileContent = `// =========================================================================
-// ${company.toUpperCase()} CV DATA - ${title.toUpperCase()}
+// ${company.toUpperCase()} CV DATA - ${title.toUpperCase()} (OVERRIDE FORMAT)
+// Kế thừa tự động từ data/cv-data-base.js (Name, Contact, Education, Buttons)
 // =========================================================================
-
-if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
-  global.cvGlobalEdu = require("./cv-global.js");
-}
 
 var cvData = {
   meta: {
@@ -158,49 +155,9 @@ var cvData = {
     pitchHighlights: "Nền tảng Full-Stack React/Next.js/Node.js, tư duy phát triển AI-First và kinh nghiệm thực chiến API & CSDL"
   },
   vi: {
-    projectDisplayLimit: 2,
-    name: "TRƯƠNG ĐÌNH ANH",
     title: ${JSON.stringify(title)},
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thủ Đức, TP. Hồ Chí Minh" },
-    ],
-    sections: {
-      objective: "TÓM TẮT CHUYÊN MÔN",
-      education: "HỌC VẤN",
-      experience: "KINH NGHIỆM LÀM VIỆC",
-      projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG CHUYÊN MÔN",
-    },
     objective:
       "Lập trình viên tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM, có kinh nghiệm phát triển ứng dụng web với React, Next.js, Node.js, Express và các hệ cơ sở dữ liệu (PostgreSQL, MongoDB, MySQL). Có kinh nghiệm thực tập thiết kế cơ sở dữ liệu, xây dựng hệ thống RESTful APIs và ứng dụng AI Agent vào tự động hóa phần mềm. Sẵn sàng học hỏi và đóng góp lâu dài tại ${company}.",
-    education: cvGlobalEdu.vi,
-    experience: [
-      {
-        name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
-        date: "06/2025 - 12/2025",
-        role: "Developer",
-        desc: "Hệ thống phân tích dữ liệu thị trường tài chính (kết nối thư viện Vnstock3).",
-        tasks: [
-          "Thiết kế cấu trúc cơ sở dữ liệu và triển khai PostgreSQL trên nền tảng Supabase Cloud.",
-          "Xây dựng và tối ưu các dịch vụ RESTful APIs sử dụng Next.js Route Handlers để truy xuất dữ liệu thời gian thực.",
-          "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
-          "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp tối ưu hóa các luồng truy xuất dữ liệu.",
-          "Đóng gói và triển khai ứng dụng demo ổn định lên môi trường Cloud Vercel.",
-        ],
-        tech: "Next.js, PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
-      },
-    ],
     projects: [
       {
         name: "HỆ THỐNG TỰ ĐỘNG HÓA AI AGENT",
@@ -251,52 +208,11 @@ var cvData = {
         items: "Đọc hiểu tài liệu kỹ thuật",
       },
     ],
-    btnText: "In / Tải PDF",
   },
   en: {
-    projectDisplayLimit: 2,
-    name: "TRUONG DINH ANH",
     title: ${JSON.stringify(title)},
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thu Duc, Ho Chi Minh City" },
-    ],
-    sections: {
-      objective: "PROFESSIONAL SUMMARY",
-      education: "EDUCATION",
-      experience: "WORK EXPERIENCE",
-      projects: "FEATURED PROJECTS",
-      skills: "TECHNICAL SKILLS",
-    },
     objective:
       "Software Developer with a Computer Science degree from Ho Chi Minh City Open University. Proven experience in web development with React, Next.js, Node.js, Express, and databases (PostgreSQL, MongoDB). Hands-on experience architecting RESTful APIs, integrating OAuth authentication, and applying AI Agent automation. Eager to contribute and grow at ${company}.",
-    education: cvGlobalEdu.en,
-    experience: [
-      {
-        name: "TAMI TECHNOLOGY CO., LTD",
-        date: "06/2025 - 12/2025",
-        role: "Developer",
-        desc: "Financial market data analysis system integrated with Vnstock3 financial data library.",
-        tasks: [
-          "Designed relational database schemas and deployed PostgreSQL on Supabase Cloud infrastructure.",
-          "Built and optimized robust RESTful APIs using Next.js Route Handlers for real-time market data retrieval.",
-          "Integrated Google OAuth authentication flow with NextAuth (Google Provider).",
-          "Conducted API testing using Postman, handled exceptions, and collaborated to optimize query latency.",
-          "Containerized and deployed stable demo instances on Vercel Cloud.",
-        ],
-        tech: "Next.js, PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git",
-      },
-    ],
     projects: [
       {
         name: "AI AGENT AUTOMATION PLATFORM",
@@ -347,7 +263,6 @@ var cvData = {
         items: "Technical documentation reading",
       },
     ],
-    btnText: "Print / Save PDF",
   },
 };
 

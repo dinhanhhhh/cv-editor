@@ -1,11 +1,8 @@
 // =========================================================================
-// GREEN BIO CV DATA - WEB DEVELOPER INTERN
+// GREEN BIO CV DATA - WEB DEVELOPER INTERN (OVERRIDE FORMAT)
 // CÔNG TY TNHH CÔNG NGHỆ SẠCH GREEN BIO
+// Kế thừa tự động từ data/cv-data-base.js (Name, Contact, Education, Buttons)
 // =========================================================================
-
-if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
-  global.cvGlobalEdu = require("./cv-global.js");
-}
 
 var cvData = {
   meta: {
@@ -19,33 +16,9 @@ var cvData = {
     pitchHighlights: "Thành thạo React.js & Responsive, kiến thức nền tảng Python (FastAPI/Django), thiết kế CSDL PostgreSQL/MySQL và xây dựng RESTful APIs."
   },
   vi: {
-    projectDisplayLimit: 2,
-    name: "TRƯƠNG ĐÌNH ANH",
     title: "Web Developer Intern",
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thủ Đức, TP. Hồ Chí Minh" },
-    ],
-    sections: {
-      objective: "TÓM TẮT CHUYÊN MÔN",
-      education: "HỌC VẤN",
-      experience: "KINH NGHIỆM LÀM VIỆC",
-      projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG CHUYÊN MÔN",
-    },
     objective:
       "Cử nhân Khoa học Máy tính, Trường Đại học Mở TP.HCM. Thế mạnh phát triển web với React.js, Next.js, Node.js, PostgreSQL/MySQL và có kiến thức Python. Từng thiết kế CSDL PostgreSQL trên Supabase Cloud và xây dựng RESTful APIs truy xuất dữ liệu tài chính tại Tami Technology. Sẵn sàng tham gia phát triển và vận hành các hệ thống web nội bộ tại Green Bio.",
-    education: cvGlobalEdu.vi,
     experience: [
       {
         name: "CÔNG TY TNHH CÔNG NGHỆ TAMI",
@@ -88,7 +61,7 @@ var cvData = {
           "Xây dựng backend theo cấu trúc mô-đun với Node.js và Express, chuẩn hóa tài liệu API qua Swagger UI.",
           "Triển khai xác thực JWT và cơ chế phân quyền người dùng (RBAC) chặt chẽ giữa ban quản trị và nhân viên.",
           "Xây dựng giao diện dashboard trực quan với React hỗ trợ các thao tác CRUD, bộ lọc đa điều kiện và tìm kiếm thời gian thực.",
-          "Áp dụng nguyên tắc Clean Code, tối ưu hóa truy vấn dữ liệu và bảo trì mã nguồn chuẩn mực qua Git.",
+          "Tuân thủ quy chuẩn clean code, tối ưu truy vấn cơ sở dữ liệu và quản lý phiên bản qua Git.",
         ],
         tech: "React, Next.js, Node.js, Express.js, MongoDB, Swagger UI, JWT, RBAC, Git",
       },
@@ -96,11 +69,11 @@ var cvData = {
     skills: [
       {
         cat: "Backend",
-        items: "Python, Node.js, Express.js, RESTful API Design, JWT, RBAC",
+        items: "Python, Node.js, Express.js, RESTful API, JWT, RBAC",
       },
       {
         cat: "Databases",
-        items: "PostgreSQL, MySQL, Truy vấn SQL, Thiết kế CSDL quan hệ (3NF), Indexing",
+        items: "PostgreSQL, MySQL, SQL, 3NF, Indexing",
       },
       {
         cat: "Frontend",
@@ -115,33 +88,7 @@ var cvData = {
         items: "Đọc hiểu tài liệu kỹ thuật",
       },
     ],
-    btnText: "In / Tải PDF",
-    docTitle: "CV_TruongDinhAnh_GreenBio_WebDev_Intern",
-    coverLetters: {
-      tech: `[Tiêu đề Email: Ứng tuyển Web Developer Intern – Trương Đình Anh]
-
-Kính gửi Ban Tuyển dụng CÔNG TY TNHH CÔNG NGHỆ SẠCH GREEN BIO,
-
-Tôi tên là Trương Đình Anh, vừa tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Qua thông tin tuyển dụng, tôi được biết Green Bio đang tìm kiếm vị trí Web Developer Intern để tham gia phát triển và vận hành các ứng dụng nội bộ (bán hàng, nhân sự, kho vận và website). Tôi viết email này với mong muốn được đồng hành và đóng góp vào các dự án công nghệ của Quý công ty.
-
-Với nền tảng kỹ thuật vững chắc và kinh nghiệm thực chiến trong quá trình học tập cũng như thực tập, tôi tự tin đáp ứng tốt các yêu cầu của vị trí:
-
-1. Kỹ năng Frontend & Trải nghiệm người dùng: Thành thạo React.js, Next.js, HTML5/CSS3 và Tailwind CSS để xây dựng các giao diện web/dashboard responsive, hiển thị tối ưu trên cả desktop lẫn mobile, đồng thời nắm vững kiến thức cơ bản về On-page SEO.
-2. Thiết kế CSDL & Xử lý báo cáo: Thành thạo SQL trên cả PostgreSQL và MySQL, có kinh nghiệm thiết kế mô hình dữ liệu quan hệ chuẩn hóa 3NF, viết truy vấn tổng hợp số liệu và tối ưu hiệu năng truy xuất dữ liệu.
-3. Nền tảng Backend & Python: Nắm vững tư duy kiến trúc phần mềm, nguyên tắc Clean Code và xây dựng các dịch vụ RESTful APIs; có kiến thức nền tảng về Python (FastAPI, Django REST Framework, Flask), khả năng đọc hiểu code nhanh và bắt nhịp thuận lợi với hệ thống của công ty.
-4. Nghiệp vụ hệ thống nội bộ & Công cụ: Đã tự tay phát triển các hệ thống web quản lý bán hàng, luồng kho vận và quản trị nhân sự/hồ sơ; thành thạo Git/GitHub, Docker và môi trường Linux cơ bản; có hiểu biết về Celery/Redis trong xử lý tác vụ bất đồng bộ.
-
-Địa chỉ của tôi tại TP. Thủ Đức rất thuận lợi để di chuyển làm việc trực tiếp tại trụ sở công ty (85 Phạm Huy Thông, Gò Vấp). Tôi luôn sẵn sàng dành 100% thời gian và sự chủ động để tiếp thu nhanh quy trình vận hành và hoàn thành xuất sắc các nhiệm vụ được giao.
-
-Kính gửi kèm hồ sơ chi tiết và link GitHub sản phẩm demo: https://github.com/dinhanhhhh
-Rất mong có cơ hội được tham gia buổi phỏng vấn để trao đổi chi tiết hơn về sự phù hợp của bản thân.
-
-Trân trọng,
-Trương Đình Anh
-Số điện thoại: 0923202861
-Email: tdinhanh.it@gmail.com
-GitHub: https://github.com/dinhanhhhh`,
-
+    emailTemplates: {
       short: `[Tiêu đề Email: [Web Developer Intern] - Trương Đình Anh]
 
 Kính gửi Ban Tuyển dụng CÔNG TY TNHH CÔNG NGHỆ SẠCH GREEN BIO,
@@ -178,33 +125,9 @@ GitHub: https://github.com/dinhanhhhh`
     }
   },
   en: {
-    projectDisplayLimit: 2,
-    name: "TRUONG DINH ANH",
     title: "Web Developer Intern",
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thu Duc, Ho Chi Minh City" },
-    ],
-    sections: {
-      objective: "PROFESSIONAL SUMMARY",
-      education: "EDUCATION",
-      experience: "WORK EXPERIENCE",
-      projects: "FEATURED PROJECTS",
-      skills: "TECHNICAL SKILLS",
-    },
     objective:
       "Computer Science graduate from Ho Chi Minh City Open University proficient in modern web development with React.js and Next.js, backed by solid foundations in relational databases (PostgreSQL, MySQL) and RESTful APIs. Possesses foundational knowledge of Python (FastAPI, Django/DRF) with rapid learning capability for backend integration. Hands-on experience developing responsive internal management systems with clean code practices and basic SEO. Dedicated, proactive, eager to contribute long-term at Green Bio.",
-    education: cvGlobalEdu.en,
     experience: [
       {
         name: "TAMI TECHNOLOGY CO., LTD",
@@ -274,7 +197,6 @@ GitHub: https://github.com/dinhanhhhh`
         items: "Technical documentation reading",
       },
     ],
-    btnText: "Print / Save PDF",
   },
 };
 

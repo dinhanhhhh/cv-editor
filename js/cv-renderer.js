@@ -25,6 +25,9 @@ function escUrl(url) {
   return "";
 }
 
+window.esc = esc;
+window.escUrl = escUrl;
+
 const icons = {
   phone: `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>`,
   email: `<svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>`,
@@ -48,6 +51,7 @@ const cvVersion = (typeof window.cvVersion !== "undefined" && window.cvVersion)
 window.cvVersion = cvVersion;
 
 let currentLang = "vi";
+window.currentLang = currentLang;
 let baseFontSize = 10.5;
 const DEFAULT_FONT_SIZE = 10.5;
 const DEFAULT_LINE_HEIGHT = "1.3";
@@ -337,229 +341,24 @@ elements.fontDecreaseBtn.onclick = () => {
 };
 
 // ===================================
-// A4 METRICS HELPERS (Đo đạc kích thước A4 & chiều cao nội dung thực tế)
+// A4 METRICS & MAGIC FIT (Delegated to js/cv-a4-metrics.js)
 // ===================================
-let cachedA4TargetPx = 0;
 function getA4TargetHeight() {
-  if (cachedA4TargetPx > 0) return cachedA4TargetPx;
-  const probe = document.createElement("div");
-  probe.style.cssText = "height: 297mm; position: absolute; visibility: hidden; pointer-events: none; top: -9999px; left: -9999px;";
-  document.body.appendChild(probe);
-  const h = probe.getBoundingClientRect().height;
-  document.body.removeChild(probe);
-  cachedA4TargetPx = h > 0 ? h : 1122.5;
-  return cachedA4TargetPx;
+  return window.CvA4Metrics ? window.CvA4Metrics.getA4TargetHeight() : 1122.5;
 }
-
 function getActualContentHeight() {
-  const preview = elements.preview;
-  if (!preview) return 0;
-
-  const computedStyle = window.getComputedStyle(preview);
-  const paddingBottom = parseFloat(computedStyle.paddingBottom) || 0;
-  const previewRect = preview.getBoundingClientRect();
-
-  // Lọc các khối nội dung hiển thị trực tiếp bên trong CV
-  const children = Array.from(preview.children).filter((el) => {
-    if (el.nodeType !== Node.ELEMENT_NODE) return false;
-    if (el.classList.contains("section-toolbar") || el.classList.contains("feedback-tooltip")) return false;
-    if (el.tagName === "SCRIPT" || el.tagName === "STYLE") return false;
-    if (el.offsetWidth === 0 && el.offsetHeight === 0 && el.style.display === "none") return false;
-    return true;
-  });
-
-  if (children.length === 0) {
-    return preview.scrollHeight;
-  }
-
-  // Tìm đáy của phần tử hiển thị sâu nhất
-  let maxBottom = previewRect.top;
-  for (const child of children) {
-    const r = child.getBoundingClientRect();
-    if (r.bottom > maxBottom) {
-      maxBottom = r.bottom;
-    }
-  }
-
-  // Tổng chiều cao nội dung = từ đỉnh trang tới đáy phần tử cuối cùng + khoảng cách lề dưới
-  return (maxBottom - previewRect.top) + paddingBottom;
+  return window.CvA4Metrics
+    ? window.CvA4Metrics.getActualContentHeight()
+    : (elements.preview ? elements.preview.scrollHeight : 0);
 }
-
-// ===================================
-// MAGIC FIT
-// ===================================
 function magicFit() {
-  const targetHeight = getA4TargetHeight();
-  const safeTargetHeight = targetHeight * 0.97; // Ngưỡng an toàn 97% không bao giờ chạm mép tràn
-
-  elements.preview.style.height = "auto";
-  elements.preview.style.overflow = "visible";
-
-  // Lấy giá trị hiện tại hoặc khởi tạo ở mức cân đối
-  baseFontSize = Math.min(Math.max(baseFontSize, 10), 11);
-  let currentLineHeight = 1.35;
-  let currentPaddingSide = 15;
-  let sectionMargin = 12;
-  let itemMargin = 8;
-
-  function applyStyles() {
-    updateFontSize();
-    elements.preview.style.lineHeight = currentLineHeight;
-    elements.preview.style.padding = `0 ${currentPaddingSide}mm 10mm ${currentPaddingSide}mm`;
-    elements.preview.style.setProperty("--cv-section-margin", sectionMargin + "px");
-    elements.preview.style.setProperty("--cv-item-margin", itemMargin + "px");
-
-    if (elements.sectionMarginSlider) {
-      elements.sectionMarginSlider.value = sectionMargin;
-      elements.sectionMarginVal.textContent = sectionMargin + "px";
-    }
-    const drawerSec = document.getElementById("drawerSectionMarginSlider");
-    const drawerSecVal = document.getElementById("drawerSectionMarginVal");
-    if (drawerSec) drawerSec.value = sectionMargin;
-    if (drawerSecVal) drawerSecVal.textContent = sectionMargin + "px";
-
-    if (elements.itemMarginSlider) {
-      elements.itemMarginSlider.value = itemMargin;
-      elements.itemMarginVal.textContent = itemMargin + "px";
-    }
-    const drawerItem = document.getElementById("drawerItemMarginSlider");
-    const drawerItemVal = document.getElementById("drawerItemMarginVal");
-    if (drawerItem) drawerItem.value = itemMargin;
-    if (drawerItemVal) drawerItemVal.textContent = itemMargin + "px";
-    // Ép trình duyệt tính toán lại layout (force reflow) để đo đạc chính xác
-    void elements.preview.offsetHeight;
+  if (window.CvA4Metrics) {
+    window.CvA4Metrics.magicFit();
   }
-
-  // Áp dụng style ban đầu để đo đạc chuẩn xác
-  applyStyles();
-
-  let safety = 0;
-  const maxIter = 60;
-
-  // Phase 1: Nếu tràn vượt quá ngưỡng an toàn (> 97% A4) -> Thu nhỏ dần
-  while (getActualContentHeight() > safeTargetHeight && safety < maxIter) {
-    let changed = false;
-    if (sectionMargin > 6) {
-      sectionMargin -= 1;
-      changed = true;
-    } else if (itemMargin > 4) {
-      itemMargin -= 1;
-      changed = true;
-    } else if (currentLineHeight > 1.25) {
-      currentLineHeight -= 0.03;
-      changed = true;
-    } else if (baseFontSize > 9.0) {
-      baseFontSize -= 0.2;
-      changed = true;
-    } else if (currentPaddingSide > 10) {
-      currentPaddingSide -= 0.5;
-      changed = true;
-    }
-
-    applyStyles();
-    safety++;
-    if (!changed) break;
-  }
-
-  safety = 0;
-  // Phase 2: Nếu quá ngắn (< 90% A4) -> Nới rộng nhẹ nhàng, dừng ngay khi đạt 94-96%
-  while (getActualContentHeight() < targetHeight * 0.91 && safety < maxIter) {
-    let changed = false;
-    if (sectionMargin < 16) {
-      sectionMargin += 1;
-      changed = true;
-    } else if (itemMargin < 10) {
-      itemMargin += 1;
-      changed = true;
-    } else if (currentLineHeight < 1.45) {
-      currentLineHeight += 0.03;
-      changed = true;
-    } else if (baseFontSize < 11.0) {
-      baseFontSize += 0.2;
-      changed = true;
-    }
-
-    applyStyles();
-    safety++;
-    if (!changed || getActualContentHeight() >= safeTargetHeight) break;
-  }
-
-  // Chốt chặn an toàn cuối cùng: nếu vẫn vô tình lố sang 100% -> lùi 1 nấc
-  if (getActualContentHeight() > targetHeight) {
-    if (sectionMargin > 6) sectionMargin -= 2;
-    if (itemMargin > 4) itemMargin -= 2;
-    if (baseFontSize > 9.5) baseFontSize -= 0.2;
-    applyStyles();
-  }
-
-  const finalOverflowing = getActualContentHeight() > targetHeight;
-
-  if (a4ModeActive) {
-    elements.preview.style.height = "297mm";
-    elements.preview.style.overflow = "hidden";
-  } else {
-    elements.preview.style.height = "auto";
-    elements.preview.style.overflow = "visible";
-  }
-
-  if (finalOverflowing) {
-    elements.magicFitBtn.innerHTML = "Tràn nội dung! ⚠️";
-    elements.magicFitBtn.style.backgroundColor = "#e05638";
-    elements.magicFitBtn.style.color = "#ffffff";
-    setTimeout(() => {
-      elements.magicFitBtn.innerHTML = "Magic Fit ✨";
-      elements.magicFitBtn.style.backgroundColor = "";
-      elements.magicFitBtn.style.color = "";
-    }, 4000);
-  } else {
-    elements.magicFitBtn.innerHTML = "Perfect Fit! ✨";
-    setTimeout(() => {
-      elements.magicFitBtn.innerHTML = "Magic Fit ✨";
-    }, 2000);
-  }
-  requestAnimationFrame(updateA4FitMeter);
 }
-
-elements.magicFitBtn.onclick = magicFit;
-
-// ===================================
-// A4 FIT METER (Thước đo độ tràn trang A4)
-// ===================================
 function updateA4FitMeter() {
-  const preview = elements.preview;
-  if (!preview) return;
-
-  const meter = document.getElementById("a4FitMeter");
-  const percentEl = document.getElementById("a4FitPercent");
-  const progressEl = document.getElementById("a4FitProgress");
-  const statusEl = document.getElementById("a4FitStatus");
-  if (!meter || !percentEl || !progressEl || !statusEl) return;
-
-  const targetPx = getA4TargetHeight();
-  const actualHeight = getActualContentHeight();
-
-  const ratio = (actualHeight / targetPx) * 100;
-  const percent = Math.round(ratio);
-  window.currentA4FitPercent = percent;
-
-  percentEl.textContent = `${percent}%`;
-  progressEl.style.width = `${Math.min(percent, 100)}%`;
-
-  meter.classList.remove("status-spacious", "status-perfect", "status-tight", "status-overflow");
-
-  if (percent <= 88) {
-    meter.classList.add("status-spacious");
-    statusEl.textContent = currentLang === "vi" ? "Rộng rãi ✨" : "Spacious ✨";
-  } else if (percent <= 98) {
-    meter.classList.add("status-perfect");
-    statusEl.textContent = currentLang === "vi" ? "Vừa vặn 1 trang ✓" : "Perfect 1 Page ✓";
-  } else if (percent <= 100) {
-    meter.classList.add("status-tight");
-    statusEl.textContent = currentLang === "vi" ? "Sát mép (99-100%)" : "Close to edge";
-  } else {
-    meter.classList.add("status-overflow");
-    const over = percent - 100;
-    statusEl.textContent = currentLang === "vi" ? `Tràn trang (+${over}%) ⚠️` : `Overflow (+${over}%) ⚠️`;
+  if (window.CvA4Metrics) {
+    window.CvA4Metrics.updateA4FitMeter();
   }
 }
 
@@ -569,39 +368,11 @@ if (a4FitMeterEl) {
     magicFit();
   };
 }
-
-// Lắng nghe thay đổi kích thước DOM của Preview
-if (window.ResizeObserver && elements.preview) {
-  const a4ResizeObserver = new ResizeObserver(() => {
-    requestAnimationFrame(updateA4FitMeter);
-  });
-  a4ResizeObserver.observe(elements.preview);
+if (elements.magicFitBtn) {
+  elements.magicFitBtn.onclick = () => {
+    magicFit();
+  };
 }
-
-// Lắng nghe chỉnh sửa nội dung trực tiếp (Live-editing, gõ phím, thêm bớt text)
-if (elements.preview) {
-  elements.preview.addEventListener("input", () => {
-    requestAnimationFrame(updateA4FitMeter);
-  });
-}
-
-// MutationObserver để bắt mọi thay đổi cấu trúc phần tử (thêm/xóa/đổi class/ẩn hiện section)
-if (window.MutationObserver && elements.preview) {
-  const a4MutationObserver = new MutationObserver(() => {
-    requestAnimationFrame(updateA4FitMeter);
-  });
-  a4MutationObserver.observe(elements.preview, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-  });
-}
-
-// Cập nhật lại khi resize cửa sổ
-window.addEventListener("resize", () => {
-  cachedA4TargetPx = 0;
-  requestAnimationFrame(updateA4FitMeter);
-});
 
 // ===================================
 // RESET SETTINGS
@@ -700,6 +471,7 @@ function normalizeProjId(proj, backupName) {
   // Fallback to name-based slug
   return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
 }
+window.normalizeProjId = normalizeProjId;
 
 function addProjectsToPool(viProjects, enProjects) {
   const normVi = Array.isArray(viProjects) ? viProjects : [];
@@ -732,7 +504,10 @@ function loadDataScript(src) {
     script.async = false;
     script.onload = () => {
       // Lấy snapshot cvData mới nạp rồi gỡ thẻ script cho gọn
-      const data = window.cvData;
+      let data = window.cvData;
+      if (typeof window.mergeWithBaseCv === "function" && window.cvDataBase) {
+        data = window.mergeWithBaseCv(window.cvDataBase, data);
+      }
       script.remove();
       resolve(data);
     };
@@ -743,6 +518,7 @@ function loadDataScript(src) {
     document.head.appendChild(script);
   });
 }
+window.loadDataScript = loadDataScript;
 
 async function loadAllProjectsBackground() {
   if (allProjectsLoaded || isFetchingProjects) return;
@@ -1480,6 +1256,7 @@ function renderCV(lang) {
 // ===================================
 elements.langViBtn.onclick = () => {
   currentLang = "vi";
+  window.currentLang = currentLang;
   elements.langViBtn.classList.add("active");
   elements.langEnBtn.classList.remove("active");
   elements.langViBtn.setAttribute("aria-pressed", "true");
@@ -1491,6 +1268,7 @@ elements.langViBtn.onclick = () => {
 
 elements.langEnBtn.onclick = () => {
   currentLang = "en";
+  window.currentLang = currentLang;
   elements.langEnBtn.classList.add("active");
   elements.langViBtn.classList.remove("active");
   elements.langEnBtn.setAttribute("aria-pressed", "true");
@@ -2524,434 +2302,11 @@ function initSettingsDrawer() {
 
 // ===================================
 // CV VERSION DIFF / COMPARISON VIEWER
+// (Đã tách thành module độc lập js/cv-diff.js)
 // ===================================
-const diffVersionCache = {};
-
 function initDiffViewer() {
-  const diffBtn = document.getElementById("diffBtn");
-  const modalOverlay = document.getElementById("diffModalOverlay");
-  const closeBtn = document.getElementById("diffModalCloseBtn");
-  const footerCloseBtn = document.getElementById("diffCloseBtn");
-  const selectA = document.getElementById("diffSelectA");
-  const selectB = document.getElementById("diffSelectB");
-  const swapBtn = document.getElementById("diffSwapBtn");
-  const filterDiffsBtn = document.getElementById("diffFilterDiffsBtn");
-  const langViBtn = document.getElementById("diffLangViBtn");
-  const langEnBtn = document.getElementById("diffLangEnBtn");
-  const panelHeaderA = document.getElementById("diffPanelHeaderA");
-  const panelHeaderB = document.getElementById("diffPanelHeaderB");
-  const panelContentA = document.getElementById("diffPanelContentA");
-  const panelContentB = document.getElementById("diffPanelContentB");
-  const footerLinks = document.getElementById("diffFooterLinks");
-
-  if (!diffBtn || !modalOverlay) return;
-
-  let diffLang = currentLang;
-  let diffOnlyDiffs = false;
-  let diffShowSharedProjects = false;
-
-  function openDiffModal() {
-    diffLang = currentLang;
-    syncLangButtons();
-    syncFilterButton();
-    populateSelectOptions();
-    modalOverlay.style.display = "flex";
-    modalOverlay.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    renderDiff();
-  }
-
-  function closeDiffModal() {
-    modalOverlay.style.display = "none";
-    modalOverlay.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  }
-
-  diffBtn.onclick = openDiffModal;
-  if (closeBtn) closeBtn.onclick = closeDiffModal;
-  if (footerCloseBtn) footerCloseBtn.onclick = closeDiffModal;
-
-  modalOverlay.onclick = (e) => {
-    if (e.target === modalOverlay) closeDiffModal();
-  };
-
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalOverlay.getAttribute("aria-hidden") === "false") {
-      closeDiffModal();
-    }
-  });
-
-  if (swapBtn) {
-    swapBtn.onclick = () => {
-      const temp = selectA.value;
-      selectA.value = selectB.value;
-      selectB.value = temp;
-      renderDiff();
-    };
-  }
-
-  if (filterDiffsBtn) {
-    filterDiffsBtn.onclick = () => {
-      diffOnlyDiffs = !diffOnlyDiffs;
-      diffShowSharedProjects = false;
-      syncFilterButton();
-      renderDiff();
-    };
-  }
-
-  function syncFilterButton() {
-    if (filterDiffsBtn) {
-      filterDiffsBtn.classList.toggle("active", diffOnlyDiffs);
-      filterDiffsBtn.textContent = diffLang === "vi" 
-        ? (diffOnlyDiffs ? "⚡ Đang lọc khác biệt" : "⚡ Chỉ khác biệt")
-        : (diffOnlyDiffs ? "⚡ Filtering diffs" : "⚡ Only diffs");
-    }
-  }
-
-  if (selectA) selectA.onchange = () => renderDiff();
-  if (selectB) selectB.onchange = () => renderDiff();
-
-  function syncLangButtons() {
-    if (langViBtn && langEnBtn) {
-      langViBtn.classList.toggle("active", diffLang === "vi");
-      langEnBtn.classList.toggle("active", diffLang === "en");
-    }
-    const titleEl = document.getElementById("diffModalTitle");
-    if (titleEl) {
-      titleEl.textContent = diffLang === "vi" ? "⚖️ So Sánh CV" : "⚖️ CV Comparison";
-    }
-    if (footerCloseBtn) {
-      footerCloseBtn.textContent = diffLang === "vi" ? "Đóng ✓" : "Close ✓";
-    }
-    syncFilterButton();
-  }
-
-  if (langViBtn) {
-    langViBtn.onclick = () => {
-      diffLang = "vi";
-      syncLangButtons();
-      populateSelectOptions();
-      renderDiff();
-    };
-  }
-
-  if (langEnBtn) {
-    langEnBtn.onclick = () => {
-      diffLang = "en";
-      syncLangButtons();
-      populateSelectOptions();
-      renderDiff();
-    };
-  }
-
-  function populateSelectOptions() {
-    const manifest = window.CV_MANIFEST || [];
-    const prevA = selectA.value;
-    const prevB = selectB.value;
-
-    const hasLocalDraft = localStorage.getItem(`cv_data_${cvVersion}_${diffLang}`);
-    
-    let optionsHtml = "";
-    if (hasLocalDraft) {
-      const draftLabel = diffLang === "vi" 
-        ? `✏️ Bản nháp đang sửa (${cvVersion})`
-        : `✏️ Local Draft (${cvVersion})`;
-      optionsHtml += `<option value="__local_draft__">${draftLabel}</option>`;
-    }
-
-    manifest.forEach(v => {
-      optionsHtml += `<option value="${v.key}">${v.emoji} ${v.label.replace(/^[^\w\s\u00C0-\u1EF9]+/, '').trim()}</option>`;
-    });
-
-    selectA.innerHTML = optionsHtml;
-    selectB.innerHTML = optionsHtml;
-
-    if (prevA && selectA.querySelector(`option[value="${prevA}"]`)) {
-      selectA.value = prevA;
-    } else {
-      selectA.value = cvVersion || "default";
-    }
-
-    if (prevB && selectB.querySelector(`option[value="${prevB}"]`)) {
-      selectB.value = prevB;
-    } else {
-      if (selectA.value === "default") {
-        const second = manifest.find(v => v.key !== "default");
-        selectB.value = second ? second.key : "default";
-      } else {
-        selectB.value = "default";
-      }
-    }
-  }
-
-  // Load a single CV version with strict sequential isolation
-  async function fetchVersionData(versionKey) {
-    if (versionKey === "__local_draft__") {
-      return JSON.parse(JSON.stringify(window.cvData || {}));
-    }
-    if (diffVersionCache[versionKey]) {
-      return diffVersionCache[versionKey];
-    }
-    const manifest = window.CV_MANIFEST || [];
-    const ver = manifest.find(v => v.key === versionKey);
-    if (!ver) return null;
-
-    const currentCvData = window.cvData;
-    try {
-      const loaded = await loadDataScript(ver.file);
-      const cloned = JSON.parse(JSON.stringify(loaded || {}));
-      diffVersionCache[versionKey] = cloned;
-      window.cvData = currentCvData;
-      return cloned;
-    } catch (e) {
-      console.error("Failed to load script for diff:", e);
-      window.cvData = currentCvData;
-      return null;
-    }
-  }
-
-  // Extract clean tech tags
-  function extractTechTags(skillsArr) {
-    if (!Array.isArray(skillsArr)) return [];
-    const tags = new Set();
-    skillsArr.forEach(s => {
-      if (s && s.items) {
-        s.items.split(/[,;•|]/).forEach(item => {
-          const clean = item.replace(/\(.*?\)/g, "").trim();
-          if (clean && clean.length > 1 && clean.length < 35) {
-            tags.add(clean);
-          }
-        });
-      }
-    });
-    return Array.from(tags);
-  }
-
-  window.__toggleDiffShared = () => {
-    diffShowSharedProjects = !diffShowSharedProjects;
-    renderDiff();
-  };
-
-  // Render a single panel's content
-  function renderPanelContent(data, lang, techOwn, allProjectIds, myMap, otherMap, isA) {
-    const colorClass = isA ? "diff-tag-a" : "diff-tag-b";
-    const projsAll = (data.projects || []).concat(data.experience || []);
-
-    // --- Objective ---
-    let html = `
-      <div class="diff-section">
-        <div class="diff-section-label">${lang === "vi" ? "🎯 Mục tiêu & Tóm tắt" : "🎯 Objective"}</div>
-        <div class="diff-objective-text">${esc(data.objective || (lang === "vi" ? "— Chưa có —" : "— None —"))}</div>
-      </div>
-    `;
-
-    // --- Unique tech tags ---
-    if (techOwn.length > 0) {
-      html += `
-        <div class="diff-section">
-          <div class="diff-section-label">${lang === "vi" ? "⭐ Công nghệ đặc trưng (chỉ bản này)" : "⭐ Unique tech (this version only)"}</div>
-          <div class="diff-tag-group">
-            ${techOwn.map(t => `<span class="diff-tag ${colorClass}">${esc(t)}</span>`).join("")}
-          </div>
-        </div>
-      `;
-    } else if (diffOnlyDiffs) {
-      html += `
-        <div class="diff-section" style="opacity:0.7;">
-          <div class="diff-section-label">${lang === "vi" ? "⭐ Công nghệ đặc trưng" : "⭐ Unique tech"}</div>
-          <div style="font-size: 11px; font-style: italic; color: #666;">${lang === "vi" ? "Không có tech stack riêng biệt so với bản còn lại." : "No unique tech stack compared to the other version."}</div>
-        </div>
-      `;
-    }
-
-    // --- Skills ---
-    const skills = data.skills || [];
-    if (skills.length > 0 && !diffOnlyDiffs) {
-      html += `
-        <div class="diff-section">
-          <div class="diff-section-label">${lang === "vi" ? "🛠️ Kỹ năng" : "🛠️ Skills"}</div>
-          ${skills.map(s => `
-            <div class="diff-skill-cat">
-              <div class="diff-skill-cat-name">${esc(s.cat || "")}</div>
-              <div class="diff-skill-items">${esc(s.items || "")}</div>
-            </div>
-          `).join("")}
-        </div>
-      `;
-    }
-
-    // --- Projects & Experience ---
-    const sharedIds = allProjectIds.filter(id => myMap.has(id) && otherMap.has(id));
-    const uniqueIds = allProjectIds.filter(id => myMap.has(id) && !otherMap.has(id));
-    const absentIds = allProjectIds.filter(id => !myMap.has(id) && otherMap.has(id));
-
-    html += `
-      <div class="diff-section">
-        <div class="diff-section-label">${lang === "vi" ? "💼 Dự án & Kinh nghiệm" : "💼 Projects & Experience"}</div>
-    `;
-
-    if (diffOnlyDiffs && sharedIds.length > 0) {
-      const bannerText = diffShowSharedProjects
-        ? (lang === "vi" ? `🤝 ${sharedIds.length} dự án trùng khớp (đang hiện) — Bấm để thu gọn ▴` : `🤝 ${sharedIds.length} shared projects (showing) — Click to collapse ▴`)
-        : (lang === "vi" ? `🤝 ${sharedIds.length} dự án giống nhau ở cả 2 bản — Bấm để xem chi tiết ▾` : `🤝 ${sharedIds.length} shared projects in both — Click to view ▾`);
-      html += `
-        <div class="diff-shared-banner" onclick="window.__toggleDiffShared()">
-          <span>${bannerText}</span>
-        </div>
-      `;
-    }
-
-    allProjectIds.forEach(id => {
-      const inMe = myMap.get(id);
-      const inOther = otherMap.get(id);
-      const isUnique = inMe && !inOther;
-      const isShared = inMe && inOther;
-
-      // When filtering diffs only and shared projects are collapsed, skip shared projects
-      if (diffOnlyDiffs && isShared && !diffShowSharedProjects) {
-        return;
-      }
-
-      if (!inMe) {
-        // This project is only in the other version
-        const name = inOther ? (inOther.name || id) : id;
-        html += `
-          <div class="diff-proj-card" style="opacity:0.4; border-style: dashed;">
-            <div class="diff-proj-name" style="color:#aaa;">
-              ${esc(name)}
-              <span class="diff-proj-unique-badge" style="background:#f1f3f5; color:#888; border-color:#ccc;">${lang === "vi" ? "Không có" : "Not in this"}</span>
-            </div>
-          </div>
-        `;
-        return;
-      }
-
-      const p = inMe;
-      html += `
-        <div class="diff-proj-card${isUnique ? " unique" : ""}">
-          <div class="diff-proj-name">
-            ${esc(p.name || "")}
-            ${isUnique ? `<span class="diff-proj-unique-badge">${lang === "vi" ? "Độc quyền ★" : "Unique ★"}</span>` : ""}
-          </div>
-          ${p.role ? `<div class="diff-proj-role">${esc(p.role)}</div>` : ""}
-          ${p.date ? `<div class="diff-proj-date">📅 ${esc(p.date)}</div>` : ""}
-          ${(p.tasks || []).length > 0 ? `
-            <ul class="diff-proj-tasks">
-              ${(p.tasks || []).map(t => `<li>${esc(t)}</li>`).join("")}
-            </ul>
-          ` : ""}
-          ${p.tech ? `<div class="diff-proj-tech">🔧 ${esc(p.tech)}</div>` : ""}
-        </div>
-      `;
-    });
-
-    if (diffOnlyDiffs && uniqueIds.length === 0 && absentIds.length === 0) {
-      html += `
-        <div style="font-size: 12px; color: #2d6a4f; padding: 12px; text-align: center; background: #edf5f1; border-radius: 8px; font-weight: 600;">
-          🎉 ${lang === "vi" ? "Tất cả các dự án hoàn toàn giống nhau giữa 2 bản!" : "All projects are identical between both versions!"}
-        </div>
-      `;
-    }
-
-    html += `</div>`;
-    return html;
-  }
-
-  async function renderDiff() {
-    const keyA = selectA.value;
-    const keyB = selectB.value;
-    const lang = diffLang;
-
-    const loadingHtml = `
-      <div class="diff-loading">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="spin">
-          <line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line>
-          <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line>
-          <line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line>
-          <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line>
-        </svg>
-        ${lang === "vi" ? "Đang tải..." : "Loading..."}
-      </div>
-    `;
-    if (panelContentA) panelContentA.innerHTML = loadingHtml;
-    if (panelContentB) panelContentB.innerHTML = loadingHtml;
-
-    // Sequential fetch to prevent window.cvData race condition
-    const rawA = await fetchVersionData(keyA);
-    const rawB = await fetchVersionData(keyB);
-
-    if (!rawA || !rawB) {
-      const errHtml = `<div class="diff-empty-state">❌ ${lang === "vi" ? "Không thể tải dữ liệu." : "Failed to load data."}</div>`;
-      if (panelContentA) panelContentA.innerHTML = errHtml;
-      if (panelContentB) panelContentB.innerHTML = errHtml;
-      return;
-    }
-
-    const dataA = (rawA && rawA[lang]) ? rawA[lang] : (rawA.vi || {});
-    const dataB = (rawB && rawB[lang]) ? rawB[lang] : (rawB.vi || {});
-
-    const nameA = selectA.options[selectA.selectedIndex] ? selectA.options[selectA.selectedIndex].text : keyA;
-    const nameB = selectB.options[selectB.selectedIndex] ? selectB.options[selectB.selectedIndex].text : keyB;
-    const titleA = dataA.title || "";
-    const titleB = dataB.title || "";
-
-    // Projects maps
-    const projsA = (dataA.projects || []).concat(dataA.experience || []);
-    const projsB = (dataB.projects || []).concat(dataB.experience || []);
-
-    const mapA = new Map();
-    projsA.forEach(p => { const id = normalizeProjId(p); if (id) mapA.set(id, p); });
-    const mapB = new Map();
-    projsB.forEach(p => { const id = normalizeProjId(p); if (id) mapB.set(id, p); });
-    const allProjectIds = Array.from(new Set([...mapA.keys(), ...mapB.keys()]));
-
-    // Tech tags
-    const techListA = extractTechTags(dataA.skills || []);
-    const techListB = extractTechTags(dataB.skills || []);
-    const setA = new Set(techListA.map(t => t.toLowerCase()));
-    const setB = new Set(techListB.map(t => t.toLowerCase()));
-    const onlyTechA = techListA.filter(t => !setB.has(t.toLowerCase()));
-    const onlyTechB = techListB.filter(t => !setA.has(t.toLowerCase()));
-
-    // Panel headers
-    const metaA = `${projsA.length} ${lang === "vi" ? "dự án" : "projects"} · ${techListA.length} ${lang === "vi" ? "kỹ năng" : "skills"}`;
-    const metaB = `${projsB.length} ${lang === "vi" ? "dự án" : "projects"} · ${techListB.length} ${lang === "vi" ? "kỹ năng" : "skills"}`;
-
-    if (panelHeaderA) {
-      panelHeaderA.innerHTML = `
-        <div class="diff-panel-version-label">Bản A · ${esc(nameA)}</div>
-        <div class="diff-panel-title">${esc(titleA)}</div>
-        <div class="diff-panel-meta">${metaA}</div>
-      `;
-    }
-    if (panelHeaderB) {
-      panelHeaderB.innerHTML = `
-        <div class="diff-panel-version-label">Bản B · ${esc(nameB)}</div>
-        <div class="diff-panel-title">${esc(titleB)}</div>
-        <div class="diff-panel-meta">${metaB}</div>
-      `;
-    }
-
-    if (panelContentA) {
-      panelContentA.scrollTop = 0;
-      panelContentA.innerHTML = renderPanelContent(dataA, lang, onlyTechA, allProjectIds, mapA, mapB, true);
-    }
-    if (panelContentB) {
-      panelContentB.scrollTop = 0;
-      panelContentB.innerHTML = renderPanelContent(dataB, lang, onlyTechB, allProjectIds, mapB, mapA, false);
-    }
-    const splitBody = document.getElementById("diffSplitBody");
-    if (splitBody) splitBody.scrollTop = 0;
-
-    // Footer links
-    if (footerLinks) {
-      const getHref = (key) => key === "default" ? "index.html" : `index.html?type=${encodeURIComponent(key)}`;
-      footerLinks.innerHTML = `
-        <span style="font-size: 11px; font-weight: 700; color: #555;">${lang === "vi" ? "Mở trực tiếp:" : "Open:"}</span>
-        ${keyA !== "__local_draft__" ? `<a href="${getHref(keyA)}" target="_blank" class="diff-link-btn">${nameA} ↗</a>` : ""}
-        ${keyB !== "__local_draft__" ? `<a href="${getHref(keyB)}" target="_blank" class="diff-link-btn">${nameB} ↗</a>` : ""}
-      `;
-    }
+  if (window.CvDiffViewer && typeof window.CvDiffViewer.initDiffViewer === "function") {
+    window.CvDiffViewer.initDiffViewer();
   }
 }
 

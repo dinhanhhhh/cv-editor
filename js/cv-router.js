@@ -6,25 +6,24 @@
   const mode = params.get('type');
   const draftKey = params.get('draft');
 
-  // Cho phep tuy bien worker URL qua tham so ?worker=... hoac bien toan cuc
-  const workerParam = params.get('worker');
-  if (workerParam) {
-    try {
-      localStorage.setItem('CV_WORKER_URL', workerParam);
-    } catch (e) {}
-  }
+  // Bảo mật: Xóa bỏ dữ liệu cũ nếu từng bị tiêm ?worker= vào localStorage
+  try {
+    if (localStorage.getItem('CV_WORKER_URL')) {
+      localStorage.removeItem('CV_WORKER_URL');
+    }
+  } catch (e) {}
 
-  const defaultWorkerUrl = 'https://cv-telegram-bridge.tdinhanh-it.workers.dev';
-  const workerApiBase =
-    window.CV_WORKER_URL ||
-    (function () {
-      try {
-        return localStorage.getItem('CV_WORKER_URL');
-      } catch (e) {
-        return null;
+  // Khóa cứng domain Worker chính thức, ngăn chặn tuyệt đối Parameter Injection
+  const OFFICIAL_WORKER_URL = 'https://cv-telegram-bridge.tdinhanh-it.workers.dev';
+  const workerApiBase = (function () {
+    if (typeof window !== 'undefined' && window.CV_WORKER_URL && typeof window.CV_WORKER_URL === 'string') {
+      const customUrl = window.CV_WORKER_URL.trim().replace(/\/$/, '');
+      if (customUrl === 'http://localhost:8787' || customUrl === OFFICIAL_WORKER_URL) {
+        return customUrl;
       }
-    })() ||
-    defaultWorkerUrl;
+    }
+    return OFFICIAL_WORKER_URL;
+  })();
 
   function ensureDomReady() {
     if (document.readyState === 'interactive' || document.readyState === 'complete') {
@@ -175,14 +174,23 @@
       })
       .then((draftData) => {
         const normalized = normalizeDraftData(draftData);
-        window.cvData = normalized;
         window.cvVersion = `draft_${key}`;
         renderDraftBanner(key, 'ready');
 
-        return ensureDomReady().then(() => {
-          renderNavForDraft(key);
-          return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.4'));
-        });
+        const ensureBase = (window.cvDataBase ? Promise.resolve() : loadScript('data/cv-data-base.js'));
+        return ensureBase
+          .then(() => {
+            if (typeof window.mergeWithBaseCv === 'function' && window.cvDataBase) {
+              window.cvData = window.mergeWithBaseCv(window.cvDataBase, normalized);
+            } else {
+              window.cvData = normalized;
+            }
+            return ensureDomReady();
+          })
+          .then(() => {
+            renderNavForDraft(key);
+            return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.4'));
+          });
       })
       .catch((err) => {
         console.warn('Lỗi tải bản nháp từ KV, chuyển về chế độ thông thường:', err);
@@ -637,8 +645,11 @@
     link.href = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${ver.emoji}</text></svg>`;
     document.head.appendChild(link);
 
-    // Nạp global data trước → data version → renderer
-    loadScript('data/cv-global.js')
+    // Nạp base data và global data trước → data version → merge → renderer
+    Promise.all([
+      (window.cvDataBase ? Promise.resolve() : loadScript('data/cv-data-base.js')),
+      loadScript('data/cv-global.js')
+    ])
       .then(() =>
         loadScript(ver.file).catch((err) => {
           console.warn(`Khong the tai ${ver.file}, chuyen ve phien ban mac dinh:`, err);
@@ -646,7 +657,12 @@
           return loadScript(def.file);
         })
       )
-      .then(() => ensureDomReady())
+      .then(() => {
+        if (typeof window.mergeWithBaseCv === 'function' && window.cvDataBase) {
+          window.cvData = window.mergeWithBaseCv(window.cvDataBase, window.cvData);
+        }
+        return ensureDomReady();
+      })
       .then(() => loadScript('js/cv-renderer.js?v=1.2.4'))
       .catch((error) => {
         console.error(error);

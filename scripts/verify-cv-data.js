@@ -98,12 +98,20 @@ const allDataFiles = fs
   .readdirSync(DATA_DIR)
   .filter((f) => f.startsWith("cv-data-") && f.endsWith(".js"));
 
-const ALLOWED_ORPHANS = new Set(["cv-data-template.js"]);
+const ALLOWED_ORPHANS = new Set(["cv-data-template.js", "cv-data-base.js"]);
 allDataFiles.forEach((file) => {
   if (!manifestFiles.has(file) && !ALLOWED_ORPHANS.has(file)) {
     logWarn(`File dữ liệu '${file}' chưa được đăng ký trong cv-manifest.js.`);
   }
 });
+
+// Nạp module Base CV Data
+let cvDataBaseModule = null;
+try {
+  cvDataBaseModule = require(path.join(DATA_DIR, "cv-data-base.js"));
+} catch (e) {
+  logError(`Không thể nạp data/cv-data-base.js: ${e.message}`);
+}
 
 // ----------------------------------------------------
 // 2. KIỂM TRA CẤU TRÚC VÀ QUY TẮC DỮ LIỆU CV
@@ -121,6 +129,8 @@ function createDataSandbox() {
       vi: [],
       en: [],
     },
+    cvDataBase: cvDataBaseModule ? cvDataBaseModule.cvDataBase : null,
+    mergeWithBaseCv: cvDataBaseModule ? cvDataBaseModule.mergeWithBaseCv : null,
     module: {},
     exports: {},
     console: console,
@@ -149,6 +159,12 @@ allDataFiles.forEach((file) => {
   if (!cvData || typeof cvData !== "object") {
     logError(`[${file}] Không tìm thấy đối tượng 'cvData' hợp lệ!`);
     return;
+  }
+
+  // Nếu đây là file dữ liệu phiên bản (không phải file base gốc) và có module merge:
+  // Tiến hành merge với cvDataBase để kiểm tra trạng thái hoạt động thực tế
+  if (file !== "cv-data-base.js" && sandbox.mergeWithBaseCv && sandbox.cvDataBase) {
+    cvData = sandbox.mergeWithBaseCv(sandbox.cvDataBase, cvData);
   }
 
   ["vi", "en"].forEach((lang) => {

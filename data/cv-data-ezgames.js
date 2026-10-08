@@ -1,39 +1,13 @@
-// ===================================
-// CV DATA - EZ GAMES FRONTEND DEVELOPER INTERN
-// ===================================
-
-if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
-  global.cvGlobalEdu = require("./cv-global.js");
-}
+// =========================================================================
+// CV DATA - EZ GAMES FRONTEND DEVELOPER INTERN (OVERRIDE FORMAT)
+// Kế thừa tự động từ data/cv-data-base.js (Name, Contact, Education, Buttons)
+// =========================================================================
 
 var cvData = {
   vi: {
-    projectDisplayLimit: 2,
-    name: "TRƯƠNG ĐÌNH ANH",
     title: "Frontend Developer Intern",
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thủ Đức, TP. Hồ Chí Minh" },
-    ],
-    sections: {
-      objective: "TÓM TẮT CHUYÊN MÔN",
-      education: "HỌC VẤN",
-      projects: "DỰ ÁN TIÊU BIỂU",
-      skills: "KỸ NĂNG CHUYÊN MÔN",
-    },
     objective:
       "Thực tập sinh Frontend Developer chuyên React và Next.js với nền tảng Khoa học Máy tính vững vàng. Có kinh nghiệm xây dựng giao diện responsive mượt mà trên Mobile/Tablet/Desktop, tích hợp REST API và làm việc với các hệ thống cơ sở dữ liệu (PostgreSQL/Supabase, MySQL). Có tư duy hướng đối tượng (OOP) tốt và nền tảng lập trình C#/.NET (lợi thế lớn giúp nhanh chóng tiếp cận Unity/Game Development). Sẵn sàng làm việc full-time, học hỏi chủ động và phối hợp chặt chẽ cùng đội ngũ EZ Games để phát triển các sản phẩm công nghệ và game đột phá.",
-    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "NỀN TẢNG TUYỂN DỤNG & KẾT NỐI (JOB PORTAL)",
@@ -92,59 +66,33 @@ var cvData = {
           "Tư duy giải quyết vấn đề, tinh thần tự học chủ động, teamwork tốt, đọc hiểu tài liệu tiếng Anh tốt",
       },
     ],
-    btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_Frontend_Intern_EZGames",
     coverLetter: `[Tiêu đề Email: EZ Games - Frontend Developer Intern - Trương Đình Anh]
 
 Kính gửi chị Thu Nguyễn và Bộ phận Tuyển dụng Công ty EZ Games,
 
-Tôi tên là Trương Đình Anh, tốt nghiệp chuyên ngành Khoa học Máy tính tại Đại học Mở TP.HCM. Tôi viết thư này để bày tỏ sự quan tâm sâu sắc và mong muốn được ứng tuyển vào vị trí Thực tập sinh Frontend Developer tại EZ Games.
+Em tên là Trương Đình Anh, tốt nghiệp Cử nhân Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Em viết thư này để bày tỏ nguyện vọng được thực tập và cống hiến tại EZ Games ở vị trí Frontend Developer Intern.
 
-Với định hướng phát triển chuyên sâu về lập trình web hiện đại (React/Next.js), tôi đã xây dựng thành công các dự án thực tế như Job Portal và E-Commerce Platform. Tôi tự tin với khả năng cắt giao diện chuẩn UI/UX, tối ưu trải nghiệm responsive mượt mà trên nhiều thiết bị và kết nối dữ liệu qua REST API.
+Với định hướng chuyên sâu về phát triển Web hiện đại (React/Next.js), em đã tự tay xây dựng và triển khai các dự án hoàn chỉnh như Nền tảng tuyển dụng Job Portal và Website Thương mại điện tử E-Commerce. Em tự tin về khả năng hiện thực hóa giao diện chuẩn pixel từ bản thiết kế Figma, tối ưu hiển thị mượt mà trên đa thiết bị (Responsive) và tích hợp các RESTful APIs chặt chẽ.
 
-Đặc biệt, tôi nhận thấy các điểm cộng mà EZ Games đang tìm kiếm rất tương đồng với kỹ năng của tôi:
-- Về Database/Cloud: Tôi đã có cơ hội thực tập Back-End tại Tami Technology, trực tiếp thiết kế cơ sở dữ liệu PostgreSQL và triển khai trên hạ tầng Supabase Cloud. Điều này giúp tôi hiểu sâu sắc cách phối hợp cùng Backend Team để tối ưu hóa dữ liệu.
-- Về Unity/Game: Tôi có tư duy hướng đối tượng (OOP) vững vàng và nền tảng lập trình C#/.NET được đào tạo bài bản qua các đồ án tại trường. Đây là bệ phóng giúp tôi sẵn sàng tìm hiểu và tiếp cận nhanh chóng các dự án sử dụng Unity/Game Development của EZ Games.
+Bên cạnh đó, các tiêu chí ưu tiên (bonus) của EZ Games rất phù hợp với nền tảng của em:
+- Cơ sở dữ liệu & Cloud: Em từng có kinh nghiệm thực tập Backend tại Tami Technology, tham gia thiết kế mô hình dữ liệu PostgreSQL và triển khai trên Supabase Cloud. Điều này giúp em phối hợp ăn ý và hiểu rõ luồng dữ liệu khi làm việc cùng team Backend.
+- Định hướng Game Dev & Unity: Em có nền tảng tư duy hướng đối tượng (OOP) vững chắc và đã từng làm việc với C#/.NET trong các đồ án tại trường Đại học. Đây là lợi thế lớn giúp em sẵn sàng tiếp cận nhanh chóng với quy trình phát triển Game bằng Unity tại EZ Games khi công ty có định hướng mở rộng.
 
-EZ Games là một môi trường năng động và phát triển nhanh trong lĩnh vực công nghệ/game. Tôi tin rằng với tinh thần tự học chủ động, trách nhiệm cao và khả năng thích nghi nhanh, tôi sẽ đóng góp tích cực vào \"Dream Team\" của công ty. Tôi sẵn sàng làm việc full-time từ thứ 2 đến thứ 6 và cam kết nỗ lực hết mình để hướng tới vị trí nhân viên chính thức sau kỳ thực tập.
+EZ Games là môi trường phát triển game và ứng dụng công nghệ trẻ trung, năng động và giàu nhiệt huyết. Em tin rằng tinh thần tự học hỏi cao, tính kỷ luật và sự tỉ mỉ của mình sẽ đóng góp tích cực vào các sản phẩm của công ty. Em có thể làm việc full-time (từ thứ 2 đến thứ 6) và luôn sẵn sàng gắn bó lâu dài nếu có cơ hội trở thành nhân viên chính thức sau kỳ thực tập.
 
-Tôi xin gửi kèm CV để Quý công ty tiện tham khảo. Rất mong nhận được phản hồi và có cơ hội trao đổi trực tiếp trong một buổi phỏng vấn.
+Em xin gửi kèm CV ứng tuyển để Quý công ty tiện theo dõi. Rất mong sẽ có cơ hội được trao đổi trực tiếp cùng các anh chị trong buổi phỏng vấn sắp tới.
 
-Tôi xin chân thành cảm ơn!
-
-Trân trọng,
+Em xin chân thành cảm ơn!
 Trương Đình Anh
 SĐT: 0923202861
 GitHub: https://github.com/dinhanhhhh`,
   },
 
   en: {
-    projectDisplayLimit: 2,
-    name: "TRUONG DINH ANH",
     title: "Frontend Developer Intern",
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thu Duc, Ho Chi Minh City" },
-    ],
-    sections: {
-      objective: "PROFESSIONAL SUMMARY",
-      education: "EDUCATION",
-      projects: "TECHNICAL PROJECTS",
-      skills: "TECHNICAL SKILLS",
-    },
     objective:
       "Frontend Developer Intern specializing in React and Next.js with a solid Computer Science background. Experienced in building responsive interfaces across Mobile/Tablet/Desktop, integrating RESTful APIs, and working with databases (PostgreSQL/Supabase, MySQL). Possesses strong OOP skills and C#/.NET programming foundation (a significant advantage for learning Unity/Game Development). Eager to work full-time, self-motivated, and ready to collaborate with the EZ Games team to build high-performance web and gaming applications.",
-    education: cvGlobalEdu.en,
     projects: [
       {
         name: "JOB PORTAL PLATFORM",
@@ -203,7 +151,6 @@ GitHub: https://github.com/dinhanhhhh`,
           "Problem-solving, self-motivated learning, teamwork, good reading comprehension of English docs",
       },
     ],
-    btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_Frontend_Intern_EZGames",
     coverLetter: `[Subject: EZ Games - Frontend Developer Intern - Truong Dinh Anh]
 

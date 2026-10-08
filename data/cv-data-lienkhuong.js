@@ -1,39 +1,16 @@
-// ===================================
-// CV DATA - KỸ SƯ CNTT (CẢNG HÀNG KHÔNG LIÊN KHƯƠNG)
-// ===================================
-
-if (typeof require !== "undefined" && typeof cvGlobalEdu === "undefined") {
-  global.cvGlobalEdu = require("./cv-global.js");
-}
+// =========================================================================
+// CV DATA - KỸ SƯ CNTT (CẢNG HÀNG KHÔNG LIÊN KHƯƠNG) (OVERRIDE FORMAT)
+// Kế thừa tự động từ data/cv-data-base.js (Name, Contact, Education, Buttons)
+// =========================================================================
 
 var cvData = {
   vi: {
-    projectDisplayLimit: 2,
-    name: "TRƯƠNG ĐÌNH ANH",
     title: "Kỹ Sư Công Nghệ Thông Tin",
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thủ Đức, TP. Hồ Chí Minh" },
-    ],
     sections: {
-      objective: "TÓM TẮT CHUYÊN MÔN",
-      education: "HỌC VẤN",
       projects: "DỰ ÁN & KINH NGHIỆM KỸ THUẬT",
-      skills: "KỸ NĂNG CHUYÊN MÔN",
     },
     objective:
       "Cử nhân Khoa học Máy tính có tư duy hệ thống và nền tảng kỹ thuật toàn diện về phần mềm, cơ sở dữ liệu (MySQL, PostgreSQL, MongoDB) và hạ tầng CNTT cơ bản. Thành thạo lập trình web, tự động hóa quy trình (Automation Workflows), thiết kế & kiểm thử RESTful API, chẩn đoán lỗi hệ thống (debug) qua Chrome DevTools/Postman. Tinh thần kỷ luật cao, chủ động trong công việc, sẵn sàng tiếp thu các quy trình vận hành CNTT chuyên ngành hàng không và hỗ trợ kỹ thuật xử lý sự cố 24/7.",
-    education: cvGlobalEdu.vi,
     projects: [
       {
         name: "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
@@ -49,7 +26,7 @@ var cvData = {
         tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
-        name: "HỆ THỐNG QUẢN LÝ DỮ LIỆU & PHÂN QUYỀN (JOB PORTAL PLATFORM)",
+        name: "HỆ THỐNG QUẢN LÝ DỮ LIỆU & PHÂN QUYỀN",
         date: "11/2025 - 02/2026",
         role: "Developer",
         desc: "Hệ thống ứng dụng web quản lý dữ liệu người dùng, phân quyền truy cập và xử lý quy trình nộp hồ sơ trực tuyến.",
@@ -87,37 +64,15 @@ var cvData = {
         items: "Tiếng Anh: Có thể đọc hiểu tài liệu kỹ thuật và giao tiếp công việc cơ bản",
       },
     ],
-
-    btnText: "In / Tải PDF",
     docTitle: "CV_TruongDinhAnh_KySuCNTT_LienKhuong",
   },
   en: {
-    projectDisplayLimit: 2,
-    name: "TRƯƠNG ĐÌNH ANH",
     title: "IT Engineer",
-    contact: [
-      { icon: "phone", text: "0923202861" },
-      {
-        icon: "email",
-        text: "tdinhanh.it@gmail.com",
-        link: "mailto:tdinhanh.it@gmail.com",
-      },
-      {
-        icon: "github",
-        text: "github.com/dinhanhhhh",
-        link: "https://github.com/dinhanhhhh",
-      },
-      { icon: "address", text: "Thu Duc, Ho Chi Minh City" },
-    ],
     sections: {
-      objective: "PROFESSIONAL SUMMARY",
-      education: "EDUCATION",
       projects: "PROJECTS & TECHNICAL EXPERIENCE",
-      skills: "TECHNICAL SKILLS",
     },
     objective:
       "Computer Science graduate with a comprehensive technical foundation in software engineering, database management (MySQL, PostgreSQL, MongoDB), and basic IT infrastructure. Proficient in web development, process automation, RESTful API testing via Postman, and system debugging using Chrome DevTools. Highly disciplined, adaptable, and eager to master aviation IT operational workflows while offering dedicated 24/7 technical troubleshooting support.",
-    education: cvGlobalEdu.en,
     projects: [
       {
         name: "AI AGENT & AUTOMATION PLATFORM",
@@ -133,7 +88,7 @@ var cvData = {
         tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
-        name: "DATA MANAGEMENT & AUTHORIZATION SYSTEM (JOB PORTAL)",
+        name: "DATA MANAGEMENT & AUTHORIZATION SYSTEM",
         date: "11/2025 - 02/2026",
         role: "Developer",
         desc: "A web platform designed for user profile administration, role-based authorization, and online application processing.",
@@ -171,8 +126,10 @@ var cvData = {
         items: "English: Technical documentation reading & basic work communication",
       },
     ],
-
-    btnText: "Print / Save PDF",
     docTitle: "CV_TruongDinhAnh_IT_Engineer_LienKhuong",
   },
 };
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = cvData;
+}
