@@ -817,6 +817,35 @@ async function handleAITailor(env, chatId, bodyText) {
       tailorSummary = rawParsed.tailorSummary || null;
     }
 
+    // Chuan hoa schema neu LLM de skills hoac cac field khac o root thay vi trong vi
+    if (parsedTailoredCv.vi) {
+      if (!parsedTailoredCv.vi.skills && Array.isArray(parsedTailoredCv.skills)) {
+        parsedTailoredCv.vi.skills = parsedTailoredCv.skills;
+      }
+      if (!parsedTailoredCv.vi.btnText && parsedTailoredCv.btnText) {
+        parsedTailoredCv.vi.btnText = parsedTailoredCv.btnText;
+      }
+      if (!parsedTailoredCv.vi.docTitle && parsedTailoredCv.docTitle) {
+        parsedTailoredCv.vi.docTitle = parsedTailoredCv.docTitle;
+      }
+      if (!parsedTailoredCv.vi.btnText) {
+        parsedTailoredCv.vi.btnText = "In / Tải PDF";
+      }
+    }
+
+    // Tao nhanh en tu vi neu LLM bo quen en
+    if (!parsedTailoredCv.en && parsedTailoredCv.vi) {
+      parsedTailoredCv.en = JSON.parse(JSON.stringify(parsedTailoredCv.vi));
+      parsedTailoredCv.en.btnText = "Print / Save PDF";
+      if (parsedTailoredCv.en.sections) {
+        parsedTailoredCv.en.sections.objective = "PROFESSIONAL SUMMARY";
+        parsedTailoredCv.en.sections.education = "EDUCATION";
+        parsedTailoredCv.en.sections.experience = "WORK EXPERIENCE";
+        parsedTailoredCv.en.sections.projects = "FEATURED PROJECTS";
+        parsedTailoredCv.en.sections.skills = "TECHNICAL SKILLS";
+      }
+    }
+
     ["vi", "en"].forEach((lang) => {
       if (parsedTailoredCv[lang]) {
         if (Array.isArray(parsedTailoredCv[lang].projects)) {

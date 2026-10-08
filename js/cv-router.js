@@ -26,45 +26,132 @@
     })() ||
     defaultWorkerUrl;
 
-  function renderDraftBanner(key, status, errorMsg) {
-    let banner = document.getElementById('cvDraftBanner');
-    if (!banner) {
-      banner = document.createElement('div');
-      banner.id = 'cvDraftBanner';
-      banner.className = 'cv-draft-banner no-print';
-      document.body.appendChild(banner);
+  function ensureDomReady() {
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      window.addEventListener('DOMContentLoaded', resolve, { once: true });
+    });
+  }
+
+  function normalizeDraftData(raw) {
+    if (!raw) return raw;
+    const data = JSON.parse(JSON.stringify(raw));
+    const root = (data.cvData && (data.cvData.vi || data.cvData.en)) ? data.cvData : data;
+
+    // Trường hợp toàn bộ field nằm phẳng ở root
+    if (!root.vi && !root.en && root.name) {
+      return {
+        vi: Object.assign({}, root),
+        en: Object.assign({}, root, { name: "TRUONG DINH ANH" })
+      };
     }
 
-    const upper = key.toUpperCase();
-    if (status === 'loading') {
-      banner.className = 'cv-draft-banner loading no-print';
-      banner.innerHTML = `
-        <div class="draft-content">
-          <span class="draft-badge">⏳ ĐANG TẢI BẢN NHÁP</span>
-          <span class="draft-desc">Đang kéo dữ liệu #${upper} từ Cloudflare KV...</span>
-        </div>
-      `;
-    } else if (status === 'ready') {
-      banner.className = 'cv-draft-banner ready no-print';
-      banner.innerHTML = `
-        <div class="draft-content">
-          <span class="draft-badge">📝 BẢN NHÁP (DRAFT)</span>
-          <span class="draft-title">#${upper}</span>
-          <span class="draft-desc">Lưu tạm trên Cloudflare KV (Git sạch 100%).</span>
-        </div>
-        <div class="draft-actions">
-          <span class="draft-hint">Chốt bản này? Gõ trên Telegram: <code>/publish #${key.toLowerCase()}</code></span>
-        </div>
-      `;
-    } else if (status === 'error') {
-      banner.className = 'cv-draft-banner error no-print';
-      banner.innerHTML = `
-        <div class="draft-content">
-          <span class="draft-badge">⚠️ LỖI BẢN NHÁP</span>
-          <span class="draft-desc">${errorMsg || 'Không thể tải bản nháp.'}</span>
-        </div>
-      `;
-      setTimeout(() => banner && banner.remove(), 7000);
+    if (root.vi) {
+      if (!root.vi.skills && Array.isArray(root.skills)) {
+        root.vi.skills = root.skills;
+      }
+      if (!root.vi.btnText && root.btnText) {
+        root.vi.btnText = root.btnText;
+      }
+      if (!root.vi.docTitle && root.docTitle) {
+        root.vi.docTitle = root.docTitle;
+      }
+      if (!root.vi.btnText) {
+        root.vi.btnText = "In / Tải PDF";
+      }
+    }
+
+    // Nếu thiếu nhánh en, tự clone và dịch tiêu đề cơ bản để không bị crash khi chuyển ngôn ngữ
+    if (!root.en && root.vi) {
+      root.en = JSON.parse(JSON.stringify(root.vi));
+      root.en.btnText = "Print / Save PDF";
+      if (root.en.sections) {
+        root.en.sections.objective = "PROFESSIONAL SUMMARY";
+        root.en.sections.education = "EDUCATION";
+        root.en.sections.experience = "WORK EXPERIENCE";
+        root.en.sections.projects = "FEATURED PROJECTS";
+        root.en.sections.skills = "TECHNICAL SKILLS";
+      }
+    }
+
+    // Nếu thiếu nhánh vi mà có en
+    if (!root.vi && root.en) {
+      root.vi = JSON.parse(JSON.stringify(root.en));
+      root.vi.btnText = "In / Tải PDF";
+      if (root.vi.sections) {
+        root.vi.sections.objective = "TÓM TẮT CHUYÊN MÔN";
+        root.vi.sections.education = "HỌC VẤN";
+        root.vi.sections.experience = "KINH NGHIỆM LÀM VIỆC";
+        root.vi.sections.projects = "DỰ ÁN TIÊU BIỂU";
+        root.vi.sections.skills = "KỸ NĂNG CHUYÊN MÔN";
+      }
+    }
+
+    // Quy tắc bắt buộc: role luôn luôn là 'Developer'
+    ['vi', 'en'].forEach((lang) => {
+      if (root[lang]) {
+        if (Array.isArray(root[lang].projects)) {
+          root[lang].projects.forEach((p) => { p.role = "Developer"; });
+        }
+        if (Array.isArray(root[lang].experience)) {
+          root[lang].experience.forEach((e) => { e.role = "Developer"; });
+        }
+      }
+    });
+
+    return root;
+  }
+
+  function renderDraftBanner(key, status, errorMsg) {
+    const attachBanner = () => {
+      if (!document.body) return;
+      let banner = document.getElementById('cvDraftBanner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'cvDraftBanner';
+        banner.className = 'cv-draft-banner no-print';
+        document.body.appendChild(banner);
+      }
+
+      const upper = key.toUpperCase();
+      if (status === 'loading') {
+        banner.className = 'cv-draft-banner loading no-print';
+        banner.innerHTML = `
+          <div class="draft-content">
+            <span class="draft-badge">⏳ ĐANG TẢI BẢN NHÁP</span>
+            <span class="draft-desc">Đang kéo dữ liệu #${upper} từ Cloudflare KV...</span>
+          </div>
+        `;
+      } else if (status === 'ready') {
+        banner.className = 'cv-draft-banner ready no-print';
+        banner.innerHTML = `
+          <div class="draft-content">
+            <span class="draft-badge">📝 BẢN NHÁP (DRAFT)</span>
+            <span class="draft-title">#${upper}</span>
+            <span class="draft-desc">Lưu tạm trên Cloudflare KV (Git sạch 100%).</span>
+          </div>
+          <div class="draft-actions">
+            <span class="draft-hint">Chốt bản này? Gõ trên Telegram: <code>/publish #${key.toLowerCase()}</code></span>
+          </div>
+        `;
+      } else if (status === 'error') {
+        banner.className = 'cv-draft-banner error no-print';
+        banner.innerHTML = `
+          <div class="draft-content">
+            <span class="draft-badge">⚠️ LỖI BẢN NHÁP</span>
+            <span class="draft-desc">${errorMsg || 'Không thể tải bản nháp.'}</span>
+          </div>
+        `;
+        setTimeout(() => banner && banner.remove(), 7000);
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      window.addEventListener('DOMContentLoaded', attachBanner, { once: true });
+    } else {
+      attachBanner();
     }
   }
 
@@ -80,16 +167,15 @@
         return res.json();
       })
       .then((draftData) => {
-        // Gán dữ liệu nháp vào window.cvData và đặt cvVersion
-        window.cvData = draftData;
+        const normalized = normalizeDraftData(draftData);
+        window.cvData = normalized;
         window.cvVersion = `draft_${key}`;
         renderDraftBanner(key, 'ready');
 
-        // Render menu phien ban ben trai
-        renderNavForDraft(key);
-
-        // Nạp global data trước rồi nạp renderer
-        return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.3'));
+        return ensureDomReady().then(() => {
+          renderNavForDraft(key);
+          return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.4'));
+        });
       })
       .catch((err) => {
         console.warn('Lỗi tải bản nháp từ KV, chuyển về chế độ thông thường:', err);
@@ -317,6 +403,8 @@
 
     const countEl = document.getElementById('versionCount');
     if (countEl) countEl.textContent = manifest.length + 1;
+
+    nav.innerHTML = '';
 
     // Nut draft o dau menu
     const draftBtn = document.createElement('a');
@@ -551,7 +639,8 @@
           return loadScript(def.file);
         })
       )
-      .then(() => loadScript('js/cv-renderer.js?v=1.2.3'))
+      .then(() => ensureDomReady())
+      .then(() => loadScript('js/cv-renderer.js?v=1.2.4'))
       .catch((error) => {
         console.error(error);
       });
