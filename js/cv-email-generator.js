@@ -265,9 +265,249 @@
   }
 
   // ----------------------------------------------------
+  // I18N Dictionary & Templates Helper
+  // ----------------------------------------------------
+  const I18N = {
+    vi: {
+      modalTitle: "✉️ Thư & Email Ứng Tuyển",
+      tabEmail: "⚡ Email gửi nhanh (1-Click)",
+      tabCover: "📄 Thư giới thiệu (Cover Letter)",
+      subtitleEmail: "Soạn nhanh email ứng tuyển 1-click với 3 điểm mạnh nhất theo CV & JD để gửi Nhà tuyển dụng.",
+      subtitleCover: "Một thư giới thiệu ngắn gọn, chỉn chu sẽ giúp bạn trở nên chuyên nghiệp và gây ấn tượng hơn với nhà tuyển dụng.",
+      configTitle: "⚙️ Thông tin ứng tuyển",
+      lblCompany: "Tên Công Ty / Doanh Nghiệp:",
+      lblPosition: "Vị Trí Ứng Tuyển:",
+      lblRecipient: "Kính Gửi (Người nhận):",
+      lblEmail: "Email Nhà Tuyển Dụng (Để mở Gmail gửi luôn):",
+      lblTone: "Phong Cách Văn Phong (Tone):",
+      toneTech: "💻 Kỹ Thuật & Số Liệu",
+      toneShort: "⚡ Ngắn Gọn & Súc Tích",
+      toneWarm: "😊 Nhiệt Huyết & Cầu Tiến",
+      lblJd: "Bản mô tả công việc (JD) tùy chọn:",
+      jdPlaceholder: "Dán yêu cầu tuyển dụng vào đây để hệ thống tự tối ưu từ khóa phù hợp...",
+      previewTitle: "✉️ Email Hoàn Chỉnh (Đã may đo)",
+      copySubject: "📋 Chép Tiêu Đề",
+      copyBody: "📋 Chép Nội Dung",
+      subjectTag: "Tiêu đề:",
+      copyAll: "📋 Sao Chép Toàn Bộ",
+      gmailBtn: "🚀 Mở Gmail Soạn Luôn",
+      mailtoBtn: "✉️ Mở Mail Client",
+      tmplLabel: "Mẫu thư:",
+      footerHint: '💡 <b>Mẹo:</b> Chọn tab <b>"Email gửi nhanh"</b> để lấy 3 gạch đầu dòng gửi Gmail, hoặc tab <b>"Thư giới thiệu"</b> để lấy bản thư dài trang trọng.',
+      closeBtn: "Đóng ✓"
+    },
+    en: {
+      modalTitle: "✉️ Cover Letter & Application Email",
+      tabEmail: "⚡ Quick Email (1-Click)",
+      tabCover: "📄 Cover Letter",
+      subtitleEmail: "Quickly generate a 1-click application email tailored with your top qualifications for recruiters.",
+      subtitleCover: "A concise, well-written cover letter or application email will help you stand out and make a professional impression on recruiters.",
+      configTitle: "⚙️ Application Details",
+      lblCompany: "Company Name:",
+      lblPosition: "Target Position:",
+      lblRecipient: "Recipient (Dear):",
+      lblEmail: "Recruiter Email (To open Gmail directly):",
+      lblTone: "Tone / Writing Style:",
+      toneTech: "💻 Tech Focus & Metrics",
+      toneShort: "⚡ Concise & Direct",
+      toneWarm: "😊 Enthusiastic & Cultural",
+      lblJd: "Optional Job Description (JD):",
+      jdPlaceholder: "Paste the job requirements here to tailor keywords...",
+      previewTitle: "✉️ Tailored Application Email",
+      copySubject: "📋 Copy Subject",
+      copyBody: "📋 Copy Body",
+      subjectTag: "Subject:",
+      copyAll: "📋 Copy All",
+      gmailBtn: "🚀 Open in Gmail",
+      mailtoBtn: "✉️ Open Mail Client",
+      tmplLabel: "Letter Template:",
+      footerHint: '💡 <b>Tip:</b> Choose <b>"Quick Email"</b> for concise bullets to send via Gmail, or <b>"Cover Letter"</b> for a formal full-length letter.',
+      closeBtn: "Close ✓"
+    }
+  };
+
+  function parseEmailTemplate(text) {
+    if (!text || typeof text !== "string") return null;
+    const trimmed = text.trim();
+    const m = trimmed.match(/^\[(?:Subject|Tiêu đề(?: Email)?):\s*([^\]]+)\]\s*\n+([\s\S]*)$/i);
+    if (m) {
+      return { subject: m[1].trim(), body: m[2].trim() };
+    }
+    const bracketMatch = trimmed.match(/^\[([^\]]+)\]\s*\n+([\s\S]*)$/);
+    if (bracketMatch) {
+      return { subject: bracketMatch[1].trim(), body: bracketMatch[2].trim() };
+    }
+    return { subject: "", body: trimmed };
+  }
+
+  function getCustomTemplate(lang, tone) {
+    if (!window.cvData || !window.cvData[lang]) return null;
+    const data = window.cvData[lang];
+
+    // 1. Check emailTemplates
+    if (data.emailTemplates && typeof data.emailTemplates === "object") {
+      let candidateText = null;
+      if (tone === "short" && data.emailTemplates.short) {
+        candidateText = data.emailTemplates.short;
+      } else if (tone === "tech" && (data.emailTemplates.tech || data.emailTemplates.full)) {
+        candidateText = data.emailTemplates.tech || data.emailTemplates.full;
+      } else if (tone === "warm" && (data.emailTemplates.warm || data.emailTemplates.full)) {
+        candidateText = data.emailTemplates.warm || data.emailTemplates.full;
+      } else if (data.emailTemplates[tone]) {
+        candidateText = data.emailTemplates[tone];
+      } else if (data.emailTemplates.full || data.emailTemplates.short) {
+        candidateText = data.emailTemplates.full || data.emailTemplates.short;
+      }
+      if (candidateText) return parseEmailTemplate(candidateText);
+    }
+
+    // 2. Check coverLetters
+    if (data.coverLetters && typeof data.coverLetters === "object") {
+      const candidateText = data.coverLetters[tone] || data.coverLetters.tech || data.coverLetters.short;
+      if (candidateText) return parseEmailTemplate(candidateText);
+    }
+
+    return null;
+  }
+
+  // ----------------------------------------------------
   // UI & Event Handlers
   // ----------------------------------------------------
   let activeTab = "email"; // 'email' | 'cover'
+
+  function applyI18n(lang) {
+    const dict = I18N[lang] || I18N.vi;
+
+    const titleEl = document.getElementById("clModalTitle");
+    if (titleEl) titleEl.innerHTML = dict.modalTitle;
+
+    const tabEmailBtn = document.getElementById("clTabEmailBtn");
+    if (tabEmailBtn) tabEmailBtn.innerHTML = dict.tabEmail;
+
+    const tabCoverBtn = document.getElementById("clTabCoverBtn");
+    if (tabCoverBtn) tabCoverBtn.innerHTML = dict.tabCover;
+
+    const subtitleEl = document.getElementById("clModalSubtitle");
+    if (subtitleEl) {
+      subtitleEl.innerHTML = activeTab === "email" ? dict.subtitleEmail : dict.subtitleCover;
+    }
+
+    const configTitle = document.querySelector("#clPaneEmail .eg-col-config .eg-section-title");
+    if (configTitle) configTitle.textContent = dict.configTitle;
+
+    const lblCompany = document.querySelector('label[for="egInputCompany"]');
+    if (lblCompany) lblCompany.textContent = dict.lblCompany;
+
+    const lblPosition = document.querySelector('label[for="egInputPosition"]');
+    if (lblPosition) lblPosition.textContent = dict.lblPosition;
+
+    const lblRecipient = document.querySelector('label[for="egInputRecipient"]');
+    if (lblRecipient) lblRecipient.textContent = dict.lblRecipient;
+
+    const lblEmail = document.querySelector('label[for="egInputEmail"]');
+    if (lblEmail) lblEmail.textContent = dict.lblEmail;
+
+    const lblTone = document.querySelector("#clPaneEmail .eg-tone-label, #clPaneEmail .eg-field-group > label.eg-label:not([for])");
+    if (lblTone) lblTone.textContent = dict.lblTone;
+
+    const toneBtns = document.querySelectorAll(".eg-tone-btn");
+    toneBtns.forEach(btn => {
+      const tone = btn.getAttribute("data-tone");
+      if (tone === "tech") {
+        btn.textContent = dict.toneTech;
+        btn.title = lang === "vi" ? "Nêu bật số liệu, stack công nghệ & dự án thực tế" : "Highlight metrics, tech stack & real-world projects";
+      } else if (tone === "short") {
+        btn.textContent = dict.toneShort;
+        btn.title = lang === "vi" ? "Đi thẳng vào điểm cốt lõi, siêu ngắn gọn" : "Straight to the point, highly concise";
+      } else if (tone === "warm") {
+        btn.textContent = dict.toneWarm;
+        btn.title = lang === "vi" ? "Ấn tượng văn hóa, nhiệt huyết & cầu tiến" : "Culture fit, enthusiastic & eager to grow";
+      }
+    });
+
+    const lblJd = document.querySelector('label[for="egInputJd"]');
+    if (lblJd) lblJd.textContent = dict.lblJd;
+
+    const inputJd = document.getElementById("egInputJd");
+    if (inputJd) inputJd.placeholder = dict.jdPlaceholder;
+
+    const previewTitleSpan = document.querySelector("#clPaneEmail .eg-preview-title > span");
+    if (previewTitleSpan) previewTitleSpan.textContent = dict.previewTitle;
+
+    const copySubBtn = document.getElementById("egCopySubjectBtn");
+    if (copySubBtn) copySubBtn.textContent = dict.copySubject;
+
+    const copyBodyBtn = document.getElementById("egCopyBodyBtn");
+    if (copyBodyBtn) copyBodyBtn.textContent = dict.copyBody;
+
+    const subjectTag = document.querySelector("#clPaneEmail .eg-subject-tag");
+    if (subjectTag) subjectTag.textContent = dict.subjectTag;
+
+    const copyAllBtn = document.getElementById("egCopyAllBtn");
+    if (copyAllBtn) copyAllBtn.textContent = dict.copyAll;
+
+    const gmailBtn = document.getElementById("egGmailBtn");
+    if (gmailBtn) gmailBtn.textContent = dict.gmailBtn;
+
+    const mailtoBtn = document.getElementById("egMailtoBtn");
+    if (mailtoBtn) mailtoBtn.textContent = dict.mailtoBtn;
+
+    const tmplLabel = document.querySelector('label[for="clTemplateSelect"]');
+    if (tmplLabel) tmplLabel.textContent = dict.tmplLabel;
+
+    const footerHint = document.getElementById("clFooterHint");
+    if (footerHint) footerHint.innerHTML = dict.footerHint;
+
+    const closeFooterBtn = document.querySelector(".cl-modal-footer .cl-btn-primary");
+    if (closeFooterBtn) closeFooterBtn.textContent = dict.closeBtn;
+  }
+
+  function setLang(lang, syncCv = true) {
+    currentLang = lang === "en" ? "en" : "vi";
+    window.currentLang = currentLang;
+
+    updateLangButtons();
+    applyI18n(currentLang);
+
+    // Sync input fields for current language
+    const metaInfo = (window.cvData && window.cvData.meta) || {};
+    const cvKey = getCurrentCvKey();
+    const mapInfo = VERSION_MAP[cvKey] || {};
+
+    const posInput = document.getElementById("egInputPosition");
+    const recInput = document.getElementById("egInputRecipient");
+
+    if (posInput) {
+      const viTitle = window.cvData?.vi?.title;
+      const enTitle = window.cvData?.en?.title;
+      if (!posInput.value || posInput.value === viTitle || posInput.value === enTitle || posInput.value === "Developer") {
+        posInput.value = (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || metaInfo.position || mapInfo.position || "Developer";
+      }
+    }
+
+    if (recInput) {
+      const viDefault = "Anh/Chị phụ trách tuyển dụng";
+      const enDefault = "Hiring Team";
+      if (!recInput.value || recInput.value === viDefault || recInput.value === enDefault) {
+        recInput.value = currentLang === "vi" 
+          ? (metaInfo.recipient || (mapInfo.company ? `Bộ phận Tuyển dụng ${mapInfo.company}` : viDefault))
+          : (metaInfo.recipient || (mapInfo.company ? `Hiring Team at ${mapInfo.company}` : enDefault));
+      }
+    }
+
+    rebuildEmail();
+
+    if (typeof window.updateCoverLetterText === "function") {
+      window.updateCoverLetterText();
+    }
+
+    if (syncCv) {
+      const targetBtn = currentLang === "en" ? document.getElementById("langEnBtn") : document.getElementById("langViBtn");
+      if (targetBtn && !targetBtn.classList.contains("active")) {
+        targetBtn.click();
+      }
+    }
+  }
 
   function switchTab(tabName) {
     activeTab = tabName || "email";
@@ -276,6 +516,8 @@
     const tabEmailBtn = document.getElementById("clTabEmailBtn");
     const tabCoverBtn = document.getElementById("clTabCoverBtn");
     const modalSubtitle = document.getElementById("clModalSubtitle");
+
+    const dict = I18N[currentLang] || I18N.vi;
 
     if (activeTab === "email") {
       if (paneEmail) paneEmail.style.display = "block";
@@ -289,9 +531,7 @@
         tabCoverBtn.setAttribute("aria-selected", "false");
       }
       if (modalSubtitle) {
-        modalSubtitle.innerHTML = currentLang === "vi" 
-          ? "Soạn nhanh email ứng tuyển 1-click với 3 điểm mạnh nhất theo CV & JD để gửi Nhà tuyển dụng."
-          : "Quickly generate a 1-click application email tailored with your top 3 qualifications.";
+        modalSubtitle.innerHTML = dict.subtitleEmail;
       }
       rebuildEmail();
     } else {
@@ -306,9 +546,7 @@
         tabEmailBtn.setAttribute("aria-selected", "false");
       }
       if (modalSubtitle) {
-        modalSubtitle.innerHTML = currentLang === "vi"
-          ? "Một thư giới thiệu ngắn gọn, chỉn chu sẽ giúp bạn trở nên chuyên nghiệp và gây ấn tượng hơn với nhà tuyển dụng."
-          : "A concise, well-written cover letter will help you stand out and make a professional impression on recruiters.";
+        modalSubtitle.innerHTML = dict.subtitleCover;
       }
       if (typeof window.updateCoverLetterText === "function") {
         window.updateCoverLetterText();
@@ -320,24 +558,24 @@
     const overlay = document.getElementById("clModalOverlay");
     if (!overlay) return;
 
+    currentLang = window.currentLang || "vi";
+
     // Detect preset, cvData.meta or current cv
     const cvKey = getCurrentCvKey();
     const metaInfo = (window.cvData && window.cvData.meta) || {};
     const mapInfo = VERSION_MAP[cvKey] || {};
 
-    // Check if tracker has job
     let trackerJob = null;
     if (window.cvTracker && Array.isArray(window.cvTracker.jobs)) {
       trackerJob = window.cvTracker.jobs.find(j => j.cvType === cvKey);
     }
 
     const company = (preset && preset.company) || metaInfo.company || (trackerJob && trackerJob.company) || mapInfo.company || "";
-    const position = (preset && preset.position) || metaInfo.position || (trackerJob && trackerJob.position) || mapInfo.position || (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || "Developer";
+    const position = (preset && preset.position) || (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || metaInfo.position || (trackerJob && trackerJob.position) || mapInfo.position || "Developer";
     const recipient = (preset && preset.recipient) || metaInfo.recipient || mapInfo.recipient || (currentLang === "vi" ? "Anh/Chị phụ trách tuyển dụng" : "Hiring Team");
     const contact = (preset && preset.contact) || metaInfo.email || metaInfo.contact || (trackerJob && trackerJob.contact) || mapInfo.contact || "";
     const jdText = (preset && preset.jdText) || metaInfo.jdText || (trackerJob && trackerJob.jdText) || "";
 
-    // Fill inputs
     const compInput = document.getElementById("egInputCompany");
     const posInput = document.getElementById("egInputPosition");
     const recInput = document.getElementById("egInputRecipient");
@@ -350,10 +588,10 @@
     if (emailInput) emailInput.value = contact;
     if (jdInput) jdInput.value = jdText;
 
-    // Set active tone
+    applyI18n(currentLang);
+    updateLangButtons();
     updateToneButtons();
 
-    // Switch to desired tab
     switchTab(preferredTab || "email");
 
     overlay.style.display = "flex";
@@ -371,10 +609,22 @@
   }
 
   function rebuildEmail() {
+    const jdText = (document.getElementById("egInputJd")?.value || "").trim();
+    const custom = getCustomTemplate(currentLang, currentTone);
+
+    const subjectEl = document.getElementById("egSubjectOutput");
+    const bodyEl = document.getElementById("egBodyOutput");
+
+    // If tailored template exists and user didn't enter a custom JD, prioritize tailored template
+    if (custom && !jdText) {
+      if (subjectEl) subjectEl.value = custom.subject;
+      if (bodyEl) bodyEl.value = custom.body;
+      return;
+    }
+
     const company = (document.getElementById("egInputCompany")?.value || "").trim();
     const position = (document.getElementById("egInputPosition")?.value || "").trim();
     const recipient = (document.getElementById("egInputRecipient")?.value || "").trim();
-    const jdText = (document.getElementById("egInputJd")?.value || "").trim();
 
     const cvKey = getCurrentCvKey();
     const mapInfo = VERSION_MAP[cvKey] || {};
@@ -388,9 +638,6 @@
       lang: currentLang,
       profileType: mapInfo.profileType
     });
-
-    const subjectEl = document.getElementById("egSubjectOutput");
-    const bodyEl = document.getElementById("egBodyOutput");
 
     if (subjectEl) subjectEl.value = result.subject;
     if (bodyEl) bodyEl.value = result.body;
@@ -428,7 +675,7 @@
       const btn = document.getElementById("egCopySubjectBtn");
       if (btn) {
         const orig = btn.textContent;
-        btn.textContent = "✅ Đã chép!";
+        btn.textContent = currentLang === "vi" ? "✅ Đã chép!" : "✅ Copied!";
         setTimeout(() => { btn.textContent = orig; }, 1800);
       }
     });
@@ -442,7 +689,7 @@
       const btn = document.getElementById("egCopyBodyBtn");
       if (btn) {
         const orig = btn.textContent;
-        btn.textContent = "✅ Đã sao chép nội dung!";
+        btn.textContent = currentLang === "vi" ? "✅ Đã sao chép!" : "✅ Copied!";
         setTimeout(() => { btn.textContent = orig; }, 2000);
       }
     });
@@ -453,12 +700,13 @@
     const bodyEl = document.getElementById("egBodyOutput");
     if (!bodyEl) return;
 
-    const full = `Tiêu đề: ${subjectEl ? subjectEl.value : ""}\n\n${bodyEl.value}`;
+    const prefix = currentLang === "vi" ? "Tiêu đề: " : "Subject: ";
+    const full = `${prefix}${subjectEl ? subjectEl.value : ""}\n\n${bodyEl.value}`;
     navigator.clipboard.writeText(full).then(() => {
       const btn = document.getElementById("egCopyAllBtn");
       if (btn) {
         const orig = btn.textContent;
-        btn.textContent = "✅ Đã sao chép toàn bộ!";
+        btn.textContent = currentLang === "vi" ? "✅ Đã sao chép toàn bộ!" : "✅ All Copied!";
         setTimeout(() => { btn.textContent = orig; }, 2000);
       }
     });
@@ -530,26 +778,12 @@
     // Lang buttons
     const viBtn = document.getElementById("clLangViBtn");
     if (viBtn) {
-      viBtn.onclick = () => {
-        currentLang = "vi";
-        updateLangButtons();
-        rebuildEmail();
-        if (typeof window.updateCoverLetterText === "function") {
-          window.updateCoverLetterText();
-        }
-      };
+      viBtn.onclick = () => setLang("vi", true);
     }
 
     const enBtn = document.getElementById("clLangEnBtn");
     if (enBtn) {
-      enBtn.onclick = () => {
-        currentLang = "en";
-        updateLangButtons();
-        rebuildEmail();
-        if (typeof window.updateCoverLetterText === "function") {
-          window.updateCoverLetterText();
-        }
-      };
+      enBtn.onclick = () => setLang("en", true);
     }
 
     // Inputs change
@@ -590,7 +824,8 @@
     closeModal,
     switchTab,
     rebuildEmail,
-    generateEmail
+    generateEmail,
+    setLang
   };
 
   if (document.readyState === "loading") {

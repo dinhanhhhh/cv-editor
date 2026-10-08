@@ -10,6 +10,12 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "credosis",
+      file: "data/cv-data-credosis.js",
+      emoji: "🌐",
+      label: "🌐 Credosis Frontend Engineer Intern",
+    },
+    {
       key: "phatkiengia",
       file: "data/cv-data-phatkiengia.js",
       emoji: "📊",

@@ -22,6 +22,20 @@
   // Dữ liệu mẫu khởi đầu và tự động đồng bộ
   const DEFAULT_SEED_DATA = [
     {
+      id: "job_credosis_seed",
+      company: "Credosis",
+      position: "Frontend Engineer Intern",
+      cvType: "credosis",
+      cvLabel: "🌐 Credosis Frontend Engineer Intern",
+      appliedDate: "2026-10-08",
+      status: "applied",
+      contact: "hello@credosis.com",
+      notes: "Vị trí: " + "Frontend Engineer Intern" + " tại " + "Credosis",
+      jobUrl: "",
+      jdText: ""
+    },
+
+    {
       id: "job_phatkiengia_seed",
       company: "Công ty TNHH Phát Kiến Gia",
       position: "Thực Tập Sinh AI & Data Analytics",

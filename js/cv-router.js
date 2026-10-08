@@ -189,7 +189,7 @@
           })
           .then(() => {
             renderNavForDraft(key);
-            return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.4'));
+            return loadScript('data/cv-global.js').then(() => loadScript('js/cv-renderer.js?v=1.2.5'));
           });
       })
       .catch((err) => {
@@ -663,7 +663,7 @@
         }
         return ensureDomReady();
       })
-      .then(() => loadScript('js/cv-renderer.js?v=1.2.4'))
+      .then(() => loadScript('js/cv-renderer.js?v=1.2.5'))
       .catch((error) => {
         console.error(error);
       });

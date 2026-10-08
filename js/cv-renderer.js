@@ -1264,6 +1264,9 @@ elements.langViBtn.onclick = () => {
   renderCV("vi");
   window.__rerunAtsIfOpen?.();
   window.__syncHrView?.();
+  if (window.cvEmailGen && typeof window.cvEmailGen.setLang === "function") {
+    window.cvEmailGen.setLang("vi", false);
+  }
 };
 
 elements.langEnBtn.onclick = () => {
@@ -1276,6 +1279,9 @@ elements.langEnBtn.onclick = () => {
   renderCV("en");
   window.__rerunAtsIfOpen?.();
   window.__syncHrView?.();
+  if (window.cvEmailGen && typeof window.cvEmailGen.setLang === "function") {
+    window.cvEmailGen.setLang("en", false);
+  }
 };
 
 // ===================================
@@ -1398,6 +1404,15 @@ function getDefaultTemplateText(templateId) {
     cvData[currentLang].coverLetters[templateId]
   ) {
     return cvData[currentLang].coverLetters[templateId];
+  }
+  if (
+    cvData[currentLang] &&
+    cvData[currentLang].emailTemplates
+  ) {
+    const et = cvData[currentLang].emailTemplates;
+    if (et[templateId]) return et[templateId];
+    if ((templateId === "tech" || templateId === "warm") && et.full) return et.full;
+    if (templateId === "short" && et.short) return et.short;
   }
   if (
     templateId === "tech" &&
@@ -1573,11 +1588,15 @@ function updateCoverLetterText() {
   const cachedText = localStorage.getItem(key);
 
   let text = "";
-  // Tự động bỏ qua cache nếu là text placeholder cũ '**Hello World**' để đồng bộ nội dung chuẩn từ file data
+  // Tự động bỏ qua cache nếu là text placeholder cũ hoặc template chung chung mà file data đã có bản may đo riêng
+  const isGenericCached = cachedText && Object.values(clTemplates).some(t => (t.vi && t.vi.trim() === cachedText.trim()) || (t.en && t.en.trim() === cachedText.trim()));
+  const hasCustomCoverLetter = cvData[currentLang] && (cvData[currentLang].coverLetters || cvData[currentLang].emailTemplates);
+
   if (
     cachedText !== null &&
     cachedText.trim() !== "" &&
-    cachedText.trim() !== "**Hello World**"
+    cachedText.trim() !== "**Hello World**" &&
+    !(isGenericCached && hasCustomCoverLetter)
   ) {
     text = cachedText;
   } else {
@@ -1624,7 +1643,9 @@ function initCoverLetter() {
 
   if (clLangViBtn) {
     clLangViBtn.onclick = () => {
-      if (currentLang !== "vi" && elements.langViBtn) {
+      if (window.cvEmailGen && typeof window.cvEmailGen.setLang === "function") {
+        window.cvEmailGen.setLang("vi", true);
+      } else if (currentLang !== "vi" && elements.langViBtn) {
         elements.langViBtn.click();
       }
     };
@@ -1632,7 +1653,9 @@ function initCoverLetter() {
 
   if (clLangEnBtn) {
     clLangEnBtn.onclick = () => {
-      if (currentLang !== "en" && elements.langEnBtn) {
+      if (window.cvEmailGen && typeof window.cvEmailGen.setLang === "function") {
+        window.cvEmailGen.setLang("en", true);
+      } else if (currentLang !== "en" && elements.langEnBtn) {
         elements.langEnBtn.click();
       }
     };
