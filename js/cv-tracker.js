@@ -22,6 +22,85 @@
   // Dữ liệu mẫu khởi đầu và tự động đồng bộ
   const DEFAULT_SEED_DATA = [
     {
+      id: "job_hemidi_seed",
+      company: "HEMIDI",
+      position: "Fresher Node.js Developer",
+      cvType: "hemidi",
+      cvLabel: "🌿 Hemidi - Fresher NodeJS Developer",
+      appliedDate: "2026-10-15",
+      status: "applied",
+      contact: "recruit@hemidi.com | Zalo: 0937538997 | 483 Nguyễn Oanh, P. Gò Vấp, TP.HCM",
+      notes: "Tuyển dụng Fresher NodeJS Developer tại HEMIDI. Địa điểm: 483 Nguyễn Oanh, Gò Vấp. Giờ làm việc: Thứ 2 – Thứ 6 (8:00 – 17:00). Email nhận CV: recruit@hemidi.com. Zalo: 0937538997. Yêu cầu: Node.js (ưu tiên NestJS), Clean code, OOP/SOLID, TDD, RESTful, PostgreSQL, TypeORM, BullMQ/Redis.",
+      jobUrl: "mailto:recruit@hemidi.com?subject=Ứng%20tuyển%20Fresher%20Node.js%20Developer%20-%20Trương%20Đình%20Anh",
+      jdText: `HEMIDI - TUYỂN DỤNG ĐỒNG ĐỘI MỚI
+💻 Vị trí: Fresher NodeJS Developer (JS)
+Slogan: Build the next solution
+
+THÔNG TIN LÀM VIỆC & LIÊN HỆ:
+📌 Thời gian làm việc: Thứ 2 – Thứ 6 | 8:00 – 17:00 (Nghỉ Thứ 7 & Chủ Nhật)
+📍 Địa điểm: 483 Nguyễn Oanh, Phường Gò Vấp, TP. Hồ Chí Minh
+📩 Email ứng tuyển: recruit@hemidi.com
+📲 Chi tiết công việc / Zalo: 0937538997
+
+YÊU CẦU ỨNG VIÊN:
+● Có ít nhất 1 năm kinh nghiệm làm việc với Node.js, ưu tiên ứng viên có kinh nghiệm sử dụng NestJS.
+● Viết code sạch, dễ bảo trì, có tài liệu rõ ràng, tuân thủ các best practices và tiêu chuẩn lập trình đã được thiết lập.
+● Hiểu biết về các nguyên tắc thiết kế phần mềm và kiến trúc backend (OOP, SOLID, Design Patterns, Layered Architecture).
+● Chủ động tham gia vào quá trình viết mã, review code, và phát triển unit test theo phương pháp Test-Driven Development (TDD).
+● Thiết kế và triển khai RESTful, tối ưu cơ sở dữ liệu PostgreSQL; viết migration, quản lý schema với TypeORM.
+● Xây dựng và vận hành các tác vụ xử lý nền (background job) như lấy dữ liệu từ API bên thứ ba, đồng bộ dữ liệu, xử lý retry và lỗi bằng BullMQ.
+● Phối hợp cùng các thành viên trong team để đảm bảo chất lượng sản phẩm và phát triển các giải pháp phần mềm ổn định, đáng tin cậy.
+
+QUYỀN LỢI:
+● Được cấp máy tính bàn phục vụ công việc.
+● Được tài trợ gói bảo hiểm sức khỏe nâng cao của Công ty (DBV).
+● Ngày nghỉ: 12 ngày phép trong năm + 03h phép/tháng & các ngày theo Luật Quy định.
+● Thưởng nóng, Lễ, Tết, thưởng doanh số, ...
+● Tham gia chương trình Coaching & Mentoring, khóa đào tạo nội bộ/bên ngoài.
+● Tham gia các Câu lạc bộ: Tiếng Anh, Đọc sách, Wellbeing, Cầu lông...
+● Tặng quà các ngày: 8/3 (phụ nữ), 6/4 (đàn ông), sinh nhật, ...
+● Hỗ trợ các khoản trợ cấp: Kết hôn, tang chế, ốm đau, thai sản, ...
+● Tham gia các hoạt động thường niên: Tất niên, Tân niên, Teambuilding, ...
+
+Gia nhập Hemidi cùng tạo nên những giá trị mới!`
+    },
+    {
+      id: "job_yabu_seed",
+      company: "Yabu Aube",
+      position: "Intern Backend",
+      cvType: "yabu",
+      cvLabel: "🏢 Yabu Aube - Intern Backend (Quận 10, TP.HCM)",
+      appliedDate: "2026-10-15",
+      status: "applied",
+      contact: "yabu.aube@gmail.com",
+      notes: "[TUYỂN DỤNG] INTERN BACKEND – QUẬN 10, TP.HCM tại Yabu Aube. Gửi CV trực tiếp về mail: yabu.aube@gmail.com. Yêu cầu: Backend, PHP, Laravel, MySQL, RESTful API, JavaScript, Node.js, Git, Postman, JWT, Docker.",
+      jobUrl: "mailto:yabu.aube@gmail.com?subject=Ứng%20tuyển%20Vị%20trí%20Intern%20Backend%20-%20Trương%20Đình%20Anh",
+      jdText: `[TUYỂN DỤNG] INTERN BACKEND – QUẬN 10, TP.HCM
+
+Các yêu cầu đối với vị trí Intern Backend
+Kiến thức chuyên môn
+● Sinh viên năm cuối hoặc mới tốt nghiệp ngành Công nghệ thông tin, Khoa học máy tính hoặc các ngành liên quan.
+● Có kiến thức cơ bản về lập trình Backend và PHP.
+● Đã tìm hiểu hoặc có dự án thực hành với Laravel.
+● Có kiến thức cơ bản về MySQL, SQL, thiết kế bảng và quan hệ dữ liệu.
+● Biết sử dụng RESTful API, JSON và các phương thức HTTP.
+● Có kiến thức cơ bản về JavaScript và Node.js.
+● Biết MongoDB là lợi thế hoặc sẵn sàng học hỏi trong quá trình thực tập.
+● Sử dụng được Git ở mức cơ bản.
+● Có tư duy logic, tinh thần trách nhiệm và chủ động học hỏi.
+
+Kỹ năng bổ sung
+● Biết sử dụng Postman để kiểm thử API.
+● Có kiến thức về Authentication, Authorization, JWT hoặc OAuth.
+● Biết Docker, Redis, Linux hoặc triển khai ứng dụng lên VPS là lợi thế.
+● Có sản phẩm cá nhân, đồ án hoặc GitHub thể hiện năng lực lập trình là điểm cộng.
+
+Liên hệ & Nộp hồ sơ:
+● Inbox trực tiếp qua FB.
+● Gửi CV trực tiếp về mail: yabu.aube@gmail.com
+● Quét QR để xem chi tiết yêu cầu công việc.`
+    },
+    {
       id: "job_credosis_seed",
       company: "Credosis",
       position: "Frontend Engineer Intern",
@@ -327,9 +406,22 @@ QUYỀN LỢI:
           });
 
           if (existing) {
-            if (!existing.jdText && seed.jdText) {
+            const shouldUpdateJd = seed.jdText && (!existing.jdText || existing.jdText === existing.notes || seed.jdText.length > (existing.jdText || "").length + 30);
+            if (shouldUpdateJd) {
               existing.jdText = seed.jdText;
               updated = true;
+            }
+            if (seed.cvType === "yabu" && (existing.position.includes("(") || existing.position.includes("/"))) {
+              existing.position = "Intern Backend";
+              updated = true;
+            }
+            if (seed.cvType === "hemidi") {
+              if (!existing.contact || !existing.contact.includes("recruit@hemidi.com")) {
+                existing.contact = seed.contact;
+                existing.notes = seed.notes;
+                existing.jobUrl = seed.jobUrl;
+                updated = true;
+              }
             }
             if (seed.cvType === "octosoft" && existing.status !== "interviewing") {
               existing.status = "interviewing";
@@ -362,13 +454,13 @@ QUYỀN LỢI:
         const sComp = (meta.company || "").toLowerCase().trim();
         const sCvT = (cur.type || "").toLowerCase().trim();
 
-        const exists = jobs.some(j => {
+        const existing = jobs.find(j => {
           const jComp = (j.company || "").toLowerCase().trim();
           const jCvT = (j.cvType || "").toLowerCase().trim();
           return (jCvT && jCvT === sCvT) || (jComp && sComp && (jComp.includes(sComp) || sComp.includes(jComp)));
         });
 
-        if (!exists) {
+        if (!existing) {
           jobs.unshift({
             id: `job_${cur.type}_auto_${Date.now()}`,
             company: meta.company,
@@ -380,8 +472,11 @@ QUYỀN LỢI:
             contact: meta.email || meta.contact || "",
             notes: meta.notes || "",
             jobUrl: meta.jobUrl || "",
-            jdText: meta.notes || ""
+            jdText: meta.jdText || meta.jd || meta.notes || ""
           });
+          saveJobs();
+        } else if ((meta.jdText || meta.jd) && (!existing.jdText || existing.jdText === existing.notes || (meta.jdText || meta.jd).length > (existing.jdText || "").length + 30)) {
+          existing.jdText = meta.jdText || meta.jd;
           saveJobs();
         }
       }
@@ -728,6 +823,15 @@ QUYỀN LỢI:
     titleEl.textContent = "📄 " + job.company;
     subTitleEl.textContent = (job.position ? job.position + " — " : "") + "Ngày nộp: " + (job.appliedDate || "N/A");
     
+    // Tự động đồng bộ bản jdText đầy đủ nếu hiện tại chỉ lưu ghi chú ngắn hoặc chưa có JD
+    const seed = DEFAULT_SEED_DATA.find(s => s.id === job.id || (s.cvType && s.cvType === job.cvType) || (s.company && job.company && s.company.toLowerCase().trim() === job.company.toLowerCase().trim()));
+    const metaJd = (window.cvData && window.cvData.meta && (window.cvData.meta.jdText || window.cvData.meta.jd)) || "";
+    const candidateJd = (metaJd && metaJd.trim()) || (seed && seed.jdText && seed.jdText.trim()) || "";
+    if (candidateJd && (!job.jdText || job.jdText === job.notes || candidateJd.length > (job.jdText || "").length + 30)) {
+      job.jdText = candidateJd;
+      saveJobs();
+    }
+
     let content = (job.jdText || "").trim();
     if (!content && job.notes) {
       content = `[GHI CHÚ VỊ TRÍ TUYỂN DỤNG]\n${job.notes}\n\n` +

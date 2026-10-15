@@ -118,6 +118,7 @@ var cvData = {
         "date": "06/2025 - 12/2025",
         "role": "Developer",
         "desc": "A full-stack admin dashboard built to visualize data metrics and manage student indexing.",
+        "github": "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         "tasks": [
           "Designed a responsive admin dashboard UI featuring data visualization charts to track key operational metrics (KPIs, active users).",
           "Analyzed system database architecture and structured clear API documentation using Swagger UI to optimize developer collaboration.",

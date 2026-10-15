@@ -33,11 +33,11 @@ var cvData = {
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
           "Phát triển giao diện responsive chuẩn UI/UX trên React.js / Next.js 15 kết hợp Tailwind CSS.",
-          "Thiết kế và xây dựng hơn 20 RESTful API endpoints với Node.js, Express và MongoDB (NoSQL).",
+          "Thiết kế và xây dựng hệ thống RESTful API endpoints với Node.js, Express và MongoDB.",
           "Xây dựng luồng xác thực an toàn với JWT, HttpOnly Cookies và phân quyền RBAC.",
           "Tối ưu hóa truy vấn dữ liệu backend, đảm bảo tốc độ phản hồi API dưới 300ms."
         ],
-        "tech": "Next.js 15, React.js, TypeScript, Node.js, Express, MongoDB (NoSQL), JWT, Tailwind CSS"
+        "tech": "Next.js 15, React.js, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS"
       },
       {
         "name": "STUDENT MANAGEMENT SYSTEM",
@@ -48,10 +48,10 @@ var cvData = {
         "tasks": [
           "Áp dụng nguyên lý Lập trình hướng đối tượng (OOP) thiết kế cấu trúc Backend mô-đun hóa sạch sẽ, dễ bảo trì.",
           "Xây dựng ứng dụng Frontend giao diện responsive trực quan, xử lý luồng thao tác CRUD sinh động.",
-          "Thiết kế CSDL quan hệ (PostgreSQL/MySQL), viết tài liệu API bằng Swagger hỗ trợ bàn giao và kiểm thử.",
+          "Thiết kế cơ sở dữ liệu MongoDB, viết tài liệu API bằng Swagger hỗ trợ bàn giao và kiểm thử.",
           "Triển khai xác thực Token-based (Access/Refresh Token) và xử lý lỗi hệ thống chặt chẽ."
         ],
-        "tech": "Node.js, Express, OOP, PostgreSQL / MySQL, MongoDB, React.js, Swagger, Git"
+        "tech": "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger, Git"
       }
     ],
     "skills": [
@@ -107,11 +107,11 @@ var cvData = {
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
           "Developed responsive UI/UX frontend using React.js / Next.js 15 and Tailwind CSS.",
-          "Designed and implemented 20+ RESTful API endpoints with Node.js, Express, and MongoDB (NoSQL).",
+          "Designed and implemented RESTful API endpoints with Node.js, Express, and MongoDB.",
           "Implemented JWT authentication with HttpOnly cookies and RBAC authorization flow.",
           "Optimized backend queries, ensuring API response times under 300ms."
         ],
-        "tech": "Next.js 15, React.js, TypeScript, Node.js, Express, MongoDB (NoSQL), JWT, Tailwind CSS"
+        "tech": "Next.js 15, React.js, TypeScript, Node.js, Express, MongoDB, JWT, Tailwind CSS"
       },
       {
         "name": "STUDENT MANAGEMENT SYSTEM",
@@ -122,10 +122,10 @@ var cvData = {
         "tasks": [
           "Applied OOP principles to design a clean, modular backend structure.",
           "Built a responsive admin interface for smooth real-time CRUD operations.",
-          "Designed relational databases (PostgreSQL/MySQL) and documented APIs with Swagger.",
+          "Designed MongoDB schemas and documented APIs with Swagger for seamless testing.",
           "Implemented token-based authentication (Access/Refresh Tokens) and robust error handling."
         ],
-        "tech": "Node.js, Express, OOP, PostgreSQL / MySQL, MongoDB, React.js, Swagger, Git"
+        "tech": "Node.js, Express, MongoDB, Next.js 15, TypeScript, Tailwind CSS, Swagger, Git"
       }
     ],
     "skills": [

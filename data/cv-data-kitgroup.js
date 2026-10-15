@@ -13,15 +13,15 @@ var cvData = {
         "name": "JOB PORTAL PLATFORM",
         "date": "11/2025 - 02/2026",
         "role": "Developer",
-        "desc": "Nền tảng quản lý đặt lịch và ứng tuyển toàn diện, kết nối nhà tuyển dụng với ứng viên phù hợp.",
+        "desc": "Nền tảng quản lý tuyển dụng toàn diện, kết nối nhà tuyển dụng với ứng viên phù hợp.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Thiết kế và phát triển 20+ RESTful API endpoints sử dụng Node.js, Express và MySQL (ORM Sequelize).",
+          "Thiết kế và phát triển hệ thống RESTful API endpoints sử dụng Node.js, Express và MongoDB.",
           "Xây dựng luồng tải lên và xử lý tệp tin CV của ứng viên sử dụng Multer, tích hợp kiểm tra định dạng và giới hạn dung lượng tệp bảo mật.",
           "Xây dựng cơ chế xác thực bảo mật JWT, phân quyền chi tiết (RBAC) cho Nhà tuyển dụng và Ứng viên.",
-          "Tối ưu hóa các truy vấn MySQL phức tạp (Join, Indexing) giúp thời gian phản hồi API trung bình dưới 250ms."
+          "Tối ưu hóa các truy vấn MongoDB và lập chỉ mục (Indexing) giúp thời gian phản hồi API trung bình dưới 250ms."
         ],
-        "tech": "Next.js 15, TypeScript, Node.js, Express, MySQL, JWT, Multer, Tailwind CSS"
+        "tech": "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Multer, Tailwind CSS"
       },
       {
         "name": "STUDENT MANAGEMENT SYSTEM",
@@ -32,9 +32,9 @@ var cvData = {
         "tasks": [
           "Xây dựng Dashboard quản trị Next.js thời gian thực, tối ưu hóa client-side rendering và xử lý loading/error state mượt mà.",
           "Sử dụng Docker để đóng gói ứng dụng (Containerization), thiết lập môi trường phát triển nhất quán và dễ dàng mở rộng.",
-          "Viết tài liệu API chuyên nghiệp bằng Swagger, giúp tăng hiệu suất làm việc nhóm lên 30%."
+          "Viết tài liệu API chuyên nghiệp bằng Swagger, giúp tăng hiệu suất làm việc nhóm và handoff kỹ thuật."
         ],
-        "tech": "Node.js, Express, MySQL, Next.js 15, TypeScript, Swagger, Docker"
+        "tech": "Node.js, Express, MongoDB, Next.js 15, TypeScript, Swagger, Docker"
       }
     ],
     "skills": [
@@ -73,12 +73,12 @@ var cvData = {
         "desc": "A comprehensive booking & applicant tracking system connecting job seekers with recruiters.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Designed and developed 20+ RESTful API endpoints using Node.js, Express, and MySQL (Sequelize ORM).",
+          "Designed and developed RESTful API endpoints using Node.js, Express, and MongoDB.",
           "Developed secure applicant CV upload and file processing flows using Multer, implementing file type validation and size limit controls.",
           "Implemented secure JWT authentication and granular Role-Based Access Control (RBAC) for candidates/recruiters.",
-          "Optimized complex MySQL queries (Joins, Indexing) to maintain stable API response times under 250ms."
+          "Optimized MongoDB queries and indexing to maintain stable API response times under 250ms."
         ],
-        "tech": "Next.js 15, TypeScript, Node.js, Express, MySQL, JWT, Multer, Tailwind CSS"
+        "tech": "Next.js 15, TypeScript, Node.js, Express, MongoDB, JWT, Multer, Tailwind CSS"
       },
       {
         "name": "STUDENT MANAGEMENT SYSTEM",
@@ -89,9 +89,9 @@ var cvData = {
         "tasks": [
           "Developed a real-time Next.js administration dashboard, optimizing rendering cycles and handling asynchronous API states.",
           "Utilized Docker for application containerization, establishing consistent and easily scalable runtime environments.",
-          "Authored clean API documentation using Swagger, improving team communication and integration efficiency by 30%."
+          "Authored clean API documentation using Swagger, improving team communication and integration efficiency."
         ],
-        "tech": "Node.js, Express, MySQL, Next.js 15, TypeScript, Swagger, Docker"
+        "tech": "Node.js, Express, MongoDB, Next.js 15, TypeScript, Swagger, Docker"
       }
     ],
     "skills": [

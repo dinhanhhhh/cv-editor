@@ -33,7 +33,7 @@ var cvData = {
         "desc": "Hệ thống lõi quản lý tuyển dụng toàn diện, xử lý luồng dữ liệu phức tạp giữa nhà tuyển dụng và ứng viên.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Thiết kế và triển khai hơn 30 RESTful API endpoints sử dụng Node.js và kiến trúc Controller-Service.",
+          "Thiết kế và triển khai hệ thống RESTful API endpoints sử dụng Node.js và kiến trúc Controller-Service.",
           "Xây dựng hệ thống xác thực tập trung sử dụng JWT, HttpOnly cookies kết hợp với phân quyền RBAC chặt chẽ.",
           "Xử lý và tối ưu hóa truy vấn MongoDB (Aggregation Pipeline), đạt thời gian phản hồi API trung bình dưới 200ms.",
           "Tích hợp các cơ chế xử lý lỗi tập trung (Global Error Handling) và Middleware để đảm bảo hệ thống vận hành ổn định."
@@ -41,18 +41,18 @@ var cvData = {
         "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
       },
       {
-        "name": "E-COMMERCE API SERVICE",
-        "date": "08/2025 - 09/2025",
+        "name": "E-COMMERCE PLATFORM",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
-        "desc": "Phát triển các dịch vụ API cốt lõi cho nền tảng thương mại điện tử, quản lý đơn hàng và tồn kho.",
+        "desc": "Phát triển các dịch vụ API cốt lõi cho nền tảng thương mại điện tử, quản lý đơn hàng và giỏ hàng.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Xây dựng các API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server.",
-          "Thiết kế sơ đồ cơ sở dữ liệu MySQL và tối ưu hóa quan hệ dữ liệu để đảm bảo tính nhất quán.",
+          "Thiết kế cấu trúc cơ sở dữ liệu MongoDB và tối ưu hóa truy vấn để đảm bảo tính nhất quán.",
           "Triển khai Middleware kiểm tra quyền hạn Admin cho các thao tác thay đổi dữ liệu nhạy cảm.",
-          "Thiết kế cơ chế xử lý thanh toán và quản lý trạng thái đơn hàng (Order Lifecycle) chuẩn xác."
+          "Thiết kế cơ chế xử lý đơn hàng và quản lý trạng thái đơn hàng (Order Lifecycle) chuẩn xác."
         ],
-        "tech": "Node.js, Express, MySQL, JWT, Cloudinary (Image storage), Postman"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman"
       }
     ],
     "skills": [
@@ -93,7 +93,7 @@ var cvData = {
         "desc": "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
         "tasks": [
           "Designed database schemas and successfully deployed PostgreSQL databases on the Supabase cloud infrastructure.",
-          "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
+          "Developed secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
           "Integrated Google Authentication OAuth flow centralized with NextAuth (Google Provider) for user sessions.",
           "Tested and optimized API performance using Postman, resolving critical bugs under mentor guidance.",
           "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment."
@@ -109,7 +109,7 @@ var cvData = {
         "desc": "Core recruitment management system handling complex data flows between employers and candidates.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Designed and implemented 30+ RESTful API endpoints using Node.js and Controller-Service architecture.",
+          "Designed and implemented RESTful API endpoints using Node.js and Controller-Service architecture.",
           "Built a centralized authentication system using JWT/HttpOnly cookies combined with strict RBAC permissioning.",
           "Processed and optimized MongoDB queries (Aggregation Pipeline), achieving sub-200ms average API response times.",
           "Integrated global error handling and logging mechanisms to ensure system stability and observability."
@@ -117,18 +117,18 @@ var cvData = {
         "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
       },
       {
-        "name": "E-COMMERCE API SERVICE",
-        "date": "08/2025 - 09/2025",
+        "name": "E-COMMERCE PLATFORM",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
-        "desc": "Developed core API services for e-commerce platforms, order fulfillment, and inventory management.",
+        "desc": "Developed core API services for e-commerce platforms, order fulfillment, and cart management.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Developed server-side product management APIs and cart persistence systems.",
-          "Designed MySQL database schemas and optimized data relations to ensure consistency.",
+          "Designed MongoDB database schemas and optimized data queries to ensure consistency.",
           "Implemented admin authorization middleware for sensitive data operations and management features.",
-          "Designed payment processing flows and order lifecycle management to maintain data consistency."
+          "Designed order lifecycle management and checkout workflows to maintain data consistency."
         ],
-        "tech": "Node.js, Express, MySQL, JWT, Cloudinary, Postman"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman"
       }
     ],
     "skills": [

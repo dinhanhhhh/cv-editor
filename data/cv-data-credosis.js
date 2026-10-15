@@ -48,7 +48,7 @@ var cvData = {
           "Kết nối các LLM APIs (Gemini, OpenAI) xây dựng pipeline phân tích dữ liệu và tự động sinh mã nguồn chất lượng cao.",
           "Thiết lập quy trình CI/CD tự động kiểm thử tính toàn vẹn dữ liệu và triển khai tự động qua GitHub Actions.",
         ],
-        tech: "React, Next.js, Cloudflare Workers, LLM APIs, Telegram Bot API, Tailwind CSS, GitHub Actions, CI/CD",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "NỀN TẢNG TUYỂN DỤNG SAAS (JOB PORTAL)",
@@ -240,7 +240,7 @@ Email: tdinhanh.it@gmail.com | Phone: 0923202861`
           "Integrated LLM APIs (Gemini, OpenAI) to construct an automated data analysis and code generation pipeline.",
           "Established automated CI/CD workflows for data integrity validation and continuous deployment via GitHub Actions.",
         ],
-        tech: "React, Next.js, Cloudflare Workers, LLM APIs, Telegram Bot API, Tailwind CSS, GitHub Actions, CI/CD",
+        tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
         name: "JOB PORTAL SAAS PLATFORM",

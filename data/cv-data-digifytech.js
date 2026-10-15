@@ -27,17 +27,17 @@ var cvData = {
     "projects": [
       {
         "name": "E-COMMERCE API SERVICE",
-        "date": "08/2025 - 09/2025",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Hệ thống API dịch vụ lõi cho nền tảng thương mại điện tử, quản lý sản phẩm, giỏ hàng và vòng đời đơn hàng.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Thiết kế và xây dựng hơn 15 RESTful API endpoints cho quản lý danh mục sản phẩm, biến thể và giỏ hàng phía server.",
+          "Thiết kế và xây dựng hệ thống RESTful API endpoints cho quản lý danh mục sản phẩm, biến thể và giỏ hàng phía server.",
           "Triển khai Middleware phân quyền Admin/User (RBAC) và xác thực JWT bảo vệ các thao tác dữ liệu nhạy cảm.",
           "Tài liệu hóa toàn bộ API bằng Swagger UI, giúp đội ngũ Frontend và Tester kiểm thử, tích hợp nhanh chóng và chính xác.",
           "Thực hiện kiểm thử API toàn diện bằng Postman, tích hợp Global Error Handling xử lý lỗi tập trung."
         ],
-        "tech": "Node.js, Express, MongoDB / PostgreSQL, RESTful API, JWT, Swagger, Postman, Git"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, JWT, Swagger, Postman, Git"
       },
       {
         "name": "JOB PORTAL BACKEND SYSTEM",
@@ -46,7 +46,7 @@ var cvData = {
         "desc": "Hệ thống lõi quản lý tuyển dụng trực tuyến, xử lý luồng dữ liệu phân quyền giữa nhà tuyển dụng và ứng viên.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Thiết kế và triển khai hơn 20 RESTful API endpoints theo kiến trúc Controller-Service mô-đun hóa rõ ràng, dễ bảo trì.",
+          "Thiết kế và triển khai hệ thống RESTful API endpoints theo kiến trúc Controller-Service mô-đun hóa rõ ràng, dễ bảo trì.",
           "Xây dựng luồng xác thực an toàn với JWT, HttpOnly Cookies và Refresh Token flow chống tấn công XSS/CSRF.",
           "Tối ưu hóa sơ đồ CSDL MongoDB (Schema Design, Compound Index) giúp tăng tốc độ truy vấn lọc dữ liệu.",
           "Chủ động phối hợp kiểm thử với các thành viên, xử lý kịp thời các trường hợp biên (edge cases)."
@@ -101,17 +101,17 @@ var cvData = {
     "projects": [
       {
         "name": "E-COMMERCE API SERVICE",
-        "date": "08/2025 - 09/2025",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Core backend API services for an e-commerce platform managing products, server-side carts, and order lifecycles.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Designed and developed 15+ RESTful API endpoints for multi-variant products, categories, and server-side cart logic.",
+          "Designed and developed RESTful API endpoints for multi-variant products, categories, and server-side cart logic.",
           "Implemented Admin/User RBAC middleware and JWT authentication protecting sensitive business operations.",
           "Documented APIs with Swagger UI for efficient integration and test execution by Frontend and QA teams.",
           "Conducted thorough testing with Postman and integrated Global Error Handling for system reliability."
         ],
-        "tech": "Node.js, Express, MongoDB / PostgreSQL, RESTful API, JWT, Swagger, Postman, Git"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, JWT, Swagger, Postman, Git"
       },
       {
         "name": "JOB PORTAL BACKEND SYSTEM",
@@ -120,7 +120,7 @@ var cvData = {
         "desc": "Core recruitment management backend handling secure authentication and complex data workflows.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Built 20+ RESTful API endpoints following a modular Controller-Service architecture for maintainability.",
+          "Built RESTful API endpoints following a modular Controller-Service architecture for maintainability.",
           "Implemented secure JWT authentication with HttpOnly cookies and Refresh Token flow preventing XSS/CSRF.",
           "Optimized MongoDB schemas and compound indexes to accelerate search and filtering query speeds.",
           "Collaborated closely with cross-functional peers to debug and handle edge-case business logic."

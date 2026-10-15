@@ -37,13 +37,13 @@ var cvData = {
     ],
     projects: [
       {
-        name: "HỆ THỐNG QUẢN LÝ BÁN HÀNG & KHO VẬN",
-        date: "09/2024 - 12/2024",
+        name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE)",
+        date: "08/2025 - 11/2025",
         role: "Developer",
-        desc: "Ứng dụng web quản lý danh mục sản phẩm, theo dõi luồng đặt hàng và kiểm soát lượng hàng tồn kho.",
+        desc: "Ứng dụng web thương mại điện tử với danh mục sản phẩm, giỏ hàng và quy trình đặt hàng.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
-          "Thiết kế mô hình dữ liệu quản lý chi tiết sản phẩm, danh mục, đơn hàng và lượng tồn kho.",
+          "Thiết kế mô hình dữ liệu quản lý chi tiết sản phẩm, danh mục, đơn hàng và giỏ hàng người dùng.",
           "Xây dựng hệ thống RESTful APIs xử lý nghiệp vụ tạo đơn hàng, cập nhật trạng thái giao vận và giỏ hàng.",
           "Phát triển giao diện quản trị responsive với React và Tailwind CSS, hiển thị tối ưu trên cả desktop và mobile.",
           "Tích hợp xác thực bảo mật JWT, phân quyền truy cập và đóng gói ứng dụng với Docker.",
@@ -51,15 +51,15 @@ var cvData = {
         tech: "React, Node.js, Express.js, MongoDB, Docker, RESTful API, Tailwind CSS",
       },
       {
-        name: "HỆ THỐNG QUẢN TRỊ NHÂN SỰ & HỒ SƠ",
+        name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 12/2025",
         role: "Developer",
-        desc: "Hệ thống dashboard quản trị thông tin nhân sự/học viên, phân quyền vai trò và trích xuất báo cáo vận hành.",
+        desc: "Hệ thống quản trị thông tin hồ sơ sinh viên, phân quyền vai trò và trích xuất báo cáo vận hành.",
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         tasks: [
           "Xây dựng backend theo cấu trúc mô-đun với Node.js và Express, chuẩn hóa tài liệu API qua Swagger UI.",
-          "Triển khai xác thực JWT và cơ chế phân quyền người dùng (RBAC) chặt chẽ giữa ban quản trị và nhân viên.",
+          "Triển khai xác thực JWT và cơ chế phân quyền người dùng (RBAC) chặt chẽ giữa ban quản trị và người dùng.",
           "Xây dựng giao diện dashboard trực quan với React hỗ trợ các thao tác CRUD, bộ lọc đa điều kiện và tìm kiếm thời gian thực.",
           "Tuân thủ quy chuẩn clean code, tối ưu truy vấn cơ sở dữ liệu và quản lý phiên bản qua Git.",
         ],
@@ -146,13 +146,13 @@ GitHub: https://github.com/dinhanhhhh`
     ],
     projects: [
       {
-        name: "SALES & INVENTORY MANAGEMENT SYSTEM",
-        date: "09/2024 - 12/2024",
+        name: "E-COMMERCE PLATFORM",
+        date: "08/2025 - 11/2025",
         role: "Developer",
-        desc: "Web application managing product catalogs, order fulfillment lifecycles, and real-time inventory control.",
+        desc: "Web application managing product catalogs, shopping cart state, and order workflows.",
         github: "https://github.com/dinhanhhhh/ecommerce",
         tasks: [
-          "Designed data models managing product catalogs, categories, customer orders, and inventory stock.",
+          "Designed data models managing product catalogs, categories, customer orders, and cart items.",
           "Developed backend RESTful APIs handling order creation, fulfillment status updates, and cart management.",
           "Implemented responsive management interfaces using React and Tailwind CSS, optimized for desktop and mobile.",
           "Integrated JWT authentication, access control, and containerized the service using Docker.",
@@ -160,10 +160,10 @@ GitHub: https://github.com/dinhanhhhh`
         tech: "React, Node.js, Express.js, MongoDB, Docker, RESTful API, Tailwind CSS",
       },
       {
-        name: "PERSONNEL & RECORDS MANAGEMENT SYSTEM",
+        name: "STUDENT MANAGEMENT SYSTEM",
         date: "06/2025 - 12/2025",
         role: "Developer",
-        desc: "Administrative dashboard managing employee/student records, role-based permissions, and operation analytics.",
+        desc: "Administrative dashboard managing student records, role-based permissions, and operation analytics.",
         github:
           "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         tasks: [

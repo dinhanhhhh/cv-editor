@@ -26,18 +26,18 @@ var cvData = {
     ],
     "projects": [
       {
-        "name": "HỆ THỐNG QUẢN LÝ DỰ ÁN & ĐIỀU PHỐI DỮ LIỆU (STUDENT MANAGEMENT SYSTEM)",
+        "name": "STUDENT MANAGEMENT SYSTEM",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "Hệ thống quản lý thông tin học tập và hồ sơ sinh viên quy mô lớn với Dashboard quan sát số liệu trực quan.",
-        "github": "https://github.com/dinhanhhhh/student-management-BE",
+        "desc": "Hệ thống quản lý thông tin học vụ và hồ sơ sinh viên với Dashboard quan sát số liệu trực quan.",
+        "github": "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         "tasks": [
           "Xây dựng backend hoàn chỉnh với Node.js và Express, thiết kế RESTful API chuẩn REST phục vụ các thao tác CRUD và kết nối cơ sở dữ liệu.",
-          "Tối ưu truy vấn cơ sở dữ liệu MongoDB/MySQL, cấu trúc lại định dạng phản hồi dữ liệu thô nhằm giảm đáng kể thời gian xử lý và tải trang.",
+          "Tối ưu truy vấn cơ sở dữ liệu MongoDB, cấu trúc lại định dạng phản hồi dữ liệu thô nhằm giảm đáng kể thời gian xử lý và tải trang.",
           "Đóng gói container ứng dụng bằng Docker giúp đồng bộ môi trường phát triển cục bộ và triển khai máy chủ dễ dàng.",
           "Áp dụng cơ chế xác thực JWT, RBAC và tích hợp Swagger để tài liệu hóa toàn bộ API phục vụ quá trình tích hợp và kiểm tra chéo giữa các bên."
         ],
-        "tech": "Node.js, Express, MongoDB/MySQL, Next.js 15, TypeScript, Swagger, Docker"
+        "tech": "Node.js, Express, MongoDB, Next.js 15, TypeScript, Swagger, Docker, RESTful API"
       }
     ],
     "skills": [
@@ -83,18 +83,18 @@ var cvData = {
     ],
     "projects": [
       {
-        "name": "STUDENT MANAGEMENT & DATA COORDINATION SYSTEM",
+        "name": "STUDENT MANAGEMENT SYSTEM",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "A large-scale student record and grade administration system with an intuitive administrative dashboard.",
-        "github": "https://github.com/dinhanhhhh/student-management-BE",
+        "desc": "A student record and grade administration system with an intuitive administrative dashboard.",
+        "github": "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         "tasks": [
           "Built a complete backend application with Node.js and Express, designing clean RESTful APIs for database communication and CRUD operations.",
-          "Optimized MongoDB/MySQL queries and restructured raw response payloads to reduce data latency and page load times.",
+          "Optimized MongoDB queries and restructured raw response payloads to reduce data latency and page load times.",
           "Containerized the application using Docker to simplify local setup and ensure smooth production deployment.",
           "Implemented JWT authentication, Role-Based Access Control (RBAC), and Swagger API documentation to ease integration and QA testing."
         ],
-        "tech": "Node.js, Express, MongoDB/MySQL, Next.js 15, TypeScript, Swagger, Docker"
+        "tech": "Node.js, Express, MongoDB, Next.js 15, TypeScript, Swagger, Docker, RESTful API"
       }
     ],
     "skills": [

@@ -36,10 +36,11 @@ var cvData = {
     ],
     "projects": [
       {
-        "name": "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (MERN STACK E-COMMERCE)",
-        "date": "09/2024 - 12/2024",
+        "name": "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE)",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Hệ thống web thương mại điện tử xây dựng trên kiến trúc MERN Stack với thời gian tải trang dưới 2 giây.",
+        "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Phát triển hệ thống Backend RESTful API với Node.js, ExpressJS và MongoDB (Mongoose ODM).",
           "Thiết kế cấu trúc dữ liệu MongoDB Schema linh hoạt cho danh mục sản phẩm, người dùng và đơn hàng.",
@@ -47,7 +48,7 @@ var cvData = {
           "Tích hợp và phối hợp đồng bộ dữ liệu với giao diện Frontend ReactJS qua RESTful APIs.",
           "Đóng gói môi trường phát triển bằng Docker Compose và kiểm thử chức năng tự động."
         ],
-        "tech": "Node.js, ExpressJS, MongoDB, ReactJS, JWT, Postman, Docker, Git"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman, Git"
       },
       {
         "name": "HỆ THỐNG TỰ ĐỘNG HÓA TÍCH HỢP AI AGENT",
@@ -104,10 +105,11 @@ var cvData = {
     ],
     "projects": [
       {
-        "name": "MERN STACK E-COMMERCE PLATFORM",
-        "date": "09/2024 - 12/2024",
+        "name": "E-COMMERCE PLATFORM",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Full-featured online shopping platform built on MERN Stack delivering sub-2-second page loads.",
+        "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Developed backend RESTful services using Node.js, ExpressJS, and MongoDB (Mongoose ODM).",
           "Designed flexible MongoDB schemas for product catalog, user profiles, and order tracking.",
@@ -115,7 +117,7 @@ var cvData = {
           "Collaborated and integrated APIs seamlessly with the ReactJS frontend team.",
           "Containerized development environment using Docker Compose and automated testing."
         ],
-        "tech": "Node.js, ExpressJS, MongoDB, ReactJS, JWT, Postman, Docker, Git"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman, Git"
       },
       {
         "name": "AI AGENT & AUTOMATION PLATFORM",

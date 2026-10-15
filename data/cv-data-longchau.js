@@ -50,18 +50,18 @@ var cvData = {
         "tech": "TypeScript, Cloudflare Workers, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD"
       },
       {
-        "name": "DASHBOARD QUẢN TRỊ & XỬ LÝ DỮ LIỆU",
+        "name": "STUDENT MANAGEMENT SYSTEM",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "Giao diện quản trị portal hiển thị tiến độ luồng dữ liệu, hỗ trợ tìm kiếm, phân quyền và kiểm soát lỗi.",
+        "desc": "Hệ thống quản trị học vụ với dashboard portal hiển thị tiến độ luồng dữ liệu, hỗ trợ tìm kiếm, phân quyền và kiểm soát lỗi.",
         "github": "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         "tasks": [
-          "Xây dựng giao diện Dashboard quản trị trực quan với React và TypeScript, tối ưu tốc độ phản hồi và chuyển trạng thái.",
+          "Xây dựng giao diện Dashboard quản trị trực quan với Next.js và TypeScript, tối ưu tốc độ phản hồi và chuyển trạng thái.",
           "Phát triển các component lọc đa tiêu chí, phân trang và màn hình hiển thị danh sách cảnh báo xác thực dữ liệu.",
           "Kết nối RESTful API backend, chuẩn hóa cấu trúc dữ liệu qua Swagger UI hỗ trợ debug và bàn giao kỹ thuật.",
           "Triển khai xác thực bảo mật JWT kết hợp phân quyền người dùng (RBAC) chặt chẽ cho từng cấp tài khoản quản trị."
         ],
-        "tech": "React 18, TypeScript, Vite, Tailwind CSS, RESTful API, Swagger UI, JWT, RBAC, Git"
+        "tech": "Next.js 15, TypeScript, Tailwind CSS, Node.js, Express, MongoDB, Swagger, RESTful API, Git"
       }
     ],
     "skills": [
@@ -129,18 +129,18 @@ var cvData = {
         "tech": "TypeScript, Cloudflare Workers, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD"
       },
       {
-        "name": "OPERATIONS & DATA PORTAL DASHBOARD",
+        "name": "STUDENT MANAGEMENT SYSTEM",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "Administrative portal dashboard displaying pipeline statuses, data filtering, and validation error tracking.",
+        "desc": "Administrative portal dashboard displaying academic records, pipeline statuses, and validation error tracking.",
         "github": "https://github.com/dinhanhhhh/student-management-BE | https://github.com/dinhanhhhh/student-management-fe",
         "tasks": [
-          "Constructed high-performance management dashboard using React and TypeScript, optimizing state transitions.",
+          "Constructed high-performance management dashboard using Next.js and TypeScript, optimizing state transitions.",
           "Developed multi-criteria filtering, pagination, and dedicated alert screens for data validation issues.",
           "Integrated RESTful API backend, standardizing data contracts via Swagger UI for seamless handoff.",
           "Enforced JWT authentication and Role-Based Access Control (RBAC) ensuring granular security permissions."
         ],
-        "tech": "React 18, TypeScript, Vite, Tailwind CSS, RESTful API, Swagger UI, JWT, RBAC, Git"
+        "tech": "Next.js 15, TypeScript, Tailwind CSS, Node.js, Express, MongoDB, Swagger, RESTful API, Git"
       }
     ],
     "skills": [

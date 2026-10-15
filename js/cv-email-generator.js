@@ -22,6 +22,20 @@
 
   // Ánh xạ thông tin công ty và vị trí từ cvVersion
   const VERSION_MAP = {
+    hemidi: {
+      company: "HEMIDI",
+      position: "Fresher Node.js Developer",
+      recipient: "Ban Tuyển dụng Hemidi",
+      contact: "recruit@hemidi.com",
+      profileType: "backend_dev"
+    },
+    yabu: {
+      company: "Yabu Aube",
+      position: "Intern Backend",
+      recipient: "Ban Tuyển dụng Yabu Aube",
+      contact: "yabu.aube@gmail.com",
+      profileType: "backend_dev"
+    },
     octosoft: {
       company: "CÔNG TY OCTO SOFTWARE",
       position: "Full Stack Developer",
@@ -93,6 +107,16 @@
     return urlParams.get("type") || "default";
   }
 
+  function toTitleCaseName(str) {
+    if (!str) return "Trương Đình Anh";
+    return str
+      .toLowerCase()
+      .split(" ")
+      .filter(Boolean)
+      .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
+  }
+
   function getCandidateInfo() {
     let name = CANDIDATE.name;
     let phone = CANDIDATE.phone;
@@ -110,6 +134,8 @@
         });
       }
     }
+    // Chuẩn hóa tên thành dạng Title Case (Trương Đình Anh) tránh việc chữ hoa toàn bộ
+    name = toTitleCaseName(name || CANDIDATE.name);
     return { name, phone, email, github };
   }
 
@@ -119,8 +145,9 @@
   function generateHighlights(profileType, jdText, tone, lang) {
     const jdLower = (jdText || "").toLowerCase();
     const isQa = profileType === "qa_tester" || jdLower.includes("qa") || jdLower.includes("tester") || jdLower.includes("test case");
-
     const isAiFullstack = profileType === "ai_fullstack" || jdLower.includes("octo") || jdLower.includes("agent");
+    const isBackend = profileType === "backend_dev" || jdLower.includes("backend") || jdLower.includes("laravel") || jdLower.includes("php");
+    const hasPhpLaravel = jdLower.includes("laravel") || jdLower.includes("php") || (window.cvData && window.cvData.meta && (window.cvData.meta.company || "").toLowerCase().includes("yabu"));
 
     if (lang === "vi") {
       if (isAiFullstack) {
@@ -132,7 +159,7 @@
           ];
         } else if (tone === "warm") {
           return [
-            "Kinh nghiệm Full-Stack thực chiến: Đã xây dựng và tối ưu hệ thống RESTful APIs, quản trị CSDL PostgreSQL và phát triển các sản phẩm web responsive hoàn chỉnh.",
+            "Kinh nghiệm Full-Stack thực chiến: Đã xây dựng và tối ưu hệ thống RESTful APIs, quản trị CSDL PostgreSQL và phát triển các sản phẩm web responsive.",
             "Đam mê AI & Tự động hóa: Nhạy bén tích hợp AI Agent và LLM API vào quy trình phát triển thực tế, tối ưu năng suất làm việc gấp nhiều lần.",
             "Tinh thần trách nhiệm & Đồng hành: Tác phong làm việc chủ động, kỷ luật mã nguồn cao và rất mong muốn được cống hiến lâu dài cùng Octo Software."
           ];
@@ -164,26 +191,34 @@
             "Ứng dụng AI nâng cao năng suất: Chủ động kết hợp ChatGPT và Gemini để sinh dữ liệu mẫu, rà soát edge cases và cải thiện độ bao phủ của bộ test."
           ];
         }
+      } else if (isBackend) {
+        return [
+          "Kinh nghiệm thực tế: Tại Công ty TNHH Công nghệ TAMI, em thiết kế CSDL PostgreSQL (Supabase), xây dựng RESTful API và tích hợp xác thực Google (NextAuth) cho hệ thống phân tích dữ liệu chứng khoán.",
+          "Dự án cá nhân: Xây dựng nền tảng thương mại điện tử (React/Tailwind, Node.js/Express/MongoDB), đóng gói Docker và triển khai CI/CD.",
+          hasPhpLaravel
+            ? "Kỹ năng: JavaScript/TypeScript, RESTful API, Git, Postman; hiện đang tìm hiểu PHP/Laravel để sớm bắt nhịp với công nghệ của Quý công ty."
+            : "Kỹ năng: JavaScript/TypeScript, RESTful API, Git, Postman, tư duy OOP/MVC vững chắc và tinh thần học hỏi nhanh."
+        ];
       } else {
-        // Developer / Fullstack / Backend / Frontend
+        // Developer / Fullstack / Frontend
         if (tone === "short") {
           return [
             "Kinh nghiệm thực tế: Xây dựng và triển khai hệ thống RESTful APIs, thiết kế cơ sở dữ liệu PostgreSQL trên Supabase Cloud tại Cty TNHH Công nghệ TAMI.",
-            "Dự án hoàn chỉnh: Tự phát triển nền tảng E-commerce với React/Tailwind CSS và Node.js/Express/MongoDB, đóng gói Docker, triển khai CI/CD tối ưu tải trang dưới 2s.",
-            "Kỹ năng & Tác phong: Thành thạo Git, sẵn sàng hỗ trợ các tác vụ IT nội bộ và có thể nhận việc ngay khi có yêu cầu."
+            "Dự án cá nhân: Tự phát triển nền tảng E-commerce với React/Tailwind CSS và Node.js/Express/MongoDB, đóng gói Docker, triển khai CI/CD tối ưu tải trang dưới 2s.",
+            "Kỹ năng & Tác phong: Thành thạo Git, Postman, tinh thần học nhanh và có thể nhận việc ngay khi có yêu cầu."
           ];
         } else if (tone === "warm") {
           return [
             "Kinh nghiệm dự án thực tế: Đã tham gia phát triển hệ thống và xây dựng các dịch vụ RESTful APIs, tích hợp xác thực bảo mật Google OAuth tại Công ty TNHH Công nghệ TAMI.",
-            "Năng lực tự học & Sản phẩm thực tế: Tự xây dựng trọn vẹn nền tảng web ứng dụng React và Node.js, luôn chú trọng trải nghiệm người dùng và hiệu năng mã nguồn.",
+            "Năng lực tự học & Sản phẩm thực tế: Tự xây dựng nền tảng web ứng dụng React và Node.js, luôn chú trọng trải nghiệm người dùng và hiệu năng mã nguồn.",
             "Tinh thần trách nhiệm & Cầu tiến: Luôn chủ động giải quyết bài toán kỹ thuật, sẵn sàng học hỏi công nghệ mới và đóng góp hết mình cho sự phát triển của công ty."
           ];
         } else {
           // tech
           return [
-            "Kinh nghiệm thực tế: Xây dựng và triển khai hệ thống RESTful APIs hoàn chỉnh, thiết kế database PostgreSQL trên Supabase Cloud, tích hợp xác thực Google (NextAuth) trong dự án thực tế tại Công ty TNHH Công nghệ TAMI.",
-            "Dự án E-commerce / Web App: Tự phát triển hoàn chỉnh một nền tảng thương mại điện tử (danh mục sản phẩm, giỏ hàng, checkout) với React/Tailwind CSS ở frontend và Node.js/Express/MongoDB ở backend, đóng gói Docker và triển khai CI/CD.",
-            "Nền tảng kỹ thuật & AI: Nắm vững JavaScript/TypeScript, RESTful API, Docker, chủ động ứng dụng AI nâng cao năng suất code và linh hoạt hỗ trợ kỹ thuật IT nội bộ."
+            "Kinh nghiệm thực tế: Xây dựng và triển khai hệ thống RESTful APIs, thiết kế database PostgreSQL trên Supabase Cloud, tích hợp xác thực Google (NextAuth) trong dự án thực tế tại Công ty TNHH Công nghệ TAMI.",
+            "Dự án E-commerce / Web App: Tự phát triển nền tảng thương mại điện tử (danh mục sản phẩm, giỏ hàng, checkout) với React/Tailwind CSS ở frontend và Node.js/Express/MongoDB ở backend, đóng gói Docker và triển khai CI/CD.",
+            "Nền tảng kỹ thuật & Tác phong: Nắm vững JavaScript/TypeScript, RESTful API, Git, Postman, Docker, chủ động học nhanh và ứng dụng AI nâng cao năng suất lập trình."
           ];
         }
       }
@@ -201,11 +236,19 @@
           "Database Verification (SQL): Strong SQL skills on PostgreSQL and MongoDB to query and ensure data integrity.",
           "AI-Assisted & Proactive: Leveraged AI tools (ChatGPT, Gemini) to generate mock data and edge case suites; ready for full-time/part-time employment immediately."
         ];
+      } else if (isBackend) {
+        return [
+          "Hands-on Experience: At TAMI Technology Co., Ltd, designed PostgreSQL schemas on Supabase Cloud, developed RESTful APIs, and integrated Google OAuth (NextAuth).",
+          "Personal Project: Built an E-commerce API & Web platform (React/Tailwind, Node.js/Express/MongoDB), containerized with Docker, and deployed via CI/CD.",
+          hasPhpLaravel
+            ? "Skills: JavaScript/TypeScript, RESTful API, Git, Postman; currently learning PHP/Laravel to quickly get up to speed with your technology stack."
+            : "Skills: JavaScript/TypeScript, RESTful API, Git, Postman, solid OOP/MVC mindset, and fast learning capability."
+        ];
       } else {
         return [
-          "Hands-on Experience: Designed and deployed robust RESTful APIs, managed PostgreSQL on Supabase Cloud, and integrated Google OAuth at TAMI Technology.",
+          "Hands-on Experience: Designed and deployed RESTful APIs, managed PostgreSQL on Supabase Cloud, and integrated Google OAuth at TAMI Technology.",
           "Full-Stack E-commerce Project: Built an end-to-end e-commerce platform with React, Node.js, Express, MongoDB, containerized with Docker and deployed via CI/CD.",
-          "Technical Foundation & Problem Solving: Strong command of modern JavaScript/TypeScript, Git workflow, AI coding assistants, and ready to adapt quickly to your tech stack."
+          "Technical Foundation & Problem Solving: Strong command of modern JavaScript/TypeScript, Git, Postman, fast learning agility, and ready to adapt quickly to your tech stack."
         ];
       }
     }
@@ -220,45 +263,33 @@
     const highlights = generateHighlights(opts.profileType, jdText, tone, lang);
 
     const compName = company || (lang === "vi" ? "Quý công ty" : "your company");
-    const posTitle = position || (lang === "vi" ? "Vị trí tuyển dụng" : "the position");
-    const recName = recipient || (lang === "vi" ? `Bộ phận Tuyển dụng ${compName}` : `Hiring Team at ${compName}`);
+    const rawPos = position || (lang === "vi" ? "Intern Backend" : "Backend Developer Intern");
+    const posTitle = rawPos.replace(/\(.*?\)/g, "").trim() || rawPos;
+    const recName = recipient || (lang === "vi" ? `Ban Tuyển dụng ${compName}` : `Hiring Team at ${compName}`);
+    const ghDisplay = candidate.github ? candidate.github.replace(/^https?:\/\//, "") : "github.com/dinhanhhhh";
 
     if (lang === "vi") {
       const subject = (opts.profileType === "ai_fullstack" || (company && company.includes("OCTO")))
         ? `[Full Stack Developer] - ${candidate.name}`
-        : `[Ứng tuyển] ${posTitle} - ${candidate.name}`;
+        : `Ứng tuyển ${posTitle} - ${candidate.name}`;
       
-      let intro = `Kính gửi ${recName},\n\nQua thông tin tuyển dụng vị trí ${posTitle} của Quý công ty, em nhận thấy yêu cầu công việc rất phù hợp với định hướng và nền tảng kỹ thuật của bản thân. Em xin phép được gửi hồ sơ ứng tuyển vào vị trí này.`;
+      const intro = `Kính gửi ${recName},\n\nEm là ${candidate.name}, tốt nghiệp ngành Khoa học Máy tính tại ĐH Mở TP.HCM. Qua tin tuyển dụng, em thấy vị trí ${posTitle} rất phù hợp với định hướng của mình nên xin gửi hồ sơ ứng tuyển. Một số điểm nổi bật của em:`;
+      const pointsText = highlights.map(h => `• ${h}`).join("\n");
+      const outro = `Em có thể làm việc Full-time và sẵn sàng bắt đầu ngay. Em xin gửi kèm CV và GitHub (${ghDisplay}) để Anh/Chị tham khảo. Rất mong có cơ hội trao đổi trực tiếp trong buổi phỏng vấn.`;
+      const signOff = `Trân trọng,\n${candidate.name}\n${candidate.phone} | ${candidate.email}`;
 
-      let pointsHeader = "Một số điểm nổi bật trong kinh nghiệm và kỹ năng của em:";
-      let pointsText = highlights.map(h => `• ${h}`).join("\n");
-
-      let availability = "Em có thể sắp xếp làm việc Full-time và sẵn sàng nhận việc ngay khi Quý công ty có yêu cầu.";
-      let attachment = "Em xin gửi kèm CV chi tiết để Anh/Chị tiện tham khảo thêm về kinh nghiệm và các sản phẩm em đã thực hiện.";
-
-      let closing = `Em rất mong có cơ hội được trao đổi trực tiếp cùng Anh/Chị trong buổi phỏng vấn sắp tới.\n\nKính chúc Anh/Chị một ngày làm việc hiệu quả và nhiều niềm vui!`;
-
-      let signOff = `Trân trọng,\n${candidate.name}\nSố điện thoại: ${candidate.phone}\nEmail: ${candidate.email}`;
-
-      const body = `${intro}\n\n${pointsHeader}\n\n${pointsText}\n\n${availability}\n${attachment}\n\n${closing}\n\n${signOff}`;
+      const body = `${intro}\n\n${pointsText}\n\n${outro}\n\n${signOff}`;
 
       return { subject, body };
     } else {
       const subject = `[Job Application] ${posTitle} - ${candidate.name}`;
 
-      let intro = `Dear ${recName},\n\nI am writing to express my strong interest in the ${posTitle} opening at ${compName}. With my technical background and hands-on project experience, I believe I can make an immediate and positive contribution to your team.`;
+      const intro = `Dear ${recName},\n\nI am ${candidate.name}, a Computer Science graduate (Ho Chi Minh City Open University). I am writing to apply for the ${posTitle} position at ${compName}, as my background and technical direction align closely with your requirements:`;
+      const pointsText = highlights.map(h => `• ${h}`).join("\n");
+      const outro = `I am available full-time and ready to start immediately. I have attached my CV and GitHub (${ghDisplay}) for your review. I look forward to the opportunity to discuss further in an interview.`;
+      const signOff = `Sincerely,\n${candidate.name}\n(+84) ${candidate.phone.replace(/^0/, "")} | ${candidate.email}`;
 
-      let pointsHeader = "Key highlights of my qualifications:";
-      let pointsText = highlights.map(h => `• ${h}`).join("\n");
-
-      let availability = "I am available to start immediately and excited to commit full-time to the team.";
-      let attachment = "I have attached my detailed CV for your review.";
-
-      let closing = `Thank you for your time and consideration. I look forward to the opportunity to discuss my qualifications further in an interview.`;
-
-      let signOff = `Sincerely,\n${candidate.name}\nPhone: ${candidate.phone}\nEmail: ${candidate.email}`;
-
-      const body = `${intro}\n\n${pointsHeader}\n\n${pointsText}\n\n${availability}\n${attachment}\n\n${closing}\n\n${signOff}`;
+      const body = `${intro}\n\n${pointsText}\n\n${outro}\n\n${signOff}`;
 
       return { subject, body };
     }
@@ -293,7 +324,7 @@
       gmailBtn: "🚀 Mở Gmail Soạn Luôn",
       mailtoBtn: "✉️ Mở Mail Client",
       tmplLabel: "Mẫu thư:",
-      footerHint: '💡 <b>Mẹo:</b> Chọn tab <b>"Email gửi nhanh"</b> để lấy 3 gạch đầu dòng gửi Gmail, hoặc tab <b>"Thư giới thiệu"</b> để lấy bản thư dài trang trọng.',
+      footerHint: '💡 <b>Mẹo gửi CV:</b> Nút <b>"📋 Chép Nội Dung"</b> đã tự động in đậm các nhãn và thụt lề bullet chuẩn khi dán vào Gmail! Trước khi gửi nhớ kiểm tra: đính kèm file PDF mới nhất và email người nhận.',
       closeBtn: "Đóng ✓"
     },
     en: {
@@ -321,7 +352,7 @@
       gmailBtn: "🚀 Open in Gmail",
       mailtoBtn: "✉️ Open Mail Client",
       tmplLabel: "Letter Template:",
-      footerHint: '💡 <b>Tip:</b> Choose <b>"Quick Email"</b> for concise bullets to send via Gmail, or <b>"Cover Letter"</b> for a formal full-length letter.',
+      footerHint: '💡 <b>Application Tip:</b> <b>"📋 Copy Body"</b> automatically formats bold labels and proper list indents when pasting into Gmail/Mail clients! Always verify recipient email and PDF attachment before sending.',
       closeBtn: "Close ✓"
     }
   };
@@ -329,13 +360,20 @@
   function parseEmailTemplate(text) {
     if (!text || typeof text !== "string") return null;
     const trimmed = text.trim();
-    const m = trimmed.match(/^\[(?:Subject|Tiêu đề(?: Email)?):\s*([^\]]+)\]\s*\n+([\s\S]*)$/i);
+    // 1. [Subject: ...] or [Tiêu đề Email: ...] or Tiêu đề Email: ... or Subject: ...
+    const m = trimmed.match(/^\[?(?:Subject|Tiêu đề(?: Email)?):\s*([^\]\n]+)\]?\s*\n+([\s\S]*)$/i);
     if (m) {
       return { subject: m[1].trim(), body: m[2].trim() };
     }
-    const bracketMatch = trimmed.match(/^\[([^\]]+)\]\s*\n+([\s\S]*)$/);
+    // 2. [Bracketed Subject]
+    const bracketMatch = trimmed.match(/^\[([^\]\n]+)\]\s*\n+([\s\S]*)$/);
     if (bracketMatch) {
       return { subject: bracketMatch[1].trim(), body: bracketMatch[2].trim() };
+    }
+    // 3. First line as application subject (e.g. Ứng tuyển ... or [Job Application] ...)
+    const firstLineMatch = trimmed.match(/^([^\n]+)\n\n([\s\S]*)$/);
+    if (firstLineMatch && (firstLineMatch[1].startsWith("Ứng tuyển") || firstLineMatch[1].startsWith("[Job Application]"))) {
+      return { subject: firstLineMatch[1].trim(), body: firstLineMatch[2].trim() };
     }
     return { subject: "", body: trimmed };
   }
@@ -571,8 +609,9 @@
     }
 
     const company = (preset && preset.company) || metaInfo.company || (trackerJob && trackerJob.company) || mapInfo.company || "";
-    const position = (preset && preset.position) || (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || metaInfo.position || (trackerJob && trackerJob.position) || mapInfo.position || "Developer";
-    const recipient = (preset && preset.recipient) || metaInfo.recipient || mapInfo.recipient || (currentLang === "vi" ? "Anh/Chị phụ trách tuyển dụng" : "Hiring Team");
+    const rawPos = (preset && preset.position) || mapInfo.position || metaInfo.position || (window.cvData && window.cvData[currentLang] && window.cvData[currentLang].title) || (trackerJob && trackerJob.position) || "Intern Backend";
+    const position = rawPos.replace(/\(.*?\)/g, "").trim() || rawPos;
+    const recipient = (preset && preset.recipient) || metaInfo.recipient || mapInfo.recipient || (currentLang === "vi" ? "Ban Tuyển dụng" : "Hiring Team");
     const contact = (preset && preset.contact) || metaInfo.email || metaInfo.contact || (trackerJob && trackerJob.contact) || mapInfo.contact || "";
     const jdText = (preset && preset.jdText) || metaInfo.jdText || (trackerJob && trackerJob.jdText) || "";
 
@@ -616,7 +655,8 @@
     const bodyEl = document.getElementById("egBodyOutput");
 
     // If tailored template exists and user didn't enter a custom JD, prioritize tailored template
-    if (custom && !jdText) {
+    const defaultMetaJd = ((window.cvData && window.cvData.meta && window.cvData.meta.jdText) || "").trim();
+    if (custom && (!jdText || jdText === defaultMetaJd)) {
       if (subjectEl) subjectEl.value = custom.subject;
       if (bodyEl) bodyEl.value = custom.body;
       return;
@@ -681,16 +721,77 @@
     });
   }
 
+  function convertEmailTextToRichHtml(bodyText, subjectText) {
+    if (!bodyText) return "";
+    const blocks = bodyText.split(/\n\n+/);
+    const htmlBlocks = blocks.map(block => {
+      const trimmed = block.trim();
+      const lines = trimmed.split("\n");
+      const isListBlock = lines.every(l => l.trim().startsWith("• ") || l.trim().startsWith("- ") || l.trim() === "");
+      if (isListBlock && lines.length > 0) {
+        const lis = lines
+          .map(l => l.trim())
+          .filter(Boolean)
+          .map(l => {
+            let content = l.replace(/^[•\-]\s*/, "");
+            // Tự động in đậm nhãn đầu dòng trước dấu hai chấm (vd: "Kinh nghiệm thực tế:", "Dự án cá nhân:", "Kỹ năng:")
+            content = content.replace(/^([^:：]+[:：])/, "<strong>$1</strong>");
+            return `<li style="margin-bottom: 8px; line-height: 1.6;">${content}</li>`;
+          })
+          .join("");
+        return `<ul style="margin: 14px 0; padding-left: 24px; line-height: 1.6;">${lis}</ul>`;
+      } else {
+        let pText = trimmed.replace(/\n/g, "<br>");
+        pText = pText.replace(/(github\.com\/[^\s\)]+)/g, '<a href="https://$1" target="_blank" style="color: #0969da; text-decoration: underline;">$1</a>');
+        return `<p style="margin: 0 0 14px 0; line-height: 1.6;">${pText}</p>`;
+      }
+    });
+
+    let headerHtml = "";
+    if (subjectText) {
+      const prefix = currentLang === "vi" ? "Tiêu đề: " : "Subject: ";
+      headerHtml = `<p style="margin: 0 0 14px 0; font-weight: bold; color: #1e3a8a;">${prefix}${subjectText}</p><hr style="margin: 12px 0 16px; border: 0; border-top: 1px solid #e2e8f0;">`;
+    }
+
+    return `<div style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; line-height: 1.6; color: #222;">${headerHtml}${htmlBlocks.join("")}</div>`;
+  }
+
+  async function copyRichText(plainText, htmlText) {
+    if (navigator.clipboard && window.ClipboardItem) {
+      try {
+        const textBlob = new Blob([plainText], { type: "text/plain" });
+        const htmlBlob = new Blob([htmlText], { type: "text/html" });
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/plain": textBlob,
+            "text/html": htmlBlob
+          })
+        ]);
+        return true;
+      } catch (err) {
+        console.warn("ClipboardItem write failed, fallback to writeText:", err);
+      }
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(plainText);
+      return true;
+    }
+    return false;
+  }
+
   function copyBody() {
     const bodyEl = document.getElementById("egBodyOutput");
     if (!bodyEl || !bodyEl.value) return;
 
-    navigator.clipboard.writeText(bodyEl.value).then(() => {
+    const plain = bodyEl.value;
+    const html = convertEmailTextToRichHtml(plain);
+
+    copyRichText(plain, html).then(() => {
       const btn = document.getElementById("egCopyBodyBtn");
       if (btn) {
         const orig = btn.textContent;
-        btn.textContent = currentLang === "vi" ? "✅ Đã sao chép!" : "✅ Copied!";
-        setTimeout(() => { btn.textContent = orig; }, 2000);
+        btn.textContent = currentLang === "vi" ? "✅ Đã chép (Tự in đậm khi dán)!" : "✅ Copied (Rich Text)!";
+        setTimeout(() => { btn.textContent = orig; }, 2400);
       }
     });
   }
@@ -700,14 +801,17 @@
     const bodyEl = document.getElementById("egBodyOutput");
     if (!bodyEl) return;
 
+    const su = subjectEl ? subjectEl.value : "";
     const prefix = currentLang === "vi" ? "Tiêu đề: " : "Subject: ";
-    const full = `${prefix}${subjectEl ? subjectEl.value : ""}\n\n${bodyEl.value}`;
-    navigator.clipboard.writeText(full).then(() => {
+    const plain = `${prefix}${su}\n\n${bodyEl.value}`;
+    const html = convertEmailTextToRichHtml(bodyEl.value, su);
+
+    copyRichText(plain, html).then(() => {
       const btn = document.getElementById("egCopyAllBtn");
       if (btn) {
         const orig = btn.textContent;
         btn.textContent = currentLang === "vi" ? "✅ Đã sao chép toàn bộ!" : "✅ All Copied!";
-        setTimeout(() => { btn.textContent = orig; }, 2000);
+        setTimeout(() => { btn.textContent = orig; }, 2200);
       }
     });
   }

@@ -33,26 +33,26 @@ var cvData = {
         "desc": "Hệ thống lõi quản lý tuyển dụng toàn diện, xử lý luồng dữ liệu phức tạp giữa nhà tuyển dụng và ứng viên.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Thiết kế và triển khai hơn 30 RESTful API endpoints áp dụng chặt chẽ kiến trúc phân lớp (Controller - Service).",
+          "Thiết kế và triển khai hệ thống RESTful API endpoints áp dụng chặt chẽ kiến trúc phân lớp (Controller - Service).",
           "Xây dựng hệ thống xác thực tập trung sử dụng JWT, HttpOnly cookies kết hợp phân quyền người dùng (RBAC).",
-          "Xử lý và tối ưu hóa truy vấn cơ sở dữ liệu, đảm bảo thời gian phản hồi API trung bình dưới 200ms.",
+          "Xử lý và tối ưu hóa truy vấn cơ sở dữ liệu MongoDB, đảm bảo thời gian phản hồi API trung bình dưới 200ms.",
           "Tích hợp cơ chế xử lý lỗi tập trung (Global Exception Handling) và Middleware kiểm soát dữ liệu đầu vào."
         ],
         "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
       },
       {
-        "name": "E-COMMERCE API SERVICE",
-        "date": "08/2025 - 09/2025",
+        "name": "E-COMMERCE PLATFORM",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Dịch vụ API quản lý sản phẩm, đơn hàng và giỏ hàng cho nền tảng thương mại điện tử.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Thiết kế sơ đồ CSDL quan hệ MySQL chuẩn hóa (3NF), tối ưu hóa các ràng buộc khóa chính và khóa ngoại.",
+          "Thiết kế cấu trúc CSDL MongoDB tối ưu hóa việc lưu trữ danh mục sản phẩm, đơn hàng và giỏ hàng.",
           "Xây dựng các API quản lý sản phẩm, danh mục và xử lý luồng tạo đơn hàng (Order Lifecycle).",
           "Triển khai Middleware kiểm tra phân quyền Admin cho các tác vụ cập nhật dữ liệu nhạy cảm.",
           "Kiểm thử toàn diện các luồng API bằng Postman Collection và viết tài liệu hướng dẫn tích hợp cho team Frontend."
         ],
-        "tech": "Node.js, Express, MySQL, JWT, Cloudinary, Postman, Git"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman, Git"
       }
     ],
     "skills": [
@@ -109,26 +109,26 @@ var cvData = {
         "desc": "Core recruitment management system handling complex business logic between recruiters and applicants.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Designed and implemented 30+ RESTful API endpoints strictly following the Controller-Service layered architecture.",
+          "Designed and implemented RESTful API endpoints strictly following the Controller-Service layered architecture.",
           "Engineered centralized authentication using JWT and HttpOnly cookies coupled with Role-Based Access Control (RBAC).",
-          "Optimized database queries and indexing, achieving an average API response time under 200ms.",
+          "Optimized database queries and indexing in MongoDB, achieving an average API response time under 200ms.",
           "Integrated global exception handling middleware to maintain high server stability and consistent error responses."
         ],
         "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
       },
       {
-        "name": "E-COMMERCE API SERVICE",
-        "date": "08/2025 - 09/2025",
+        "name": "E-COMMERCE PLATFORM",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Core API services managing product catalogs, shopping carts, and order workflows.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Designed normalized MySQL schemas (3NF) ensuring relational data integrity and foreign key constraints.",
+          "Designed structured MongoDB schemas ensuring data integrity for product catalogs, carts, and orders.",
           "Implemented APIs for product classification, cart state management, and the full order lifecycle.",
           "Built custom middleware to enforce administrative authorization for sensitive operational actions.",
           "Authored comprehensive Postman collections for integration testing and shared documentation with Frontend peers."
         ],
-        "tech": "Node.js, Express, MySQL, JWT, Cloudinary, Postman, Git"
+        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman, Git"
       }
     ],
     "skills": [

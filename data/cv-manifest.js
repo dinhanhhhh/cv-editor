@@ -10,6 +10,18 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "hemidi",
+      file: "data/cv-data-hemidi.js",
+      emoji: "🌿",
+      label: "🌿 Hemidi - Fresher NodeJS Developer (Gò Vấp, TP.HCM)",
+    },
+    {
+      key: "yabu",
+      file: "data/cv-data-yabu.js",
+      emoji: "🏢",
+      label: "🏢 Yabu Aube - Intern Backend (Quận 10, TP.HCM)",
+    },
+    {
       key: "credosis",
       file: "data/cv-data-credosis.js",
       emoji: "🌐",

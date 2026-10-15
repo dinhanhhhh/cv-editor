@@ -26,10 +26,10 @@ var cvData = {
         tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
-        name: "HỆ THỐNG QUẢN LÝ DỮ LIỆU & PHÂN QUYỀN",
+        name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
         role: "Developer",
-        desc: "Hệ thống ứng dụng web quản lý dữ liệu người dùng, phân quyền truy cập và xử lý quy trình nộp hồ sơ trực tuyến.",
+        desc: "Nền tảng tuyển dụng trực tuyến hỗ trợ đăng tin, quản lý dữ liệu người dùng, phân quyền truy cập và nộp hồ sơ.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
           "Xây dựng giao diện ứng dụng web chuẩn responsive, tối ưu hóa trải nghiệm người dùng và xử lý đầy đủ các trạng thái dữ liệu (Loading, Empty, Error).",
@@ -88,10 +88,10 @@ var cvData = {
         tech: "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD",
       },
       {
-        name: "DATA MANAGEMENT & AUTHORIZATION SYSTEM",
+        name: "JOB PORTAL PLATFORM",
         date: "11/2025 - 02/2026",
         role: "Developer",
-        desc: "A web platform designed for user profile administration, role-based authorization, and online application processing.",
+        desc: "A web recruitment platform designed for job postings, user profile administration, role-based authorization, and online applications.",
         github: "https://github.com/dinhanhhhh/JOB-PORTAL",
         tasks: [
           "Developed responsive web interfaces, optimizing user experience and handling edge-case data states (Loading, Empty, Error).",

@@ -49,17 +49,18 @@ var cvData = {
         "tech": "JavaScript (ES6+), Cloudflare Workers, LLM API, AI Agent, Telegram Bot API, GitHub Actions, CI/CD"
       },
       {
-        "name": "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ",
-        "date": "09/2024 - 12/2024",
+        "name": "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE)",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Website thương mại điện tử hoàn chỉnh phục vụ mua sắm trực tuyến với thời gian tải trang dưới 2 giây.",
+        "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Xây dựng giao diện người dùng Responsive với React và Tailwind CSS, tối ưu State Management và hiệu năng render.",
           "Phát triển hệ thống Backend RESTful API với Node.js, Express và MongoDB, thiết kế schema dữ liệu chặt chẽ.",
           "Triển khai xác thực và phân quyền bằng JSON Web Token (JWT), quản lý giỏ hàng và tích hợp quy trình đặt hàng.",
           "Đóng gói môi trường phát triển với Docker Compose và kiểm thử luồng nghiệp vụ end-to-end."
         ],
-        "tech": "React, Tailwind CSS, Node.js, Express, MongoDB, JWT, Docker, Git"
+        "tech": "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Docker, REST API, Git"
       }
     ],
     "skills": [
@@ -117,16 +118,17 @@ var cvData = {
       },
       {
         "name": "E-COMMERCE PLATFORM",
-        "date": "09/2024 - 12/2024",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Full-featured online shopping platform delivering sub-2-second page loads.",
+        "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Built responsive UI with React and Tailwind CSS, optimizing client state management and rendering performance.",
           "Developed backend RESTful services using Node.js, Express, and MongoDB with clean data models.",
           "Implemented JWT authentication, role-based access control, cart management, and order checkout flows.",
           "Containerized development environment using Docker Compose and conducted end-to-end integration tests."
         ],
-        "tech": "React, Tailwind CSS, Node.js, Express, MongoDB, JWT, Docker, Git"
+        "tech": "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Docker, REST API, Git"
       }
     ],
     "skills": [

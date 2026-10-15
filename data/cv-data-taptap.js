@@ -13,17 +13,17 @@ var cvData = {
     "projects": [
       {
         "name": "E-COMMERCE & SHOPPING PLATFORM",
-        "date": "08/2025 - 09/2025",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "Ứng dụng mua sắm trực tuyến tích hợp quy trình đặt hàng và quản lý sản phẩm phía server.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Phát triển giao diện giỏ hàng và trang giới thiệu sản phẩm bằng React, kết hợp validation form phía client.",
           "Xây dựng API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server sử dụng Node.js & Express.",
-          "Ứng dụng AI Coding Workflow (Lovable AI, Claude) để thiết kế giao diện động, tăng 40% hiệu suất hoàn thiện sản phẩm.",
-          "Thiết kế cơ chế lưu trữ ảnh qua Cloudinary và xử lý trạng thái đơn hàng (Order Lifecycle) nhất quán."
+          "Ứng dụng AI Coding Workflow (Lovable AI, Claude) để thiết kế giao diện động, tăng tốc độ hoàn thiện sản phẩm.",
+          "Thiết kế cơ chế lưu trữ dữ liệu với MongoDB và xử lý trạng thái đơn hàng (Order Lifecycle) nhất quán."
         ],
-        "tech": "React, Node.js, Express, MongoDB/MySQL, Lovable AI, Cloudinary, Git, Vercel"
+        "tech": "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Docker, Vercel"
       },
       {
         "name": "JOB PORTAL PLATFORM",
@@ -32,7 +32,7 @@ var cvData = {
         "desc": "Hệ thống quản lý tuyển dụng toàn diện hỗ trợ phân quyền người dùng và xử lý luồng dữ liệu bảo mật.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Thiết kế 20+ RESTful API endpoints sử dụng Node.js & TypeScript, áp dụng kiến trúc mô-đun để dễ dàng bảo trì.",
+          "Thiết kế hệ thống RESTful API endpoints sử dụng Node.js & TypeScript, áp dụng kiến trúc mô-đun để dễ dàng bảo trì.",
           "Triển khai cơ chế xác thực JWT qua HttpOnly Cookies kết hợp phân quyền RBAC và luồng Refresh Token.",
           "Sử dụng Docker Compose để thiết lập môi trường phát triển nhất quán giữa local và staging."
         ],
@@ -76,17 +76,17 @@ var cvData = {
     "projects": [
       {
         "name": "E-COMMERCE & SHOPPING PLATFORM",
-        "date": "08/2025 - 09/2025",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
         "desc": "An online shopping application integrated with order processing and product management on the server side.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
           "Developed cart interfaces and responsive landing pages using React with client-side form validation.",
           "Built server-side product management APIs and cart persistence flows using Node.js & Express.",
-          "Leveraged AI coding workflows (Lovable AI, Claude) to accelerate dynamic UI component delivery by 40%.",
-          "Designed payment state handling and image storage integrations via Cloudinary."
+          "Leveraged AI coding workflows (Lovable AI, Claude) to accelerate dynamic UI component delivery.",
+          "Designed payment state handling and database integrations via MongoDB."
         ],
-        "tech": "React, Node.js, Express, MongoDB/MySQL, Lovable AI, Cloudinary, Git, Vercel"
+        "tech": "React, Vite, Node.js, Express, MongoDB, Tailwind CSS, Docker, Vercel"
       },
       {
         "name": "JOB PORTAL PLATFORM",
@@ -95,7 +95,7 @@ var cvData = {
         "desc": "A recruitment management system with secure user authentication and modular backend routing.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Designed 20+ RESTful API endpoints using Node.js & TypeScript, applying modular patterns for maintainability.",
+          "Designed RESTful API endpoints using Node.js & TypeScript, applying modular patterns for maintainability.",
           "Implemented secure JWT authentication via HttpOnly cookies, RBAC, and refresh token flows.",
           "Utilized Docker Compose to establish a consistent local development and testing environment."
         ],

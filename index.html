@@ -34,7 +34,8 @@
             <span id="mobileCurrentVersionText">📦 Chọn bản CV</span> ▾
         </button>
         <div class="mobile-top-right">
-            <button type="button" class="mobile-reader-toggle" id="mobileReaderModeBtn" title="Bật/Tắt chế độ đọc 1 cột dễ nhìn trên điện thoại">📖 Đọc</button>
+            <button type="button" class="mobile-reader-toggle" id="mobileReaderModeBtn"
+                title="Bật/Tắt chế độ đọc 1 cột dễ nhìn trên điện thoại">📖 Đọc</button>
             <div class="mobile-lang-switch">
                 <button type="button" class="mobile-lang-btn active" id="mobileLangVi">VI</button>
                 <button type="button" class="mobile-lang-btn" id="mobileLangEn">EN</button>
@@ -47,10 +48,13 @@
         <div class="version-header-sticky">
             <div class="version-header-top">
                 <div class="version-label">📦 Bản CV (<span id="versionCount">0</span>)</div>
-                <button type="button" class="version-toggle-btn" id="versionToggleBtn" title="Thu gọn danh sách bản CV" aria-label="Thu gọn hoặc mở rộng danh sách">▲</button>
+                <button type="button" class="version-toggle-btn" id="versionToggleBtn" title="Thu gọn danh sách bản CV"
+                    aria-label="Thu gọn hoặc mở rộng danh sách">▲</button>
             </div>
             <div class="version-search-wrap">
-                <input type="text" id="versionSearchInput" class="version-search-input" placeholder="🔍 Tìm công ty, vị trí, tech... [Ctrl+K]" aria-label="Tìm nhanh bản CV" autocomplete="off" />
+                <input type="text" id="versionSearchInput" class="version-search-input"
+                    placeholder="🔍 Tìm công ty, vị trí, tech... [Ctrl+K]" aria-label="Tìm nhanh bản CV"
+                    autocomplete="off" />
             </div>
         </div>
         <div class="version-list" id="versionList">
@@ -67,14 +71,17 @@
                 <button type="button" class="lang-item" id="lang-en" aria-pressed="false">EN</button>
             </div>
             <div class="font-customizer" role="group" aria-label="Tùy chỉnh cỡ chữ">
-                <button id="font-decrease" type="button" title="Giảm font chữ (-)" aria-label="Giảm cỡ chữ CV">A-</button>
+                <button id="font-decrease" type="button" title="Giảm font chữ (-)"
+                    aria-label="Giảm cỡ chữ CV">A-</button>
                 <div class="font-size-display" id="fontSizeDisplay" aria-live="polite">10.5pt</div>
-                <button id="font-increase" type="button" title="Tăng font chữ (+)" aria-label="Tăng cỡ chữ CV">A+</button>
+                <button id="font-increase" type="button" title="Tăng font chữ (+)"
+                    aria-label="Tăng cỡ chữ CV">A+</button>
             </div>
         </div>
 
         <!-- THƯỚC ĐO ĐỘ TRÀN TRANG A4 -->
-        <div class="a4-fit-meter" id="a4FitMeter" title="Thước đo dung lượng trang A4. Bấm để tự động co vừa 1 trang (Magic Fit [M])">
+        <div class="a4-fit-meter" id="a4FitMeter"
+            title="Thước đo dung lượng trang A4. Bấm để tự động co vừa 1 trang (Magic Fit [M])">
             <div class="a4-fit-header">
                 <span class="a4-fit-title">📄 Trang A4</span>
                 <span class="a4-fit-percent" id="a4FitPercent">--%</span>
@@ -97,15 +104,21 @@
                 Magic Fit ✨
             </button>
             <div class="desktop-utility-wrapper">
-                <button class="utility-toggle-btn" id="desktopUtilityBtn" type="button" title="Mở danh sách tiện ích mở rộng"
-                    aria-expanded="false" aria-haspopup="true">⚙️ Tiện ích ▾</button>
+                <button class="utility-toggle-btn" id="desktopUtilityBtn" type="button"
+                    title="Mở danh sách tiện ích mở rộng" aria-expanded="false" aria-haspopup="true">⚙️ Tiện ích
+                    ▾</button>
                 <div class="utility-dropdown-menu" id="desktopUtilityDropdown" role="menu">
-                    <button class="utility-menu-item" id="a4PreviewBtn" type="button" role="menuitem">📄 A4 Preview</button>
-                    <button class="utility-menu-item" id="layoutSwitcherBtn" type="button" role="menuitem">📑 Bố cục 2 cột</button>
-                    <button class="utility-menu-item" id="resetBtn" type="button" role="menuitem">🔄 Reset Layout</button>
-                    <button class="export-cv-btn utility-menu-item" id="exportCvBtn" type="button" role="menuitem" style="display: none;">💾 Xuất file JS</button>
+                    <button class="utility-menu-item" id="a4PreviewBtn" type="button" role="menuitem">📄 A4
+                        Preview</button>
+                    <button class="utility-menu-item" id="layoutSwitcherBtn" type="button" role="menuitem">📑 Bố cục 2
+                        cột</button>
+                    <button class="utility-menu-item" id="resetBtn" type="button" role="menuitem">🔄 Reset
+                        Layout</button>
+                    <button class="export-cv-btn utility-menu-item" id="exportCvBtn" type="button" role="menuitem"
+                        style="display: none;">💾 Xuất file JS</button>
                     <div class="utility-divider"></div>
-                    <button class="utility-menu-item item-danger" id="resetDataBtn" type="button" role="menuitem">🧹 Khôi phục bản gốc</button>
+                    <button class="utility-menu-item item-danger" id="resetDataBtn" type="button" role="menuitem">🧹
+                        Khôi phục bản gốc</button>
                 </div>
             </div>
         </div>
@@ -140,7 +153,8 @@
             📋 Tiến độ ứng tuyển <span class="tracker-badge" id="trackerBadge" style="display: none;">0</span>
         </button>
         <button class="cover-letter-btn email-cover-btn" id="coverLetterBtn" type="button"
-            title="Soạn Email Ứng Tuyển 1-Click & Thư giới thiệu [E]" aria-label="Soạn thư & Email ứng tuyển">✉️ Thư & Email ứng tuyển</button>
+            title="Soạn Email Ứng Tuyển 1-Click & Thư giới thiệu [E]" aria-label="Soạn thư & Email ứng tuyển">✉️ Thư &
+            Email ứng tuyển</button>
         <button class="interview-prep-btn" id="interviewPrepBtn" type="button"
             title="Cẩm nang Phỏng vấn 1-Click: STAR Q&A [I]" aria-label="Cẩm nang Phỏng vấn">🎙️ Ôn phỏng vấn</button>
 
@@ -151,14 +165,22 @@
                 ✨ Công cụ mở rộng ▾
             </button>
             <div class="left-tools-dropdown" id="leftToolsDropdown" role="menu">
-                <button class="tool-dropdown-item cv-health-btn" id="cvHealthBtn" type="button" role="menuitem">📊 Điểm CV ATS</button>
-                <button class="tool-dropdown-item ats-match-btn" id="atsMatchBtn" type="button" role="menuitem">🎯 So khớp JD</button>
-                <button class="tool-dropdown-item export-center-btn" id="exportCenterBtn" type="button" role="menuitem">💾 Xuất CV</button>
-                <button class="tool-dropdown-item hr-view-btn" id="hrViewBtn" type="button" role="menuitem">👁️ HR View</button>
-                <button class="tool-dropdown-item live-edit-btn" id="liveEditBtn" type="button" role="menuitem">✏️ Sửa nhanh [L]</button>
-                <button class="tool-dropdown-item diff-btn" id="diffBtn" type="button" role="menuitem">⚖️ So sánh bản</button>
-                <button class="tool-dropdown-item settings-btn" id="settingsBtn" type="button" role="menuitem">⚙️ Cấu hình [S]</button>
-                <button class="tool-dropdown-item hotkeys-btn" id="hotkeysBtn" type="button" role="menuitem">⌨️ Phím tắt [?]</button>
+                <button class="tool-dropdown-item cv-health-btn" id="cvHealthBtn" type="button" role="menuitem">📊 Điểm
+                    CV ATS</button>
+                <button class="tool-dropdown-item ats-match-btn" id="atsMatchBtn" type="button" role="menuitem">🎯 So
+                    khớp JD</button>
+                <button class="tool-dropdown-item export-center-btn" id="exportCenterBtn" type="button"
+                    role="menuitem">💾 Xuất CV</button>
+                <button class="tool-dropdown-item hr-view-btn" id="hrViewBtn" type="button" role="menuitem">👁️ HR
+                    View</button>
+                <button class="tool-dropdown-item live-edit-btn" id="liveEditBtn" type="button" role="menuitem">✏️ Sửa
+                    nhanh [L]</button>
+                <button class="tool-dropdown-item diff-btn" id="diffBtn" type="button" role="menuitem">⚖️ So sánh
+                    bản</button>
+                <button class="tool-dropdown-item settings-btn" id="settingsBtn" type="button" role="menuitem">⚙️ Cấu
+                    hình [S]</button>
+                <button class="tool-dropdown-item hotkeys-btn" id="hotkeysBtn" type="button" role="menuitem">⌨️ Phím tắt
+                    [?]</button>
             </div>
         </div>
     </div>
@@ -173,13 +195,16 @@
 
     <!-- Recruiter View Floating Action Bar (Chỉ hiển thị ở chế độ ?view=hr) -->
     <div class="hr-action-container" id="hrActionContainer" style="display: none;">
-        <button type="button" class="hr-toggle-btn" id="hrToggleBtn" title="Menu tiện ích" aria-label="Mở tiện ích CV" aria-expanded="false">
-            <svg class="hr-icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <button type="button" class="hr-toggle-btn" id="hrToggleBtn" title="Menu tiện ích" aria-label="Mở tiện ích CV"
+            aria-expanded="false">
+            <svg class="hr-icon-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
-            <svg class="hr-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <svg class="hr-icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
                 <line x1="18" y1="6" x2="6" y2="18"></line>
                 <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
@@ -192,8 +217,10 @@
                     <button type="button" class="hr-btn hr-lang-btn" id="hrLangEnBtn">EN</button>
                 </div>
                 <div class="hr-divider"></div>
-                <button type="button" class="hr-btn hr-download-btn" id="hrDownloadPdfBtn" title="Tải file PDF của bản CV này">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <button type="button" class="hr-btn hr-download-btn" id="hrDownloadPdfBtn"
+                    title="Tải file PDF của bản CV này">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                         <polyline points="7 10 12 15 17 10"></polyline>
                         <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -202,13 +229,17 @@
                 </button>
                 <div class="hr-divider"></div>
                 <a href="tel:0923202861" class="hr-btn hr-contact-btn" title="Gọi điện thoại trực tiếp">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z">
+                        </path>
                     </svg>
                     <span>Gọi điện</span>
                 </a>
                 <a href="mailto:tdinhanh.it@gmail.com" class="hr-btn hr-contact-btn" title="Gửi email cho ứng viên">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <rect width="20" height="16" x="2" y="4" rx="2"></rect>
                         <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
                     </svg>
@@ -216,7 +247,8 @@
                 </a>
                 <div class="hr-divider"></div>
                 <button type="button" class="hr-btn hr-share-btn" id="hrCopyLinkBtn" title="Sao chép liên kết CV này">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
                         <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
                         <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
                     </svg>
@@ -234,10 +266,12 @@
                     <h2 id="clModalTitle">✉️ Thư & Email Ứng Tuyển</h2>
                     <!-- Segmented Tabs Switcher -->
                     <div class="cl-nav-tabs" role="tablist">
-                        <button type="button" class="cl-nav-tab active" id="clTabEmailBtn" data-tab="email" role="tab" aria-selected="true">
+                        <button type="button" class="cl-nav-tab active" id="clTabEmailBtn" data-tab="email" role="tab"
+                            aria-selected="true">
                             ⚡ Email gửi nhanh (1-Click)
                         </button>
-                        <button type="button" class="cl-nav-tab" id="clTabCoverBtn" data-tab="cover" role="tab" aria-selected="false">
+                        <button type="button" class="cl-nav-tab" id="clTabCoverBtn" data-tab="cover" role="tab"
+                            aria-selected="false">
                             📄 Thư giới thiệu (Cover Letter)
                         </button>
                     </div>
@@ -262,40 +296,50 @@
                     <!-- Cột trái: Tùy biến thông tin -->
                     <div class="eg-col-config">
                         <div class="eg-section-title">⚙️ Thông tin ứng tuyển</div>
-                        
+
                         <div class="eg-field-group">
                             <label class="eg-label" for="egInputCompany">Tên Công Ty / Doanh Nghiệp:</label>
-                            <input type="text" id="egInputCompany" class="eg-input" placeholder="Ví dụ: CÔNG TY TNHH CG ECOM">
+                            <input type="text" id="egInputCompany" class="eg-input"
+                                placeholder="Ví dụ: CÔNG TY TNHH CG ECOM">
                         </div>
 
                         <div class="eg-field-row">
                             <div class="eg-field-group">
                                 <label class="eg-label" for="egInputPosition">Vị Trí Ứng Tuyển:</label>
-                                <input type="text" id="egInputPosition" class="eg-input" placeholder="Full Stack Developer">
+                                <input type="text" id="egInputPosition" class="eg-input"
+                                    placeholder="Full Stack Developer">
                             </div>
                             <div class="eg-field-group">
                                 <label class="eg-label" for="egInputRecipient">Kính Gửi (Người nhận):</label>
-                                <input type="text" id="egInputRecipient" class="eg-input" placeholder="Anh/Chị phụ trách tuyển dụng">
+                                <input type="text" id="egInputRecipient" class="eg-input"
+                                    placeholder="Anh/Chị phụ trách tuyển dụng">
                             </div>
                         </div>
 
                         <div class="eg-field-group">
-                            <label class="eg-label" for="egInputEmail">Email Nhà Tuyển Dụng (Để mở Gmail gửi luôn):</label>
-                            <input type="email" id="egInputEmail" class="eg-input" placeholder="hr@company.com hoặc tuyendung@...">
+                            <label class="eg-label" for="egInputEmail">Email Nhà Tuyển Dụng (Để mở Gmail gửi
+                                luôn):</label>
+                            <input type="email" id="egInputEmail" class="eg-input"
+                                placeholder="hr@company.com hoặc tuyendung@...">
                         </div>
 
                         <div class="eg-field-group">
                             <label class="eg-label">Phong Cách Văn Phong (Tone):</label>
                             <div class="eg-tone-selector">
-                                <button type="button" class="eg-tone-btn active" data-tone="tech" title="Nêu bật số liệu, stack công nghệ & dự án thực tế">💻 Kỹ Thuật & Số Liệu</button>
-                                <button type="button" class="eg-tone-btn" data-tone="short" title="Đi thẳng vào điểm cốt lõi, siêu ngắn gọn">⚡ Ngắn Gọn & Súc Tích</button>
-                                <button type="button" class="eg-tone-btn" data-tone="warm" title="Ấn tượng văn hóa, nhiệt huyết & cầu tiến">😊 Nhiệt Huyết & Cầu Tiến</button>
+                                <button type="button" class="eg-tone-btn active" data-tone="tech"
+                                    title="Nêu bật số liệu, stack công nghệ & dự án thực tế">💻 Kỹ Thuật & Số
+                                    Liệu</button>
+                                <button type="button" class="eg-tone-btn" data-tone="short"
+                                    title="Đi thẳng vào điểm cốt lõi, siêu ngắn gọn">⚡ Ngắn Gọn & Súc Tích</button>
+                                <button type="button" class="eg-tone-btn" data-tone="warm"
+                                    title="Ấn tượng văn hóa, nhiệt huyết & cầu tiến">😊 Nhiệt Huyết & Cầu Tiến</button>
                             </div>
                         </div>
 
                         <div class="eg-field-group">
                             <label class="eg-label" for="egInputJd">Bản mô tả công việc (JD) tùy chọn:</label>
-                            <textarea id="egInputJd" class="eg-textarea" rows="3" placeholder="Dán yêu cầu tuyển dụng vào đây để hệ thống tự tối ưu từ khóa phù hợp..."></textarea>
+                            <textarea id="egInputJd" class="eg-textarea" rows="3"
+                                placeholder="Dán yêu cầu tuyển dụng vào đây để hệ thống tự tối ưu từ khóa phù hợp..."></textarea>
                         </div>
                     </div>
 
@@ -304,8 +348,10 @@
                         <div class="eg-section-title eg-preview-title">
                             <span>✉️ Email Hoàn Chỉnh (Đã may đo)</span>
                             <div class="eg-preview-quick-actions">
-                                <button type="button" class="eg-btn-text" id="egCopySubjectBtn" title="Sao chép tiêu đề">📋 Chép Tiêu Đề</button>
-                                <button type="button" class="eg-btn-text" id="egCopyBodyBtn" title="Sao chép nội dung">📋 Chép Nội Dung</button>
+                                <button type="button" class="eg-btn-text" id="egCopySubjectBtn"
+                                    title="Sao chép tiêu đề">📋 Chép Tiêu Đề</button>
+                                <button type="button" class="eg-btn-text" id="egCopyBodyBtn"
+                                    title="Sao chép nội dung">📋 Chép Nội Dung</button>
                             </div>
                         </div>
 
@@ -320,13 +366,16 @@
 
                         <!-- Thanh nút hành động 1-Click -->
                         <div class="eg-actions-bar">
-                            <button type="button" class="eg-action-btn eg-btn-copy" id="egCopyAllBtn" title="Sao chép cả tiêu đề và nội dung">
+                            <button type="button" class="eg-action-btn eg-btn-copy" id="egCopyAllBtn"
+                                title="Sao chép cả tiêu đề và nội dung">
                                 📋 Sao Chép Toàn Bộ
                             </button>
-                            <button type="button" class="eg-action-btn eg-btn-gmail" id="egGmailBtn" title="Mở thẳng cửa sổ soạn thư Gmail mới">
+                            <button type="button" class="eg-action-btn eg-btn-gmail" id="egGmailBtn"
+                                title="Mở thẳng cửa sổ soạn thư Gmail mới">
                                 🚀 Mở Gmail Soạn Luôn
                             </button>
-                            <button type="button" class="eg-action-btn eg-btn-mailto" id="egMailtoBtn" title="Mở ứng dụng Email mặc định (Outlook/Mail)">
+                            <button type="button" class="eg-action-btn eg-btn-mailto" id="egMailtoBtn"
+                                title="Mở ứng dụng Email mặc định (Outlook/Mail)">
                                 ✉️ Mở Mail Client
                             </button>
                         </div>
@@ -338,7 +387,9 @@
             <div class="cl-tab-pane" id="clPaneCover" style="display: none;">
                 <div class="cl-cover-topbar">
                     <div class="cl-select-wrapper">
-                        <label for="clTemplateSelect" style="font-size: 11.5px; font-weight: 700; color: #1b4332; margin-right: 6px;">Mẫu thư:</label>
+                        <label for="clTemplateSelect"
+                            style="font-size: 11.5px; font-weight: 700; color: #1b4332; margin-right: 6px;">Mẫu
+                            thư:</label>
                         <select id="clTemplateSelect" class="cl-template-select" aria-label="Chọn mẫu thư">
                             <!-- Sẽ được đổ tùy chọn theo ngôn ngữ hiện tại bằng JavaScript -->
                         </select>
@@ -363,8 +414,11 @@
             </div>
 
             <div class="cl-modal-footer">
-                <div class="eg-footer-hint" id="clFooterHint">💡 <b>Mẹo:</b> Chọn tab <b>"Email gửi nhanh"</b> để lấy 3 gạch đầu dòng gửi Gmail, hoặc tab <b>"Thư giới thiệu"</b> để lấy bản thư dài trang trọng.</div>
-                <button type="button" class="cl-btn-primary" onclick="window.cvEmailGen ? window.cvEmailGen.closeModal() : document.getElementById('clModalOverlay').style.display='none'">Đóng ✓</button>
+                <div class="eg-footer-hint" id="clFooterHint">💡 <b>Mẹo:</b> Chọn tab <b>"Email gửi nhanh"</b> để lấy 3
+                    gạch đầu dòng gửi Gmail, hoặc tab <b>"Thư giới thiệu"</b> để lấy bản thư dài trang trọng.</div>
+                <button type="button" class="cl-btn-primary"
+                    onclick="window.cvEmailGen ? window.cvEmailGen.closeModal() : document.getElementById('clModalOverlay').style.display='none'">Đóng
+                    ✓</button>
             </div>
         </div>
     </div>
@@ -404,7 +458,8 @@
                 <div class="cl-header-left">
                     <h2 id="settingsDrawerTitle">⚙️ Cấu hình CV</h2>
                 </div>
-                <button type="button" class="cl-modal-close" id="settingsDrawerCloseBtn" aria-label="Đóng">&times;</button>
+                <button type="button" class="cl-modal-close" id="settingsDrawerCloseBtn"
+                    aria-label="Đóng">&times;</button>
             </div>
             <div class="cl-modal-subtitle" id="settingsDrawerSubtitle">
                 Tùy chỉnh màu sắc chủ đạo, font chữ và sắp xếp thứ tự hiển thị các phần (sections) trên CV.
@@ -415,7 +470,8 @@
                     <h3>🎨 Giao diện & Typography</h3>
                     <div class="setting-item">
                         <label for="primaryColorPicker">Màu sắc chủ đạo:</label>
-                        <input type="color" id="primaryColorPicker" value="#1e3a8a" style="width: 50px; height: 30px; border: 1px solid #ddd; border-radius: 4px; padding: 0; cursor: pointer;">
+                        <input type="color" id="primaryColorPicker" value="#1e3a8a"
+                            style="width: 50px; height: 30px; border: 1px solid #ddd; border-radius: 4px; padding: 0; cursor: pointer;">
                     </div>
                     <div class="setting-item">
                         <label for="fontFamilySelect">Font chữ:</label>
@@ -437,14 +493,16 @@
                             <span>Phần (Sections):</span>
                             <span id="drawerSectionMarginVal">10px</span>
                         </div>
-                        <input type="range" id="drawerSectionMarginSlider" min="4" max="35" value="10" class="settings-slider">
+                        <input type="range" id="drawerSectionMarginSlider" min="4" max="35" value="10"
+                            class="settings-slider">
                     </div>
                     <div class="setting-item-range">
                         <div class="range-header">
                             <span>Mục (Items):</span>
                             <span id="drawerItemMarginVal">8px</span>
                         </div>
-                        <input type="range" id="drawerItemMarginSlider" min="2" max="25" value="8" class="settings-slider">
+                        <input type="range" id="drawerItemMarginSlider" min="2" max="25" value="8"
+                            class="settings-slider">
                     </div>
                 </div>
 
@@ -474,14 +532,16 @@
                             <label for="diffSelectA" class="diff-select-label">Bản A:</label>
                             <select id="diffSelectA" class="diff-select" aria-label="Chọn phiên bản A"></select>
                         </div>
-                        <button type="button" id="diffSwapBtn" class="diff-swap-btn" title="Hoán đổi Bản A và B" aria-label="Hoán đổi phiên bản">⇄</button>
+                        <button type="button" id="diffSwapBtn" class="diff-swap-btn" title="Hoán đổi Bản A và B"
+                            aria-label="Hoán đổi phiên bản">⇄</button>
                         <div class="diff-select-group">
                             <label for="diffSelectB" class="diff-select-label">Bản B:</label>
                             <select id="diffSelectB" class="diff-select" aria-label="Chọn phiên bản B"></select>
                         </div>
                     </div>
                     <div class="diff-header-tools">
-                        <button type="button" id="diffFilterDiffsBtn" class="diff-filter-btn" title="Chỉ hiển thị các mục khác nhau giữa 2 bản">⚡ Chỉ khác biệt</button>
+                        <button type="button" id="diffFilterDiffsBtn" class="diff-filter-btn"
+                            title="Chỉ hiển thị các mục khác nhau giữa 2 bản">⚡ Chỉ khác biệt</button>
                         <div class="cl-lang-switch diff-lang-switch">
                             <button type="button" id="diffLangViBtn" class="cl-lang-btn active">VI</button>
                             <button type="button" id="diffLangEnBtn" class="cl-lang-btn">EN</button>
@@ -525,12 +585,15 @@
                     <span class="cl-modal-icon">🎯</span>
                     <div>
                         <h2 class="cl-modal-title" id="atsModalTitle">ATS &amp; JD Matcher</h2>
-                        <div class="ats-modal-subtitle" id="atsModalSubtitle">Phân tích mức độ phù hợp và chấm điểm từ khóa CV với JD</div>
+                        <div class="ats-modal-subtitle" id="atsModalSubtitle">Phân tích mức độ phù hợp và chấm điểm từ
+                            khóa CV với JD</div>
                     </div>
                 </div>
                 <div class="ats-header-actions">
-                    <button type="button" class="ats-sample-btn" id="atsSampleBtn" title="Dán nhanh văn bản JD mẫu">📋 Dán JD mẫu</button>
-                    <button type="button" class="cl-modal-close" id="atsModalCloseBtn" aria-label="Đóng">&times;</button>
+                    <button type="button" class="ats-sample-btn" id="atsSampleBtn" title="Dán nhanh văn bản JD mẫu">📋
+                        Dán JD mẫu</button>
+                    <button type="button" class="cl-modal-close" id="atsModalCloseBtn"
+                        aria-label="Đóng">&times;</button>
                 </div>
             </div>
 
@@ -541,10 +604,12 @@
                         <label for="atsJdInput" class="ats-label">📄 Bản mô tả công việc (Job Description):</label>
                         <button type="button" class="ats-clear-btn" id="atsClearBtn" title="Xóa trắng JD">Xóa</button>
                     </div>
-                    <textarea id="atsJdInput" class="ats-textarea" placeholder="Dán nội dung tin tuyển dụng / JD vào đây (Tech stack, Yêu cầu công việc, Trách nhiệm...)..."></textarea>
+                    <textarea id="atsJdInput" class="ats-textarea"
+                        placeholder="Dán nội dung tin tuyển dụng / JD vào đây (Tech stack, Yêu cầu công việc, Trách nhiệm...)..."></textarea>
                     <div class="ats-input-footer">
                         <span class="ats-char-count" id="atsCharCount">0 ký tự</span>
-                        <button type="button" class="ats-analyze-btn" id="atsAnalyzeBtn">⚡ Phân tích &amp; Chấm điểm</button>
+                        <button type="button" class="ats-analyze-btn" id="atsAnalyzeBtn">⚡ Phân tích &amp; Chấm
+                            điểm</button>
                     </div>
                 </div>
 
@@ -553,7 +618,8 @@
                     <div class="ats-empty-state" id="atsEmptyState">
                         <div class="ats-empty-icon">🎯</div>
                         <div class="ats-empty-title">Chưa có kết quả phân tích</div>
-                        <div class="ats-empty-desc">Dán bản mô tả công việc (JD) ở cột bên trái và bấm <b>"Phân tích &amp; Chấm điểm"</b> để xem mức độ tương thích ATS.</div>
+                        <div class="ats-empty-desc">Dán bản mô tả công việc (JD) ở cột bên trái và bấm <b>"Phân tích
+                                &amp; Chấm điểm"</b> để xem mức độ tương thích ATS.</div>
                     </div>
 
                     <div class="ats-analysis-results" id="atsAnalysisResults" style="display: none;">
@@ -587,7 +653,8 @@
                         <!-- Missing keywords -->
                         <div class="ats-keywords-section">
                             <div class="ats-section-heading">
-                                <span class="heading-badge missing-badge">⚠️ Từ khóa còn thiếu (JD cần nhưng CV chưa có):</span>
+                                <span class="heading-badge missing-badge">⚠️ Từ khóa còn thiếu (JD cần nhưng CV chưa
+                                    có):</span>
                             </div>
                             <div class="ats-keywords-container" id="atsMissingKeywordsContainer">
                                 <!-- render by JS -->
@@ -609,7 +676,8 @@
 
             <div class="cl-modal-footer ats-modal-footer">
                 <div class="ats-footer-info" id="atsFooterInfo">
-                    💡 Mẹo: Nhớ lưu hoặc cập nhật từ khóa còn thiếu vào phần Kỹ năng &amp; Dự án để tăng tỷ lệ qua vòng lọc CV.
+                    💡 Mẹo: Nhớ lưu hoặc cập nhật từ khóa còn thiếu vào phần Kỹ năng &amp; Dự án để tăng tỷ lệ qua vòng
+                    lọc CV.
                 </div>
                 <button type="button" class="cl-btn-primary" id="atsCloseBtn">Đóng ✓</button>
             </div>
@@ -617,22 +685,28 @@
     </div>
 
     <!-- Job Application Tracker Modal -->
-    <div class="cl-modal-overlay jt-modal-overlay" id="jobTrackerModalOverlay" aria-hidden="true" style="display: none;">
+    <div class="cl-modal-overlay jt-modal-overlay" id="jobTrackerModalOverlay" aria-hidden="true"
+        style="display: none;">
         <div class="cl-modal jt-modal" role="dialog" aria-labelledby="jtModalTitle">
             <div class="cl-modal-header jt-modal-header">
                 <div class="jt-header-left">
                     <span class="cl-modal-icon">📋</span>
                     <div>
                         <h2 class="cl-modal-title" id="jtModalTitle">Tiến Độ Ứng Tuyển (Job Tracker)</h2>
-                        <div class="jt-modal-subtitle">Theo dõi danh sách công ty đã nộp CV, trạng thái phản hồi &amp; phỏng vấn</div>
+                        <div class="jt-modal-subtitle">Theo dõi danh sách công ty đã nộp CV, trạng thái phản hồi &amp;
+                            phỏng vấn</div>
                     </div>
                 </div>
                 <div class="jt-header-actions">
                     <button type="button" class="jt-top-btn jt-add-btn" id="jtAddBtn">➕ Thêm ứng tuyển</button>
-                    <button type="button" class="jt-top-btn jt-sync-btn" id="jtSyncBtn" title="Đồng bộ danh sách ứng tuyển lên Cloudflare KV">☁️ Sync Cloud</button>
-                    <button type="button" class="jt-top-btn jt-backup-btn" id="jtExportBtn" title="Sao lưu toàn bộ danh sách ra file JSON">📥 Backup</button>
-                    <button type="button" class="jt-top-btn jt-restore-btn" id="jtImportBtn" title="Nhập danh sách từ file JSON">📤 Restore</button>
-                    <button type="button" class="cl-modal-close" id="jobTrackerCloseBtn" aria-label="Đóng">&times;</button>
+                    <button type="button" class="jt-top-btn jt-sync-btn" id="jtSyncBtn"
+                        title="Đồng bộ danh sách ứng tuyển lên Cloudflare KV">☁️ Sync Cloud</button>
+                    <button type="button" class="jt-top-btn jt-backup-btn" id="jtExportBtn"
+                        title="Sao lưu toàn bộ danh sách ra file JSON">📥 Backup</button>
+                    <button type="button" class="jt-top-btn jt-restore-btn" id="jtImportBtn"
+                        title="Nhập danh sách từ file JSON">📤 Restore</button>
+                    <button type="button" class="cl-modal-close" id="jobTrackerCloseBtn"
+                        aria-label="Đóng">&times;</button>
                 </div>
             </div>
 
@@ -650,11 +724,13 @@
                     <div class="jt-form-grid">
                         <div class="jt-form-group">
                             <label for="jtInputCompany">🏢 Tên Công ty <span class="jt-required">*</span></label>
-                            <input type="text" id="jtInputCompany" class="jt-input" placeholder="Ví dụ: CÔNG TY TNHH CG ECOM">
+                            <input type="text" id="jtInputCompany" class="jt-input"
+                                placeholder="Ví dụ: CÔNG TY TNHH CG ECOM">
                         </div>
                         <div class="jt-form-group">
                             <label for="jtInputPosition">💼 Vị trí ứng tuyển</label>
-                            <input type="text" id="jtInputPosition" class="jt-input" placeholder="Ví dụ: Full Stack Developer">
+                            <input type="text" id="jtInputPosition" class="jt-input"
+                                placeholder="Ví dụ: Full Stack Developer">
                         </div>
                         <div class="jt-form-group">
                             <label for="jtInputCvType">📄 Bản CV đã nộp</label>
@@ -678,15 +754,18 @@
                         </div>
                         <div class="jt-form-group">
                             <label for="jtInputContact">📞 Người liên hệ / Email / Zalo</label>
-                            <input type="text" id="jtInputContact" class="jt-input" placeholder="Ví dụ: giang.ha@favolist5.com / Zalo: 0973820220">
+                            <input type="text" id="jtInputContact" class="jt-input"
+                                placeholder="Ví dụ: giang.ha@favolist5.com / Zalo: 0973820220">
                         </div>
                         <div class="jt-form-group jt-full-width">
                             <label for="jtInputNotes">💡 Ghi chú tóm tắt (Địa chỉ, Lương, Liên hệ nhanh...)</label>
-                            <input type="text" id="jtInputNotes" class="jt-input" placeholder="Ví dụ: Gò Vấp, yêu cầu React/Node, IT Support nội bộ...">
+                            <input type="text" id="jtInputNotes" class="jt-input"
+                                placeholder="Ví dụ: Gò Vấp, yêu cầu React/Node, IT Support nội bộ...">
                         </div>
                         <div class="jt-form-group jt-full-width">
                             <label for="jtInputJd">📄 Bản mô tả công việc (JD chi tiết để xem lại khi phỏng vấn)</label>
-                            <textarea id="jtInputJd" class="jt-textarea" rows="4" placeholder="Dán nội dung tin tuyển dụng / JD chi tiết vào đây..."></textarea>
+                            <textarea id="jtInputJd" class="jt-textarea" rows="4"
+                                placeholder="Dán nội dung tin tuyển dụng / JD chi tiết vào đây..."></textarea>
                         </div>
                     </div>
                     <div class="jt-form-actions">
@@ -699,7 +778,8 @@
                 <div class="jt-toolbar">
                     <div class="jt-search-box">
                         <span class="jt-search-icon">🔍</span>
-                        <input type="text" id="jtSearchInput" class="jt-search-input" placeholder="Tìm kiếm theo công ty, vị trí, ghi chú, bản CV...">
+                        <input type="text" id="jtSearchInput" class="jt-search-input"
+                            placeholder="Tìm kiếm theo công ty, vị trí, ghi chú, bản CV...">
                     </div>
                 </div>
 
@@ -711,7 +791,8 @@
 
             <div class="cl-modal-footer jt-modal-footer">
                 <div class="jt-footer-hint">
-                    💡 Dữ liệu lưu bền vững trong trình duyệt. Nhấn <b>Backup</b> để tải file sao lưu JSON an toàn phòng khi dọn cache.
+                    💡 Dữ liệu lưu bền vững trong trình duyệt. Nhấn <b>Backup</b> để tải file sao lưu JSON an toàn phòng
+                    khi dọn cache.
                 </div>
                 <button type="button" class="cl-btn-primary" onclick="window.cvTracker.closeModal()">Đóng ✓</button>
             </div>
@@ -719,7 +800,8 @@
     </div>
 
     <!-- JD Detail Viewer Modal -->
-    <div class="cl-modal-overlay jt-jd-modal-overlay" id="jtJdModalOverlay" aria-hidden="true" style="display: none; z-index: 3000; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);">
+    <div class="cl-modal-overlay jt-jd-modal-overlay" id="jtJdModalOverlay" aria-hidden="true"
+        style="display: none; z-index: 3000; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);">
         <div class="cl-modal jt-jd-modal" role="dialog" aria-labelledby="jtJdModalTitle">
             <div class="cl-modal-header jt-jd-modal-header">
                 <div class="jt-header-left">
@@ -730,11 +812,16 @@
                     </div>
                 </div>
                 <div class="jt-header-actions">
-                    <button type="button" class="jt-top-btn jt-copy-jd-btn" id="jtCopyJdBtn" title="Sao chép toàn bộ nội dung JD">📋 Sao chép JD</button>
-                    <button type="button" class="jt-top-btn jt-edit-jd-btn" id="jtEditJdBtn" title="Chỉnh sửa nội dung tin tuyển dụng">✏️ Sửa JD</button>
-                    <button type="button" class="jt-top-btn jt-email-jd-btn" id="jtEmailJdBtn" title="Tạo Email ứng tuyển may đo theo JD này">📧 Soạn Email</button>
-                    <button type="button" class="jt-top-btn jt-ats-jd-btn" id="jtAtsJdBtn" title="Chuyển sang công cụ Chấm điểm ATS với JD này">🎯 So khớp ATS</button>
-                    <button type="button" class="cl-modal-close" id="jtJdModalCloseBtn" aria-label="Đóng">&times;</button>
+                    <button type="button" class="jt-top-btn jt-copy-jd-btn" id="jtCopyJdBtn"
+                        title="Sao chép toàn bộ nội dung JD">📋 Sao chép JD</button>
+                    <button type="button" class="jt-top-btn jt-edit-jd-btn" id="jtEditJdBtn"
+                        title="Chỉnh sửa nội dung tin tuyển dụng">✏️ Sửa JD</button>
+                    <button type="button" class="jt-top-btn jt-email-jd-btn" id="jtEmailJdBtn"
+                        title="Tạo Email ứng tuyển may đo theo JD này">📧 Soạn Email</button>
+                    <button type="button" class="jt-top-btn jt-ats-jd-btn" id="jtAtsJdBtn"
+                        title="Chuyển sang công cụ Chấm điểm ATS với JD này">🎯 So khớp ATS</button>
+                    <button type="button" class="cl-modal-close" id="jtJdModalCloseBtn"
+                        aria-label="Đóng">&times;</button>
                 </div>
             </div>
 
@@ -743,32 +830,50 @@
             </div>
 
             <div class="cl-modal-footer jt-jd-modal-footer">
-                <div class="jt-footer-hint">💡 Bấm <b>"So khớp ATS"</b> để hệ thống tự động phân tích độ tương thích của CV hiện tại với JD này.</div>
+                <div class="jt-footer-hint">💡 Bấm <b>"So khớp ATS"</b> để hệ thống tự động phân tích độ tương thích của
+                    CV hiện tại với JD này.</div>
                 <button type="button" class="cl-btn-primary" onclick="window.cvTracker.closeJdModal()">Đóng ✓</button>
             </div>
         </div>
     </div>
 
     <!-- Cloud Sync Modal (Đồng bộ đám mây Cloudflare KV) -->
-    <div class="cl-modal-overlay" id="jtSyncModalOverlay" aria-hidden="true" style="display: none; z-index: 3100; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);">
-        <div class="cl-modal" style="max-width: 440px; padding: 22px; background: white; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
+    <div class="cl-modal-overlay" id="jtSyncModalOverlay" aria-hidden="true"
+        style="display: none; z-index: 3100; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(2px);">
+        <div class="cl-modal"
+            style="max-width: 440px; padding: 22px; background: white; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px;">
                 <h3 style="margin: 0; font-size: 16px; font-weight: 800; color: #1e293b;">☁️ Đồng bộ Cloudflare KV</h3>
-                <button type="button" class="cl-modal-close" id="jtSyncCloseTopBtn" style="font-size: 20px; border: none; background: transparent; cursor: pointer; color: #64748b;">&times;</button>
+                <button type="button" class="cl-modal-close" id="jtSyncCloseTopBtn"
+                    style="font-size: 20px; border: none; background: transparent; cursor: pointer; color: #64748b;">&times;</button>
             </div>
             <p style="font-size: 12.5px; color: #64748b; line-height: 1.5; margin-top: 0; margin-bottom: 14px;">
-                Lưu trữ và đồng bộ danh sách đơn ứng tuyển an toàn trên Cloudflare KV. Bạn có thể truy cập hoặc cập nhật danh sách trên mọi thiết bị bằng mã PIN.
+                Lưu trữ và đồng bộ danh sách đơn ứng tuyển an toàn trên Cloudflare KV. Bạn có thể truy cập hoặc cập nhật
+                danh sách trên mọi thiết bị bằng mã PIN.
             </p>
             <div style="margin-bottom: 14px;">
-                <label for="jtSyncPinInput" style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px; color: #334155;">🔑 Mã PIN cá nhân bí mật:</label>
-                <input type="text" id="jtSyncPinInput" style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; font-weight: 600; box-sizing: border-box; outline: none;" placeholder="vd: dinhanh2026">
-                <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Dùng cùng 1 mã PIN trên các thiết bị để chia sẻ chung danh sách ứng tuyển.</div>
+                <label for="jtSyncPinInput"
+                    style="font-size: 12px; font-weight: 700; display: block; margin-bottom: 6px; color: #334155;">🔑 Mã
+                    PIN cá nhân bí mật:</label>
+                <input type="text" id="jtSyncPinInput"
+                    style="width: 100%; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; font-weight: 600; box-sizing: border-box; outline: none;"
+                    placeholder="vd: dinhanh2026">
+                <div style="font-size: 11px; color: #94a3b8; margin-top: 4px;">Dùng cùng 1 mã PIN trên các thiết bị để
+                    chia sẻ chung danh sách ứng tuyển.</div>
             </div>
-            <div id="jtSyncStatusMsg" style="display: none; font-size: 12px; margin-bottom: 14px; padding: 8px 12px; border-radius: 8px; line-height: 1.4;"></div>
+            <div id="jtSyncStatusMsg"
+                style="display: none; font-size: 12px; margin-bottom: 14px; padding: 8px 12px; border-radius: 8px; line-height: 1.4;">
+            </div>
             <div style="display: flex; gap: 8px; justify-content: flex-end;">
-                <button type="button" class="cl-btn-secondary" id="jtSyncCancelBtn" style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #cbd5e1; background: white; cursor: pointer;">Hủy</button>
-                <button type="button" class="cl-btn-secondary" id="jtSyncPullBtn" style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; cursor: pointer;">📥 Tải từ Cloud</button>
-                <button type="button" class="cl-btn-primary" id="jtSyncPushBtn" style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: none; background: #7c3aed; color: white; cursor: pointer;">☁️ Tải lên Cloud</button>
+                <button type="button" class="cl-btn-secondary" id="jtSyncCancelBtn"
+                    style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #cbd5e1; background: white; cursor: pointer;">Hủy</button>
+                <button type="button" class="cl-btn-secondary" id="jtSyncPullBtn"
+                    style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: 1px solid #93c5fd; background: #eff6ff; color: #1d4ed8; cursor: pointer;">📥
+                    Tải từ Cloud</button>
+                <button type="button" class="cl-btn-primary" id="jtSyncPushBtn"
+                    style="padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: 700; border: none; background: #7c3aed; color: white; cursor: pointer;">☁️
+                    Tải lên Cloud</button>
             </div>
         </div>
     </div>
@@ -783,7 +888,8 @@
             <span class="mobile-nav-icon">✉️</span>
             <span>Email</span>
         </button>
-        <button type="button" class="mobile-nav-item mobile-primary-btn" id="mobileNavPrint" title="In hoặc Tải file PDF">
+        <button type="button" class="mobile-nav-item mobile-primary-btn" id="mobileNavPrint"
+            title="In hoặc Tải file PDF">
             <span class="mobile-nav-icon">🖨️</span>
             <span>In PDF</span>
         </button>
@@ -803,7 +909,8 @@
             <div class="mobile-drawer-handle"></div>
             <div class="mobile-drawer-header">
                 <h3 class="mobile-drawer-title">⚙️ Tiện Ích & Bố Cục CV</h3>
-                <button type="button" class="mobile-drawer-close" id="mobileDrawerCloseBtn" aria-label="Đóng">&times;</button>
+                <button type="button" class="mobile-drawer-close" id="mobileDrawerCloseBtn"
+                    aria-label="Đóng">&times;</button>
             </div>
 
             <!-- Bản CV & Chế độ đọc (B5) -->
@@ -825,9 +932,11 @@
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-section-title">Cỡ chữ & Bố cục</div>
                 <div class="mobile-font-box">
-                    <button type="button" class="mobile-font-btn" id="mobileFontDecrease" title="Giảm cỡ chữ">A-</button>
+                    <button type="button" class="mobile-font-btn" id="mobileFontDecrease"
+                        title="Giảm cỡ chữ">A-</button>
                     <div class="mobile-font-display" id="mobileFontDisplay">10.5pt</div>
-                    <button type="button" class="mobile-font-btn" id="mobileFontIncrease" title="Tăng cỡ chữ">A+</button>
+                    <button type="button" class="mobile-font-btn" id="mobileFontIncrease"
+                        title="Tăng cỡ chữ">A+</button>
                 </div>
             </div>
 
@@ -903,10 +1012,13 @@
     <div class="mobile-versions-overlay" id="mobileVersionsOverlay" aria-hidden="true">
         <div class="mobile-versions-modal" id="mobileVersionsModal">
             <div class="mobile-versions-header">
-                <h3 style="margin: 0; font-size: 14px; font-weight: 700; color: #1e293b;">📦 Chọn Bản CV (<span id="mobileVersionCount">0</span>)</h3>
-                <button type="button" class="mobile-drawer-close" id="mobileVersionsCloseBtn" aria-label="Đóng">&times;</button>
+                <h3 style="margin: 0; font-size: 14px; font-weight: 700; color: #1e293b;">📦 Chọn Bản CV (<span
+                        id="mobileVersionCount">0</span>)</h3>
+                <button type="button" class="mobile-drawer-close" id="mobileVersionsCloseBtn"
+                    aria-label="Đóng">&times;</button>
             </div>
-            <input type="text" id="mobileVersionsSearchInput" class="mobile-versions-search" placeholder="🔍 Tìm nhanh công ty hoặc vị trí..." autocomplete="off">
+            <input type="text" id="mobileVersionsSearchInput" class="mobile-versions-search"
+                placeholder="🔍 Tìm nhanh công ty hoặc vị trí..." autocomplete="off">
             <div class="mobile-versions-list" id="mobileVersionsList">
                 <!-- Chèn danh sách phiên bản bằng JavaScript -->
             </div>
