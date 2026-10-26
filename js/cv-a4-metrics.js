@@ -291,10 +291,14 @@
       }
     }
 
+    let lastMetricsWidth = window.innerWidth;
     window.addEventListener("resize", () => {
+      const currentW = window.innerWidth;
+      if (Math.abs(currentW - lastMetricsWidth) < 2) return;
+      lastMetricsWidth = currentW;
       cachedA4TargetPx = 0;
       requestAnimationFrame(updateA4FitMeter);
-    });
+    }, { passive: true });
 
     requestAnimationFrame(updateA4FitMeter);
   }

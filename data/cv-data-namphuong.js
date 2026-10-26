@@ -17,7 +17,7 @@ var cvData = {
         "desc": "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
         "tasks": [
           "Tham gia thiết kế cấu trúc CSDL và triển khai CSDL quan hệ PostgreSQL trên nền tảng Supabase Cloud.",
-          "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất và chuẩn hóa dữ liệu tài chính.",
+          "Xây dựng và tối ưu hệ thống RESTful APIs sử dụng Next.js Route Handlers để truy xuất và chuẩn hóa dữ liệu tài chính.",
           "Tích hợp luồng xác thực Google Authentication thông qua NextAuth và bảo vệ các API routes nhạy cảm.",
           "Kiểm thử chức năng và hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
           "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel, hỗ trợ bảo trì hệ thống."
@@ -57,28 +57,28 @@ var cvData = {
     ],
     "skills": [
       {
-        "cat": "Lập trình & Ngôn ngữ",
-        "items": "OOP, Cấu trúc dữ liệu & Giải thuật, C# (cơ bản), JavaScript/TypeScript, Node.js"
+        "cat": "Backend",
+        "items": "OOP, Cấu trúc dữ liệu & Giải thuật, Node.js, Express.js, TypeScript, RESTful API, MVC Architecture, JWT, RBAC"
       },
       {
-        "cat": "Backend & Kiến trúc",
-        "items": "RESTful API Design, MVC Architecture, ASP.NET Core (tìm hiểu/học tập), Express.js, Next.js (API)"
+        "cat": "Databases",
+        "items": "PostgreSQL, MySQL, MongoDB, Supabase, 3NF, Indexing, Query Optimization"
       },
       {
-        "cat": "Cơ sở dữ liệu",
-        "items": "PostgreSQL, SQL Server, MySQL, Supabase, Chuẩn hóa CSDL, Indexing & Query Optimization"
+        "cat": "Tools & DevOps",
+        "items": "Git, GitHub, Docker, Postman, Swagger, Vercel"
       },
       {
-        "cat": "Bảo mật & Kiểm thử",
-        "items": "JWT Authentication, RBAC (Phân quyền), Middleware, Postman, Swagger/OpenAPI"
+        "cat": "Frontend",
+        "items": "JavaScript (ES6+), React.js, Next.js, Tailwind CSS"
       },
       {
-        "cat": "Công cụ & Quy trình",
-        "items": "Git/GitHub, Docker (cơ bản), Agile/Scrum, Clean Code, Phối hợp BA/FE/Mobile"
+        "cat": "English",
+        "items": "Đọc hiểu tài liệu kỹ thuật, giao tiếp cơ bản"
       }
     ],
     "docTitle": "CV_TruongDinhAnh_Backend_NamPhuong_VI",
-    "coverLetter": "Tiêu đề email: [Ứng tuyển Intern BE – Trương Đình Anh]\n\nKính gửi Ms. Quỳnh cùng Ban Tuyển dụng Nam Phương Technology,\n\nTôi tên là Trương Đình Anh, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Qua thông tin tuyển dụng từ Quý công ty, tôi được biết Nam Phương Technology đang tìm kiếm vị trí Thực tập sinh Backend làm việc full-time tại Văn phòng Tòa nhà Vietnamairlines (108 Hồng Hà, Tân Bình). Nhận thấy yêu cầu công việc rất tương đồng với nền tảng đào tạo và định hướng chuyên môn của bản thân, tôi viết thư này để bày tỏ mong muốn được ứng tuyển và cống hiến cho công ty.\n\nNhững năng lực và phẩm chất tôi sẵn sàng đóng góp cho đội ngũ:\n1. Nền tảng Khoa học Máy tính & Tư duy OOP vững chắc: Tôi nắm chắc kiến thức cốt lõi về Lập trình hướng đối tượng, cấu trúc dữ liệu và giải thuật. Tôi có khả năng phân tích logic nghiệp vụ, tư duy hệ thống mạch lạc và đã chủ động tìm hiểu, thực hành kiến trúc C# / .NET (ASP.NET Core).\n2. Kinh nghiệm thiết kế CSDL & Xây dựng RESTful API: Trong quá trình thực tập tại Công ty TNHH Công nghệ TAMI và các dự án cá nhân (Job Portal, E-Commerce), tôi đã trực tiếp thiết kế CSDL quan hệ (PostgreSQL, MySQL), xây dựng hơn 30 RESTful API endpoints, tích hợp xác thực JWT và kiểm thử kỹ lưỡng bằng Postman.\n3. Tinh thần trách nhiệm & Sẵn sàng học hỏi: Tôi có khả năng làm việc nhóm, dễ dàng phối hợp cùng BA, UI/UX Designer, Frontend và Mobile Developer để hiện thực hóa tính năng dự án. Tôi luôn chủ động tiếp thu hướng dẫn từ các Mentor và sẵn sàng nỗ lực hết mình để hướng tới mục tiêu trở thành nhân viên chính thức tại Nam Phương Technology.\n\nTôi có thể đáp ứng lịch làm việc Full-time từ thứ 2 đến thứ 6 và sẵn sàng nhận việc ngay khi có kết quả. Tôi xin gửi kèm CV chi tiết và rất hy vọng có cơ hội được tham gia buổi phỏng vấn trực tiếp cùng Ms. Quỳnh và các anh chị phụ trách kỹ thuật.\n\nXin chân thành cảm ơn Ms. Quỳnh và Quý công ty đã dành thời gian xem xét hồ sơ!\n\nTrân trọng,\nTrương Đình Anh\nSố điện thoại: 0923202861\nEmail: tdinhanh.it@gmail.com"
+    "coverLetter": "Tiêu đề email: [Ứng tuyển Intern BE – Trương Đình Anh]\n\nKính gửi Ms. Quỳnh cùng Ban Tuyển dụng Nam Phương Technology,\n\nTôi tên là Trương Đình Anh, tốt nghiệp chuyên ngành Khoa học Máy tính tại Trường Đại học Mở TP.HCM. Qua thông tin tuyển dụng từ Quý công ty, tôi được biết Nam Phương Technology đang tìm kiếm vị trí Thực tập sinh Backend làm việc full-time tại Văn phòng Tòa nhà Vietnamairlines (108 Hồng Hà, Tân Bình). Nhận thấy yêu cầu công việc rất tương đồng với nền tảng đào tạo và định hướng chuyên môn của bản thân, tôi viết thư này để bày tỏ mong muốn được ứng tuyển và cống hiến cho công ty.\n\nNhững năng lực và phẩm chất tôi sẵn sàng đóng góp cho đội ngũ:\n1. Nền tảng Khoa học Máy tính & Tư duy OOP vững chắc: Tôi nắm chắc kiến thức cốt lõi về Lập trình hướng đối tượng, cấu trúc dữ liệu và giải thuật. Tôi có khả năng phân tích logic nghiệp vụ, tư duy hệ thống mạch lạc và đang chủ động tìm hiểu, thực hành kiến trúc C# / .NET (ASP.NET Core).\n2. Kinh nghiệm thiết kế CSDL & Xây dựng RESTful API: Trong quá trình thực tập tại Công ty TNHH Công nghệ TAMI và các dự án cá nhân (Job Portal, E-Commerce), tôi đã trực tiếp thiết kế CSDL quan hệ (PostgreSQL, MySQL), xây dựng hệ thống RESTful APIs chuẩn mực, tích hợp xác thực JWT và kiểm thử kỹ lưỡng bằng Postman.\n3. Tinh thần trách nhiệm & Sẵn sàng học hỏi: Tôi có khả năng làm việc nhóm, dễ dàng phối hợp cùng BA, UI/UX Designer, Frontend và Mobile Developer để hiện thực hóa tính năng dự án. Tôi luôn chủ động tiếp thu hướng dẫn từ các Mentor và sẵn sàng nỗ lực hết mình để hướng tới mục tiêu trở thành nhân viên chính thức tại Nam Phương Technology.\n\nTôi có thể đáp ứng lịch làm việc Full-time từ thứ 2 đến thứ 6 và sẵn sàng nhận việc ngay khi có kết quả. Tôi xin gửi kèm CV chi tiết và rất hy vọng có cơ hội được tham gia buổi phỏng vấn trực tiếp cùng Ms. Quỳnh và các anh chị phụ trách kỹ thuật.\n\nXin chân thành cảm ơn Ms. Quỳnh và Quý công ty đã dành thời gian xem xét hồ sơ!\n\nTrân trọng,\nTrương Đình Anh\nSố điện thoại: 0923202861\nEmail: tdinhanh.it@gmail.com"
   },
   "en": {
     "experienceDisplayLimit": 1,
@@ -93,7 +93,7 @@ var cvData = {
         "desc": "Financial market data analytics and online information management platform.",
         "tasks": [
           "Participated in database architecture design and deployed PostgreSQL schemas on Supabase Cloud.",
-          "Developed 15+ RESTful API endpoints using Next.js Route Handlers to retrieve and standardize stock market data.",
+          "Developed and optimized RESTful APIs using Next.js Route Handlers to retrieve and standardize stock market data.",
           "Integrated Google OAuth authentication via NextAuth and protected sensitive API routes.",
           "Performed functional and performance testing via Postman, resolving edge-case bugs under senior mentorship.",
           "Packaged and deployed demo applications to Cloud Vercel, supporting ongoing platform maintenance."
@@ -111,7 +111,7 @@ var cvData = {
         "tasks": [
           "Designed and implemented RESTful API endpoints strictly following the Controller-Service layered architecture.",
           "Engineered centralized authentication using JWT and HttpOnly cookies coupled with Role-Based Access Control (RBAC).",
-          "Optimized database queries and indexing in MongoDB, achieving an average API response time under 200ms.",
+          "Modeled schemas and configured compound indexes in MongoDB to optimize multi-criteria filtering and pagination.",
           "Integrated global exception handling middleware to maintain high server stability and consistent error responses."
         ],
         "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
@@ -133,28 +133,28 @@ var cvData = {
     ],
     "skills": [
       {
-        "cat": "Languages & Core",
-        "items": "OOP, Data Structures & Algorithms, C# (Foundational), JavaScript/TypeScript, Node.js"
-      },
-      {
-        "cat": "Backend & Architecture",
-        "items": "RESTful API Design, MVC Architecture, ASP.NET Core (Learning), Express.js, Next.js (API)"
+        "cat": "Backend",
+        "items": "OOP, Data Structures & Algorithms, Node.js, Express.js, TypeScript, RESTful API, MVC Architecture, JWT, RBAC"
       },
       {
         "cat": "Databases",
-        "items": "PostgreSQL, SQL Server, MySQL, Supabase, Schema Normalization, Indexing & Optimization"
+        "items": "PostgreSQL, MySQL, MongoDB, Supabase, 3NF, Indexing, Query Optimization"
       },
       {
-        "cat": "Security & Testing",
-        "items": "JWT Authentication, RBAC, Middleware, Postman, Swagger/OpenAPI"
+        "cat": "Tools & DevOps",
+        "items": "Git, GitHub, Docker, Postman, Swagger, Vercel"
       },
       {
-        "cat": "Tools & Collaboration",
-        "items": "Git/GitHub, Docker (Basic), Agile/Scrum, Clean Code, Cross-team collaboration (BA/FE/Mobile)"
+        "cat": "Frontend",
+        "items": "JavaScript (ES6+), React.js, Next.js, Tailwind CSS"
+      },
+      {
+        "cat": "English",
+        "items": "Read technical documentation, basic workplace communication"
       }
     ],
     "docTitle": "CV_TruongDinhAnh_Backend_NamPhuong_EN",
-    "coverLetter": "Email Subject: [Application for Intern BE – Truong Dinh Anh]\n\nDear Ms. Quynh and the Hiring Team at Nam Phuong Technology,\n\nMy name is Truong Dinh Anh, a Computer Science graduate from Ho Chi Minh City Open University. I am writing to express my strong enthusiasm for the Backend Developer Intern position at Nam Phuong Technology, based full-time at Vietnamairlines Building (108 Hong Ha, Tan Binh District). With my academic training and hands-on backend development experience, I am confident that I can quickly assimilate and add value to your team.\n\nMy relevant qualifications include:\n1. Solid Computer Science Core & OOP Thinking: Thorough understanding of Object-Oriented Programming, data structures, algorithms, and modular design. I have also proactively explored and practiced C# / .NET (ASP.NET Core) concepts.\n2. Hands-on Database Design & RESTful APIs: Through my internship at TAMI Technology and personal systems (Job Portal, E-Commerce API), I directly modeled relational schemas (PostgreSQL, MySQL), engineered 30+ RESTful API endpoints with JWT authentication, and conducted rigorous test workflows via Postman.\n3. Collaborative & Proactive Mindset: Proven ability to coordinate effectively with Business Analysts, UI/UX Designers, Frontend, and Mobile developers to ship project requirements. I am highly eager to learn from Senior Mentors and aim toward becoming a permanent team member.\n\nI am available to work full-time (Monday to Friday) immediately. Thank you for your time and consideration, and I look forward to the opportunity to discuss my application further.\n\nSincerely,\nTruong Dinh Anh\nPhone: 0923202861\nEmail: tdinhanh.it@gmail.com"
+    "coverLetter": "Email Subject: [Application for Intern BE – Truong Dinh Anh]\n\nDear Ms. Quynh and the Hiring Team at Nam Phuong Technology,\n\nMy name is Truong Dinh Anh, a Computer Science graduate from Ho Chi Minh City Open University. I am writing to express my strong enthusiasm for the Backend Developer Intern position at Nam Phuong Technology, based full-time at Vietnamairlines Building (108 Hong Ha, Tan Binh District). With my academic training and hands-on backend development experience, I am confident that I can quickly assimilate and add value to your team.\n\nMy relevant qualifications include:\n1. Solid Computer Science Core & OOP Thinking: Thorough understanding of Object-Oriented Programming, data structures, algorithms, and modular design. I have also proactively explored and practiced C# / .NET (ASP.NET Core) concepts.\n2. Hands-on Database Design & RESTful APIs: Through my internship at TAMI Technology and personal systems (Job Portal, E-Commerce API), I directly modeled relational schemas (PostgreSQL, MySQL), engineered modular RESTful API services with JWT authentication, and conducted rigorous test workflows via Postman.\n3. Collaborative & Proactive Mindset: Proven ability to coordinate effectively with Business Analysts, UI/UX Designers, Frontend, and Mobile developers to ship project requirements. I am highly eager to learn from Senior Mentors and aim toward becoming a permanent team member.\n\nI am available to work full-time (Monday to Friday) immediately. Thank you for your time and consideration, and I look forward to the opportunity to discuss my application further.\n\nSincerely,\nTruong Dinh Anh\nPhone: 0923202861\nEmail: tdinhanh.it@gmail.com"
   }
 };
 

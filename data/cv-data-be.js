@@ -6,23 +6,23 @@
 var cvData = {
   "vi": {
     "experienceDisplayLimit": 1,
-    "projectDisplayLimit": 1,
+    "projectDisplayLimit": 2,
     "title": "Back-End Developer",
-    "objective": "Lập trình viên Back-End sử dụng Node.js và TypeScript với nền tảng tư duy hệ thống tốt, định hướng phát triển chuyên sâu vào tối ưu hóa API và bảo mật hệ thống. Có khả năng tự chủ công việc cao, thành thạo tối ưu hóa cơ sở dữ liệu và triển khai quy trình vận hành dự án thực tế. Mong muốn cống hiến năng lực giải quyết vấn đề của mình để xây dựng các giải pháp backend ổn định và đồng hành cùng sự tăng trưởng bền vững của công ty.",
+    "objective": "Cử nhân Khoa học Máy tính, Trường Đại học Mở TP.HCM, định hướng phát triển Back-End với Node.js, Express.js, TypeScript và cơ sở dữ liệu PostgreSQL/MongoDB. Có kinh nghiệm thực tế tại TAMI Technology trong việc thiết kế sơ đồ cơ sở dữ liệu quan hệ, xây dựng RESTful APIs chuẩn hóa dữ liệu tài chính và tích hợp xác thực OAuth. Chú trọng kiến trúc phân tầng rõ ràng, bảo mật API và khả năng mở rộng của hệ thống.",
     "experience": [
       {
         "name": "CÔNG TY TNHH CÔNG NGHỆ TAMI",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "Hệ thống phân tích dữ liệu thị trường chứng khoán (kết nối thư viện dữ liệu tài chính Vnstock3).",
+        "desc": "Hệ thống phân tích dữ liệu thị trường chứng khoán tích hợp nguồn dữ liệu tài chính Vnstock3.",
         "tasks": [
-          "Thiết kế cấu trúc cơ sở dữ liệu và triển khai cơ sở dữ liệu PostgreSQL trên hạ tầng Supabase Cloud.",
-          "Xây dựng hơn 15 RESTful API endpoints sử dụng Next.js Route Handlers để truy xuất dữ liệu chứng khoán.",
-          "Tích hợp luồng xác thực Google Authentication thông qua NextAuth (Google Provider).",
-          "Kiểm thử hiệu năng API bằng Postman, xử lý lỗi và phối hợp cùng Mentor tối ưu hóa các luồng truy xuất dữ liệu.",
-          "Đóng gói và triển khai (deploy) ứng dụng demo ổn định lên môi trường Cloud Vercel."
+          "Thiết kế sơ đồ cơ sở dữ liệu quan hệ, đánh Index theo mã cổ phiếu/thời gian và triển khai PostgreSQL trên Supabase Cloud.",
+          "Xây dựng các dịch vụ RESTful APIs bằng Next.js Route Handlers phục vụ đồng bộ và chuẩn hóa dữ liệu chứng khoán.",
+          "Xử lý lỗi kết nối từ API đối tác và tích hợp xác thực Google OAuth (NextAuth) bảo vệ các tuyến API truy xuất dữ liệu.",
+          "Thiết lập bộ kịch bản kiểm thử tích hợp API bằng Postman, phối hợp cùng Mentor tối ưu hóa luồng truy vấn CSDL.",
+          "Quản lý phiên bản mã nguồn qua Git và triển khai ứng dụng demo ổn định lên hạ tầng Cloud Vercel."
         ],
-        "tech": "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
+        "tech": "Next.js (Route Handlers), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
       }
     ],
     "projects": [
@@ -30,29 +30,29 @@ var cvData = {
         "name": "JOB PORTAL BACKEND SYSTEM",
         "date": "11/2025 - 02/2026",
         "role": "Developer",
-        "desc": "Hệ thống lõi quản lý tuyển dụng toàn diện, xử lý luồng dữ liệu phức tạp giữa nhà tuyển dụng và ứng viên.",
+        "desc": "Hệ thống backend quản lý tuyển dụng, xử lý luồng dữ liệu nghiệp vụ giữa nhà tuyển dụng và ứng viên.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Thiết kế và triển khai hệ thống RESTful API endpoints sử dụng Node.js và kiến trúc Controller-Service.",
-          "Xây dựng hệ thống xác thực tập trung sử dụng JWT, HttpOnly cookies kết hợp với phân quyền RBAC chặt chẽ.",
-          "Xử lý và tối ưu hóa truy vấn MongoDB (Aggregation Pipeline), đạt thời gian phản hồi API trung bình dưới 200ms.",
-          "Tích hợp các cơ chế xử lý lỗi (Global Error Handling) và Logging để giám sát hệ thống ổn định."
+          "Thiết kế và triển khai RESTful APIs bằng Node.js, Express.js và TypeScript theo kiến trúc phân tầng Controller-Service.",
+          "Xây dựng cơ chế xác thực tập trung sử dụng JWT qua HttpOnly cookies kết hợp phân quyền người dùng (RBAC) và Refresh Token.",
+          "Mô hình hóa schema MongoDB, thiết lập Compound Index tối ưu cho các truy vấn lọc việc làm đa điều kiện và phân trang.",
+          "Tích hợp middleware kiểm tra dữ liệu đầu vào và xử lý ngoại lệ tập trung (Global Error Handling) đảm bảo tính ổn định."
         ],
-        "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
+        "tech": "Node.js, Express.js, TypeScript, MongoDB, JWT, RESTful API, Postman, Git"
       },
       {
         "name": "STUDENT MANAGEMENT SERVER",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "Xây dựng hạ tầng máy chủ cho quản lý hồ sơ sinh viên, đăng ký khóa học và quản trị điểm số.",
+        "desc": "Hệ thống máy chủ quản lý hồ sơ sinh viên, đăng ký khóa học và quản trị điểm số học tập.",
         "github": "https://github.com/dinhanhhhh/student-management-BE",
         "tasks": [
-          "Xây dựng backend theo mô hình MVC, tách biệt rõ giữa logic nghiệp vụ và lưu trữ dữ liệu.",
-          "Triển khai cơ chế refresh token để bảo mật phiên đăng nhập và đảm bảo trải nghiệm người dùng liền mạch.",
-          "Sử dụng Swagger để tự động hóa tài liệu API, hỗ trợ các thành viên Frontend tích hợp nhanh chóng.",
-          "Tối ưu hóa sơ đồ cơ sở dữ liệu (Schema Design) để đảm bảo toàn vẹn dữ liệu và mở rộng linh hoạt."
+          "Xây dựng backend theo mô hình MVC với Node.js và Express.js, tách biệt rõ giữa business logic và tầng truy xuất dữ liệu.",
+          "Triển khai luồng xác thực Access Token và Refresh Token kết hợp middleware kiểm soát quyền hạn theo vai trò.",
+          "Tích hợp Swagger (OpenAPI) để chuẩn hóa tài liệu API và hỗ trợ kiểm thử hợp đồng dữ liệu với phía Frontend.",
+          "Thiết kế sơ đồ cơ sở dữ liệu đảm bảo tính toàn vẹn tham chiếu khi đăng ký học phần và cập nhật bảng điểm."
         ],
-        "tech": "Node.js, Express, MongoDB (Mongoose), Swagger, TypeScript, Middleware"
+        "tech": "Node.js, Express.js, TypeScript, MongoDB, Swagger, JWT, RESTful API"
       },
       {
         "name": "E-COMMERCE PLATFORM",
@@ -61,57 +61,57 @@ var cvData = {
         "desc": "Phát triển các dịch vụ API cốt lõi cho nền tảng thương mại điện tử, quản lý đơn hàng và giỏ hàng.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Xây dựng API quản lý sản phẩm đa phân loại và hệ thống giỏ hàng phía server.",
-          "Triển khai Middleware kiểm tra quyền hạn Admin cho các thao tác thay đổi dữ liệu nhạy cảm.",
-          "Thiết kế cơ chế xử lý thanh toán và trạng thái đơn hàng (Order Lifecycle) đảm bảo tính nhất quán.",
-          "Thực hiện kiểm thử API kỹ lưỡng với Postman để đảm bảo độ tin cậy của mã nguồn."
+          "Xây dựng RESTful APIs quản lý danh mục sản phẩm đa phân loại và đồng bộ trạng thái giỏ hàng phía server.",
+          "Triển khai middleware kiểm tra quyền hạn Admin và validate dữ liệu đầu vào cho các thao tác cập nhật nhạy cảm.",
+          "Thiết kế luồng xử lý vòng đời đơn hàng (Order Lifecycle) đảm bảo tính nhất quán dữ liệu giữa giỏ hàng và đơn hàng.",
+          "Đóng gói dịch vụ bằng Docker và kiểm thử toàn diện các kịch bản API thông qua Postman Collection."
         ],
-        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman"
+        "tech": "Node.js, Express.js, MongoDB, React.js, Tailwind CSS, Docker, RESTful API, Postman"
       }
     ],
     "skills": [
       {
-        "cat": "Ngôn ngữ & Core",
-        "items": "TypeScript, JavaScript (ES6+), Node.js (Runtime)"
+        "cat": "Backend",
+        "items": "Node.js, Express.js, TypeScript, RESTful API, MVC Architecture, JWT, RBAC, Middleware, Swagger"
       },
       {
-        "cat": "Frameworks",
-        "items": "Express.js, Nest.js (Learning), Next.js (API Routes), MVC Architecture"
-      },
-      {
-        "cat": "Database",
-        "items": "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions"
-      },
-      {
-        "cat": "Security & API",
-        "items": "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI"
+        "cat": "Databases",
+        "items": "PostgreSQL, MongoDB, MySQL, Query Optimization, 3NF, Indexing"
       },
       {
         "cat": "Tools & DevOps",
-        "items": "Git/GitHub, Docker, Postman, CI/CD basic, Vercel/Render"
+        "items": "Git, GitHub Actions, Docker, Postman, Vercel, Cloudflare Workers"
+      },
+      {
+        "cat": "Frontend",
+        "items": "React.js, Next.js, JavaScript (ES6+), Tailwind CSS"
+      },
+      {
+        "cat": "English",
+        "items": "Đọc hiểu tài liệu kỹ thuật, viết tài liệu đặc tả API"
       }
     ],
     "docTitle": "CV_TruongDinhAnh_BackendDev_VI"
   },
   "en": {
     "experienceDisplayLimit": 1,
-    "projectDisplayLimit": 1,
+    "projectDisplayLimit": 2,
     "title": "Back-End Developer",
-    "objective": "Back-End Developer proficient in Node.js and TypeScript with a solid system mindset, aiming to specialize in API optimization and system security. Possesses strong self-direction, database optimization skills, and hands-on experience in production deployment. Committed to leveraging problem-solving skills to build reliable backend services and grow alongside the company’s sustainable success.",
+    "objective": "Computer Science graduate from Ho Chi Minh City Open University, specializing in Back-End development with Node.js, Express.js, TypeScript, and PostgreSQL/MongoDB. Gained hands-on experience at TAMI Technology in designing relational database schemas, building RESTful APIs for financial data standardization, and integrating OAuth security. Focused on clean layered architecture, API security, and maintainable backend systems.",
     "experience": [
       {
         "name": "TAMI TECHNOLOGY CO., LTD",
         "date": "06/2025 - 12/2025",
         "role": "Developer",
-        "desc": "A financial stock market data analysis platform integrated with the Vnstock3 financial library.",
+        "desc": "Financial stock market data analysis platform integrated with the Vnstock3 library.",
         "tasks": [
-          "Designed database schemas and successfully deployed PostgreSQL databases on the Supabase cloud infrastructure.",
-          "Developed 15+ secure RESTful API endpoints using Next.js Route Handlers for stock market data querying.",
-          "Integrated Google Authentication OAuth flow centralized with NextAuth (Google Provider) for user sessions.",
-          "Tested and optimized API performance using Postman, resolving critical bugs under mentor guidance.",
-          "Configured CI/CD and deployed the demo application smoothly onto the Vercel cloud environment."
+          "Designed relational database schemas with ticker/time-based indexing and deployed PostgreSQL on Supabase Cloud.",
+          "Developed RESTful APIs using Next.js Route Handlers to synchronize and standardize stock market data.",
+          "Handled third-party API error edge cases and integrated Google OAuth via NextAuth to protect sensitive routes.",
+          "Created Postman integration test suites and collaborated with mentors to optimize database query workflows.",
+          "Managed Git version control and deployed stable demo builds onto the Vercel cloud environment."
         ],
-        "tech": "Next.js (API Routes), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
+        "tech": "Next.js (Route Handlers), PostgreSQL, Supabase, NextAuth, Vnstock3, Postman, Vercel, Git"
       }
     ],
     "projects": [
@@ -119,15 +119,15 @@ var cvData = {
         "name": "JOB PORTAL BACKEND SYSTEM",
         "date": "11/2025 - 02/2026",
         "role": "Developer",
-        "desc": "Core recruitment management system handling complex data flows between employers and candidates.",
+        "desc": "Core recruitment management backend handling business workflows between employers and candidates.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Designed and implemented RESTful API endpoints using Node.js and Controller-Service architecture.",
-          "Built a centralized authentication system using JWT/HttpOnly cookies combined with strict RBAC permissioning.",
-          "Processed and optimized MongoDB queries (Aggregation Pipeline), achieving sub-200ms average API response times.",
-          "Integrated global error handling and logging mechanisms to ensure system stability and observability."
+          "Designed and implemented RESTful APIs using Node.js, Express.js, and TypeScript with a Controller-Service architecture.",
+          "Built centralized authentication using JWT/HttpOnly cookies combined with Role-Based Access Control (RBAC) and refresh tokens.",
+          "Modeled MongoDB schemas and configured compound indexes to optimize multi-criteria job filtering and pagination.",
+          "Integrated request validation and global error handling middleware to ensure consistent API responses."
         ],
-        "tech": "Node.js, Express, MongoDB, JWT, TypeScript, REST API, Postman"
+        "tech": "Node.js, Express.js, TypeScript, MongoDB, JWT, RESTful API, Postman, Git"
       },
       {
         "name": "STUDENT MANAGEMENT SERVER",
@@ -136,48 +136,48 @@ var cvData = {
         "desc": "Server-side infrastructure for student records, course registration, and academic score management.",
         "github": "https://github.com/dinhanhhhh/student-management-BE",
         "tasks": [
-          "Built the backend using the MVC pattern, with clear separation between business logic and data persistence.",
-          "Implemented a robust refresh token mechanism for secure sessions and a seamless user experience.",
-          "Leveraged Swagger for automated API documentation, facilitating rapid frontend integration.",
-          "Optimized database schema design to ensure data integrity and flexible system scalability."
+          "Built the backend following the MVC pattern with Node.js and Express.js, separating business logic from data access.",
+          "Implemented access and refresh token authentication flows alongside role-based authorization middleware.",
+          "Integrated Swagger (OpenAPI) for interactive API documentation and contract verification with frontend clients.",
+          "Designed database schemas to maintain referential integrity across course enrollments and grade records."
         ],
-        "tech": "Node.js, Express, MongoDB (Mongoose), Swagger, TypeScript, Middleware"
+        "tech": "Node.js, Express.js, TypeScript, MongoDB, Swagger, JWT, RESTful API"
       },
       {
         "name": "E-COMMERCE PLATFORM",
         "date": "08/2025 - 11/2025",
         "role": "Developer",
-        "desc": "Developed core API services for e-commerce platforms, order fulfillment, and cart management.",
+        "desc": "Developed core API services for an e-commerce platform, order lifecycle, and shopping cart management.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Developed server-side product management APIs and cart persistence systems.",
-          "Implemented admin authorization middleware for sensitive data operations and management features.",
-          "Designed payment processing flows and order lifecycle management to maintain data consistency.",
-          "Performed rigorous API testing with Postman to ensure code reliability and high success rates."
+          "Developed RESTful APIs for multi-category product catalogs and server-side cart synchronization.",
+          "Implemented admin authorization and input validation middleware for sensitive data mutations.",
+          "Designed order lifecycle management workflows ensuring consistency between cart items and created orders.",
+          "Containerized services with Docker and conducted API integration testing via Postman collections."
         ],
-        "tech": "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman"
+        "tech": "Node.js, Express.js, MongoDB, React.js, Tailwind CSS, Docker, RESTful API, Postman"
       }
     ],
     "skills": [
       {
-        "cat": "Languages & Core",
-        "items": "TypeScript, JavaScript (ES6+), Node.js (Runtime)"
-      },
-      {
-        "cat": "Frameworks",
-        "items": "Express.js, Nest.js (Learning), Next.js (API Routes), MVC Architecture"
+        "cat": "Backend",
+        "items": "Node.js, Express.js, TypeScript, RESTful API, MVC Architecture, JWT, RBAC, Middleware, Swagger"
       },
       {
         "cat": "Databases",
-        "items": "MongoDB (Mongoose), MySQL, PostgreSQL, Query Optimization, Transactions"
-      },
-      {
-        "cat": "Security & API",
-        "items": "RESTful API Design, JWT, RBAC, OAuth2, Middleware, Swagger/OpenAPI"
+        "items": "PostgreSQL, MongoDB, MySQL, Query Optimization, 3NF, Indexing"
       },
       {
         "cat": "Tools & DevOps",
-        "items": "Git/GitHub, Docker, Postman, CI/CD basic, Vercel/Render"
+        "items": "Git, GitHub Actions, Docker, Postman, Vercel, Cloudflare Workers"
+      },
+      {
+        "cat": "Frontend",
+        "items": "React.js, Next.js, JavaScript (ES6+), Tailwind CSS"
+      },
+      {
+        "cat": "English",
+        "items": "Read technical documentation, write API specifications"
       }
     ],
     "docTitle": "CV_TruongDinhAnh_BackendDev_EN"

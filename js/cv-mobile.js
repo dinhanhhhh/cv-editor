@@ -93,12 +93,68 @@
     if (topBtn) {
       topBtn.addEventListener("click", toggleReaderMode);
     }
+
+    const projBtn = document.getElementById("mobileProjectsBtn");
+    if (projBtn) {
+      projBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileProjectSelector();
+      });
+    }
+
+    // Đóng bảng Chọn Dự Án trên mobile khi bấm tiêu đề thu gọn hoặc bấm ra ngoài
+    document.addEventListener("click", (e) => {
+      if (window.innerWidth > 992) return;
+      const panel = document.getElementById("projectSelectorPanel");
+      if (!panel || !panel.classList.contains("mobile-open")) return;
+
+      // Nếu bấm vào thanh tiêu đề (trừ nút Reset 🔄) -> đóng modal trên mobile thay vì thu gọn 44px
+      if (e.target.closest("#projSelectHeader") && !e.target.closest("#projSelectResetBtn")) {
+        e.stopPropagation();
+        panel.classList.remove("mobile-open");
+        if (projBtn) projBtn.classList.remove("active");
+        return;
+      }
+
+      // Nếu bấm ra vùng ngoài bảng -> đóng modal
+      if (!panel.contains(e.target) && !e.target.closest("#mobileProjectsBtn") && !e.target.closest("#mobileDrawerProjectsBtn")) {
+        panel.classList.remove("mobile-open");
+        if (projBtn) projBtn.classList.remove("active");
+      }
+    }, true);
+  }
+
+  /**
+   * Bật/Tắt bảng Chọn & Sắp xếp Dự án trên điện thoại (Toggle 1-chạm)
+   */
+  function toggleMobileProjectSelector() {
+    const panel = document.getElementById("projectSelectorPanel");
+    const projBtn = document.getElementById("mobileProjectsBtn");
+    if (!panel) return;
+
+    const isOpen = panel.classList.contains("mobile-open");
+    if (isOpen) {
+      panel.classList.remove("mobile-open");
+      if (projBtn) projBtn.classList.remove("active");
+    } else {
+      closeAllMobileModals("projects");
+      panel.classList.remove("collapsed");
+      panel.classList.add("mobile-open");
+      if (projBtn) projBtn.classList.add("active");
+    }
+    syncMobileNavActiveState();
   }
 
   /**
    * Đóng tất cả modal / overlay của mobile trừ cái đang chọn
    */
   function closeAllMobileModals(except = "") {
+    if (except !== "projects") {
+      const projPanel = document.getElementById("projectSelectorPanel");
+      const projBtn = document.getElementById("mobileProjectsBtn");
+      if (projPanel) projPanel.classList.remove("mobile-open");
+      if (projBtn) projBtn.classList.remove("active");
+    }
     if (except !== "drawer") {
       const drawer = document.getElementById("mobileDrawerOverlay");
       if (drawer) drawer.classList.remove("open");
@@ -319,6 +375,16 @@
         toggleMobileDrawer();
         const topVersionBtn = document.getElementById("mobileVersionBtn");
         if (topVersionBtn) topVersionBtn.click();
+      });
+    }
+
+    // Chọn & Sắp xếp Dự án từ Drawer
+    const drawerProjectsBtn = document.getElementById("mobileDrawerProjectsBtn");
+    if (drawerProjectsBtn) {
+      drawerProjectsBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        toggleMobileDrawer();
+        toggleMobileProjectSelector();
       });
     }
 
@@ -700,20 +766,39 @@
       });
     }
 
-    // ResizeObserver tự động tính lại khi layout container thay đổi
-    if (window.ResizeObserver && document.body) {
+    let lastWindowWidth = window.innerWidth;
+    let lastCvScrollHeight = 0;
+
+    // ResizeObserver chỉ theo dõi chiều cao thực của tờ CV (#cvContent),
+    // tránh lắng nghe document.body bị co giãn chiều dọc khi thanh địa chỉ mobile ẩn/hiện lúc cuộn
+    const cvContentEl = document.getElementById("cvContent");
+    if (window.ResizeObserver && cvContentEl) {
       const ro = new ResizeObserver(() => {
-        updateScale();
+        const currentH = cvContentEl.scrollHeight || cvContentEl.offsetHeight || 0;
+        const currentW = window.innerWidth;
+        if (Math.abs(currentH - lastCvScrollHeight) >= 2 || Math.abs(currentW - lastWindowWidth) >= 2) {
+          lastCvScrollHeight = currentH;
+          lastWindowWidth = currentW;
+          updateScale();
+        }
       });
-      ro.observe(document.body);
-      const viewport = document.getElementById("cvViewportWrapper");
-      if (viewport) ro.observe(viewport);
+      ro.observe(cvContentEl);
     }
 
-    // Chạy khi khởi tạo và khi cửa sổ thay đổi kích thước hoặc xoay màn hình
+    // Chạy khi khởi tạo và chỉ tính lại khi chiều ngang (innerWidth) thay đổi hoặc xoay màn hình
     updateScale();
-    window.addEventListener("resize", updateScale);
-    window.addEventListener("orientationchange", () => setTimeout(updateScale, 150));
+    window.addEventListener("resize", () => {
+      const currentW = window.innerWidth;
+      if (Math.abs(currentW - lastWindowWidth) < 2) return;
+      lastWindowWidth = currentW;
+      updateScale();
+    }, { passive: true });
+    window.addEventListener("orientationchange", () => {
+      setTimeout(() => {
+        lastWindowWidth = window.innerWidth;
+        updateScale();
+      }, 150);
+    }, { passive: true });
 
     // Chạy lại sau khi DOM hoặc dữ liệu CV render xong
     setTimeout(updateScale, 100);

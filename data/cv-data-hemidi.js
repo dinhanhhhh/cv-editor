@@ -84,7 +84,7 @@ Gia nhập Hemidi cùng tạo nên những giá trị mới!`,
       },
       {
         name: "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE)",
-        date: "08/2025 - 09/2025",
+        date: "08/2025 - 11/2025",
         role: "Developer",
         desc: "Dịch vụ web và API quản lý danh mục sản phẩm, giỏ hàng và xử lý luồng đơn hàng thương mại điện tử.",
         github: "https://github.com/dinhanhhhh/ecommerce",
@@ -94,25 +94,25 @@ Gia nhập Hemidi cùng tạo nên những giá trị mới!`,
           "Mô hình hóa dữ liệu NoSQL MongoDB, tối ưu hóa truy vấn và đảm bảo tính nhất quán của giao dịch đơn hàng.",
           "Đóng gói toàn bộ ứng dụng bằng Docker container, triển khai môi trường demo và kiểm thử tự động qua Postman.",
         ],
-        tech: "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman, Git",
+        tech: "Node.js, Express.js, MongoDB, React.js, Tailwind CSS, Docker, RESTful API, Postman, Git",
       },
     ],
     skills: [
       {
         cat: "Backend",
-        items: "Node.js, TypeScript, Express.js, NestJS, RESTful API, OOP, Layered Architecture, Clean Code, TDD",
+        items: "Node.js, TypeScript, Express.js, RESTful API, OOP, Layered Architecture, JWT, RBAC, Middleware",
       },
       {
         cat: "Databases",
-        items: "PostgreSQL, MongoDB, MySQL, TypeORM, Schema Migration, Database Design, 3NF, Indexing",
+        items: "PostgreSQL, MongoDB, MySQL, Schema Design, 3NF, Indexing, Query Optimization",
       },
       {
         cat: "Tools & DevOps",
-        items: "Git, GitHub, Docker, Postman, Jest, Cursor, GitHub Copilot, VS Code",
+        items: "Git, GitHub, Docker, Postman, Swagger, Vercel",
       },
       {
         cat: "Frontend",
-        items: "JavaScript (ES6+), React.js, Next.js, HTML5/CSS3",
+        items: "JavaScript (ES6+), React.js, Next.js, Tailwind CSS",
       },
       {
         cat: "English",
@@ -210,10 +210,10 @@ Trương Đình Anh
           "Architected RESTful API endpoints using Node.js, Express, and TypeScript adhering to Clean Code and modular patterns.",
           "Implemented robust JWT authentication with HttpOnly cookies, RBAC, and refresh token rotation to secure API routes.",
           "Centralized exception handling with custom error middlewares and structured response formatting across all services.",
-          "Optimized MongoDB indexing and query pipelines, maintaining API response latency under 300ms for core workflows.",
+          "Modeled MongoDB schemas and configured compound indexes to optimize multi-criteria job filtering and pagination.",
           "Conducted comprehensive integration testing via Postman collections and maintained clean technical documentation.",
         ],
-        tech: "Node.js, Express, TypeScript, MongoDB, JWT, RESTful API, Tailwind CSS, Postman, Git",
+        tech: "Node.js, Express.js, TypeScript, MongoDB, JWT, RESTful API, Tailwind CSS, Postman, Git",
       },
       {
         name: "E-COMMERCE PLATFORM",
@@ -227,25 +227,25 @@ Trương Đình Anh
           "Containerized application services using Docker and Docker Compose for consistent development and deployment.",
           "Integrated RESTful APIs with frontend services, maintaining high performance and responsive UI rendering.",
         ],
-        tech: "Node.js, Express, MongoDB, React, Tailwind CSS, Docker, RESTful API, Postman, Git",
+        tech: "Node.js, Express.js, MongoDB, React.js, Tailwind CSS, Docker, RESTful API, Postman, Git",
       },
     ],
     skills: [
       {
         cat: "Backend",
-        items: "Node.js, TypeScript, Express.js, RESTful API, OOP, Layered Architecture, Clean Code, Postman, Docker",
+        items: "Node.js, TypeScript, Express.js, RESTful API, OOP, Layered Architecture, JWT, RBAC, Middleware",
       },
       {
         cat: "Databases",
-        items: "PostgreSQL, MongoDB, Supabase, Database Design, Indexing, Query Optimization",
+        items: "PostgreSQL, MongoDB, MySQL, Schema Design, 3NF, Indexing, Query Optimization",
       },
       {
         cat: "Tools & DevOps",
-        items: "Git, GitHub, Docker, Postman, Jest, Cursor, GitHub Copilot, VS Code",
+        items: "Git, GitHub, Docker, Postman, Swagger, Vercel",
       },
       {
         cat: "Frontend",
-        items: "JavaScript (ES6+), TypeScript, React.js, Next.js, HTML5/CSS3",
+        items: "JavaScript (ES6+), TypeScript, React.js, Next.js, Tailwind CSS",
       },
       {
         cat: "English",

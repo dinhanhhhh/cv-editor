@@ -4176,6 +4176,18 @@ body.recruiter-view [contenteditable] {
   background: #2563eb;
 }
 
+.jt-md-btn {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.jt-md-btn:hover {
+  background: #059669;
+  color: #ffffff;
+  border-color: #059669;
+}
+
 .jt-sync-btn {
   background: #f5f3ff;
   color: #7c3aed;
@@ -4239,6 +4251,7 @@ body.recruiter-view [contenteditable] {
   border-color: #1e3a8a;
 }
 
+.jt-stat-pill.stat-saved.active { background: #475569; border-color: #475569; }
 .jt-stat-pill.stat-applied.active { background: #2563eb; border-color: #2563eb; }
 .jt-stat-pill.stat-reviewing.active { background: #d97706; border-color: #d97706; }
 .jt-stat-pill.stat-interviewing.active { background: #7c3aed; border-color: #7c3aed; }
@@ -4491,6 +4504,9 @@ body.recruiter-view [contenteditable] {
   padding: 8px;
 }
 
+.status-saved { background-color: #f1f5f9 !important; color: #475569 !important; border-color: #cbd5e1 !important; }
+.status-saved + .jt-dropdown-arrow { color: #475569; }
+
 .status-applied { background-color: #dbeafe !important; color: #1e40af !important; border-color: #bfdbfe !important; }
 .status-applied + .jt-dropdown-arrow { color: #1e40af; }
 
@@ -4616,6 +4632,19 @@ body.recruiter-view [contenteditable] {
   flex-direction: column;
 }
 
+.jt-link-jd-btn {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border: 1px solid #0284c7 !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+}
+
+.jt-link-jd-btn:hover {
+  background: #0369a1 !important;
+  color: #ffffff !important;
+}
+
 .jt-copy-jd-btn {
   background: #f1f5f9;
   color: #1e293b;
@@ -4693,6 +4722,85 @@ body.recruiter-view [contenteditable] {
   border: 1px solid #e2e8f0;
 }
 
+/* Banner Link tuyển dụng trong Modal xem JD */
+.jt-jd-url-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f0f9ff;
+  border: 1px solid #bae6fd;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+}
+
+.jt-jd-url-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.jt-jd-url-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.jt-jd-url-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #0369a1;
+  letter-spacing: 0.5px;
+}
+
+.jt-jd-url-text {
+  font-size: 13px;
+  color: #0284c7;
+  font-weight: 600;
+  text-decoration: underline;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jt-jd-url-go-btn {
+  background: #0284c7;
+  color: #ffffff !important;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+}
+
+.jt-jd-url-go-btn:hover {
+  background: #0369a1;
+  transform: translateY(-1px);
+}
+
+/* Link tuyển dụng trên thẻ Card */
+.jt-job-link a {
+  color: #0284c7 !important;
+  font-weight: 700;
+  text-decoration: none;
+  background: #f0f9ff;
+  padding: 2px 7px;
+  border-radius: 4px;
+  border: 1px solid #bae6fd;
+  transition: all 0.15s ease;
+}
+
+.jt-job-link a:hover {
+  background: #0284c7;
+  color: #ffffff !important;
+  border-color: #0284c7;
+}
+
 .jt-card-actions {
   display: flex;
   gap: 6px;
@@ -4713,6 +4821,12 @@ body.recruiter-view [contenteditable] {
 .jt-action-btn:hover {
   background: #f1f5f9;
   color: #0f172a;
+}
+
+.jt-btn-interview:hover {
+  background: #f5f3ff;
+  color: #7c3aed;
+  border-color: #c4b5fd;
 }
 
 .jt-btn-delete:hover {
@@ -7526,18 +7640,18 @@ body.recruiter-view [contenteditable] {
     cursor: pointer !important;
   }
 
-  /* 4 nút hành động gọn gàng thành lưới 4 cột */
+  /* 5 nút hành động gọn gàng thành lưới */
   .jt-header-actions {
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 5px !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 4px !important;
     width: 100% !important;
     margin-top: 2px !important;
   }
 
   .jt-top-btn {
-    padding: 7px 2px !important;
-    font-size: 11px !important;
+    padding: 7px 1px !important;
+    font-size: 10px !important;
     font-weight: 700 !important;
     white-space: nowrap !important;
     text-align: center !important;
@@ -7565,8 +7679,8 @@ body.recruiter-view [contenteditable] {
   .jt-card-actions {
     width: 100% !important;
     display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 6px !important;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 4px !important;
   }
 
   .jt-btn-sm {
@@ -8247,4 +8361,110 @@ body.recruiter-view .cv-pro-toast {
   transform: translateY(-2px);
 }
 
-
+
+
+/* H. MOBILE SCROLL & GPU PERFORMANCE OPTIMIZATION (<= 992px) */
+@media screen and (max-width: 992px) {
+  .mobile-top-bar,
+  .mobile-bottom-bar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+  }
+
+  .mobile-drawer-overlay,
+  .mobile-versions-overlay,
+  .cl-modal-overlay,
+  .interview-modal-overlay {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .cv-preview {
+    contain: layout style;
+  }
+}
+
+/* I. BẢNG CHỌN & SẮP XẾP DỰ ÁN TRÊN MOBILE (<= 992px) VÀ MÀN HÌNH NHỎ (993px - 1200px) */
+@media screen and (min-width: 993px) and (max-width: 1200px) {
+  body:not(.recruiter-view) .project-selector-panel {
+    display: block !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  body:not(.recruiter-view) .project-selector-panel.mobile-open {
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    top: 56px !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    max-width: 440px !important;
+    margin: 0 auto !important;
+    max-height: calc(100dvh - 130px) !important;
+    padding: 14px 16px !important;
+    border-radius: 16px !important;
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 20px 50px rgba(15, 23, 42, 0.28), 0 0 0 100vmax rgba(15, 23, 42, 0.35) !important;
+    z-index: 2250 !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-select-title {
+    font-size: 13.5px !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-select-subtitle {
+    font-size: 11.5px !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-select-section-title {
+    font-size: 11px !important;
+    margin-top: 10px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-select-item {
+    padding: 8px 6px !important;
+    font-size: 12.5px !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-select-item input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px !important;
+    margin-top: 0 !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-order-item {
+    padding: 7px 10px !important;
+    font-size: 12px !important;
+  }
+
+  .project-selector-panel.mobile-open .proj-order-arrow {
+    width: 28px !important;
+    height: 26px !important;
+    font-size: 11px !important;
+    background: #e2e8f0 !important;
+    border-radius: 6px !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .project-selector-panel.mobile-open.collapsed .proj-select-subtitle,
+  .project-selector-panel.mobile-open.collapsed .proj-select-section-title,
+  .project-selector-panel.mobile-open.collapsed .proj-select-order-list,
+  .project-selector-panel.mobile-open.collapsed .proj-select-list,
+  .project-selector-panel.mobile-open.collapsed .proj-select-reset-btn {
+    display: flex !important;
+  }
+  .project-selector-panel.mobile-open.collapsed .proj-select-subtitle,
+  .project-selector-panel.mobile-open.collapsed .proj-select-section-title {
+    display: block !important;
+  }
+}

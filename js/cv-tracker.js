@@ -12,6 +12,7 @@
 
   // Danh sách trạng thái chuẩn
   const STATUSES = {
+    saved: { key: "saved", label: "📌 Chờ nộp", badgeClass: "status-saved", color: "#64748b" },
     applied: { key: "applied", label: "📝 Đã nộp", badgeClass: "status-applied", color: "#2563eb" },
     reviewing: { key: "reviewing", label: "⏳ Chờ phản hồi", badgeClass: "status-reviewing", color: "#d97706" },
     interviewing: { key: "interviewing", label: "🎯 Phỏng vấn", badgeClass: "status-interviewing", color: "#7c3aed" },
@@ -432,6 +433,37 @@ QUYỀN LỢI:
           }
         });
 
+        // Tự động chuyển các job import từ MD chưa nộp sang trạng thái "saved" (Chờ nộp)
+        jobs.forEach(j => {
+          if (j.id && j.id.startsWith("job_md_") && j.status === "applied") {
+            j.status = "saved";
+            j.appliedDate = "";
+            updated = true;
+          }
+        });
+
+        // Tự động dọn sạch các job import từ MD bị sai khu vực (Hà Nội, Đà Nẵng, Cần Thơ), hết hạn hoặc trái ngành
+        const beforeCount = jobs.length;
+        const badCompRx = /Open Techiz|SORACO|MB Bank|Grus Studio|DTS Software|Blue Technology|FPT IS|8Seneca|Everfit|LG CNS|NEXTEDGE|BAVAAN|NEXON DEV VINA/i;
+        const badLocRx = /Hà Nội|Đà Nẵng|Cần Thơ|Not Available, None/i;
+        const badRoleRx = /Embedded|AUTOSAR|Unity|Manual Tester|Tester|QA\/QC|QA Engineer|Quality Control|QC Intern|Business Analyst|Project Management|Android Developer|Information Security GRC|Tư Vấn Triển Khai/i;
+        const expiredDateRx = /06\/02\/2026|2026-10-18|2026-10-19|2026-10-20|2026-10-22|2026-10-23/;
+
+        jobs = jobs.filter(j => {
+          if (!j.id || !j.id.startsWith("job_md_")) return true;
+          const comp = j.company || "";
+          const pos = j.position || "";
+          const contactAndNotes = (j.contact || "") + " " + (j.notes || "");
+          if (badCompRx.test(comp)) return false;
+          if (badRoleRx.test(pos)) return false;
+          if (expiredDateRx.test(contactAndNotes)) return false;
+          if (badLocRx.test(contactAndNotes) && !/TP\.?\s*Hồ Chí Minh/i.test(contactAndNotes)) return false;
+          return true;
+        });
+        if (jobs.length !== beforeCount) {
+          updated = true;
+        }
+
         if (updated) saveJobs();
       } else {
         jobs = [...DEFAULT_SEED_DATA];
@@ -543,6 +575,7 @@ QUYỀN LỢI:
 
   function renderStats() {
     const total = jobs.length;
+    const saved = jobs.filter(j => j.status === "saved").length;
     const applied = jobs.filter(j => j.status === "applied").length;
     const reviewing = jobs.filter(j => j.status === "reviewing").length;
     const interviewing = jobs.filter(j => j.status === "interviewing").length;
@@ -554,6 +587,7 @@ QUYỀN LỢI:
 
     statsEl.innerHTML = `
       <span class="jt-stat-pill stat-total" data-filter="all" title="Xem tất cả">📊 Tổng: <b>${total}</b></span>
+      ${saved > 0 ? `<span class="jt-stat-pill stat-saved" data-filter="saved" title="Lọc việc làm chờ nộp">📌 Chờ nộp: <b>${saved}</b></span>` : ""}
       <span class="jt-stat-pill stat-applied" data-filter="applied" title="Lọc đã nộp">📝 Đã nộp: <b>${applied}</b></span>
       <span class="jt-stat-pill stat-reviewing" data-filter="reviewing" title="Lọc chờ phản hồi">⏳ Đang chờ: <b>${reviewing}</b></span>
       <span class="jt-stat-pill stat-interviewing" data-filter="interviewing" title="Lọc phỏng vấn">🎯 Phỏng vấn: <b>${interviewing}</b></span>
@@ -641,6 +675,7 @@ QUYỀN LỢI:
               </div>
               <div class="jt-status-wrap">
                 <select class="jt-status-select ${statusObj.badgeClass}" title="Bấm để chọn trạng thái ứng tuyển" onchange="window.cvTracker.changeStatus('${job.id}', this.value)">
+                  <option value="saved" ${job.status === "saved" ? "selected" : ""}>📌 Chờ nộp</option>
                   <option value="applied" ${job.status === "applied" ? "selected" : ""}>📝 Đã nộp</option>
                   <option value="reviewing" ${job.status === "reviewing" ? "selected" : ""}>⏳ Chờ phản hồi</option>
                   <option value="interviewing" ${job.status === "interviewing" ? "selected" : ""}>🎯 Phỏng vấn</option>
@@ -656,9 +691,10 @@ QUYỀN LỢI:
                 📄 <a href="${cvUrl}" onclick="event.preventDefault(); window.cvTracker.openCv('${escapeHtml(job.cvType)}');">${escapeHtml(job.cvLabel || job.cvType || "Bản CV")} ↗</a>
               </span>
               <span class="jt-meta-item">
-                📅 Ngày nộp: <b>${escapeHtml(job.appliedDate || "N/A")}</b>
+                📅 ${job.status === "saved" ? `<span style="color:#64748b; font-weight:600;">Chờ nộp CV</span>` : `Ngày nộp: <b>${escapeHtml(job.appliedDate || "N/A")}</b>`}
               </span>
               ${job.contact ? `<span class="jt-meta-item jt-contact" title="${escapeHtml(job.contact)}">📞 ${escapeHtml(job.contact)}</span>` : ""}
+              ${job.jobUrl ? `<span class="jt-meta-item jt-job-link" title="Mở trang tin tuyển dụng gốc: ${escapeHtml(job.jobUrl)}"><a href="${escapeHtml(job.jobUrl)}" target="_blank" rel="noopener">🔗 Link tuyển dụng ↗</a></span>` : ""}
             </div>
 
             <div class="jt-card-notes has-jd" title="Bấm để xem bản mô tả công việc (JD) chi tiết" onclick="window.cvTracker.viewJd('${job.id}')">
@@ -670,6 +706,7 @@ QUYỀN LỢI:
 
           <div class="jt-card-actions">
             <button type="button" class="jt-action-btn jt-btn-jd" title="Xem chi tiết bản mô tả công việc (JD)" onclick="window.cvTracker.viewJd('${job.id}')">📄 JD</button>
+            <button type="button" class="jt-action-btn jt-btn-interview" title="Luyện kịch bản phỏng vấn cho vị trí này" onclick="window.cvTracker.openInterviewForJob('${job.id}')">🎯 Phỏng vấn</button>
             <button type="button" class="jt-action-btn jt-btn-email" title="Soạn email ứng tuyển 1-click cho công ty này" onclick="window.cvTracker.openEmailForJob('${job.id}')">📧 Email</button>
             <button type="button" class="jt-action-btn jt-btn-edit" title="Chỉnh sửa thông tin" onclick="window.cvTracker.openEditForm('${job.id}')">✏️ Sửa</button>
             <button type="button" class="jt-action-btn jt-btn-delete" title="Xóa hồ sơ này" onclick="window.cvTracker.deleteJob('${job.id}')">🗑️ Xóa</button>
@@ -701,6 +738,8 @@ QUYỀN LỢI:
     document.getElementById("jtInputDate").value = getTodayString();
     document.getElementById("jtInputStatus").value = "applied";
     document.getElementById("jtInputContact").value = meta.email || meta.contact || "";
+    const jobUrlInput = document.getElementById("jtInputJobUrl");
+    if (jobUrlInput) jobUrlInput.value = meta.jobUrl || meta.url || "";
     document.getElementById("jtInputNotes").value = meta.notes || "";
     const jdInput = document.getElementById("jtInputJd");
     if (jdInput) jdInput.value = meta.jdText || "";
@@ -728,6 +767,8 @@ QUYỀN LỢI:
     document.getElementById("jtInputDate").value = job.appliedDate || getTodayString();
     document.getElementById("jtInputStatus").value = job.status || "applied";
     document.getElementById("jtInputContact").value = job.contact || "";
+    const editJobUrlInput = document.getElementById("jtInputJobUrl");
+    if (editJobUrlInput) editJobUrlInput.value = job.jobUrl || "";
     document.getElementById("jtInputNotes").value = job.notes || "";
     const jdInput = document.getElementById("jtInputJd");
     if (jdInput) jdInput.value = job.jdText || "";
@@ -754,6 +795,7 @@ QUYỀN LỢI:
     const appliedDate = document.getElementById("jtInputDate").value || getTodayString();
     const status = document.getElementById("jtInputStatus").value || "applied";
     const contact = (document.getElementById("jtInputContact").value || "").trim();
+    const jobUrl = (document.getElementById("jtInputJobUrl") ? document.getElementById("jtInputJobUrl").value : "").trim();
     const notes = (document.getElementById("jtInputNotes").value || "").trim();
     const jdInput = document.getElementById("jtInputJd");
     const jdText = jdInput ? jdInput.value.trim() : "";
@@ -777,6 +819,7 @@ QUYỀN LỢI:
           appliedDate,
           status,
           contact,
+          jobUrl,
           notes,
           jdText,
         };
@@ -792,6 +835,7 @@ QUYỀN LỢI:
         appliedDate,
         status,
         contact,
+        jobUrl,
         notes,
         jdText,
       };
@@ -818,11 +862,45 @@ QUYỀN LỢI:
     const titleEl = document.getElementById("jtJdModalTitle");
     const subTitleEl = document.getElementById("jtJdModalSubtitle");
     const contentEl = document.getElementById("jtJdContent");
+    const openJobUrlBtn = document.getElementById("jtOpenJobUrlBtn");
+    const urlBanner = document.getElementById("jtJdUrlBanner");
+    const urlBannerLink = document.getElementById("jtJdUrlBannerLink");
+    const urlBannerBtn = document.getElementById("jtJdUrlBannerBtn");
     if (!overlay || !contentEl) return;
 
     titleEl.textContent = "📄 " + job.company;
-    subTitleEl.textContent = (job.position ? job.position + " — " : "") + "Ngày nộp: " + (job.appliedDate || "N/A");
+    subTitleEl.textContent = (job.position ? job.position + " — " : "") + (job.status === "saved" ? "Trạng thái: 📌 Chờ nộp (Chưa gửi CV)" : ("Ngày nộp: " + (job.appliedDate || "N/A")));
     
+    // Tìm URL tuyển dụng từ job.jobUrl hoặc trong notes / jdText
+    let effectiveJobUrl = (job.jobUrl || "").trim();
+    if (!effectiveJobUrl && (job.notes || job.jdText)) {
+      const combined = `${job.notes || ""} ${job.jdText || ""}`;
+      const m = combined.match(/(https?:\/\/[^\s\)]+)/i);
+      if (m) effectiveJobUrl = m[1];
+    }
+
+    // Hiển thị nút bấm mở link trên header modal
+    if (openJobUrlBtn) {
+      if (effectiveJobUrl) {
+        openJobUrlBtn.href = effectiveJobUrl;
+        openJobUrlBtn.style.display = "inline-flex";
+      } else {
+        openJobUrlBtn.style.display = "none";
+      }
+    }
+
+    // Hiển thị Banner Link ứng tuyển nổi bật ngay đầu modal
+    if (urlBanner && urlBannerLink && urlBannerBtn) {
+      if (effectiveJobUrl) {
+        urlBannerLink.href = effectiveJobUrl;
+        urlBannerLink.textContent = effectiveJobUrl;
+        urlBannerBtn.href = effectiveJobUrl;
+        urlBanner.style.display = "flex";
+      } else {
+        urlBanner.style.display = "none";
+      }
+    }
+
     // Tự động đồng bộ bản jdText đầy đủ nếu hiện tại chỉ lưu ghi chú ngắn hoặc chưa có JD
     const seed = DEFAULT_SEED_DATA.find(s => s.id === job.id || (s.cvType && s.cvType === job.cvType) || (s.company && job.company && s.company.toLowerCase().trim() === job.company.toLowerCase().trim()));
     const metaJd = (window.cvData && window.cvData.meta && (window.cvData.meta.jdText || window.cvData.meta.jd)) || "";
@@ -840,6 +918,12 @@ QUYỀN LỢI:
     } else if (!content) {
       content = `(Chưa có nội dung JD chi tiết cho hồ sơ này).\n\n💡 Bạn có thể bấm nút "✏️ Sửa JD" bên trên để dán văn bản tin tuyển dụng vào đây.`;
     }
+
+    // Tự động bổ sung dòng Link ứng tuyển vào nội dung JD nếu chưa có
+    if (effectiveJobUrl && !content.includes(effectiveJobUrl)) {
+      content += `\n\n--------------------------------------------------\n🔗 LINK ỨNG TUYỂN GỐC:\n${effectiveJobUrl}`;
+    }
+
     contentEl.textContent = content;
 
     overlay.style.display = "flex";
@@ -942,10 +1026,50 @@ QUYỀN LỢI:
     }
   }
 
+  function openInterviewForJob(jobId) {
+    const job = jobs.find(j => j.id === jobId);
+    if (!job) return;
+
+    closeModal();
+
+    // 1. Chuyển sang bản CV tương ứng
+    const targetCvType = job.cvType || "default";
+    if (window.history && window.history.pushState) {
+      const newUrl = window.location.pathname + "?type=" + encodeURIComponent(targetCvType);
+      window.history.pushState({ type: targetCvType }, "", newUrl);
+      if (typeof window.loadCvFromUrl === "function") {
+        window.loadCvFromUrl();
+      }
+    }
+
+    // 2. Mở modal kịch bản phỏng vấn
+    setTimeout(() => {
+      if (typeof window.openInterviewPrepModal === "function") {
+        window.openInterviewPrepModal();
+
+        // Tự động gán thông tin công ty vào sổ tay ghi chú phỏng vấn nếu chưa có
+        const notesArea = document.getElementById("interviewNotesTextarea");
+        if (notesArea && !notesArea.value.trim() && (job.company || job.position)) {
+          const companyNotes = `🎯 MỤC TIÊU PHỎNG VẤN: ${job.company}\n💼 Vị trí: ${job.position || ""}\n📅 Ngày nộp: ${job.appliedDate || ""}\n🔗 Link: ${job.jobUrl || ""}\n${job.notes ? ("\n📝 Ghi chú & JD:\n" + job.notes) : ""}`;
+          notesArea.value = companyNotes;
+          try {
+            localStorage.setItem(`interview_notes_${targetCvType}`, companyNotes);
+          } catch (e) {}
+        }
+      }
+    }, 200);
+  }
+
   // Đổi trạng thái trực tiếp từ dropdown
   function changeStatus(jobId, newStatus) {
     const job = jobs.find(j => j.id === jobId);
     if (!job) return;
+
+    if (newStatus === "applied" && (!job.appliedDate || job.appliedDate === "N/A")) {
+      job.appliedDate = getTodayString();
+    } else if (newStatus === "saved") {
+      job.appliedDate = "";
+    }
 
     job.status = newStatus;
     saveJobs();
@@ -958,9 +1082,15 @@ QUYỀN LỢI:
     const job = jobs.find(j => j.id === jobId);
     if (!job) return;
 
-    const flow = ["applied", "reviewing", "interviewing", "offered", "rejected"];
+    const flow = ["saved", "applied", "reviewing", "interviewing", "offered", "rejected"];
     const curIdx = flow.indexOf(job.status);
     const nextStatus = flow[(curIdx + 1) % flow.length];
+
+    if (nextStatus === "applied" && (!job.appliedDate || job.appliedDate === "N/A")) {
+      job.appliedDate = getTodayString();
+    } else if (nextStatus === "saved") {
+      job.appliedDate = "";
+    }
 
     job.status = nextStatus;
     saveJobs();
@@ -1042,6 +1172,243 @@ QUYỀN LỢI:
           }
         } catch (err) {
           alert("Lỗi khi đọc file JSON: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  // ----------------------------------------------------
+  // Markdown Jobs Parser & Importer (File MD / jobs_for_tomorrow.md)
+  // ----------------------------------------------------
+  function guessCvType(company, position, summary) {
+    const compLower = (company || "").toLowerCase();
+    const text = `${position || ""} ${summary || ""}`.toLowerCase();
+
+    // Khớp đích danh công ty có sẵn trong CV manifest
+    if (compLower.includes("hemidi")) return "hemidi";
+    if (compLower.includes("yabu")) return "yabu";
+    if (compLower.includes("credosis")) return "credosis";
+    if (compLower.includes("phát kiến gia") || compLower.includes("phat kien gia")) return "phatkiengia";
+    if (compLower.includes("thủ đức") || compLower.includes("thu duc")) return "thuduc-it";
+    if (compLower.includes("long châu") || compLower.includes("long chau")) return "longchau";
+    if (compLower.includes("green bio") || compLower.includes("greenbio")) return "greenbio";
+    if (compLower.includes("as solutions") || compLower.includes("assolutions")) return "assolutions";
+    if (compLower.includes("umbalabs") || compLower.includes("umba")) return "umbalabs";
+    if (compLower.includes("tinovation") || compLower.includes("tino")) return "tinovation";
+    if (compLower.includes("dekon")) return "dekon";
+    if (compLower.includes("taptap")) return "taptap";
+    if (compLower.includes("octosoft")) return "octosoft";
+    if (compLower.includes("zalo")) return "zalo";
+    if (compLower.includes("base.vn") || compLower.includes("basevn")) return "basevn";
+    if (compLower.includes("chips")) return "be";
+    if (compLower.includes("nasani")) return "itdev";
+    if (compLower.includes("nam phương") || compLower.includes("nam phuong")) return "namphuong";
+
+    // Khớp theo mảng công nghệ chính
+    if (text.includes("ai ") || text.includes("machine learning") || text.includes("llm") || text.includes("automation") || text.includes("agent") || text.includes("data analytics")) {
+      return "ai";
+    }
+    if (text.includes("frontend") || text.includes("front-end") || text.includes("reactjs") || text.includes("react.js") || text.includes("react ") || text.includes("angular") || text.includes("vue")) {
+      return "fe";
+    }
+    if (text.includes("fullstack") || text.includes("full-stack") || text.includes("full stack")) {
+      return "fullstack";
+    }
+    if (text.includes("backend") || text.includes("back-end") || text.includes("node") || text.includes("express") || text.includes("nest") || text.includes("python") || text.includes("golang") || text.includes("go ") || text.includes("java") || text.includes("api")) {
+      return "be";
+    }
+
+    return "base";
+  }
+
+  function getCvLabel(key) {
+    if (typeof CV_MANIFEST !== "undefined" && Array.isArray(CV_MANIFEST)) {
+      const found = CV_MANIFEST.find(item => item.key === key);
+      if (found) return (found.emoji ? found.emoji + " " : "") + found.label;
+    }
+    return key;
+  }
+
+  function parseMarkdownJobs(mdContent) {
+    if (!mdContent || typeof mdContent !== "string") return [];
+    const lines = mdContent.split(/\r?\n/);
+    const parsedJobs = [];
+    let inTable = false;
+    let headerCols = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (!line.startsWith("|")) continue;
+
+      const rawCells = line.split("|").map(c => c.trim());
+      if (rawCells.length >= 2 && rawCells[0] === "") rawCells.shift();
+      if (rawCells.length >= 1 && rawCells[rawCells.length - 1] === "") rawCells.pop();
+
+      const lineLower = line.toLowerCase();
+      if (lineLower.includes("công ty") && (lineLower.includes("vị trí") || lineLower.includes("stt"))) {
+        headerCols = rawCells.map(c => c.toLowerCase());
+        inTable = true;
+        continue;
+      }
+
+      if (line.replace(/[\s|:\-]/g, "") === "") {
+        continue;
+      }
+
+      if (!inTable) continue;
+
+      let posIdx = 1, compIdx = 2, locIdx = 3, dateIdx = 4, scoreIdx = 5, sumIdx = 6, linkIdx = 7;
+      if (headerCols.length >= 4) {
+        const findCol = (kw) => headerCols.findIndex(h => h.includes(kw));
+        const p = findCol("vị trí"); if (p !== -1) posIdx = p;
+        const c = findCol("công ty"); if (c !== -1) compIdx = c;
+        const l = findCol("địa điểm"); if (l !== -1) locIdx = l;
+        const d = findCol("hạn") !== -1 ? findCol("hạn") : findCol("ngày"); if (d !== -1) dateIdx = d;
+        const s = findCol("điểm"); if (s !== -1) scoreIdx = s;
+        const sm = findCol("tóm tắt") !== -1 ? findCol("tóm tắt") : findCol("yêu cầu"); if (sm !== -1) sumIdx = sm;
+        const lk = findCol("link") !== -1 ? findCol("link") : findCol("ứng tuyển"); if (lk !== -1) linkIdx = lk;
+      }
+
+      const rawComp = rawCells[compIdx] || "";
+      const rawPos = rawCells[posIdx] || "";
+      if (!rawComp || !rawPos) continue;
+
+      const company = rawComp.replace(/\*\*/g, "").replace(/`/g, "").trim();
+      const position = rawPos.replace(/\*\*/g, "").replace(/`/g, "").trim();
+      const location = (rawCells[locIdx] || "").trim();
+      const dateInfo = (rawCells[dateIdx] || "").trim();
+      const score = (rawCells[scoreIdx] || "").replace(/`/g, "").trim();
+      const summary = (rawCells[sumIdx] || "").trim();
+      const rawLink = rawCells[linkIdx] || "";
+
+      let jobUrl = "";
+      const urlMatch = rawLink.match(/\[.*?\]\((https?:\/\/[^\s\)]+)\)/i) || rawLink.match(/(https?:\/\/[^\s\)]+)/i);
+      if (urlMatch) {
+        jobUrl = urlMatch[1];
+      }
+
+      const cvType = guessCvType(company, position, summary);
+      const cvLabel = getCvLabel(cvType);
+
+      parsedJobs.push({
+        id: "job_md_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6),
+        company,
+        position,
+        cvType,
+        cvLabel,
+        appliedDate: "",
+        status: "saved",
+        contact: location ? `Khu vực: ${location}` : "",
+        notes: [
+          location ? `📍 Địa điểm: ${location}` : "",
+          dateInfo ? `⏱️ Hạn: ${dateInfo}` : "",
+          score ? `⭐ Đánh giá khớp: ${score}` : "",
+          jobUrl ? `🔗 Link ứng tuyển: ${jobUrl}` : "",
+          summary ? `💡 Tóm tắt JD: ${summary}` : ""
+        ].filter(Boolean).join("\n"),
+        jobUrl,
+        jdText: [
+          summary,
+          jobUrl ? `🔗 Link ứng tuyển gốc: ${jobUrl}` : ""
+        ].filter(Boolean).join("\n\n") || `${position} tại ${company}`
+      });
+    }
+
+    return parsedJobs;
+  }
+
+  function mergeImportedJobs(newJobs, sourceName = "file Markdown") {
+    if (!Array.isArray(newJobs) || newJobs.length === 0) {
+      alert("Không tìm thấy dữ liệu công việc hợp lệ nào để nhập!");
+      return;
+    }
+
+    const norm = str => (str || "").toLowerCase().trim().replace(/[.,\-_]/g, "");
+    const incomingKeys = new Set(newJobs.map(nj => norm(nj.company)));
+    // Xóa các job_md_ cũ ở trạng thái "saved" không còn nằm trong file Markdown mới
+    jobs = jobs.filter(j => {
+      if (j.id && j.id.startsWith("job_md_") && j.status === "saved") {
+        return incomingKeys.has(norm(j.company));
+      }
+      return true;
+    });
+
+    const existingCompanies = new Map();
+    jobs.forEach(j => {
+      existingCompanies.set(norm(j.company), j);
+    });
+
+    let addedCount = 0;
+    let updatedCount = 0;
+
+    newJobs.forEach(nj => {
+      const key = norm(nj.company);
+      if (existingCompanies.has(key)) {
+        const existing = existingCompanies.get(key);
+        if (nj.jobUrl) existing.jobUrl = nj.jobUrl;
+        if (nj.jobUrl && existing.jdText && !existing.jdText.includes(nj.jobUrl)) {
+          existing.jdText += "\n\n🔗 Link ứng tuyển gốc: " + nj.jobUrl;
+        }
+        if (nj.jobUrl && existing.notes && !existing.notes.includes(nj.jobUrl)) {
+          existing.notes += "\n🔗 Link ứng tuyển: " + nj.jobUrl;
+        }
+        updatedCount++;
+      } else {
+        jobs.push(nj);
+        existingCompanies.set(key, nj);
+        addedCount++;
+      }
+    });
+
+    saveJobs();
+    renderStats();
+    renderJobList();
+
+    alert(`✔ Đã xử lý ${newJobs.length} công việc từ ${sourceName}:\n- Thêm mới: ${addedCount} việc làm\n- Cập nhật thông tin: ${updatedCount} việc làm đã có`);
+  }
+
+  function importMarkdownData() {
+    const useAuto = confirm(
+      "Bạn muốn nạp danh sách công việc từ đâu?\n\n" +
+      "• Bấm OK: Tự động nạp từ file 'jobs_for_tomorrow.md' (100 job sẵn có trong project)\n" +
+      "• Bấm Cancel: Chọn file .md từ máy tính của bạn"
+    );
+
+    if (useAuto) {
+      fetch("jobs_for_tomorrow.md")
+        .then(res => {
+          if (!res.ok) throw new Error("HTTP " + res.status);
+          return res.text();
+        })
+        .then(text => {
+          const parsed = parseMarkdownJobs(text);
+          mergeImportedJobs(parsed, "jobs_for_tomorrow.md");
+        })
+        .catch(err => {
+          alert("Không thể đọc trực tiếp file jobs_for_tomorrow.md qua mạng (" + err.message + "). Vui lòng chọn file này từ máy tính.");
+          pickMarkdownFile();
+        });
+    } else {
+      pickMarkdownFile();
+    }
+  }
+
+  function pickMarkdownFile() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".md,.txt,.markdown";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = parseMarkdownJobs(event.target.result);
+          mergeImportedJobs(parsed, file.name);
+        } catch (err) {
+          alert("Lỗi khi đọc file Markdown: " + err.message);
         }
       };
       reader.readAsText(file);
@@ -1138,6 +1505,9 @@ QUYỀN LỢI:
 
     const importBtn = document.getElementById("jtImportBtn");
     if (importBtn) importBtn.onclick = importData;
+
+    const importMdBtn = document.getElementById("jtImportMdBtn");
+    if (importMdBtn) importMdBtn.onclick = importMarkdownData;
 
     // Cloud Sync button & modal
     const syncBtn = document.getElementById("jtSyncBtn");
@@ -1340,12 +1710,15 @@ QUYỀN LỢI:
     openAtsWithCurrentJd,
     openEmailWithCurrentJd,
     openEmailForJob,
+    openInterviewForJob,
     changeStatus,
     cycleStatus,
     deleteJob,
     openCv,
     exportData,
     importData,
+    importMarkdownData,
+    parseMarkdownJobs,
     refreshBadge: updateBadge
   };
 

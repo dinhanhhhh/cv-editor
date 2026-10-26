@@ -92,19 +92,19 @@ Liên hệ & Nộp hồ sơ:
     skills: [
       {
         cat: "Backend",
-        items: "Node.js, Express.js, RESTful API, MVC Architecture, JWT, RBAC",
+        items: "Node.js, Express.js, TypeScript, RESTful API, MVC Architecture, JWT, RBAC, Middleware",
       },
       {
         cat: "Databases",
-        items: "SQL, MySQL, PostgreSQL, MongoDB, Schema Design, 3NF, Indexing",
+        items: "MySQL, PostgreSQL, MongoDB, Schema Design, 3NF, Indexing, Query Optimization",
       },
       {
         cat: "Tools & DevOps",
-        items: "Git, GitHub, Postman, Docker, Redis, Linux, VPS Deployment",
+        items: "Git, GitHub, Postman, Docker, Swagger, Vercel",
       },
       {
         cat: "Frontend",
-        items: "JavaScript (ES6+), TypeScript, React.js, Next.js, HTML5/CSS3",
+        items: "JavaScript (ES6+), TypeScript, React.js, Next.js, Tailwind CSS",
       },
       {
         cat: "English",
@@ -224,19 +224,19 @@ Trương Đình Anh
     skills: [
       {
         cat: "Backend",
-        items: "Node.js, Express.js, RESTful API, MVC Architecture, JWT, RBAC",
+        items: "Node.js, Express.js, TypeScript, RESTful API, MVC Architecture, JWT, RBAC, Middleware",
       },
       {
         cat: "Databases",
-        items: "SQL, MySQL, PostgreSQL, MongoDB, Schema Design, 3NF, Indexing",
+        items: "MySQL, PostgreSQL, MongoDB, Schema Design, 3NF, Indexing, Query Optimization",
       },
       {
         cat: "Tools & DevOps",
-        items: "Git, GitHub, Postman, Docker, Redis, Linux, VPS Deployment",
+        items: "Git, GitHub, Postman, Docker, Swagger, Vercel",
       },
       {
         cat: "Frontend",
-        items: "JavaScript (ES6+), TypeScript, React.js, Next.js, HTML5/CSS3",
+        items: "JavaScript (ES6+), TypeScript, React.js, Next.js, Tailwind CSS",
       },
       {
         cat: "English",

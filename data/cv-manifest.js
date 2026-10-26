@@ -326,7 +326,7 @@
   };
 
   // Phiên bản ứng dụng để cache-busting toàn bộ tài nguyên (CSS, JS, data)
-  const APP_VERSION = "1.1.0";
+  const APP_VERSION = "1.1.1";
   CV_MANIFEST.version = APP_VERSION;
   root.CV_APP_VERSION = APP_VERSION;
   root.withCvVersion = function (url) {

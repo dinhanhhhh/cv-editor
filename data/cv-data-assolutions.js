@@ -74,11 +74,11 @@ var cvData = {
       },
       {
         "cat": "Tích hợp & Backend",
-        "items": "RESTful APIs Integration, Node.js, Express (Cơ bản), Axios/Fetch API, Postman, Xử lý dữ liệu JSON, XSS Security Prevention"
+        "items": "RESTful APIs Integration, Node.js, Express.js, Axios/Fetch API, Postman, JSON Processing, XSS Security Prevention"
       },
       {
         "cat": "Công cụ & Quy trình",
-        "items": "Git (GitHub/GitLab, PR, Code Review), Vite, Webpack, Docker (Cơ bản), Vercel, Agile/Scrum"
+        "items": "Git (GitHub/GitLab, PR, Code Review), Vite, Webpack, Docker, Vercel, Agile/Scrum"
       }
     ]
   },
@@ -142,11 +142,11 @@ var cvData = {
       },
       {
         "cat": "Integration & Backend",
-        "items": "RESTful APIs Integration, Node.js, Express (Basic), Axios/Fetch API, Postman, JSON Processing, XSS Prevention"
+        "items": "RESTful APIs Integration, Node.js, Express.js, Axios/Fetch API, Postman, JSON Processing, XSS Prevention"
       },
       {
         "cat": "Tools & Workflow",
-        "items": "Git (GitHub/GitLab, PR, Code Review), Vite, Webpack, Docker (Basic), Vercel, Agile/Scrum"
+        "items": "Git (GitHub/GitLab, PR, Code Review), Vite, Webpack, Docker, Vercel, Agile/Scrum"
       }
     ]
   }

@@ -15,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="css/cv-layout.css?v=1.5.0">
+    <link rel="stylesheet" href="css/cv-layout.css?v=1.5.2">
     <!-- Manifest (nguồn danh sách phiên bản duy nhất) phải nạp trước router -->
     <script src="data/cv-manifest.js?v=1.2.1"></script>
     <!-- Master Base CV Data (Dữ liệu nền tảng & Runtime Merger) -->
@@ -34,6 +34,8 @@
             <span id="mobileCurrentVersionText">📦 Chọn bản CV</span> ▾
         </button>
         <div class="mobile-top-right">
+            <button type="button" class="mobile-reader-toggle" id="mobileProjectsBtn"
+                title="Chọn và sắp xếp dự án hiển thị trong CV">📁 Dự án</button>
             <button type="button" class="mobile-reader-toggle" id="mobileReaderModeBtn"
                 title="Bật/Tắt chế độ đọc 1 cột dễ nhìn trên điện thoại">📖 Đọc</button>
             <div class="mobile-lang-switch">
@@ -187,7 +189,7 @@
 
     <main class="cv-viewport-wrapper" id="cvViewportWrapper">
         <div class="cv-paper-container" id="cvPaperContainer">
-            <div class="cv-preview" id="cvContent" tabindex="-1">
+            <div class="cv-preview" id="cvContent" tabindex="-1" spellcheck="false">
                 <!-- Nội dung đổ bởi cv-renderer.js -->
             </div>
         </div>
@@ -699,6 +701,8 @@
                 </div>
                 <div class="jt-header-actions">
                     <button type="button" class="jt-top-btn jt-add-btn" id="jtAddBtn">➕ Thêm ứng tuyển</button>
+                    <button type="button" class="jt-top-btn jt-md-btn" id="jtImportMdBtn"
+                        title="Nhập danh sách việc làm từ file Markdown (.md) hoặc jobs_for_tomorrow.md">📄 Nhập file MD</button>
                     <button type="button" class="jt-top-btn jt-sync-btn" id="jtSyncBtn"
                         title="Đồng bộ danh sách ứng tuyển lên Cloudflare KV">☁️ Sync Cloud</button>
                     <button type="button" class="jt-top-btn jt-backup-btn" id="jtExportBtn"
@@ -745,6 +749,7 @@
                         <div class="jt-form-group">
                             <label for="jtInputStatus">🏷️ Trạng thái</label>
                             <select id="jtInputStatus" class="jt-select">
+                                <option value="saved">📌 Chờ nộp (Mục tiêu)</option>
                                 <option value="applied">📝 Đã nộp hồ sơ</option>
                                 <option value="reviewing">⏳ Chờ phản hồi</option>
                                 <option value="interviewing">🎯 Phỏng vấn</option>
@@ -756,6 +761,11 @@
                             <label for="jtInputContact">📞 Người liên hệ / Email / Zalo</label>
                             <input type="text" id="jtInputContact" class="jt-input"
                                 placeholder="Ví dụ: giang.ha@favolist5.com / Zalo: 0973820220">
+                        </div>
+                        <div class="jt-form-group jt-full-width">
+                            <label for="jtInputJobUrl">🔗 Đường dẫn ứng tuyển / Tin tuyển dụng gốc (URL)</label>
+                            <input type="url" id="jtInputJobUrl" class="jt-input"
+                                placeholder="Ví dụ: https://topcv.vn/viec-lam/... hoặc link web công ty">
                         </div>
                         <div class="jt-form-group jt-full-width">
                             <label for="jtInputNotes">💡 Ghi chú tóm tắt (Địa chỉ, Lương, Liên hệ nhanh...)</label>
@@ -812,6 +822,9 @@
                     </div>
                 </div>
                 <div class="jt-header-actions">
+                    <a href="#" target="_blank" rel="noopener" class="jt-top-btn jt-link-jd-btn" id="jtOpenJobUrlBtn"
+                        style="display: none;"
+                        title="Mở đường link ứng tuyển gốc trong tab mới">🔗 Mở link tuyển dụng ↗</a>
                     <button type="button" class="jt-top-btn jt-copy-jd-btn" id="jtCopyJdBtn"
                         title="Sao chép toàn bộ nội dung JD">📋 Sao chép JD</button>
                     <button type="button" class="jt-top-btn jt-edit-jd-btn" id="jtEditJdBtn"
@@ -826,6 +839,14 @@
             </div>
 
             <div class="jt-jd-modal-body">
+                <div class="jt-jd-url-banner" id="jtJdUrlBanner" style="display: none;">
+                    <span class="jt-jd-url-icon">🔗</span>
+                    <div class="jt-jd-url-info">
+                        <span class="jt-jd-url-label">Đường dẫn ứng tuyển gốc:</span>
+                        <a href="#" target="_blank" rel="noopener" class="jt-jd-url-text" id="jtJdUrlBannerLink"></a>
+                    </div>
+                    <a href="#" target="_blank" rel="noopener" class="jt-jd-url-go-btn" id="jtJdUrlBannerBtn">Mở trang ứng tuyển ↗</a>
+                </div>
                 <pre class="jt-jd-content" id="jtJdContent"></pre>
             </div>
 
@@ -916,10 +937,14 @@
             <!-- Bản CV & Chế độ đọc (B5) -->
             <div class="mobile-drawer-section">
                 <div class="mobile-drawer-section-title">Phiên bản & Hiển thị</div>
-                <div class="mobile-tools-grid" style="grid-template-columns: 1fr 1fr;">
+                <div class="mobile-tools-grid" style="grid-template-columns: 1fr 1fr 1fr;">
                     <button type="button" class="mobile-tool-btn" id="mobileDrawerVersionBtn">
                         <span>📦</span>
                         <span>Đổi Bản CV</span>
+                    </button>
+                    <button type="button" class="mobile-tool-btn" id="mobileDrawerProjectsBtn">
+                        <span>📁</span>
+                        <span>Chọn Dự Án</span>
                     </button>
                     <button type="button" class="mobile-tool-btn" id="mobileDrawerReaderBtn">
                         <span>📖</span>
@@ -1026,7 +1051,7 @@
     </div>
 
     <!-- Script Đo đạc và Căn chỉnh A4 Fit Meter & Magic Fit -->
-    <script defer src="js/cv-a4-metrics.js?v=1.0.0"></script>
+    <script defer src="js/cv-a4-metrics.js?v=1.0.1"></script>
     <!-- Script So sánh 2 phiên bản CV (Diff Viewer) -->
     <script defer src="js/cv-diff.js?v=1.0.0"></script>
     <!-- Script Quản lý Tiến độ ứng tuyển -->
@@ -1038,7 +1063,7 @@
     <!-- Script Quản lý Phím tắt thao tác nhanh -->
     <script defer src="js/cv-hotkeys.js?v=1.0.0"></script>
     <!-- Script Điều khiển Responsive Mobile -->
-    <script defer src="js/cv-mobile.js?v=1.0.0"></script>
+    <script defer src="js/cv-mobile.js?v=1.0.2"></script>
     <!-- Script Bộ Công Cụ Nâng Cao CV Pro Tools (Command Palette, Layout 2 Cột, ATS Health, Export) -->
     <script defer src="js/cv-pro-tools.js?v=1.0.1"></script>
 </body>

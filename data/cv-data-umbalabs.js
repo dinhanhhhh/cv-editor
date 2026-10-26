@@ -70,7 +70,7 @@ var cvData = {
       },
       {
         "cat": "Backend & API",
-        "items": "Node.js, Express.js, NestJS (cơ bản), RESTful APIs, Structured Output, Validation, JWT/OAuth Security"
+        "items": "Node.js, Express.js, TypeScript, RESTful APIs, Structured Output, Validation, JWT/OAuth Security"
       },
       {
         "cat": "AI & Python",

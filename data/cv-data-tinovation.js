@@ -67,7 +67,7 @@ var cvData = {
     "skills": [
       {
         "cat": "Backend & MERN Stack",
-        "items": "Node.js, ExpressJS, MongoDB (Mongoose), NestJS (cơ bản), RESTful APIs, HTTP Protocols"
+        "items": "Node.js, Express.js, TypeScript, MongoDB (Mongoose), RESTful APIs, JWT, RBAC"
       },
       {
         "cat": "Frontend & Ngôn ngữ",

@@ -7,59 +7,57 @@ var cvData = {
   "vi": {
     "projectDisplayLimit": 2,
     "title": "Frontend Developer (React / Next.js)",
-    "objective": "Lập trình viên Frontend chuyên React và Next.js, đã xây dựng và triển khai nhiều ứng dụng web thực tế. Có kinh nghiệm thiết kế giao diện, tích hợp API và tối ưu trải nghiệm người dùng. Luôn tập trung viết code rõ ràng, dễ bảo trì và sẵn sàng cho môi trường production.",
+    "objective": "Cử nhân Khoa học Máy tính, Trường Đại học Mở TP.HCM, chuyên môn phát triển Frontend với React.js, Next.js, TypeScript và Tailwind CSS. Có kinh nghiệm thực tế tại TAMI Technology trong việc xây dựng ứng dụng web tích hợp RESTful APIs và triển khai lên Cloud Vercel. Chú trọng kiến trúc component tái sử dụng, quản lý trạng thái ứng dụng chặt chẽ và tối ưu trải nghiệm người dùng trên đa thiết bị.",
     "projects": [
       {
         "name": "NỀN TẢNG TUYỂN DỤNG (JOB PORTAL)",
         "date": "11/2025 - 02/2026",
         "role": "Developer",
-        "desc": "Ứng dụng web cho phép đăng tin tuyển dụng, nộp hồ sơ và quản lý người dùng.",
+        "desc": "Ứng dụng web cho phép đăng tin tuyển dụng, nộp hồ sơ và quản lý quy trình ứng tuyển.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Xây dựng giao diện danh sách việc làm, chi tiết và luồng ứng tuyển bằng Next.js, đảm bảo responsive trên nhiều thiết bị.",
-          "Thiết kế luồng xác thực (login/register/protected routes) và quản lý trạng thái người dùng.",
-          "Tích hợp API và xử lý dữ liệu hiển thị mượt mà, đảm bảo trải nghiệm ổn định.",
-          "Xử lý các trạng thái dữ liệu (loading, error, empty) để cải thiện UX.",
-          "Triển khai ứng dụng trên Vercel và cấu hình môi trường."
+          "Xây dựng giao diện danh sách việc làm, bộ lọc đa tiêu chí, phân trang và luồng ứng tuyển bằng Next.js và Tailwind CSS.",
+          "Thiết kế luồng xác thực phía client (Login, Register, Protected Routes) kết hợp phân quyền hiển thị theo vai trò người dùng.",
+          "Tích hợp RESTful APIs backend, đồng bộ trạng thái dữ liệu và xử lý đầy đủ các trạng thái UI (Loading Skeleton, Empty, Error).",
+          "Tối ưu hóa khả năng hiển thị responsive trên Mobile, Tablet, Desktop và triển khai ứng dụng lên Vercel."
         ],
-        "tech": "Next.js, React, TypeScript, Tailwind CSS, REST API, Git, Vercel"
+        "tech": "Next.js 15, React.js, TypeScript, Tailwind CSS, RESTful API, Git, Vercel"
       },
       {
-        "name": "NỀN TẢNG THƯƠNG MẠI ĐIỆN TỬ (E-COMMERCE)",
-        "date": "08/2025 - 09/2025",
+        "name": "E-COMMERCE PLATFORM",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
-        "desc": "Ứng dụng web mua sắm với giỏ hàng và quy trình thanh toán.",
+        "desc": "Ứng dụng web mua sắm trực tuyến với danh mục sản phẩm, giỏ hàng và quy trình đặt hàng.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Xây dựng UI cho sản phẩm, giỏ hàng và checkout bằng React + Tailwind CSS.",
-          "Tích hợp API và xử lý luồng dữ liệu cho các chức năng chính.",
-          "Cải thiện trải nghiệm người dùng trong quá trình checkout (form, validation, UX flow).",
-          "Tối ưu hiển thị trên mobile và desktop.",
-          "Triển khai frontend trên Vercel."
+          "Xây dựng hệ thống component tái sử dụng cho danh mục sản phẩm, chi tiết sản phẩm, giỏ hàng và thanh toán bằng React.js + Tailwind CSS.",
+          "Quản lý trạng thái giỏ hàng theo thời gian thực, xử lý kiểm tra tính hợp lệ của biểu mẫu (Form Validation) trước khi gửi đơn.",
+          "Tích hợp RESTful APIs để hiển thị sản phẩm theo phân loại, tìm kiếm và theo dõi trạng thái đơn hàng.",
+          "Đảm bảo bố cục responsive đồng nhất trên mọi kích thước màn hình và triển khai sản phẩm lên Vercel."
         ],
-        "tech": "React, Vite, TypeScript/JavaScript, Tailwind CSS, REST API, Git, Vercel"
+        "tech": "React.js, Vite, JavaScript (ES6+), Tailwind CSS, RESTful API, Git, Vercel"
       }
     ],
     "skills": [
       {
-        "cat": "Front-End",
-        "items": "React.js, Next.js, TypeScript, Tailwind CSS"
+        "cat": "Frontend",
+        "items": "React.js, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design"
       },
       {
-        "cat": "Quản lý trạng thái",
-        "items": "React Hooks, Zustand"
+        "cat": "Backend",
+        "items": "Node.js, Express.js, RESTful API Integration, JWT, NextAuth"
       },
       {
-        "cat": "API & Data",
-        "items": "RESTful API, Axios / Fetch"
+        "cat": "Databases",
+        "items": "PostgreSQL, MongoDB, Supabase"
       },
       {
-        "cat": "Testing",
-        "items": "Jest, Cypress, Postman"
+        "cat": "Tools & DevOps",
+        "items": "Git, GitHub, Postman, Docker, Vercel"
       },
       {
-        "cat": "Tools",
-        "items": "Git, GitHub, Vercel"
+        "cat": "English",
+        "items": "Đọc hiểu tài liệu kỹ thuật, giao tiếp công việc cơ bản"
       }
     ],
     "docTitle": "CV_TruongDinhAnh_FE_Intern_VI"
@@ -67,59 +65,57 @@ var cvData = {
   "en": {
     "projectDisplayLimit": 2,
     "title": "Frontend Developer (React / Next.js)",
-    "objective": "Frontend Developer specializing in React and Next.js, with hands-on experience building and deploying real-world web applications. Proficient in UI design, API integration, and user experience optimization. Committed to writing clean, maintainable code for production environments.",
+    "objective": "Computer Science graduate from Ho Chi Minh City Open University, specializing in Frontend development with React.js, Next.js, TypeScript, and Tailwind CSS. Gained hands-on experience at TAMI Technology building web interfaces integrated with RESTful APIs and deploying to Vercel Cloud. Focused on reusable component architecture, predictable state management, and responsive user experiences across devices.",
     "projects": [
       {
         "name": "JOB PORTAL PLATFORM",
         "date": "11/2025 - 02/2026",
         "role": "Developer",
-        "desc": "Web application for job posting, application submission, and user management.",
+        "desc": "Web application for job posting, application submission, and recruitment workflow management.",
         "github": "https://github.com/dinhanhhhh/JOB-PORTAL",
         "tasks": [
-          "Built job listings, details, and application flow UI using Next.js with full responsiveness.",
-          "Designed authentication flows (login/register/protected routes) and user state management.",
-          "Integrated APIs and handled data display smoothly for a stable experience.",
-          "Managed data states (loading, error, and empty states) to enhance UX.",
-          "Deployed the application on Vercel and configured the environment."
+          "Built job listings, multi-criteria search filters, pagination, and application flow UI using Next.js and Tailwind CSS.",
+          "Designed client-side authentication flows (login, registration, protected routes) and role-based UI rendering.",
+          "Integrated backend RESTful APIs and managed asynchronous UI states (loading skeletons, empty, and error states).",
+          "Optimized responsive layouts across mobile, tablet, and desktop viewports and deployed to Vercel."
         ],
-        "tech": "Next.js, React, TypeScript, Tailwind CSS, REST API, Git, Vercel"
+        "tech": "Next.js 15, React.js, TypeScript, Tailwind CSS, RESTful API, Git, Vercel"
       },
       {
         "name": "E-COMMERCE PLATFORM",
-        "date": "08/2025 - 09/2025",
+        "date": "08/2025 - 11/2025",
         "role": "Developer",
-        "desc": "Shopping web application with cart and checkout workflows.",
+        "desc": "Online shopping web application featuring product catalogs, shopping cart, and checkout workflows.",
         "github": "https://github.com/dinhanhhhh/ecommerce",
         "tasks": [
-          "Built product, cart, and checkout UI using React + Tailwind CSS.",
-          "Integrated APIs and processed data flows for core features.",
-          "Improved checkout experience (form handling, validation, UX flow).",
-          "Optimized display for mobile and desktop screens.",
-          "Deployed frontend on Vercel."
+          "Developed reusable UI components for product catalogs, item details, cart, and checkout using React.js and Tailwind CSS.",
+          "Synchronized shopping cart state and implemented client-side form validation across the checkout flow.",
+          "Integrated RESTful APIs for category filtering, product search, and order status tracking.",
+          "Ensured responsive rendering across mobile and desktop screens and deployed the frontend on Vercel."
         ],
-        "tech": "React, Vite, TypeScript/JavaScript, Tailwind CSS, REST API, Git, Vercel"
+        "tech": "React.js, Vite, JavaScript (ES6+), Tailwind CSS, RESTful API, Git, Vercel"
       }
     ],
     "skills": [
       {
-        "cat": "Front-End",
-        "items": "React.js, Next.js, TypeScript, Tailwind CSS"
+        "cat": "Frontend",
+        "items": "React.js, Next.js, TypeScript, JavaScript (ES6+), Tailwind CSS, Responsive Design"
       },
       {
-        "cat": "State Management",
-        "items": "React Hooks, Zustand"
+        "cat": "Backend",
+        "items": "Node.js, Express.js, RESTful API Integration, JWT, NextAuth"
       },
       {
-        "cat": "API & Data",
-        "items": "RESTful API, Axios / Fetch"
+        "cat": "Databases",
+        "items": "PostgreSQL, MongoDB, Supabase"
       },
       {
-        "cat": "Testing",
-        "items": "Jest, Cypress, Postman"
+        "cat": "Tools & DevOps",
+        "items": "Git, GitHub, Postman, Docker, Vercel"
       },
       {
-        "cat": "Tools",
-        "items": "Git, GitHub, Vercel"
+        "cat": "English",
+        "items": "Read technical documentation, handle basic workplace communication"
       }
     ],
     "docTitle": "CV_TruongDinhAnh_FE_Intern_EN"
