@@ -10,6 +10,12 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "genkihouse",
+      file: "data/cv-data-genkihouse.js",
+      emoji: "🏠",
+      label: "🏠 Genki House - TTS IT / Frontend Developer (Full-time, TP.HCM)",
+    },
+    {
       key: "goldsun",
       file: "data/cv-data-goldsun.js",
       emoji: "☀️",
