@@ -10,6 +10,18 @@
 (function (root) {
   const CV_MANIFEST = [
     {
+      key: "goldsun",
+      file: "data/cv-data-goldsun.js",
+      emoji: "☀️",
+      label: "☀️ Goldsun Focus Media - AI Application (Prompt, RAG, Agentic AI)",
+    },
+    {
+      key: "ncs",
+      file: "data/cv-data-ncs.js",
+      emoji: "🛡️",
+      label: "🛡️ NCS - TTS Giám Sát An Ninh Mạng (SOC Tier 1)",
+    },
+    {
       key: "hemidi",
       file: "data/cv-data-hemidi.js",
       emoji: "🌿",
@@ -326,7 +338,7 @@
   };
 
   // Phiên bản ứng dụng để cache-busting toàn bộ tài nguyên (CSS, JS, data)
-  const APP_VERSION = "1.1.1";
+  const APP_VERSION = "1.1.2";
   CV_MANIFEST.version = APP_VERSION;
   root.CV_APP_VERSION = APP_VERSION;
   root.withCvVersion = function (url) {

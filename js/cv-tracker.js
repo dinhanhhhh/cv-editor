@@ -9,6 +9,26 @@
 
 (function () {
   const STORAGE_KEY = "cv_job_tracker_data";
+  const DISMISSED_KEY = "cv_job_tracker_dismissed";
+  const FILTER_STORAGE_KEY = "cv_job_tracker_active_filter";
+
+  function getDismissedCompanies() {
+    try {
+      return new Set(JSON.parse(localStorage.getItem(DISMISSED_KEY) || "[]"));
+    } catch (e) {
+      return new Set();
+    }
+  }
+
+  function addDismissedCompany(comp) {
+    if (!comp) return;
+    const norm = comp.toLowerCase().trim().replace(/[.,\-_]/g, "");
+    const set = getDismissedCompanies();
+    set.add(norm);
+    try {
+      localStorage.setItem(DISMISSED_KEY, JSON.stringify([...set]));
+    } catch (e) {}
+  }
 
   // Danh sách trạng thái chuẩn
   const STATUSES = {
@@ -22,6 +42,20 @@
 
   // Dữ liệu mẫu khởi đầu và tự động đồng bộ
   const DEFAULT_SEED_DATA = [
+    {
+      id: "job_goldsun_seed",
+      company: "Goldsun Focus Media",
+      position: "AI Application (Prompt Engineering, RAG, Agentic AI)",
+      cvType: "goldsun",
+      cvLabel: "☀️ Goldsun Focus Media - AI Application (Prompt, RAG, Agentic AI)",
+      appliedDate: "2026-10-27",
+      status: "applied",
+      userModified: true,
+      contact: "Quận 1, TP. Hồ Chí Minh | hrsg2@focusmedia.vn",
+      notes: "Công ty Cổ phần Truyền Thông Tập Trung Mặt Trời Vàng (Goldsun Focus Media). Vị trí: AI Application (Prompt Engineering, RAG, Agentic AI). Đã nộp CV bản Tiếng Anh trên ITviec.",
+      jobUrl: "https://itviec.com/companies/goldsun-focus-media",
+      jdText: "Vị trí: AI Application (Prompt Engineering, RAG, Agentic AI) tại Goldsun Focus Media (Quận 1, TP.HCM). Trọng tâm: Phát triển & tối ưu hệ thống Sales AI Agent, Prompt Engineering, RAG, Agentic AI workflows, theo dõi chỉ số hiệu quả AI Agent và phối hợp liên phòng ban (Sales, IT, HR) cùng đối tác tư vấn AI."
+    },
     {
       id: "job_hemidi_seed",
       company: "HEMIDI",
@@ -365,12 +399,33 @@ QUYỀN LỢI:
   // State
   let jobs = [];
   let currentFilter = "all";
+  try {
+    currentFilter = localStorage.getItem(FILTER_STORAGE_KEY) || "all";
+  } catch (e) {}
   let searchQuery = "";
   let editingJobId = null;
 
   // ----------------------------------------------------
   // LocalStorage Helpers
   // ----------------------------------------------------
+  // Sắp xếp các job đã nộp / đang theo dõi theo ngày nộp mới nhất (appliedDate giảm dần), sau đó đến các job Chờ nộp (saved)
+  function sortJobsByNewestApplied(list) {
+    const parseDateVal = (dStr) => {
+      if (!dStr || dStr === "N/A") return 0;
+      const t = Date.parse(dStr);
+      return isNaN(t) ? 0 : t;
+    };
+    const nonSaved = list.filter(j => j.status !== "saved");
+    const saved = list.filter(j => j.status === "saved");
+    nonSaved.sort((a, b) => {
+      const da = parseDateVal(a.appliedDate);
+      const db = parseDateVal(b.appliedDate);
+      if (db !== da) return db - da;
+      return (b.updatedAt || 0) - (a.updatedAt || 0);
+    });
+    return [...nonSaved, ...saved];
+  }
+
   function loadJobs() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -424,23 +479,44 @@ QUYỀN LỢI:
                 updated = true;
               }
             }
-            if (seed.cvType === "octosoft" && existing.status !== "interviewing") {
-              existing.status = "interviewing";
-              existing.notes = seed.notes;
-              existing.contact = seed.contact;
-              updated = true;
+            if (seed.cvType === "octosoft") {
+              if (!existing.notes) existing.notes = seed.notes;
+              if (!existing.contact) existing.contact = seed.contact;
+              if (!existing.userModified && !existing.status) {
+                existing.status = "interviewing";
+                updated = true;
+              }
             }
           }
         });
 
-        // Tự động chuyển các job import từ MD chưa nộp sang trạng thái "saved" (Chờ nộp)
-        jobs.forEach(j => {
-          if (j.id && j.id.startsWith("job_md_") && j.status === "applied") {
-            j.status = "saved";
-            j.appliedDate = "";
+        // Khóa bảo vệ trạng thái người dùng: đánh dấu userModified cho mọi job đã chuyển khác "saved"
+        // Đồng thời đảm bảo Goldsun Focus Media giữ trạng thái "applied" (Đã nộp) nếu chưa bị người dùng chỉnh sửa
+        const seenGoldsun = [];
+        jobs.forEach((j, idx) => {
+          if (j.status && j.status !== "saved" && !j.userModified) {
+            j.userModified = true;
             updated = true;
           }
+          const cLower = (j.company || "").toLowerCase();
+          if (cLower.includes("goldsun") || cLower.includes("mặt trời vàng")) {
+            seenGoldsun.push(idx);
+            if (!j.userModified && j.status === "saved") {
+              j.status = "applied";
+              j.appliedDate = j.appliedDate || "2026-10-27";
+              j.cvType = "goldsun";
+              j.cvLabel = "☀️ Goldsun Focus Media - AI Application (Prompt, RAG, Agentic AI)";
+              j.userModified = true;
+              updated = true;
+            }
+          }
         });
+        if (seenGoldsun.length > 1) {
+          // Giữ lại bản Goldsun đầu tiên, loại bỏ bản trùng lặp
+          const removeIdxs = new Set(seenGoldsun.slice(1));
+          jobs = jobs.filter((_, idx) => !removeIdxs.has(idx));
+          updated = true;
+        }
 
         // Tự động dọn sạch các job import từ MD bị sai khu vực (Hà Nội, Đà Nẵng, Cần Thơ), hết hạn hoặc trái ngành
         const beforeCount = jobs.length;
@@ -450,7 +526,7 @@ QUYỀN LỢI:
         const expiredDateRx = /06\/02\/2026|2026-10-18|2026-10-19|2026-10-20|2026-10-22|2026-10-23/;
 
         jobs = jobs.filter(j => {
-          if (!j.id || !j.id.startsWith("job_md_")) return true;
+          if (!j.id || !j.id.startsWith("job_md_") || j.userModified || j.status !== "saved") return true;
           const comp = j.company || "";
           const pos = j.position || "";
           const contactAndNotes = (j.contact || "") + " " + (j.notes || "");
@@ -464,7 +540,8 @@ QUYỀN LỢI:
           updated = true;
         }
 
-        if (updated) saveJobs();
+        jobs = sortJobsByNewestApplied(jobs);
+        saveJobs();
       } else {
         jobs = [...DEFAULT_SEED_DATA];
         saveJobs();
@@ -556,7 +633,8 @@ QUYỀN LỢI:
     if (typeof CV_MANIFEST !== "undefined" && Array.isArray(CV_MANIFEST)) {
       const found = CV_MANIFEST.find(m => m.key === type);
       if (found) {
-        label = (found.emoji ? found.emoji + " " : "") + (found.label || found.key);
+        const rawLbl = found.label || found.key;
+        label = (found.emoji && !rawLbl.startsWith(found.emoji) ? found.emoji + " " : "") + rawLbl;
       }
     }
     return { type, label };
@@ -601,7 +679,10 @@ QUYỀN LỢI:
         pill.classList.add("active");
       }
       pill.onclick = () => {
-        currentFilter = pill.getAttribute("data-filter");
+        currentFilter = pill.getAttribute("data-filter") || "all";
+        try {
+          localStorage.setItem(FILTER_STORAGE_KEY, currentFilter);
+        } catch (e) {}
         renderStats();
         renderJobList();
       };
@@ -617,7 +698,7 @@ QUYỀN LỢI:
       CV_MANIFEST.forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.key;
-        opt.textContent = (item.emoji ? item.emoji + " " : "") + item.label;
+        opt.textContent = (item.emoji && item.label && !item.label.startsWith(item.emoji) ? item.emoji + " " : "") + item.label;
         if (item.key === selectedType) {
           opt.selected = true;
         }
@@ -816,12 +897,14 @@ QUYỀN LỢI:
           position,
           cvType,
           cvLabel,
-          appliedDate,
+          appliedDate: status === "saved" ? "" : (appliedDate || getTodayString()),
           status,
           contact,
           jobUrl,
           notes,
           jdText,
+          userModified: true,
+          updatedAt: Date.now()
         };
       }
     } else {
@@ -832,16 +915,19 @@ QUYỀN LỢI:
         position,
         cvType,
         cvLabel,
-        appliedDate,
+        appliedDate: status === "saved" ? "" : (appliedDate || getTodayString()),
         status,
         contact,
         jobUrl,
         notes,
         jdText,
+        userModified: true,
+        updatedAt: Date.now()
       };
       jobs.unshift(newJob);
     }
 
+    jobs = sortJobsByNewestApplied(jobs);
     saveJobs();
     closeForm();
     renderStats();
@@ -901,9 +987,12 @@ QUYỀN LỢI:
       }
     }
 
-    // Tự động đồng bộ bản jdText đầy đủ nếu hiện tại chỉ lưu ghi chú ngắn hoặc chưa có JD
-    const seed = DEFAULT_SEED_DATA.find(s => s.id === job.id || (s.cvType && s.cvType === job.cvType) || (s.company && job.company && s.company.toLowerCase().trim() === job.company.toLowerCase().trim()));
-    const metaJd = (window.cvData && window.cvData.meta && (window.cvData.meta.jdText || window.cvData.meta.jd)) || "";
+    // Tự động đồng bộ bản jdText đầy đủ CHỈ KHI đúng cùng công ty (tránh ghi đè JD của công ty đang mở sang công ty khác)
+    const normComp = c => (c || "").toLowerCase().trim();
+    const seed = DEFAULT_SEED_DATA.find(s => s.id === job.id || (s.company && job.company && normComp(s.company) === normComp(job.company)));
+    const metaComp = (window.cvData && window.cvData.meta && window.cvData.meta.company) || "";
+    const isSameCompanyAsMeta = metaComp && job.company && (normComp(metaComp) === normComp(job.company) || normComp(job.company).includes(normComp(metaComp)) || normComp(metaComp).includes(normComp(job.company)));
+    const metaJd = isSameCompanyAsMeta ? ((window.cvData && window.cvData.meta && (window.cvData.meta.jdText || window.cvData.meta.jd)) || "") : "";
     const candidateJd = (metaJd && metaJd.trim()) || (seed && seed.jdText && seed.jdText.trim()) || "";
     if (candidateJd && (!job.jdText || job.jdText === job.notes || candidateJd.length > (job.jdText || "").length + 30)) {
       job.jdText = candidateJd;
@@ -1065,13 +1154,16 @@ QUYỀN LỢI:
     const job = jobs.find(j => j.id === jobId);
     if (!job) return;
 
-    if (newStatus === "applied" && (!job.appliedDate || job.appliedDate === "N/A")) {
-      job.appliedDate = getTodayString();
-    } else if (newStatus === "saved") {
+    if (newStatus === "saved") {
       job.appliedDate = "";
+    } else if (!job.appliedDate || job.appliedDate === "N/A") {
+      job.appliedDate = getTodayString();
     }
 
     job.status = newStatus;
+    job.userModified = true;
+    job.updatedAt = Date.now();
+    jobs = sortJobsByNewestApplied(jobs);
     saveJobs();
     renderStats();
     renderJobList();
@@ -1086,13 +1178,16 @@ QUYỀN LỢI:
     const curIdx = flow.indexOf(job.status);
     const nextStatus = flow[(curIdx + 1) % flow.length];
 
-    if (nextStatus === "applied" && (!job.appliedDate || job.appliedDate === "N/A")) {
-      job.appliedDate = getTodayString();
-    } else if (nextStatus === "saved") {
+    if (nextStatus === "saved") {
       job.appliedDate = "";
+    } else if (!job.appliedDate || job.appliedDate === "N/A") {
+      job.appliedDate = getTodayString();
     }
 
     job.status = nextStatus;
+    job.userModified = true;
+    job.updatedAt = Date.now();
+    jobs = sortJobsByNewestApplied(jobs);
     saveJobs();
     renderStats();
     renderJobList();
@@ -1103,6 +1198,7 @@ QUYỀN LỢI:
     if (!job) return;
 
     if (confirm(`Bạn có chắc muốn xóa hồ sơ ứng tuyển tại "${job.company}" không?`)) {
+      addDismissedCompany(job.company);
       jobs = jobs.filter(j => j.id !== jobId);
       saveJobs();
       renderStats();
@@ -1187,6 +1283,8 @@ QUYỀN LỢI:
     const text = `${position || ""} ${summary || ""}`.toLowerCase();
 
     // Khớp đích danh công ty có sẵn trong CV manifest
+    if (compLower.includes("goldsun") || compLower.includes("mặt trời vàng")) return "goldsun";
+    if (compLower.includes("ncs") || compLower.includes("an ninh mạng quốc gia")) return "ncs";
     if (compLower.includes("hemidi")) return "hemidi";
     if (compLower.includes("yabu")) return "yabu";
     if (compLower.includes("credosis")) return "credosis";
@@ -1226,7 +1324,7 @@ QUYỀN LỢI:
   function getCvLabel(key) {
     if (typeof CV_MANIFEST !== "undefined" && Array.isArray(CV_MANIFEST)) {
       const found = CV_MANIFEST.find(item => item.key === key);
-      if (found) return (found.emoji ? found.emoji + " " : "") + found.label;
+      if (found) return (found.emoji && found.label && !found.label.startsWith(found.emoji) ? found.emoji + " " : "") + found.label;
     }
     return key;
   }
@@ -1266,7 +1364,7 @@ QUYỀN LỢI:
         const c = findCol("công ty"); if (c !== -1) compIdx = c;
         const l = findCol("địa điểm"); if (l !== -1) locIdx = l;
         const d = findCol("hạn") !== -1 ? findCol("hạn") : findCol("ngày"); if (d !== -1) dateIdx = d;
-        const s = findCol("điểm"); if (s !== -1) scoreIdx = s;
+        const s = headerCols.findIndex(h => h.includes("điểm") && !h.includes("địa điểm")); if (s !== -1) scoreIdx = s;
         const sm = findCol("tóm tắt") !== -1 ? findCol("tóm tắt") : findCol("yêu cầu"); if (sm !== -1) sumIdx = sm;
         const lk = findCol("link") !== -1 ? findCol("link") : findCol("ứng tuyển"); if (lk !== -1) linkIdx = lk;
       }
@@ -1319,18 +1417,36 @@ QUYỀN LỢI:
     return parsedJobs;
   }
 
-  function mergeImportedJobs(newJobs, sourceName = "file Markdown") {
+  function syncMarkdownSilently() {
+    fetch("jobs_for_tomorrow.md?t=" + Date.now())
+      .then(res => {
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        return res.text();
+      })
+      .then(text => {
+        const parsed = parseMarkdownJobs(text);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          mergeImportedJobs(parsed, "jobs_for_tomorrow.md", true);
+        }
+      })
+      .catch(() => {});
+  }
+
+  function mergeImportedJobs(newJobs, sourceName = "file Markdown", silent = false) {
     if (!Array.isArray(newJobs) || newJobs.length === 0) {
       alert("Không tìm thấy dữ liệu công việc hợp lệ nào để nhập!");
       return;
     }
 
     const norm = str => (str || "").toLowerCase().trim().replace(/[.,\-_]/g, "");
-    const incomingKeys = new Set(newJobs.map(nj => norm(nj.company)));
-    // Xóa các job_md_ cũ ở trạng thái "saved" không còn nằm trong file Markdown mới
+    const dismissed = getDismissedCompanies();
+    const filteredNewJobs = newJobs.filter(nj => !dismissed.has(norm(nj.company)));
+    const incomingKeys = new Set(filteredNewJobs.map(nj => norm(nj.company)));
+
+    // Chỉ xóa các job_md_ cũ CHƯA bị người dùng tác động (status === "saved" && !userModified) nếu không còn trong file Markdown
     jobs = jobs.filter(j => {
-      if (j.id && j.id.startsWith("job_md_") && j.status === "saved") {
-        return incomingKeys.has(norm(j.company));
+      if (j.id && j.id.startsWith("job_md_") && j.status === "saved" && !j.userModified) {
+        return incomingKeys.has(norm(j.company)) && !dismissed.has(norm(j.company));
       }
       return true;
     });
@@ -1343,30 +1459,42 @@ QUYỀN LỢI:
     let addedCount = 0;
     let updatedCount = 0;
 
-    newJobs.forEach(nj => {
+    const orderedSavedMdJobs = [];
+    filteredNewJobs.forEach(nj => {
       const key = norm(nj.company);
       if (existingCompanies.has(key)) {
         const existing = existingCompanies.get(key);
-        if (nj.jobUrl) existing.jobUrl = nj.jobUrl;
-        if (nj.jobUrl && existing.jdText && !existing.jdText.includes(nj.jobUrl)) {
-          existing.jdText += "\n\n🔗 Link ứng tuyển gốc: " + nj.jobUrl;
-        }
-        if (nj.jobUrl && existing.notes && !existing.notes.includes(nj.jobUrl)) {
-          existing.notes += "\n🔗 Link ứng tuyển: " + nj.jobUrl;
+        const isUntouchedSavedMd = existing.id && existing.id.startsWith("job_md_") && existing.status === "saved" && !existing.userModified;
+        if (isUntouchedSavedMd) {
+          if (nj.jobUrl) existing.jobUrl = nj.jobUrl;
+          if (nj.notes) existing.notes = nj.notes;
+          if (nj.jdText) existing.jdText = nj.jdText;
+          if (nj.cvType) existing.cvType = nj.cvType;
+          if (nj.cvLabel) existing.cvLabel = nj.cvLabel;
+          orderedSavedMdJobs.push(existing);
+        } else {
+          // Job đã được người dùng chỉnh sửa trạng thái (Đã nộp / Phỏng vấn...): tuyệt đối giữ nguyên status & appliedDate, chỉ bổ sung link nếu thiếu
+          if (!existing.jobUrl && nj.jobUrl) existing.jobUrl = nj.jobUrl;
         }
         updatedCount++;
       } else {
-        jobs.push(nj);
         existingCompanies.set(key, nj);
+        orderedSavedMdJobs.push(nj);
         addedCount++;
       }
     });
+
+    // Giữ các job người dùng đã nộp / đã tác động ở trên đầu (sắp xếp theo ngày nộp mới nhất), tiếp theo là danh sách Chờ nộp đúng thứ tự ngày quét mới nhất từ Markdown
+    const lockedUserJobs = jobs.filter(j => !(j.id && j.id.startsWith("job_md_") && j.status === "saved" && !j.userModified));
+    jobs = sortJobsByNewestApplied([...lockedUserJobs, ...orderedSavedMdJobs]);
 
     saveJobs();
     renderStats();
     renderJobList();
 
-    alert(`✔ Đã xử lý ${newJobs.length} công việc từ ${sourceName}:\n- Thêm mới: ${addedCount} việc làm\n- Cập nhật thông tin: ${updatedCount} việc làm đã có`);
+    if (!silent) {
+      alert(`✔ Đã xử lý ${newJobs.length} công việc từ ${sourceName}:\n- Thêm mới: ${addedCount} việc làm\n- Cập nhật thông tin: ${updatedCount} việc làm đã có`);
+    }
   }
 
   function importMarkdownData() {
@@ -1423,6 +1551,10 @@ QUYỀN LỢI:
     const overlay = document.getElementById("jobTrackerModalOverlay");
     if (!overlay) return;
 
+    try {
+      currentFilter = localStorage.getItem(FILTER_STORAGE_KEY) || "all";
+    } catch (e) {}
+
     loadJobs();
     checkAndSyncCurrentCv();
     closeForm();
@@ -1459,6 +1591,7 @@ QUYỀN LỢI:
   // ----------------------------------------------------
   function init() {
     loadJobs();
+    syncMarkdownSilently();
 
     // Nút mở modal bên thanh controls
     const triggerBtn = document.getElementById("jobTrackerBtn");

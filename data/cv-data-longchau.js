@@ -47,7 +47,7 @@ var cvData = {
           "Phát triển kịch bản kiểm thử tự động (Quality Gate Validator) xác thực tính hợp lệ của cấu trúc dữ liệu trước khi phát hành.",
           "Thiết lập luồng CI/CD với GitHub Actions tự động kích hoạt kiểm thử và deploy ứng dụng lên Production."
         ],
-        "tech": "TypeScript, Cloudflare Workers, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD"
+        "tech": "JavaScript (ES6+), Cloudflare Workers, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD"
       },
       {
         "name": "STUDENT MANAGEMENT SYSTEM",
@@ -126,7 +126,7 @@ var cvData = {
           "Implemented automated Quality Gate validation scripts ensuring schema integrity before publication.",
           "Established GitHub Actions CI/CD workflows triggering automatic testing and production deployment."
         ],
-        "tech": "TypeScript, Cloudflare Workers, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD"
+        "tech": "JavaScript (ES6+), Cloudflare Workers, LLM APIs, Telegram Bot API, GitHub Actions, CI/CD"
       },
       {
         "name": "STUDENT MANAGEMENT SYSTEM",
