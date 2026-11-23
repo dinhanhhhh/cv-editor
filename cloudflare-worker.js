@@ -102,17 +102,64 @@ export default {
 
       if (request.method === "POST") {
         try {
-          const body = await request.json();
-          const jobs = body.jobs || [];
+          const rawText = await request.text();
+          if (rawText.length > 524288) {
+            return new Response(
+              JSON.stringify({ error: "Payload quá lớn (tối đa 512KB)." }),
+              { status: 413, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
+          }
+
+          const body = JSON.parse(rawText);
+          if (!Array.isArray(body.jobs)) {
+            return new Response(
+              JSON.stringify({ error: "Trường 'jobs' phải là một mảng hợp lệ." }),
+              { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+            );
+          }
+
+          const jobs = body.jobs;
+          const force = Boolean(body.force);
+          const lastSyncedAt = body.lastSyncedAt ? Date.parse(body.lastSyncedAt) : 0;
+
+          if (!force) {
+            const existingRaw = await env.CV_KV.get("tracker:" + pin);
+            if (existingRaw) {
+              try {
+                const existing = JSON.parse(existingRaw);
+                const serverTs = existing.updatedAt ? Date.parse(existing.updatedAt) : 0;
+                const serverJobs = Array.isArray(existing.jobs) ? existing.jobs : [];
+                if (serverJobs.length > 0 && serverTs > 0 && (!lastSyncedAt || serverTs > lastSyncedAt)) {
+                  return new Response(
+                    JSON.stringify({
+                      error: "Cloud đang có dữ liệu mới hơn bản đồng bộ trên máy này.",
+                      conflict: true,
+                      serverUpdatedAt: existing.updatedAt,
+                      serverCount: serverJobs.length,
+                      serverJobs,
+                    }),
+                    { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+                  );
+                }
+              } catch (_) {}
+            }
+          }
+
+          const updatedAt = new Date().toISOString();
           const payload = JSON.stringify({
-            updatedAt: new Date().toISOString(),
+            updatedAt,
             pin,
             jobs,
           });
           // Lưu dữ liệu trong 365 ngày
           await env.CV_KV.put("tracker:" + pin, payload, { expirationTtl: 365 * 86400 });
           return new Response(
-            JSON.stringify({ success: true, count: jobs.length, message: "Đã đồng bộ lên Cloud KV thành công!" }),
+            JSON.stringify({
+              success: true,
+              count: jobs.length,
+              updatedAt,
+              message: "Đã đồng bộ lên Cloud KV thành công!",
+            }),
             { headers: { ...corsHeaders, "Content-Type": "application/json" } }
           );
         } catch (err) {

@@ -25,6 +25,9 @@ jobs:
           fi
           npm install puppeteer express form-data
 
+      - name: Run Quality Gate Validator
+        run: node scripts/verify-cv-data.js
+
       - name: Run Puppeteer PDF Generator
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

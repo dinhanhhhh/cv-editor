@@ -28,7 +28,9 @@ for (const line of lines) {
   const scoreNum = scoreMatch ? parseFloat(scoreMatch[1]) : 0;
 
   let group = 'older';
-  if (dateInfo.includes('27/10/2026') && dateInfo.includes('Mới cập nhật')) {
+  if (dateInfo.includes('29/10/2026') && dateInfo.includes('Mới cập nhật')) {
+    group = '2026-10-29';
+  } else if (dateInfo.includes('27/10/2026')) {
     group = '2026-10-27';
   } else if (dateInfo.includes('26/10/2026')) {
     group = '2026-10-26';
@@ -52,8 +54,12 @@ for (const line of lines) {
 
 const groupsOrder = [
   {
+    key: '2026-10-29',
+    title: '### 📅 Ngày quét: 29/10/2026 (Mới nhất)'
+  },
+  {
     key: '2026-10-27',
-    title: '### 📅 Ngày quét: 27/10/2026 (Mới nhất)'
+    title: '### 📅 Ngày quét: 27/10/2026'
   },
   {
     key: '2026-10-26',

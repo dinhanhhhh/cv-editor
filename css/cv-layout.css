@@ -4257,6 +4257,43 @@ body.recruiter-view [contenteditable] {
 .jt-stat-pill.stat-interviewing.active { background: #7c3aed; border-color: #7c3aed; }
 .jt-stat-pill.stat-offered.active { background: #059669; border-color: #059669; }
 .jt-stat-pill.stat-rejected.active { background: #dc2626; border-color: #dc2626; }
+.jt-stat-pill.stat-priority { background: #fff7ed; color: #c2410c; border-color: #fed7aa; }
+.jt-stat-pill.stat-priority.active { background: #ea580c; border-color: #ea580c; color: #ffffff; }
+
+.jt-score-badge,
+.jt-deadline-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 7px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.jt-score-badge {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.jt-score-badge.is-top {
+  background: #ecfdf5;
+  color: #047857;
+  border-color: #a7f3d0;
+}
+
+.jt-deadline-badge {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+}
+
+.jt-deadline-badge.is-urgent {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
 
 /* Form nhập liệu */
 .jt-form-panel {

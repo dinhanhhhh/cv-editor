@@ -7,6 +7,7 @@ Thumbs.db
 converted.json
 test-*.js
 *.log
+*.bak
 
 # Build & test outputs
 test_results.json

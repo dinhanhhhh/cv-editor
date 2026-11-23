@@ -1,24 +1,6 @@
-# AGENTS.md – Quy tắc & Quy trình AI (Template dùng chung)
-
-> File này áp dụng cho **mọi AI agent** (Claude, Gemini, Cursor, Copilot, ...) làm việc trong project.
-> Cách dùng: copy file vào **root** của project, rồi **điền lại** phần `Project Context` và `Tech Stack` cho đúng project đó.
-> ⚠️ Không copy nguyên si giữa các project khác stack — phần Context/Tech Stack PHẢI khớp với project thực tế, nếu không AI sẽ đề xuất sai công nghệ.
-
----
-
-## Phần 0: Quy tắc giao tiếp
-
-- **Ngôn ngữ phản hồi:** Tiếng Việt (trừ khi tôi hỏi bằng ngôn ngữ khác).
-- **Độ dài:** Ngắn gọn, đi thẳng vào vấn đề. Task nhỏ → trả lời ngắn. Task lớn → mới trình bày đầy đủ.
-- **Trung thực:** Nếu chưa chắc, nói rõ "chưa chắc" thay vì đoán. Nếu tôi sai, sửa lại tôi một cách thẳng thắn và có lý do.
-- **Không nịnh:** Bỏ các câu đệm kiểu "Bạn nói đúng quá", trả lời thẳng vào nội dung.
-- **Đọc trước khi nói:** Nếu tôi nhắc đến một file cụ thể, đọc file đó trước khi trả lời, không suy đoán.
-
----
+# AGENTS.md – Cấu hình dự án CV Editor
 
 ## Phần 1: Project Context
-
-> ⚠️ **Bắt buộc điền trước khi dùng.** AI dựa vào phần này để hiểu ngữ cảnh. Điền lại cho từng project.
 
 | Trường | Giá trị |
 |---|---|
@@ -27,7 +9,7 @@
 | **Mục tiêu chính** | Cho phép người dùng chỉnh sửa thông tin, chọn template và xuất CV ra file HTML/PDF |
 | **Người dùng cuối** | Ứng viên đang chuẩn bị hồ sơ phỏng vấn |
 | **Giai đoạn hiện tại** | Đang phát triển / Tối ưu |
-| **Ngôn ngữ hiển thị (của sản phẩm)** | Tiếng Việt / Tiếng Anh |
+| **Ngôn ngữ hiển thị** | Tiếng Việt / Tiếng Anh |
 
 ---
 
@@ -36,13 +18,14 @@
 | Loại | Công nghệ | Ghi chú / Gotcha |
 |---|---|---|
 | Framework | Không framework (Vanilla HTML/CSS/JS) | Viết JS thuần thao tác DOM, không import React |
-| Backend | Cloudflare Workers | Xử lý webhook Telegram, route deploy qua script `cloudflare-worker.js` |
-| Styling | CSS thuần (`css/cv-layout.css`) | Tối ưu in ấn khổ A4 |
-| Data | JS Objects (`data/cv-data-*.js`) | Dữ liệu CV lưu trữ dạng tĩnh bằng Javascript Object |
+| Backend | Cloudflare Workers | Xử lý request, route, hoặc deploy file tĩnh qua script `cloudflare-worker.js` |
+| Styling | CSS thuần (tách file trong `css/` hoặc nhúng trực tiếp) | |
+| Data | JS Objects (nằm trong thư mục `data/`) | Dữ liệu CV lưu trữ dạng tĩnh bằng Javascript Object/JSON |
 
 **Quy tắc liên quan:**
 - Không tự ý đề xuất thêm thư viện/framework mới trừ khi tôi yêu cầu hoặc nó thực sự cần thiết (và phải giải thích lý do trước).
 - Bám sát stack hiện tại của codebase, không "kéo" project sang công nghệ khác.
+- **Bảo mật DOM:** Ưu tiên dùng `textContent`; nếu bắt buộc dùng `innerHTML` với dữ liệu người dùng thì phải escape ký tự HTML trước khi render.
 
 ### ⚠️ Quy tắc dữ liệu CV (BẮT BUỘC):
 - **Role chuẩn:** Mọi trường `role` trong các file `data/cv-data-*.js` (ở cả mục Kinh nghiệm/Experience lẫn Dự án/Projects, cho cả tiếng Việt và tiếng Anh) **BẮT BUỘC LUÔN ĐỂ LÀ `"Developer"`**. Tuyệt đối không tự ý đổi thành Web Developer, Full-Stack Developer, hay System Integrator...
@@ -89,102 +72,63 @@
 
 ---
 
-## Phần 3: Quy tắc sửa code
+## Commands
 
-- Đọc context xung quanh **trước khi** sửa.
-- **Sửa ít nhưng trúng.** Chỉ động vào phần liên quan đến yêu cầu, không refactor lan man, không "dọn dẹp" code không liên quan.
-- Giữ nguyên style hiện tại của codebase (cách đặt tên, format, comment).
-- Tìm **nguyên nhân gốc** khi fix bug, không vá tạm bề mặt.
-- Nếu một cách làm đã thất bại 2 lần → dừng vá vặt, phân tích lại nguyên nhân và đổi hướng.
-- Nếu có cách tối ưu hơn nhưng nằm ngoài yêu cầu → **đề xuất trong phần giải thích**, không tự ý làm thêm.
+*(Kiểm tra thực tế: dự án hiện **chưa có** `package.json` và **chưa có** `wrangler.toml` ở thư mục gốc).*
 
-> **Lưu ý về cách trình bày sửa đổi:**
-> - Nếu AGENT **tự sửa file trực tiếp** (Claude Code, Cursor, Gemini CLI...): sửa file luôn, rồi **tóm tắt ngắn** đã thay đổi gì. Không cần in lại nguyên đoạn diff.
-> - Nếu AI **chỉ chat** (không có quyền sửa file): trình bày rõ phần cũ → phần mới để tôi tự dán.
+- **Chạy local (Frontend):** Mở trực tiếp `index.html` trên trình duyệt hoặc dùng extension Live Server trong VS Code (chưa có lệnh CLI dev server).
+- **Chạy local / Deploy Worker (`cloudflare-worker.js`):** **Chưa có** cấu hình CLI (`wrangler.toml`); Worker hiện được cấu hình biến môi trường (`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `GITHUB_OWNER`, `GITHUB_REPO`, `GITHUB_TOKEN`, `GEMINI_API_KEY`) và KV binding (`CV_KV`) trực tiếp trên Cloudflare Dashboard.
+- **Build:** **Chưa có** bước build frontend (chạy tĩnh trực tiếp). Trên CI, GitHub Actions (`.github/workflows/generate-pdf.yml`) tự động chạy `node .github/scripts/generate-pdf.js` để xuất PDF khi push thay đổi trong `data/*.js`.
+- **Scripts tiện ích (Node.js):**
+  - Kiểm tra tính hợp lệ dữ liệu CV & manifest: `node scripts/verify-cv-data.js`
+  - Tạo nhanh phiên bản CV mới: `node scripts/new-cv.js`
 
 ---
 
-## Phần 4: Quy tắc chủ động hỗ trợ
+## Cấu trúc thư mục
 
-- Khi tôi gửi code mà không hỏi gì: nếu phát hiện vấn đề tiềm ẩn (logic, performance, security, UX) → cảnh báo và đề xuất hướng xử lý.
-- Khi tôi thiết kế kiến trúc: góp ý về cấu trúc thư mục, tách lớp, tổ chức module sao cho dễ mở rộng.
-- Khi tôi làm tính năng: có thể gợi ý pattern phù hợp (debounce, pagination, lazy load, caching, transaction...) nếu thực sự hợp ngữ cảnh.
+- **Entry point:** `index.html` (nạp theo thứ tự: `css/cv-layout.css` → `data/cv-manifest.js` → `data/cv-data-base.js` → `js/cv-router.js` → file `data/cv-data-<key>.js` theo query `?type=<key>` → các module trong `js/`).
+- **File & thư mục chính:**
+  - `index.html`: Giao diện SPA chính của trình xem/chỉnh sửa CV và các modal công cụ.
+  - `css/cv-layout.css`: Toàn bộ styling giao diện, scale khổ A4 trên mobile và CSS in ấn (`@media print`).
+  - `js/`: Các module Vanilla JS (`cv-router.js` điều hướng `?type=` & `?draft=`, `cv-renderer.js` render DOM & inline edit, `cv-a4-metrics.js`, `cv-tracker.js`, `cv-pro-tools.js`, `cv-email-generator.js`, `cv-interview-prep.js`, `cv-diff.js`, `cv-mobile.js`, `cv-hotkeys.js`).
+  - `data/`:
+    - `cv-manifest.js`: Danh sách đăng ký tất cả phiên bản CV (`CV_MANIFEST`).
+    - `cv-data-base.js`: Dữ liệu gốc dùng chung (`cvDataBase`) và hàm hợp nhất sâu `mergeWithBaseCv(base, override)`.
+    - `cv-data-template.js` & `cv-global.js`: Bản mẫu boilerplate và cấu hình dùng chung.
+    - `cv-data-*.js`: Các bản CV may đo theo từng công ty/vị trí; `data/history/` lưu bản backup tự động.
+  - `cloudflare-worker.js`: Serverless Worker nối Telegram Bot với GitHub API, LLM API (Gemini/Groq) và Cloudflare KV (`CV_KV`) cho `/api/cv`, `/api/draft/:key`, `/api/tracker`.
+  - `scripts/`: Script Node.js kiểm tra dữ liệu (`verify-cv-data.js`), tạo CV mới (`new-cv.js`), đồng bộ và quét việc làm.
+  - `.github/`: Workflow và script Puppeteer tự động xuất PDF gửi về Telegram.
 
-**Ưu tiên khi tư vấn:** Đúng → An toàn → Dễ bảo trì, *rồi mới* tới nâng cao/tối ưu. Có trade-off thì nêu rõ ưu/nhược và đề xuất hướng hợp với project.
-
----
-
-## Phần 5: Quy trình làm việc
-
-> Mục tiêu là chất lượng, không phải thủ tục. **Chọn mức độ theo quy mô task.**
-
-### 🟢 Task nhỏ → làm thẳng
-Sửa typo, đổi text, chỉnh 1–2 dòng, đổi màu, rename biến...
-→ **Bỏ qua quy trình.** Sửa luôn + một câu tóm tắt. Không cần phân tích dài dòng.
-
-### 🟡 Task vừa/lớn → theo 4 bước
-Feature mới, fix bug phức tạp, refactor, thay đổi nhiều file.
-
-1. **🧭 Phân tích** — Hiểu mục tiêu, nêu giả định đang dùng, tách task nhỏ. **Nếu yêu cầu mơ hồ → hỏi lại ngay, không tự đoán.**
-2. **💻 Code** — Nêu nguyên nhân (nếu fix bug), hướng sửa, rồi thực hiện. Cách verify.
-3. **🔍 Tự review** — Theo thứ tự ưu tiên: Bug logic → Regression → Lỗi runtime → State/data flow → Performance → Bảo mật → Style. Tách rõ "bug thật" và "ý kiến cá nhân". Không thấy vấn đề nghiêm trọng → nói rõ.
-4. **✅ Kiểm tra** — Liệt kê test case chính + edge case dễ quên. Chạy build/test nếu có. Báo rõ cái gì pass, cái gì chưa verify được.
-
----
-
-## Phần 6: An toàn
-
-### ❌ AI KHÔNG tự động làm (phải hỏi trước):
-- Xóa file/thư mục, chạy lệnh phá hủy (`rm`, `del`, `format`, `git reset --hard`, force push)
-- Cài package/dependency mới
-- Push code lên git, tạo PR
-- Sửa file config/hệ thống (`.env`, `*.config.*`, `tsconfig.json`, CI/CD)
-- Gửi code/dữ liệu ra dịch vụ bên ngoài
-- Tự giả định khi đề bài mơ hồ → phải hỏi lại
-
-### ✅ AI ĐƯỢC tự động làm:
-- Đọc file, phân tích code, tìm kiếm trong codebase
-- Sửa file source code (trong phạm vi yêu cầu)
-- Tạo file source mới (không phải file config)
-- Chạy lệnh read-only / dev (`build`, `lint`, `test`, `dev server`)
-- Hỏi lại khi không chắc
-
-> Nguyên tắc: hành động **dễ đảo ngược** (sửa source, chạy test) → làm thẳng. Hành động **khó đảo ngược / ảnh hưởng rộng** (xóa, deploy, sửa config, push) → hỏi trước.
+- **Schema ngắn của object dữ liệu CV (`data/cv-data-*.js`):**
+  ```js
+  var cvData = {
+    meta: { company, position, recipient, email, contact, jobUrl, notes, jdText, pitchHighlights }, // tùy chọn
+    vi: {
+      name: "TRƯƠNG ĐÌNH ANH",
+      title: "string",
+      btnText: "In / Tải PDF",
+      docTitle: "CV_TruongDinhAnh",
+      contact: [{ icon, text, link }],
+      sections: { objective, education, experience, projects, skills },
+      objective: "string",
+      education: { school, date, detail },
+      experience: [{ name, date, role, desc, tasks: ["string"], tech }],
+      projectDisplayLimit: 2,
+      projects: [{ name, date, role, desc, github, tasks: ["string"], tech }],
+      skills: [{ cat, items }]
+    },
+    en: { /* cấu trúc tương đồng nhánh vi */ }
+  };
+  ```
 
 ---
 
-## Phần 7: Git Convention
+## Phần 8: Checklist verify (Vanilla JS)
 
-**Commit message:** `<type>: <mô tả ngắn bằng TIẾNG ANH>` (Luôn luôn viết commit message bằng tiếng Anh).
-
-| Type | Khi nào dùng |
-|---|---|
-| `feat` | Thêm tính năng mới |
-| `fix` | Sửa bug |
-| `style` | Chỉnh UI/CSS, không đổi logic |
-| `refactor` | Tái cấu trúc, không đổi hành vi |
-| `docs` | Cập nhật tài liệu |
-| `chore` | Việc vặt (config, deps) |
-
-**Branch:** `<type>/<mô-ta-ngan>` — vd: `feat/login-form`, `fix/navbar-mobile`
-
-**Khi nào commit:** Chỉ commit khi tôi yêu cầu rõ. Code phải pass build, không còn `console.log` debug, không commit code đang dở.
-
----
-
-## Phần 8: Checklist verify (tùy loại project, bỏ mục không liên quan)
-
-**Web / Frontend:**
-- [ ] Responsive: mobile (375px), tablet (768px), desktop (1280px+)
-- [ ] Không broken link, ảnh có `alt`
-- [ ] Animation không giật / layout shift
-- [ ] Có đủ trạng thái Loading / Empty / Error (với component có data/interaction)
-- [ ] SEO cơ bản: `title`, `description`, `og:image`
-- [ ] Console sạch warning/error
-- [ ] Build pass
-
-**Backend / API:**
-- [ ] Validate input, xử lý error rõ ràng
-- [ ] Không lộ secret/thông tin nhạy cảm trong response/log
-- [ ] Có auth/phân quyền cho endpoint cần bảo vệ
-- [ ] Test các case: happy path, input sai, không có quyền
+- [ ] Responsive trên mobile (375px), tablet (768px), desktop (1280px+) và chế độ in A4 (`@media print`) không tràn/vỡ layout.
+- [ ] Không lỗi cú pháp/runtime trên DevTools Console; chạy pass `node scripts/verify-cv-data.js` khi sửa dữ liệu trong `data/`.
+- [ ] Chuyển đổi đúng cả 2 ngôn ngữ (`vi` / `en`), query `?type=` nạp đúng file data và không xuất hiện `undefined` trên giao diện.
+- [ ] Thao tác DOM an toàn (ưu tiên `textContent`, escape khi dùng `innerHTML` với dữ liệu người dùng), không gắn trùng event listener khi re-render.
+- [ ] Không broken link; các thanh công cụ/modal không bị lọt vào bản in PDF và chế độ HR View (`?view=hr`).

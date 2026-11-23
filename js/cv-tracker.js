@@ -640,6 +640,53 @@ QUYỀN LỢI:
     return { type, label };
   }
 
+  function getTodayStartMs() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  }
+
+  function extractJobPriorityMeta(job) {
+    const notes = (job && job.notes) || "";
+    let matchScore = typeof (job && job.matchScore) === "number" ? job.matchScore : 0;
+    if (!matchScore && notes) {
+      const scoreMatch = notes.match(/Đánh giá khớp:\s*([\d.]+)\s*\/\s*10/i);
+      if (scoreMatch) matchScore = parseFloat(scoreMatch[1]) || 0;
+    }
+
+    let deadlineInfo = (job && job.deadlineInfo) || "";
+    if (!deadlineInfo && notes) {
+      const dlLine = notes.split(/\r?\n/).find(l => l.includes("⏱️ Hạn:"));
+      if (dlLine) deadlineInfo = dlLine.replace(/^.*?⏱️\s*Hạn:\s*/i, "").trim();
+    }
+
+    let deadlineText = "";
+    let deadlineDaysLeft = null;
+    let isUrgent = false;
+
+    if (deadlineInfo) {
+      const dlMatch = deadlineInfo.match(/Hạn(?:\s*nộp)?(?:\s*GẤP)?\s*:\s*(?:\d{1,2}[–-])?(\d{1,2}\/\d{1,2}\/\d{4})/i);
+      if (dlMatch) {
+        deadlineText = dlMatch[1];
+        const parts = dlMatch[1].split("/");
+        if (parts.length === 3) {
+          const dt = new Date(parseInt(parts[2], 10), parseInt(parts[1], 10) - 1, parseInt(parts[0], 10));
+          if (!isNaN(dt.getTime())) {
+            deadlineDaysLeft = Math.ceil((dt.getTime() - getTodayStartMs()) / 86400000);
+            if (deadlineDaysLeft >= 0 && deadlineDaysLeft <= 7) {
+              isUrgent = true;
+            }
+          }
+        }
+      }
+      if (/GẤP/i.test(deadlineInfo) && (deadlineDaysLeft === null || deadlineDaysLeft >= 0)) {
+        isUrgent = true;
+      }
+    }
+
+    const isPriority = job && job.status === "saved" && (isUrgent || matchScore >= 9.2);
+    return { matchScore, deadlineInfo, deadlineText, deadlineDaysLeft, isUrgent, isPriority };
+  }
+
   // ----------------------------------------------------
   // UI Rendering
   // ----------------------------------------------------
@@ -653,6 +700,7 @@ QUYỀN LỢI:
 
   function renderStats() {
     const total = jobs.length;
+    const priority = jobs.filter(j => extractJobPriorityMeta(j).isPriority).length;
     const saved = jobs.filter(j => j.status === "saved").length;
     const applied = jobs.filter(j => j.status === "applied").length;
     const reviewing = jobs.filter(j => j.status === "reviewing").length;
@@ -665,6 +713,7 @@ QUYỀN LỢI:
 
     statsEl.innerHTML = `
       <span class="jt-stat-pill stat-total" data-filter="all" title="Xem tất cả">📊 Tổng: <b>${total}</b></span>
+      ${priority > 0 ? `<span class="jt-stat-pill stat-priority" data-filter="priority" title="Lọc job chờ nộp điểm >= 9.2 hoặc sắp hết hạn">🔥 Ưu tiên: <b>${priority}</b></span>` : ""}
       ${saved > 0 ? `<span class="jt-stat-pill stat-saved" data-filter="saved" title="Lọc việc làm chờ nộp">📌 Chờ nộp: <b>${saved}</b></span>` : ""}
       <span class="jt-stat-pill stat-applied" data-filter="applied" title="Lọc đã nộp">📝 Đã nộp: <b>${applied}</b></span>
       <span class="jt-stat-pill stat-reviewing" data-filter="reviewing" title="Lọc chờ phản hồi">⏳ Đang chờ: <b>${reviewing}</b></span>
@@ -718,7 +767,11 @@ QUYỀN LỢI:
 
     // Filter & Search
     let filtered = jobs.filter(job => {
-      if (currentFilter !== "all" && job.status !== currentFilter) return false;
+      if (currentFilter === "priority") {
+        if (!extractJobPriorityMeta(job).isPriority) return false;
+      } else if (currentFilter !== "all" && job.status !== currentFilter) {
+        return false;
+      }
       if (searchQuery) {
         const q = searchQuery.toLowerCase();
         const inCompany = (job.company || "").toLowerCase().includes(q);
@@ -729,6 +782,15 @@ QUYỀN LỢI:
       }
       return true;
     });
+
+    if (currentFilter === "priority") {
+      filtered = [...filtered].sort((a, b) => {
+        const ma = extractJobPriorityMeta(a);
+        const mb = extractJobPriorityMeta(b);
+        if (ma.isUrgent !== mb.isUrgent) return ma.isUrgent ? -1 : 1;
+        return (mb.matchScore || 0) - (ma.matchScore || 0);
+      });
+    }
 
     if (filtered.length === 0) {
       listEl.innerHTML = `
@@ -745,6 +807,13 @@ QUYỀN LỢI:
     listEl.innerHTML = filtered.map(job => {
       const statusObj = STATUSES[job.status] || STATUSES.applied;
       const cvUrl = `?type=${encodeURIComponent(job.cvType || "default")}`;
+      const pMeta = extractJobPriorityMeta(job);
+      const scoreBadgeHtml = pMeta.matchScore > 0
+        ? `<span class="jt-score-badge ${pMeta.matchScore >= 9.2 ? "is-top" : ""}" title="Độ khớp hồ sơ">⭐ ${escapeHtml(pMeta.matchScore)}/10</span>`
+        : "";
+      const deadlineBadgeHtml = pMeta.deadlineText
+        ? `<span class="jt-deadline-badge ${pMeta.isUrgent ? "is-urgent" : ""}" title="Hạn nộp hồ sơ">${pMeta.isUrgent ? "🔥 Hạn gấp" : "⏰ Hạn"}: ${escapeHtml(pMeta.deadlineText)}</span>`
+        : "";
       
       return `
         <div class="jt-card" data-id="${escapeHtml(job.id)}">
@@ -768,6 +837,8 @@ QUYỀN LỢI:
             </div>
 
             <div class="jt-card-meta">
+              ${scoreBadgeHtml}
+              ${deadlineBadgeHtml}
               <span class="jt-meta-item jt-cv-link" title="Bấm để mở bản CV này">
                 📄 <a href="${cvUrl}" onclick="event.preventDefault(); window.cvTracker.openCv('${escapeHtml(job.cvType)}');">${escapeHtml(job.cvLabel || job.cvType || "Bản CV")} ↗</a>
               </span>
@@ -1308,11 +1379,11 @@ QUYỀN LỢI:
     if (text.includes("ai ") || text.includes("machine learning") || text.includes("llm") || text.includes("automation") || text.includes("agent") || text.includes("data analytics")) {
       return "ai";
     }
-    if (text.includes("frontend") || text.includes("front-end") || text.includes("reactjs") || text.includes("react.js") || text.includes("react ") || text.includes("angular") || text.includes("vue")) {
-      return "fe";
-    }
     if (text.includes("fullstack") || text.includes("full-stack") || text.includes("full stack")) {
       return "fullstack";
+    }
+    if (text.includes("frontend") || text.includes("front-end") || text.includes("reactjs") || text.includes("react.js") || text.includes("react ") || text.includes("nextjs") || text.includes("next.js") || text.includes("angular") || text.includes("vue")) {
+      return "fe";
     }
     if (text.includes("backend") || text.includes("back-end") || text.includes("node") || text.includes("express") || text.includes("nest") || text.includes("python") || text.includes("golang") || text.includes("go ") || text.includes("java") || text.includes("api")) {
       return "be";
@@ -1344,9 +1415,12 @@ QUYỀN LỢI:
       if (rawCells.length >= 2 && rawCells[0] === "") rawCells.shift();
       if (rawCells.length >= 1 && rawCells[rawCells.length - 1] === "") rawCells.pop();
 
-      const lineLower = line.toLowerCase();
-      if (lineLower.includes("công ty") && (lineLower.includes("vị trí") || lineLower.includes("stt"))) {
-        headerCols = rawCells.map(c => c.toLowerCase());
+      const lowerCells = rawCells.map(c => c.toLowerCase());
+      const isHeaderRow =
+        lowerCells.some(c => c === "công ty" || c === "company") &&
+        lowerCells.some(c => c === "vị trí" || c === "stt" || c === "position" || c === "role");
+      if (isHeaderRow) {
+        headerCols = lowerCells;
         inTable = true;
         continue;
       }
@@ -1389,6 +1463,8 @@ QUYỀN LỢI:
 
       const cvType = guessCvType(company, position, summary);
       const cvLabel = getCvLabel(cvType);
+      const scoreMatch = score.match(/([\d.]+)/);
+      const matchScore = scoreMatch ? parseFloat(scoreMatch[1]) || 0 : 0;
 
       parsedJobs.push({
         id: "job_md_" + Date.now() + "_" + Math.random().toString(36).substr(2, 6),
@@ -1396,6 +1472,8 @@ QUYỀN LỢI:
         position,
         cvType,
         cvLabel,
+        matchScore,
+        deadlineInfo: dateInfo,
         appliedDate: "",
         status: "saved",
         contact: location ? `Khu vực: ${location}` : "",
@@ -1471,10 +1549,14 @@ QUYỀN LỢI:
           if (nj.jdText) existing.jdText = nj.jdText;
           if (nj.cvType) existing.cvType = nj.cvType;
           if (nj.cvLabel) existing.cvLabel = nj.cvLabel;
+          if (nj.matchScore) existing.matchScore = nj.matchScore;
+          if (nj.deadlineInfo) existing.deadlineInfo = nj.deadlineInfo;
           orderedSavedMdJobs.push(existing);
         } else {
-          // Job đã được người dùng chỉnh sửa trạng thái (Đã nộp / Phỏng vấn...): tuyệt đối giữ nguyên status & appliedDate, chỉ bổ sung link nếu thiếu
+          // Job đã được người dùng chỉnh sửa trạng thái (Đã nộp / Phỏng vấn...): tuyệt đối giữ nguyên status & appliedDate, chỉ bổ sung link/score/hạn nếu thiếu
           if (!existing.jobUrl && nj.jobUrl) existing.jobUrl = nj.jobUrl;
+          if (!existing.matchScore && nj.matchScore) existing.matchScore = nj.matchScore;
+          if (!existing.deadlineInfo && nj.deadlineInfo) existing.deadlineInfo = nj.deadlineInfo;
         }
         updatedCount++;
       } else {
@@ -1500,7 +1582,7 @@ QUYỀN LỢI:
   function importMarkdownData() {
     const useAuto = confirm(
       "Bạn muốn nạp danh sách công việc từ đâu?\n\n" +
-      "• Bấm OK: Tự động nạp từ file 'jobs_for_tomorrow.md' (100 job sẵn có trong project)\n" +
+      "• Bấm OK: Tự động nạp từ file 'jobs_for_tomorrow.md' (danh sách việc làm đã chấm điểm trong project)\n" +
       "• Bấm Cancel: Chọn file .md từ máy tính của bạn"
     );
 
@@ -1653,10 +1735,10 @@ QUYỀN LỢI:
     if (syncCancelBtn) syncCancelBtn.onclick = closeSyncModal;
 
     const syncPushBtn = document.getElementById("jtSyncPushBtn");
-    if (syncPushBtn) syncPushBtn.onclick = pushToCloud;
+    if (syncPushBtn) syncPushBtn.onclick = () => pushToCloud();
 
     const syncPullBtn = document.getElementById("jtSyncPullBtn");
-    if (syncPullBtn) syncPullBtn.onclick = pullFromCloud;
+    if (syncPullBtn) syncPullBtn.onclick = () => pullFromCloud();
 
     const syncOverlay = document.getElementById("jtSyncModalOverlay");
     if (syncOverlay) {
@@ -1690,10 +1772,53 @@ QUYỀN LỢI:
   }
 
   // ----------------------------------------------------
-  // Cloudflare KV Sync Management (Secure Header-based Auth)
+  // Cloudflare KV Sync Management (Secure Header-based Auth + Conflict Protection)
   // ----------------------------------------------------
   const SYNC_PIN_STORAGE_KEY = "cv_tracker_sync_pin";
+  const SYNC_UPDATED_AT_KEY = "cv_tracker_last_synced_at";
   const OFFICIAL_WORKER_URL = "https://cv-telegram-bridge.tdinhanh-it.workers.dev";
+
+  function mergeCloudJobs(localJobs, cloudJobs) {
+    const norm = str => (str || "").toLowerCase().trim().replace(/[.,\-_]/g, "");
+    const keyOf = j => `${norm(j.company)}::${norm(j.position)}`;
+    const mergedMap = new Map();
+
+    const upsert = (item) => {
+      if (!item || !item.company) return;
+      const key = keyOf(item);
+      if (!mergedMap.has(key)) {
+        mergedMap.set(key, { ...item });
+        return;
+      }
+      const prev = mergedMap.get(key);
+      const prevTs = Number(prev.updatedAt) || 0;
+      const itemTs = Number(item.updatedAt) || 0;
+      const itemWins =
+        (item.userModified && !prev.userModified) ||
+        (item.userModified === prev.userModified && itemTs > prevTs) ||
+        (prev.status === "saved" && item.status && item.status !== "saved");
+
+      if (itemWins) {
+        mergedMap.set(key, {
+          ...prev,
+          ...item,
+          jobUrl: item.jobUrl || prev.jobUrl || "",
+          jdText: (item.jdText && item.jdText.length >= (prev.jdText || "").length) ? item.jdText : (prev.jdText || item.jdText || ""),
+        });
+      } else {
+        mergedMap.set(key, {
+          ...item,
+          ...prev,
+          jobUrl: prev.jobUrl || item.jobUrl || "",
+          jdText: (prev.jdText && prev.jdText.length >= (item.jdText || "").length) ? prev.jdText : (item.jdText || prev.jdText || ""),
+        });
+      }
+    };
+
+    (Array.isArray(cloudJobs) ? cloudJobs : []).forEach(upsert);
+    (Array.isArray(localJobs) ? localJobs : []).forEach(upsert);
+    return sortJobsByNewestApplied(Array.from(mergedMap.values()));
+  }
 
   function getWorkerBaseUrl() {
     try {
@@ -1745,7 +1870,8 @@ QUYỀN LỢI:
     statusMsg.innerHTML = msg;
   }
 
-  function pushToCloud() {
+  function pushToCloud(options) {
+    const forcePush = Boolean(options && options.force === true);
     const pinInput = document.getElementById("jtSyncPinInput");
     const pin = (pinInput ? pinInput.value.trim() : "");
     if (!pin || pin.length < 4) {
@@ -1759,6 +1885,7 @@ QUYỀN LỢI:
 
     const baseUrl = getWorkerBaseUrl();
     const endpoint = `${baseUrl}/api/tracker`;
+    const lastSyncedAt = localStorage.getItem(SYNC_UPDATED_AT_KEY) || "";
 
     fetch(endpoint, {
       method: "POST",
@@ -1766,17 +1893,45 @@ QUYỀN LỢI:
         "Content-Type": "application/json",
         "X-Tracker-Pin": pin
       },
-      body: JSON.stringify({ jobs })
+      body: JSON.stringify({ jobs, lastSyncedAt, force: forcePush })
     })
-      .then(res => {
-        if (!res.ok) throw new Error("HTTP error " + res.status);
-        return res.json();
+      .then(async res => {
+        const data = await res.json().catch(() => ({}));
+        if (res.status === 409 && data && data.conflict) {
+          const err = new Error("CONFLICT");
+          err.conflictData = data;
+          throw err;
+        }
+        if (!res.ok) throw new Error(data.error || ("HTTP error " + res.status));
+        return data;
       })
       .then(data => {
+        if (data.updatedAt) {
+          localStorage.setItem(SYNC_UPDATED_AT_KEY, data.updatedAt);
+        }
         showSyncStatus(`🎉 <b>Đồng bộ thành công!</b> Đã lưu an toàn <b>${jobs.length}</b> đơn ứng tuyển lên Cloud.`, false);
         setTimeout(closeSyncModal, 2500);
       })
       .catch(err => {
+        if (err.message === "CONFLICT" && err.conflictData) {
+          const cData = err.conflictData;
+          const timeLabel = cData.serverUpdatedAt ? new Date(cData.serverUpdatedAt).toLocaleString("vi-VN") : "gần đây";
+          const shouldMerge = confirm(
+            `⚠️ Phát hiện dữ liệu mới hơn trên Cloud (${cData.serverCount || 0} đơn, cập nhật lúc ${timeLabel}).\n\n` +
+            `• Bấm OK: Gộp thông minh (Merge) giữ nguyên các thay đổi mới nhất từ cả 2 thiết bị rồi lưu lên Cloud.\n` +
+            `• Bấm Cancel: Dừng lại để không làm mất dữ liệu Cloud.`
+          );
+          if (shouldMerge) {
+            jobs = mergeCloudJobs(jobs, cData.serverJobs || []);
+            saveJobs();
+            renderStats();
+            renderJobList();
+            pushToCloud({ force: true });
+          } else {
+            showSyncStatus(`⚠️ <b>Đã hủy ghi đè:</b> Cloud đang có <b>${escapeHtml(cData.serverCount || 0)}</b> đơn (lúc ${escapeHtml(timeLabel)}). Hãy bấm <b>Tải về từ Cloud</b> trước.`, true);
+          }
+          return;
+        }
         showSyncStatus(`✖ <b>Lỗi đồng bộ:</b> ${escapeHtml(err.message)}. Kiểm tra kết nối mạng hoặc Worker settings.`, true);
       });
   }
@@ -1813,12 +1968,15 @@ QUYỀN LỢI:
           return;
         }
 
-        if (confirm(`Tìm thấy ${cloudJobs.length} đơn ứng tuyển trên Cloud. Bạn có muốn tải về và ghi đè danh sách hiện tại (${jobs.length} mục)?`)) {
-          jobs = cloudJobs;
+        if (confirm(`Tìm thấy ${cloudJobs.length} đơn ứng tuyển trên Cloud.\n\n• Bấm OK để GỘP THÔNG MINH với ${jobs.length} mục hiện tại trên máy (không mất trạng thái đã sửa).`)) {
+          jobs = mergeCloudJobs(jobs, cloudJobs);
+          if (data.updatedAt) {
+            localStorage.setItem(SYNC_UPDATED_AT_KEY, data.updatedAt);
+          }
           saveJobs();
           renderStats();
           renderJobList();
-          showSyncStatus(`✔ Đã cập nhật thành công <b>${jobs.length}</b> đơn ứng tuyển từ Cloud!`, false);
+          showSyncStatus(`✔ Đã đồng bộ & gộp thành công <b>${jobs.length}</b> đơn ứng tuyển từ Cloud!`, false);
           setTimeout(closeSyncModal, 2000);
         }
       })
